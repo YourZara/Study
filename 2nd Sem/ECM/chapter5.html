@@ -31,6 +31,36 @@
   <p>Two-port network theory describes linear networks with one input port and one output port using parameter matrices. Exam focus: definitions of Z, Y, ABCD, h, g; conversions (especially \(h\) from \(Z\), \(Z\) from ABCD); cascade via ABCD multiplication; reciprocity and symmetry tests.</p>
 
   <h2>5.1 Definitions</h2>
+
+  <figure style="margin:20px 0;text-align:center;">
+    <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:var(--panel);border-radius:10px;padding:10px;">
+      <!-- Two-port network box -->
+      <rect x="200" y="50" width="200" height="100" rx="5" stroke="var(--accent)" stroke-width="2" fill="none"/>
+      <text x="300" y="105" text-anchor="middle" font-size="14" fill="var(--text)" font-weight="bold">Two-Port</text>
+      <text x="300" y="125" text-anchor="middle" font-size="11" fill="var(--muted)">Network</text>
+
+      <!-- Port 1 -->
+      <line x1="200" y1="70" x2="120" y2="70" stroke="var(--text)" stroke-width="2"/>
+      <line x1="200" y1="130" x2="120" y2="130" stroke="var(--text)" stroke-width="2"/>
+      <text x="100" y="65" text-anchor="middle" font-size="12" fill="var(--accent2)" font-weight="bold">V₁</text>
+      <text x="100" y="140" text-anchor="middle" font-size="11" fill="var(--muted)">I₁ →</text>
+      <circle cx="120" cy="70" r="3" fill="var(--accent2)"/>
+      <circle cx="120" cy="130" r="3" fill="var(--accent2)"/>
+
+      <!-- Port 2 -->
+      <line x1="400" y1="70" x2="480" y2="70" stroke="var(--text)" stroke-width="2"/>
+      <line x1="400" y1="130" x2="480" y2="130" stroke="var(--text)" stroke-width="2"/>
+      <text x="500" y="65" text-anchor="middle" font-size="12" fill="var(--accent2)" font-weight="bold">V₂</text>
+      <text x="500" y="140" text-anchor="middle" font-size="11" fill="var(--muted)">I₂ →</text>
+      <circle cx="480" cy="70" r="3" fill="var(--accent2)"/>
+      <circle cx="480" cy="130" r="3" fill="var(--accent2)"/>
+
+      <!-- Labels -->
+      <text x="300" y="175" text-anchor="middle" font-size="11" fill="var(--muted)">Port 1 (input) | Port 2 (output)</text>
+    </svg>
+    <figcaption style="font-size:0.85rem;color:var(--muted);margin-top:6px;">Figure 5.1 — Two-port network representation</figcaption>
+  </figure>
+
   <p>A <strong>two-port</strong> has four terminals grouped as port 1 (\(V_1,I_1\)) and port 2 (\(V_2,I_2\)). Standard sign convention: both currents \(I_1\) and \(I_2\) enter the network through the \(+\) terminals (except for transmission/ABCD parameters, where \(I_2\) is usually defined leaving port 2 — see below).</p>
   <div class="card">
     Any two of \(\{V_1,I_1,V_2,I_2\}\) may be chosen as independent; the other two are dependent. Each choice yields a different parameter set.

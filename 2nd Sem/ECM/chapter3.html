@@ -63,6 +63,51 @@
   \]
 
   <h3>s-domain models of R, L, C (with ICs)</h3>
+
+  <figure style="margin:20px 0;text-align:center;">
+    <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:var(--panel);border-radius:10px;padding:10px;">
+      <!-- Resistor -->
+      <text x="100" y="25" text-anchor="middle" font-size="12" fill="var(--accent2)" font-weight="bold">Resistor</text>
+      <line x1="50" y1="80" x2="80" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <polyline points="80,70 90,90 100,70 110,90 120,70 130,90 140,80" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <line x1="140" y1="80" x2="170" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <text x="110" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">R</text>
+      <text x="110" y="135" text-anchor="middle" font-size="10" fill="var(--muted)">V = RI</text>
+
+      <!-- Inductor series model -->
+      <text x="310" y="25" text-anchor="middle" font-size="12" fill="var(--accent2)" font-weight="bold">Inductor (series)</text>
+      <line x1="230" y1="80" x2="260" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <path d="M260,80 Q270,55 280,80 Q290,55 300,80 Q310,55 320,80 Q330,55 340,80" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="300" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">sL</text>
+      <line x1="340" y1="80" x2="370" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <circle cx="390" cy="80" r="15" stroke="var(--accent)" stroke-width="2" fill="none"/>
+      <text x="390" y="85" text-anchor="middle" font-size="10" fill="var(--text)">+</text>
+      <text x="390" y="72" text-anchor="middle" font-size="10" fill="var(--text)">−</text>
+      <text x="390" y="110" text-anchor="middle" font-size="10" fill="var(--muted)">Li(0⁻)</text>
+      <line x1="405" y1="80" x2="430" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <line x1="230" y1="80" x2="230" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="230" y1="140" x2="430" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="430" y1="80" x2="430" y2="140" stroke="var(--text)" stroke-width="2"/>
+
+      <!-- Capacitor series model -->
+      <text x="570" y="25" text-anchor="middle" font-size="12" fill="var(--accent2)" font-weight="bold">Capacitor (series)</text>
+      <line x1="490" y1="80" x2="520" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <line x1="520" y1="60" x2="520" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <line x1="540" y1="60" x2="540" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <text x="530" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">1/sC</text>
+      <line x1="540" y1="80" x2="570" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <circle cx="590" cy="80" r="15" stroke="var(--accent)" stroke-width="2" fill="none"/>
+      <text x="590" y="85" text-anchor="middle" font-size="10" fill="var(--text)">+</text>
+      <text x="590" y="72" text-anchor="middle" font-size="10" fill="var(--text)">−</text>
+      <text x="590" y="110" text-anchor="middle" font-size="10" fill="var(--muted)">v(0⁻)/s</text>
+      <line x1="605" y1="80" x2="630" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <line x1="490" y1="80" x2="490" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="490" y1="140" x2="630" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="630" y1="80" x2="630" y2="140" stroke="var(--text)" stroke-width="2"/>
+    </svg>
+    <figcaption style="font-size:0.85rem;color:var(--muted);margin-top:6px;">Figure 3.1 — s-domain models of R, L, C with initial conditions (series equivalent)</figcaption>
+  </figure>
+
   <ul>
     <li>Resistor: \(V(s)=RI(s)\).</li>
     <li>Inductor: \(V(s)=sL\,I(s)-L\,i(0^-)\) &nbsp;(series voltage source \(L i(0^-)\) aiding the current direction), equivalently a parallel current source \(i(0^-)/s\) with impedance \(sL\).</li>

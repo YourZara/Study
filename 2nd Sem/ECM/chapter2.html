@@ -87,6 +87,40 @@
 
   <h2>2.5 Response of R-L and R-C Circuits</h2>
 
+  <figure style="margin:20px 0;text-align:center;">
+    <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:var(--panel);border-radius:10px;padding:10px;">
+      <!-- Series RL -->
+      <text x="175" y="25" text-anchor="middle" font-size="13" fill="var(--accent2)" font-weight="bold">Series RL</text>
+      <line x1="60" y1="80" x2="100" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <polyline points="100,70 110,90 120,70 130,90 140,70 150,90 160,80" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="130" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">R</text>
+      <line x1="160" y1="80" x2="200" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <path d="M200,80 Q210,55 220,80 Q230,55 240,80 Q250,55 260,80 Q270,55 280,80" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="240" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">L</text>
+      <line x1="280" y1="80" x2="320" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <line x1="60" y1="80" x2="60" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="60" y1="140" x2="320" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="320" y1="80" x2="320" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <text x="190" y="165" text-anchor="middle" font-size="11" fill="var(--muted)">τ = L/R</text>
+
+      <!-- Series RC -->
+      <text x="525" y="25" text-anchor="middle" font-size="13" fill="var(--accent2)" font-weight="bold">Series RC</text>
+      <line x1="400" y1="80" x2="440" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <polyline points="440,70 450,90 460,70 470,90 480,70 490,90 500,80" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="470" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">R</text>
+      <line x1="500" y1="80" x2="540" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <line x1="540" y1="60" x2="540" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <line x1="560" y1="60" x2="560" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <text x="550" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">C</text>
+      <line x1="560" y1="80" x2="600" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <line x1="400" y1="80" x2="400" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="400" y1="140" x2="600" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="600" y1="80" x2="600" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <text x="500" y="165" text-anchor="middle" font-size="11" fill="var(--muted)">τ = RC</text>
+    </svg>
+    <figcaption style="font-size:0.85rem;color:var(--muted);margin-top:6px;">Figure 2.1 — First-order circuits: Series RL and Series RC</figcaption>
+  </figure>
+
   <h3>2.5.1 DC excitation</h3>
   <p><strong>Series RL</strong> with step \(V_s u(t)\), \(i(0^+)=I_0\):</p>
   \[
@@ -164,6 +198,30 @@
   <p><strong>Final answer:</strong> \(i(t)=4(1-e^{-2.5t})\,\text{A}\).</p>
 
   <h2>2.6 Response of Series R-L-C Circuits</h2>
+
+  <figure style="margin:20px 0;text-align:center;">
+    <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:var(--panel);border-radius:10px;padding:10px;">
+      <!-- Series RLC -->
+      <text x="350" y="25" text-anchor="middle" font-size="13" fill="var(--accent2)" font-weight="bold">Series RLC</text>
+      <line x1="100" y1="80" x2="140" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <polyline points="140,70 150,90 160,70 170,90 180,70 190,90 200,80" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="170" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">R</text>
+      <line x1="200" y1="80" x2="240" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <path d="M240,80 Q250,55 260,80 Q270,55 280,80 Q290,55 300,80 Q310,55 320,80" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="280" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">L</text>
+      <line x1="320" y1="80" x2="360" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <line x1="360" y1="60" x2="360" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <line x1="380" y1="60" x2="380" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <text x="370" y="110" text-anchor="middle" font-size="11" fill="var(--muted)">C</text>
+      <line x1="380" y1="80" x2="420" y2="80" stroke="var(--text)" stroke-width="2"/>
+      <line x1="100" y1="80" x2="100" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="100" y1="140" x2="420" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="420" y1="80" x2="420" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <text x="260" y="165" text-anchor="middle" font-size="11" fill="var(--muted)">α = R/(2L), ω₀ = 1/√(LC)</text>
+    </svg>
+    <figcaption style="font-size:0.85rem;color:var(--muted);margin-top:6px;">Figure 2.2 — Series RLC circuit</figcaption>
+  </figure>
+
   <p>KVL: \(L\dfrac{di}{dt}+Ri+\dfrac{1}{C}\int i\,dt = v_s(t)\). Differentiate:</p>
   \[
   L\frac{d^2i}{dt^2}+R\frac{di}{dt}+\frac{1}{C}i = \frac{dv_s}{dt}.
@@ -230,6 +288,44 @@
   Convert to \(A\cos\omega t+B\sin\omega t\), then add natural transient matching damping case; constants from \(v_C(0^+)\), \(i(0^+)\).</p>
 
   <h2>2.7 Response of Parallel R-L-C Circuits</h2>
+
+  <figure style="margin:20px 0;text-align:center;">
+    <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:var(--panel);border-radius:10px;padding:10px;">
+      <!-- Parallel RLC -->
+      <text x="350" y="25" text-anchor="middle" font-size="13" fill="var(--accent2)" font-weight="bold">Parallel RLC</text>
+      <!-- Current source -->
+      <circle cx="100" cy="100" r="20" stroke="var(--accent)" stroke-width="2" fill="none"/>
+      <line x1="100" y1="88" x2="100" y2="112" stroke="var(--text)" stroke-width="2"/>
+      <polygon points="100,112 94,102 106,102" fill="var(--text)"/>
+      <text x="100" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">iₛ(t)</text>
+      <line x1="120" y1="100" x2="160" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <!-- Top rail -->
+      <line x1="160" y1="60" x2="560" y2="60" stroke="var(--text)" stroke-width="2"/>
+      <line x1="160" y1="100" x2="160" y2="60" stroke="var(--text)" stroke-width="2"/>
+      <!-- Resistor -->
+      <line x1="240" y1="60" x2="240" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <polyline points="230,100 250,100 230,110 250,110 230,120 250,120 240,130" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="260" y="115" font-size="11" fill="var(--muted)">R</text>
+      <!-- Inductor -->
+      <line x1="340" y1="60" x2="340" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <path d="M340,100 Q350,75 360,100 Q370,75 380,100 Q390,75 400,100 Q410,75 420,100" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="380" y="130" text-anchor="middle" font-size="11" fill="var(--muted)">L</text>
+      <!-- Capacitor -->
+      <line x1="480" y1="60" x2="480" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <line x1="470" y1="100" x2="490" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <line x1="470" y1="115" x2="490" y2="115" stroke="var(--text)" stroke-width="2"/>
+      <text x="480" y="140" text-anchor="middle" font-size="11" fill="var(--muted)">C</text>
+      <!-- Bottom rail -->
+      <line x1="160" y1="140" x2="560" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="240" y1="130" x2="240" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="340" y1="130" x2="340" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="480" y1="130" x2="480" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <line x1="560" y1="60" x2="560" y2="140" stroke="var(--text)" stroke-width="2"/>
+      <text x="350" y="175" text-anchor="middle" font-size="11" fill="var(--muted)">α = 1/(2RC), ω₀ = 1/√(LC)</text>
+    </svg>
+    <figcaption style="font-size:0.85rem;color:var(--muted);margin-top:6px;">Figure 2.3 — Parallel RLC circuit</figcaption>
+  </figure>
+
   <p>Parallel R, L, C driven by a current source \(i_s(t)\). Node voltage \(v\) satisfies:</p>
   \[
   C\frac{dv}{dt}+\frac{v}{R}+\frac{1}{L}\int v\,dt = i_s(t).

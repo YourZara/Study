@@ -38,6 +38,37 @@ MathJax = {
 
   <h2>7.1 Construction, Principle, EMF Equation of 1-ph Transformer</h2>
 
+  <figure style="margin:20px 0;text-align:center;">
+    <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:var(--panel);border-radius:10px;padding:10px;">
+      <!-- Transformer core -->
+      <rect x="250" y="40" width="200" height="140" rx="5" stroke="var(--accent)" stroke-width="3" fill="none"/>
+      <!-- Primary winding -->
+      <path d="M250,70 Q230,50 250,30 Q270,50 250,70" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <path d="M250,100 Q230,80 250,60 Q270,80 250,100" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <path d="M250,130 Q230,110 250,90 Q270,110 250,130" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <path d="M250,160 Q230,140 250,120 Q270,140 250,160" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="210" y="110" text-anchor="middle" font-size="11" fill="var(--accent2)" font-weight="bold">Primary</text>
+      <text x="210" y="125" text-anchor="middle" font-size="10" fill="var(--muted)">N₁</text>
+      <!-- Secondary winding -->
+      <path d="M450,70 Q470,50 450,30 Q430,50 450,70" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <path d="M450,100 Q470,80 450,60 Q430,80 450,100" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <path d="M450,130 Q470,110 450,90 Q430,110 450,130" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <path d="M450,160 Q470,140 450,120 Q430,140 450,160" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="490" y="110" text-anchor="middle" font-size="11" fill="var(--accent2)" font-weight="bold">Secondary</text>
+      <text x="490" y="125" text-anchor="middle" font-size="10" fill="var(--muted)">N₂</text>
+      <!-- Flux -->
+      <path d="M300,110 Q350,90 400,110" stroke="var(--accent2)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+      <polygon points="400,110 390,105 390,115" fill="var(--accent2)"/>
+      <text x="350" y="90" text-anchor="middle" font-size="11" fill="var(--accent2)">Φ</text>
+      <!-- Input/Output labels -->
+      <text x="150" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">V₁</text>
+      <text x="150" y="160" text-anchor="middle" font-size="11" fill="var(--muted)">I₁</text>
+      <text x="550" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">V₂</text>
+      <text x="550" y="160" text-anchor="middle" font-size="11" fill="var(--muted)">I₂</text>
+    </svg>
+    <figcaption style="font-size:0.85rem;color:var(--muted);margin-top:6px;">Figure 7.1 — Single-phase transformer construction</figcaption>
+  </figure>
+
   <h3>Construction</h3>
   <p>A single-phase transformer has two magnetically coupled windings wound on a laminated soft-iron (or silicon-steel) core, with no electrical connection between them (except in an auto-transformer). Main parts:</p>
   <ul>
@@ -104,6 +135,41 @@ MathJax = {
   <p>Physically: any attempt by secondary mmf to reduce flux is immediately opposed by an equal and opposite primary load mmf ($I_1' N_1 = I_2 N_2$), so net ampere-turns (and flux) stay almost the same as at no load.</p>
 
   <h2>7.3 Equivalent Circuit</h2>
+
+  <figure style="margin:20px 0;text-align:center;">
+    <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;background:var(--panel);border-radius:10px;padding:10px;">
+      <!-- Primary side -->
+      <line x1="40" y1="100" x2="80" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <polyline points="80,90 90,110 100,90 110,110 120,90 130,110 140,100" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="110" y="130" text-anchor="middle" font-size="10" fill="var(--muted)">R₁</text>
+      <line x1="140" y1="100" x2="180" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <path d="M180,100 Q190,75 200,100 Q210,75 220,100 Q230,75 240,100" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="210" y="130" text-anchor="middle" font-size="10" fill="var(--muted)">X₁</text>
+      <!-- Shunt branch -->
+      <line x1="240" y1="100" x2="240" y2="60" stroke="var(--text)" stroke-width="2"/>
+      <line x1="240" y1="60" x2="280" y2="60" stroke="var(--text)" stroke-width="2"/>
+      <polyline points="280,50 290,70 300,50 310,70 320,50 330,70 340,60" stroke="var(--accent)" stroke-width="2" fill="none"/>
+      <text x="310" y="40" text-anchor="middle" font-size="10" fill="var(--accent)">R₀</text>
+      <line x1="340" y1="60" x2="380" y2="60" stroke="var(--text)" stroke-width="2"/>
+      <path d="M380,60 Q390,35 400,60 Q410,35 420,60 Q430,35 440,60" stroke="var(--accent)" stroke-width="2" fill="none"/>
+      <text x="410" y="40" text-anchor="middle" font-size="10" fill="var(--accent)">Xₘ</text>
+      <line x1="440" y1="60" x2="440" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <!-- Secondary side -->
+      <line x1="240" y1="100" x2="440" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <line x1="440" y1="100" x2="480" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <path d="M480,100 Q490,75 500,100 Q510,75 520,100 Q530,75 540,100" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="510" y="130" text-anchor="middle" font-size="10" fill="var(--muted)">X₂</text>
+      <line x1="540" y1="100" x2="580" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <polyline points="580,90 590,110 600,90 610,110 620,90 630,110 640,100" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <text x="610" y="130" text-anchor="middle" font-size="10" fill="var(--muted)">R₂</text>
+      <line x1="640" y1="100" x2="660" y2="100" stroke="var(--text)" stroke-width="2"/>
+      <!-- Labels -->
+      <text x="40" y="85" font-size="11" fill="var(--muted)">V₁</text>
+      <text x="660" y="85" font-size="11" fill="var(--muted)">V₂</text>
+    </svg>
+    <figcaption style="font-size:0.85rem;color:var(--muted);margin-top:6px;">Figure 7.2 — Transformer equivalent circuit (referred to primary)</figcaption>
+  </figure>
+
   <p>A practical transformer is represented by resistances, leakage reactances, and a magnetizing branch:</p>
   <ul>
     <li>$R_1$, $X_1$ — primary resistance and leakage reactance</li>
