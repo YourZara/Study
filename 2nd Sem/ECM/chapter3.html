@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 3: Transient Analysis Using Laplace Transform</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html" class="current">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 3.</span> Transient Analysis Using Laplace Transform</h1>
+  <p class="subtitle">7 hours · 7 marks</p>
+
+  <h2>3.1 Introduction</h2>
+  <p>The Laplace transform converts linear constant-coefficient ODEs in time \(t\) into algebraic equations in complex frequency \(s\). Initial conditions enter automatically through differentiation theorems, so switched RLC problems become circuit algebra with impedances \(sL\), \(1/(sC)\) plus IC sources.</p>
+
+  <h3>Definition</h3>
+  \[
+  F(s)=\mathcal{L}\{f(t)\}=\int_{0^-}^{\infty} f(t)e^{-st}\,dt,\qquad
+  f(t)=\mathcal{L}^{-1}\{F(s)\}.
+  \]
+  (IOE exams usually take the lower limit as \(0^-\) so impulses and ICs at switching are included.)</p>
+
+  <h3>Laplace of common functions</h3>
+  <table>
+    <tr><th>\(f(t)\) for \(t\ge 0\)</th><th>\(F(s)\)</th></tr>
+    <tr><td>\(u(t)\) (unit step)</td><td>\(1/s\)</td></tr>
+    <tr><td>\(\delta(t)\)</td><td>\(1\)</td></tr>
+    <tr><td>\(t\)</td><td>\(1/s^2\)</td></tr>
+    <tr><td>\(e^{-at}\)</td><td>\(1/(s+a)\)</td></tr>
+    <tr><td>\(t e^{-at}\)</td><td>\(1/(s+a)^2\)</td></tr>
+    <tr><td>\(\sin\omega t\)</td><td>\(\omega/(s^2+\omega^2)\)</td></tr>
+    <tr><td>\(\cos\omega t\)</td><td>\(s/(s^2+\omega^2)\)</td></tr>
+    <tr><td>\(e^{-at}\sin\omega t\)</td><td>\(\omega/((s+a)^2+\omega^2)\)</td></tr>
+    <tr><td>\(e^{-at}\cos\omega t\)</td><td>\((s+a)/((s+a)^2+\omega^2)\)</td></tr>
+  </table>
+
+  <h3>Operational properties (exam essentials)</h3>
+  \[
+  \mathcal{L}\{f'(t)\}=sF(s)-f(0^-),\qquad
+  \mathcal{L}\{f''(t)\}=s^2F(s)-sf(0^-)-f'(0^-),
+  \]
+  \[
+  \mathcal{L}\Bigl\{\int_{0^-}^{t}f(\tau)\,d\tau\Bigr\}=\frac{F(s)}{s},\qquad
+  \mathcal{L}\{e^{-at}f(t)\}=F(s+a).
+  \]
+
+  <h3>s-domain models of R, L, C (with ICs)</h3>
+  <ul>
+    <li>Resistor: \(V(s)=RI(s)\).</li>
+    <li>Inductor: \(V(s)=sL\,I(s)-L\,i(0^-)\) &nbsp;(series voltage source \(L i(0^-)\) aiding the current direction), equivalently a parallel current source \(i(0^-)/s\) with impedance \(sL\).</li>
+    <li>Capacitor: \(V(s)=\dfrac{1}{sC}I(s)+\dfrac{v(0^-)}{s}\) &nbsp;(series voltage source \(v(0^-)/s\)), equivalently parallel current source \(C v(0^-)\) with impedance \(1/(sC)\).</li>
+  </ul>
+  <p><strong>Procedure:</strong> (1) find \(i_L(0^-)\), \(v_C(0^-)\); (2) replace circuit by s-domain impedances + IC sources; (3) solve for \(I(s)\) or \(V(s)\) by nodal/mesh/Ohm; (4) partial-fraction expand; (5) inverse Laplace to \(t\)-domain for \(t&gt;0\).</p>
+
+  <h3>Partial fractions (quick patterns)</h3>
+  \[
+  \frac{N(s)}{(s+a)(s+b)}=\frac{A}{s+a}+\frac{B}{s+b},\quad
+  A=\frac{N(-a)}{b-a},\ B=\frac{N(-b)}{a-b}.
+  \]
+  \[
+  \frac{N(s)}{(s+a)^2}=\frac{A}{s+a}+\frac{B}{(s+a)^2}.
+  \]
+  For quadratic underdamped factors, complete to \((s+\alpha)^2+\omega_d^2\) and match sine/cosine transforms.</p>
+
+  <h2>3.2 Response of R-L and R-C Circuits</h2>
+
+  <h3>3.2.1 DC excitation</h3>
+  <p><strong>Series RL</strong>, \(v_s=V_s u(t)\), \(i(0^-)=I_0\):</p>
+  \[
+  \bigl(R+sL\bigr)I(s)= \frac{V_s}{s}+L I_0
+  \Rightarrow
+  I(s)=\frac{V_s/L}{s(s+R/L)}+\frac{I_0}{s+R/L}.
+  \]
+  Inverse (or recognize standard form):</p>
+  \[
+  i(t)=\frac{V_s}{R}\bigl(1-e^{-(R/L)t}\bigr)+I_0 e^{-(R/L)t},\quad t&gt;0.
+  \]
+
+  <h3>Worked Example 1 — Switched RL (Laplace)</h3>
+  <p>\(R=4\,\Omega\), \(L=2\,\text{H}\), \(V_s=12\,\text{V}\), \(i(0^-)=0\).</p>
+  \[
+  I(s)=\frac{12/s}{4+2s}=\frac{12}{s(2s+4)}=\frac{6}{s(s+2)}
+  =\frac{3}{s}-\frac{3}{s+2}.
+  \]
+  \[
+  i(t)=3\bigl(1-e^{-2t}\bigr)\,\text{A}.
+  \]
+  <p><strong>Final answer:</strong> \(i(t)=3(1-e^{-2t})\,\text{A}\).</p>
+
+  <h3>3.2.2 Exponential excitation</h3>
+  <p>\(v_s=V_m e^{-\alpha t}u(t)\Rightarrow V_s(s)=V_m/(s+\alpha)\). Series RC with zero IC:</p>
+  \[
+  I(s)=\frac{V_m/(s+\alpha)}{R+1/(sC)}=\frac{V_m\,sC}{(s+\alpha)(RCs+1)},
+  \]
+  \[
+  V_C(s)=\frac{1}{sC}I(s)=\frac{V_m}{(s+\alpha)(s+1/(RC))}.
+  \]
+  Partial fractions → \(v_C(t)\) same as classical undetermined-coefficient result.</p>
+
+  <h3>Worked Example 2 — RC with exponential source (Laplace)</h3>
+  <p>\(R=2\,\Omega\), \(C=1\,\text{F}\), \(v_s=10e^{-2t}\), \(v_C(0^-)=0\). Voltage divider in the \(s\)-domain:</p>
+  \[
+  V_C(s)=\frac{1/(sC)}{R+1/(sC)}\cdot\frac{10}{s+2}
+  =\frac{1}{RCs+1}\cdot\frac{10}{s+2}
+  =\frac{10}{(2s+1)(s+2)}
+  =\frac{5}{(s+1/2)(s+2)}.
+  \]
+  Partial fractions \(V_C(s)=\dfrac{A}{s+1/2}+\dfrac{B}{s+2}\):</p>
+  \[
+  A=\frac{5}{-1/2+2}=\frac{5}{3/2}=\frac{10}{3},\qquad
+  B=\frac{5}{-2+1/2}=\frac{5}{-3/2}=-\frac{10}{3}.
+  \]
+  \[
+  v_C(t)=\frac{10}{3}\bigl(e^{-t/2}-e^{-2t}\bigr)\,\text{V}.
+  \]
+  <p>This matches the classical undetermined-coefficient result in Chapter 2.</p>
+  <p><strong>Final answer:</strong> \(v_C(t)=\dfrac{10}{3}\bigl(e^{-t/2}-e^{-2t}\bigr)\,\text{V}\).</p>
+
+  <h3>3.2.3 Sinusoidal excitation</h3>
+  <p>\(v_s=V_m\cos\omega t\,u(t)\Rightarrow V_s(s)=V_m s/(s^2+\omega^2)\). For series RL, zero IC:</p>
+  \[
+  I(s)=\frac{V_m s}{(s^2+\omega^2)(R+sL)}.
+  \]
+  Expand into terms \(As+B\) over \(s^2+\omega^2\) and \(C/(s+R/L)\); invert to transient exponential + steady AC.</p>
+
+  <h3>Worked Example 3 — Switched RC to DC (Laplace)</h3>
+  <p>\(R=5\,\Omega\), \(C=0.2\,\text{F}\), \(V_s=10\,\text{V}\), \(v_C(0^-)=0\). \(\tau=RC=1\,\text{s}\).</p>
+  \[
+  V_C(s)=\frac{10/s}{5+1/(0.2s)}\cdot\frac{1}{0.2s}
+  =\frac{10}{s(1+s)}=\frac{10}{s(s+1)}
+  =\frac{10}{s}-\frac{10}{s+1}.
+  \]
+  (Using voltage divider \(V_C=\frac{1/(sC)}{R+1/(sC)}\cdot V_s/s=\frac{1}{RCs+1}\cdot 10/s\).)</p>
+  \[
+  v_C(t)=10\bigl(1-e^{-t}\bigr)\,\text{V}.
+  \]
+  <p><strong>Final answer:</strong> \(v_C(t)=10(1-e^{-t})\,\text{V}\).</p>
+
+  <h2>3.3 Response of Series R-L-C Circuits</h2>
+  <p>Series impedance \(Z(s)=R+sL+1/(sC)\). With source \(V_s(s)\) and ICs:</p>
+  \[
+  I(s)=\frac{V_s(s)+L i(0^-)-v_C(0^-)/s}{R+sL+1/(sC)}.
+  \]
+  \[
+  V_C(s)=\frac{v_C(0^-)}{s}+\frac{1}{sC}I(s).
+  \]
+
+  <h3>3.3.1 DC excitation</h3>
+  <p>\(V_s(s)=V_0/s\), often zero IC \(\Rightarrow\)</p>
+  \[
+  I(s)=\frac{V_0/s}{R+sL+1/(sC)}=\frac{V_0}{L}\cdot\frac{1}{s^2+(R/L)s+1/(LC)}.
+  \]
+  Complete the square / factor depending on damping; invert using tables.</p>
+
+  <h3>Worked Example 4 — Series RLC step, underdamped (Laplace)</h3>
+  <p>\(R=2\,\Omega\), \(L=1\,\text{H}\), \(C=1/5\,\text{F}\), \(V_0=10\,\text{V}\), zero IC. \(\alpha=R/(2L)=1\), \(\omega_0=\sqrt{5}\), \(\omega_d=2\).</p>
+  \[
+  I(s)=\frac{10}{s^2+2s+5}=\frac{10}{(s+1)^2+4}.
+  \]
+  \[
+  i(t)=10\cdot\frac{1}{2}e^{-t}\sin 2t=5e^{-t}\sin 2t\,\text{A}.
+  \]
+  \[
+  V_C(s)=\frac{1}{sC}I(s)=\frac{5}{s}\cdot\frac{10}{(s+1)^2+4}=\frac{50}{s\bigl((s+1)^2+4\bigr)}.
+  \]
+  Partial fractions → \(v_C(t)=10+e^{-t}(A\cos 2t+B\sin 2t)\); with \(v_C(0)=0\), \(i(0)=0\): \(A=-10\), and from \(i=C v_C'\) get \(B\).</p>
+  Standard result:</p>
+  \[
+  v_C(t)=10-e^{-t}(10\cos 2t+5\sin 2t)\,\text{V}.
+  \]
+  <p><strong>Final answer:</strong> \(i(t)=5e^{-t}\sin 2t\,\text{A}\); \(v_C(t)=10-e^{-t}(10\cos 2t+5\sin 2t)\,\text{V}\).</p>
+
+  <h3>3.3.2 Exponential excitation</h3>
+  <p>\(V_s(s)=V_m/(s+\alpha)\). Then</p>
+  \[
+  I(s)=\frac{V_m/(s+\alpha)}{R+sL+1/(sC)}
+  \]
+  (zero IC). Factor denominator; expand including the \((s+\alpha)\) pole unless cancelled.</p>
+
+  <h3>3.3.3 Sinusoidal excitation</h3>
+  <p>\(V_s(s)=V_m s/(s^2+\omega^2)\) or \(\omega V_m/(s^2+\omega^2)\). \(I(s)\) is a rational function; invert to damped natural terms + undamped steady sinusoid (forced response).</p>
+
+  <h3>Worked Example 5 — Series RLC with nonzero IC</h3>
+  <p>\(R=3\,\Omega\), \(L=1\,\text{H}\), \(C=1/2\,\text{F}\), source shorted for \(t&gt;0\) (source-free), \(i(0^-)=2\,\text{A}\), \(v_C(0^-)=4\,\text{V}\).</p>
+  \[
+  I(s)=\frac{L i(0^-)-v_C(0^-)/s}{R+sL+1/(sC)}
+  =\frac{2-4/s}{3+s+2/s}
+  =\frac{(2s-4)/s}{(s^2+3s+2)/s}
+  =\frac{2(s-2)}{(s+1)(s+2)}.
+  \]
+  Partial fractions \(I(s)=\dfrac{A}{s+1}+\dfrac{B}{s+2}\):</p>
+  \[
+  A=\frac{2(-1-2)}{-1+2}=-6,\qquad
+  B=\frac{2(-2-2)}{-2+1}=8.
+  \]
+  \[
+  i(t)=\bigl(-6e^{-t}+8e^{-2t}\bigr)\,\text{A}.
+  \]
+  Check: \(i(0)=-6+8=2\,\text{A}\) matches \(i(0^-)\).</p>
+  <p><strong>Final answer:</strong> \(i(t)=-6e^{-t}+8e^{-2t}\,\text{A}\).</p>
+
+  <h2>3.4 Response of Parallel R-L-C Circuits</h2>
+  <p>Parallel admittance \(Y(s)=1/R + 1/(sL) + sC\). With current source \(I_s(s)\) and ICs (using parallel IC current sources \(C v(0^-)\) out of the positive node and \(i_L(0^-)/s\) into/out per sign convention):</p>
+  \[
+  V(s)=\frac{I_s(s)+C v(0^-)-i_L(0^-)/s}{sC+1/R+1/(sL)}.
+  \]
+
+  <h3>3.4.1 DC excitation</h3>
+  <p>\(i_s=I_0 u(t)\Rightarrow I_s=I_0/s\). For zero IC:</p>
+  \[
+  V(s)=\frac{I_0/s}{sC+G+1/(sL)}=\frac{I_0}{C}\cdot\frac{1}{s^2+(G/C)s+1/(LC)},\quad G=1/R.
+  \]
+  Invert according to damping (\(\alpha=G/(2C)=1/(2RC)\)).</p>
+
+  <h3>Worked Example 6 — Parallel RLC, DC current (Laplace)</h3>
+  <p>\(R=1\,\Omega\), \(L=1\,\text{H}\), \(C=1\,\text{F}\), \(I_0=2\,\text{A}\), zero IC. \(\alpha=0.5\), \(\omega_d=\sqrt{3}/2\).</p>
+  \[
+  V(s)=\frac{2}{s^2+s+1}=\frac{2}{(s+1/2)^2+3/4}.
+  \]
+  \[
+  v(t)=2\cdot\frac{1}{\omega_d}e^{-t/2}\sin\omega_d t
+  =\frac{4}{\sqrt{3}}e^{-t/2}\sin\Bigl(\frac{\sqrt{3}}{2}t\Bigr)\,\text{V}.
+  \]
+  <p><strong>Final answer:</strong> \(v(t)=\dfrac{4}{\sqrt{3}}\,e^{-t/2}\sin\bigl(\dfrac{\sqrt{3}}{2}t\bigr)\,\text{V}\) (matches Ch2 classical Example 4).</p>
+
+  <h3>3.4.2 Exponential excitation</h3>
+  <p>\(i_s=I_m e^{-\alpha t}\Rightarrow I_s(s)=I_m/(s+\alpha)\).</p>
+  \[
+  V(s)=\frac{I_m/(s+\alpha)}{sC+G+1/(sL)}.
+  \]
+  Clear the denominator; partial-fraction including pole at \(-\alpha\); invert.</p>
+
+  <h3>Worked Example 7 — Parallel RLC exponential current</h3>
+  <p>Same \(R=L=C=1\), \(i_s=3e^{-2t}u(t)\), zero IC.</p>
+  \[
+  V(s)=\frac{3/(s+2)}{s+1+1/s}
+  =\frac{3s}{(s+2)(s^2+s+1)}.
+  \]
+  Expand \(V(s)=\dfrac{A}{s+2}+\dfrac{Bs+C}{s^2+s+1}\). Cover-up at \(s=-2\):</p>
+  \[
+  A=\frac{3(-2)}{(-2)^2+(-2)+1}=\frac{-6}{3}=-2.
+  \]
+  Clear denominators: \(A(s^2+s+1)+(Bs+C)(s+2)=3s\). With \(A=-2\):</p>
+  \[
+  -2s^2-2s-2 + Bs(s+2)+C(s+2)=3s
+  \Rightarrow (-2+B)s^2+( -2+2B+C)s+(-2+2C)=3s.
+  \]
+  Equate: \(B=2\), \(-2+2C=0\Rightarrow C=1\), and check linear: \(-2+4+1=3\) ✓. So</p>
+  \[
+  V(s)=\frac{-2}{s+2}+\frac{2s+1}{(s+1/2)^2+(\sqrt{3}/2)^2}.
+  \]
+  Rewrite \(2s+1=2(s+1/2)+0\):</p>
+  \[
+  v(t)=-2e^{-2t}+2e^{-t/2}\cos\Bigl(\frac{\sqrt{3}}{2}t\Bigr)\,\text{V}.
+  \]
+  <p><strong>Final answer:</strong> \(v(t)=-2e^{-2t}+2e^{-t/2}\cos\bigl(\dfrac{\sqrt{3}}{2}t\bigr)\,\text{V}\).</p>
+
+  <h2>Comparison: Classical vs Laplace (exam tip)</h2>
+  <table>
+    <tr><th>Aspect</th><th>Classical</th><th>Laplace</th></tr>
+    <tr><td>Setup</td><td>ODE + find \(y_h\), \(y_p\)</td><td>Algebraic \(s\)-domain circuit</td></tr>
+    <tr><td>Initial conditions</td><td>Applied at the end</td><td>Built into L/C models</td></tr>
+    <tr><td>Best for</td><td>Simple 1st/2nd order insight</td><td>Switched networks, nonzero IC, simultaneous equations</td></tr>
+    <tr><td>Inversion</td><td>Not needed</td><td>Partial fractions + transform table</td></tr>
+  </table>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Define the Laplace transform. Tabulate transforms of \(u(t)\), \(e^{-at}\), \(\sin\omega t\), \(\cos\omega t\). <span class="marks">4 marks</span></div>
+    <div class="a">\(F(s)=\int_{0^-}^{\infty}f(t)e^{-st}dt\). Values: \(1/s\), \(1/(s+a)\), \(\omega/(s^2+\omega^2)\), \(s/(s^2+\omega^2)\) (§3.1).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Draw s-domain equivalent circuits of L and C including initial conditions. <span class="marks">5 marks</span></div>
+    <div class="a">L: impedance \(sL\) in series with voltage \(L i(0^-)\), or parallel \(i(0^-)/s\). C: \(1/(sC)\) in series with \(v(0^-)/s\), or parallel current \(C v(0^-)\). State polarity carefully.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Using Laplace transform, find current in a series RL circuit switched to a DC source. <span class="marks">7 marks</span></div>
+    <div class="a">\(I(s)=(V_s/s+Li_0)/(R+sL)\); partial fractions; invert (Example 1).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Solve series RC with exponential excitation by Laplace and verify against classical method. <span class="marks">7 marks</span></div>
+    <div class="a">Voltage divider in \(s\)-domain → \(V_C(s)=V_m/[(RCs+1)(s+\alpha)]\); residues; inverse (Example 2).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Obtain \(i(t)\) and \(v_C(t)\) for series RLC under DC excitation (underdamped) using Laplace. <span class="marks">8 marks</span></div>
+    <div class="a">\(I(s)=(V_0/L)/[(s+\alpha)^2+\omega_d^2]\); \(i(t)=(V_0/(L\omega_d))e^{-\alpha t}\sin\omega_d t\); then \(V_C=I/(sC)+v_C(0)/s\) (Example 4).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. A source-free series RLC has nonzero \(i(0^-)\) and \(v_C(0^-)\). Find \(i(t)\) by Laplace. <span class="marks">7 marks</span></div>
+    <div class="a">Numerator \(L i(0^-)-v_C(0^-)/s\); divide by \(R+sL+1/(sC)\); factor; partial fractions (Example 5).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Find the node voltage of a parallel RLC circuit for a DC current step using Laplace. <span class="marks">7 marks</span></div>
+    <div class="a">\(V(s)=(I_0/C)/[s^2+(1/(RC))s+1/(LC)]\); invert with \(\alpha=1/(2RC)\) (Example 6).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Compare classical and Laplace methods for transient analysis. <span class="marks">4 marks</span></div>
+    <div class="a">Use the comparison table: ODE vs algebra, when ICs enter, suitability for multi-loop switched circuits, need for inverse transform.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter2.html">← Chapter 2 — Classical Method</a>
+    <a href="chapter4.html">Next: Chapter 4 — Network Transfer Function →</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 5: Two-Port Parameters</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html" class="current">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 5.</span> Two-Port Parameters</h1>
+  <p class="subtitle">8 hours · 8 marks</p>
+
+  <p>Two-port network theory describes linear networks with one input port and one output port using parameter matrices. Exam focus: definitions of Z, Y, ABCD, h, g; conversions (especially \(h\) from \(Z\), \(Z\) from ABCD); cascade via ABCD multiplication; reciprocity and symmetry tests.</p>
+
+  <h2>5.1 Definitions</h2>
+  <p>A <strong>two-port</strong> has four terminals grouped as port 1 (\(V_1,I_1\)) and port 2 (\(V_2,I_2\)). Standard sign convention: both currents \(I_1\) and \(I_2\) enter the network through the \(+\) terminals (except for transmission/ABCD parameters, where \(I_2\) is usually defined leaving port 2 — see below).</p>
+  <div class="card">
+    Any two of \(\{V_1,I_1,V_2,I_2\}\) may be chosen as independent; the other two are dependent. Each choice yields a different parameter set.
+  </div>
+
+  <h2>5.2 Parameter Sets</h2>
+
+  <h3>5.2.1 Z-parameters (open-circuit impedance)</h3>
+  \[
+  \begin{aligned}
+  V_1 &= Z_{11}I_1 + Z_{12}I_2\\
+  V_2 &= Z_{21}I_1 + Z_{22}I_2
+  \end{aligned}
+  \qquad
+  \begin{bmatrix}V_1\\V_2\end{bmatrix}
+  =
+  \begin{bmatrix}Z_{11}&Z_{12}\\Z_{21}&Z_{22}\end{bmatrix}
+  \begin{bmatrix}I_1\\I_2\end{bmatrix}
+  \]
+  <table>
+    <tr><th>Parameter</th><th>Definition</th><th>Condition</th></tr>
+    <tr><td>\(Z_{11}\)</td><td>\(V_1/I_1\)</td><td>\(I_2=0\) (port 2 open)</td></tr>
+    <tr><td>\(Z_{12}\)</td><td>\(V_1/I_2\)</td><td>\(I_1=0\)</td></tr>
+    <tr><td>\(Z_{21}\)</td><td>\(V_2/I_1\)</td><td>\(I_2=0\)</td></tr>
+    <tr><td>\(Z_{22}\)</td><td>\(V_2/I_2\)</td><td>\(I_1=0\)</td></tr>
+  </table>
+  <p>\(Z_{11},Z_{22}\): driving-point impedances; \(Z_{12},Z_{21}\): transfer impedances.</p>
+
+  <h3>5.2.2 Y-parameters (short-circuit admittance)</h3>
+  \[
+  \begin{aligned}
+  I_1 &= Y_{11}V_1 + Y_{12}V_2\\
+  I_2 &= Y_{21}V_1 + Y_{22}V_2
+  \end{aligned}
+  \]
+  <p>Measured with the other port shorted (\(V=0\)). \(\mathbf{Y}=\mathbf{Z}^{-1}\) when both exist.</p>
+
+  <h3>5.2.3 ABCD parameters (transmission / T-parameters)</h3>
+  <p>Relate sending-end quantities to receiving-end quantities. Convention: \(I_2\) leaves port 2 (so \(I_2'=-I_2\) in Z-convention):</p>
+  \[
+  \begin{aligned}
+  V_1 &= A V_2 + B (-I_2)\\
+  I_1 &= C V_2 + D (-I_2)
+  \end{aligned}
+  \quad\text{i.e.}\quad
+  \begin{bmatrix}V_1\\I_1\end{bmatrix}
+  =
+  \begin{bmatrix}A&B\\C&D\end{bmatrix}
+  \begin{bmatrix}V_2\\-I_2\end{bmatrix}
+  \]
+  <table>
+    <tr><th>Param</th><th>Meaning</th><th>Condition</th></tr>
+    <tr><td>\(A=V_1/V_2\)</td><td>open-circuit voltage ratio</td><td>\(I_2=0\)</td></tr>
+    <tr><td>\(B=V_1/(-I_2)\)</td><td>short-circuit transfer impedance</td><td>\(V_2=0\)</td></tr>
+    <tr><td>\(C=I_1/V_2\)</td><td>open-circuit transfer admittance</td><td>\(I_2=0\)</td></tr>
+    <tr><td>\(D=I_1/(-I_2)\)</td><td>short-circuit current ratio</td><td>\(V_2=0\)</td></tr>
+  </table>
+
+  <h3>5.2.4 A′B′C′D′ (inverse transmission)</h3>
+  \[
+  \begin{bmatrix}V_2\\-I_2\end{bmatrix}
+  =
+  \begin{bmatrix}A'&B'\\C'&D'\end{bmatrix}
+  \begin{bmatrix}V_1\\I_1\end{bmatrix}
+  \]
+  <p>Useful when cascading is described from load toward source. Inverse of the ABCD matrix when \(\Delta_T=AD-BC\neq 0\).</p>
+
+  <h3>5.2.5 h-parameters (hybrid)</h3>
+  \[
+  \begin{aligned}
+  V_1 &= h_{11}I_1 + h_{12}V_2\\
+  I_2 &= h_{21}I_1 + h_{22}V_2
+  \end{aligned}
+  \]
+  <table>
+    <tr><th>Param</th><th>Name</th><th>Condition</th></tr>
+    <tr><td>\(h_{11}=V_1/I_1\)</td><td>input impedance</td><td>\(V_2=0\) (port 2 short)</td></tr>
+    <tr><td>\(h_{12}=V_1/V_2\)</td><td>reverse voltage gain</td><td>\(I_1=0\)</td></tr>
+    <tr><td>\(h_{21}=I_2/I_1\)</td><td>forward current gain</td><td>\(V_2=0\)</td></tr>
+    <tr><td>\(h_{22}=I_2/V_2\)</td><td>output admittance</td><td>\(I_1=0\)</td></tr>
+  </table>
+  <p>Widely used for BJT small-signal models (\(h_{ie},h_{re},h_{fe},h_{oe}\)).</p>
+
+  <h3>5.2.6 g-parameters (inverse hybrid)</h3>
+  \[
+  \begin{aligned}
+  I_1 &= g_{11}V_1 + g_{12}I_2\\
+  V_2 &= g_{21}V_1 + g_{22}I_2
+  \end{aligned}
+  \]
+  <p>\(\mathbf{g}=\mathbf{h}^{-1}\) when both exist. Useful for some FET / dual formulations.</p>
+
+  <h2>5.3 Relationships Between Parameter Sets</h2>
+
+  <h3>h in terms of Z</h3>
+  \[
+  h_{11}=\frac{\Delta_Z}{Z_{22}},\quad
+  h_{12}=\frac{Z_{12}}{Z_{22}},\quad
+  h_{21}=-\frac{Z_{21}}{Z_{22}},\quad
+  h_{22}=\frac{1}{Z_{22}}
+  \]
+  where \(\Delta_Z=Z_{11}Z_{22}-Z_{12}Z_{21}\).
+
+  <h3>Z in terms of ABCD</h3>
+  \[
+  Z_{11}=\frac{A}{C},\quad
+  Z_{12}=\frac{AD-BC}{C},\quad
+  Z_{21}=\frac{1}{C},\quad
+  Z_{22}=\frac{D}{C}
+  \]
+  (for reciprocal networks \(AD-BC=1\), so \(Z_{12}=Z_{21}=1/C\)).
+
+  <h3>Other useful conversions (summary)</h3>
+  <table>
+    <tr><th>From → To</th><th>Key relations</th></tr>
+    <tr><td>Z → Y</td><td>\(\mathbf{Y}=\mathbf{Z}^{-1}\); \(Y_{11}=Z_{22}/\Delta_Z\), etc.</td></tr>
+    <tr><td>Z → ABCD</td><td>\(A=Z_{11}/Z_{21}\), \(B=\Delta_Z/Z_{21}\), \(C=1/Z_{21}\), \(D=Z_{22}/Z_{21}\)</td></tr>
+    <tr><td>Y → ABCD</td><td>\(A=-Y_{22}/Y_{21}\), \(B=-1/Y_{21}\), \(C=-\Delta_Y/Y_{21}\), \(D=-Y_{11}/Y_{21}\)</td></tr>
+    <tr><td>ABCD → h</td><td>\(h_{11}=B/D\), \(h_{12}=(AD-BC)/D\), \(h_{21}=-1/D\), \(h_{22}=C/D\)</td></tr>
+  </table>
+
+  <h2>5.4 Interconnection of Two-Ports</h2>
+  <table>
+    <tr><th>Connection</th><th>Rule</th><th>When valid</th></tr>
+    <tr><td><strong>Series</strong> (ports in series)</td><td>\(\mathbf{Z}=\mathbf{Z}_a+\mathbf{Z}_b\)</td><td>loop currents compatible; no forbidden circulating paths</td></tr>
+    <tr><td><strong>Parallel</strong></td><td>\(\mathbf{Y}=\mathbf{Y}_a+\mathbf{Y}_b\)</td><td>port voltages shared; Brune tests satisfied</td></tr>
+    <tr><td><strong>Cascade</strong> (chain)</td><td>\(\begin{bmatrix}A&B\\C&D\end{bmatrix}=\mathbf{T}_1\mathbf{T}_2\)</td><td>port 2 of first feeds port 1 of second</td></tr>
+    <tr><td>Series–parallel</td><td>add \(\mathbf{h}\)</td><td>hybrid interconnection</td></tr>
+    <tr><td>Parallel–series</td><td>add \(\mathbf{g}\)</td><td>inverse hybrid interconnection</td></tr>
+  </table>
+  <div class="card">
+    <strong>Cascade exam tip:</strong> convert each stage to ABCD, multiply left-to-right in signal-flow order, then convert back to Z/Y/h if required.
+  </div>
+
+  <h2>5.5 Reciprocity and Symmetry</h2>
+  <h3>Reciprocity</h3>
+  <p>A network of bilateral passive elements (R, L, C, mutual transformers without dependent sources / gyrators) is <strong>reciprocal</strong>:</p>
+  <table>
+    <tr><th>Parameter set</th><th>Reciprocity condition</th></tr>
+    <tr><td>Z</td><td>\(Z_{12}=Z_{21}\)</td></tr>
+    <tr><td>Y</td><td>\(Y_{12}=Y_{21}\)</td></tr>
+    <tr><td>ABCD</td><td>\(AD-BC=1\)</td></tr>
+    <tr><td>h</td><td>\(h_{12}=-h_{21}\)</td></tr>
+    <tr><td>g</td><td>\(g_{12}=-g_{21}\)</td></tr>
+  </table>
+  <p>Dependent sources generally destroy reciprocity.</p>
+
+  <h3>Symmetry</h3>
+  <p>A <strong>symmetric</strong> two-port looks the same if ports are swapped:</p>
+  <ul>
+    <li>Z: \(Z_{11}=Z_{22}\) (and usually also reciprocal ⇒ \(Z_{12}=Z_{21}\))</li>
+    <li>Y: \(Y_{11}=Y_{22}\)</li>
+    <li>ABCD: \(A=D\)</li>
+    <li>h: \(h_{11}h_{22}-h_{12}h_{21}=1\) together with reciprocity, or check \(Z_{11}=Z_{22}\)</li>
+  </ul>
+
+  <h2>Solved Examples</h2>
+
+  <h3>Example 1 — Z-parameters of a T-network</h3>
+  <p class="tag">Ladder / T</p>
+  <p>T-network: series arms \(Z_a\) (port 1 side), \(Z_b\) (port 2 side), shunt arm \(Z_c\) from junction to common return.</p>
+  <div class="card">
+    <p><strong>Solution.</strong> With \(I_2=0\): \(Z_{11}=Z_a+Z_c\), \(Z_{21}=Z_c\).</p>
+    <p>With \(I_1=0\): \(Z_{22}=Z_b+Z_c\), \(Z_{12}=Z_c\).</p>
+    \[
+    \mathbf{Z}=\begin{bmatrix}Z_a+Z_c & Z_c\\ Z_c & Z_b+Z_c\end{bmatrix}
+    \]
+    <p><strong>Reciprocal:</strong> \(Z_{12}=Z_{21}=Z_c\) always for this passive T.</p>
+    <p><strong>Symmetric:</strong> iff \(Z_a=Z_b\) (then \(Z_{11}=Z_{22}\)).</p>
+  </div>
+
+  <h3>Example 2 — Numerical T-network</h3>
+  <p>Series arms \(2\,\Omega\) and \(3\,\Omega\), shunt \(6\,\Omega\). Find Z-parameters; check reciprocal/symmetric.</p>
+  <div class="card">
+    \[
+    Z_{11}=2+6=8,\quad Z_{22}=3+6=9,\quad Z_{12}=Z_{21}=6
+    \]
+    \[
+    \mathbf{Z}=\begin{bmatrix}8&6\\6&9\end{bmatrix}\,\Omega
+    \]
+    Reciprocal yes (\(6=6\)); symmetric no (\(8\neq 9\)).
+  </div>
+
+  <h3>Example 3 — Ladder (two L-sections) via cascade</h3>
+  <p class="tag">ABCD multiply</p>
+  <p>Cascade: series \(Z_1\) then shunt \(Y_2=1/Z_2\).</p>
+  <div class="card">
+    <p>Series impedance alone:</p>
+    \[
+    \mathbf{T}_{Z}=\begin{bmatrix}1&Z_1\\0&1\end{bmatrix}
+    \]
+    <p>Shunt admittance alone:</p>
+    \[
+    \mathbf{T}_{Y}=\begin{bmatrix}1&0\\Y_2&1\end{bmatrix}
+    \]
+    \[
+    \mathbf{T}=\mathbf{T}_{Z}\mathbf{T}_{Y}=\begin{bmatrix}1+Z_1 Y_2 & Z_1\\ Y_2 & 1\end{bmatrix}
+    \]
+    <p>Then \(Z_{11}=A/C=(1+Z_1 Y_2)/Y_2=Z_2+Z_1\), \(Z_{21}=1/C=Z_2\), etc.</p>
+  </div>
+
+  <h3>Example 4 — Cascade of two T-equivalent stages</h3>
+  <p>Network A: \(A_1=2,\,B_1=3\,\Omega,\,C_1=1\,\text{S},\,D_1=2\). Network B: \(A_2=1,\,B_2=1\,\Omega,\,C_2=1\,\text{S},\,D_2=2\). Find overall ABCD and check reciprocity.</p>
+  <div class="card">
+    \[
+    \mathbf{T}=\begin{bmatrix}2&3\\1&2\end{bmatrix}
+    \begin{bmatrix}1&1\\1&2\end{bmatrix}
+    =
+    \begin{bmatrix}5&8\\3&5\end{bmatrix}
+    \]
+    <p>\(\Delta=AD-BC=25-24=1\) ⇒ overall reciprocal (product of reciprocal networks).</p>
+    <p>\(A=5\neq D=5\) wait — here \(A=D=5\) so also symmetric overall. (Check: \(5\cdot5-8\cdot3=1\).)</p>
+  </div>
+
+  <h3>Example 5 — Network with a dependent source</h3>
+  <p class="tag">Dependent source</p>
+  <p>Port 1: voltage \(V_1\) across input. Series resistance \(R\) then a VCVS \(V_x=\mu V_1\) feeding port 2 through the controlled source (simplified unilateral amp model: \(I_2\) depends on \(V_1\)).</p>
+  <p>Classic resistive network: left series \(1\,\Omega\), controlled current source \(2I_1\) in parallel with \(2\,\Omega\) at port 2.</p>
+  <div class="card">
+    <p><strong>Find Y or h; test reciprocity.</strong></p>
+    <p>With dependent sources, compute parameters from definitions carefully.</p>
+    <p>Illustration with Z for a network where \(V_2=k I_1\) and input is resistive: often \(Z_{21}\neq Z_{12}\).</p>
+    <p><strong>Conclusion pattern for exams:</strong> if \(Z_{12}\neq Z_{21}\) (or \(AD-BC\neq 1\)), the network is <em>not</em> reciprocal — expected when controlled sources are present.</p>
+  </div>
+
+  <h3>Example 6 — h from Z</h3>
+  <p>Given \(\mathbf{Z}=\begin{bmatrix}8&6\\6&9\end{bmatrix}\). Find \(\mathbf{h}\).</p>
+  <div class="card">
+    \(\Delta_Z=72-36=36\).
+    \[
+    h_{11}=\frac{36}{9}=4,\quad
+    h_{12}=\frac{6}{9}=\frac{2}{3},\quad
+    h_{21}=-\frac{6}{9}=-\frac{2}{3},\quad
+    h_{22}=\frac{1}{9}
+    \]
+    Check reciprocity: \(h_{12}=-h_{21}\) ✓.
+  </div>
+
+  <h3>Example 7 — Z from ABCD</h3>
+  <p>\(A=5,\,B=8,\,C=3,\,D=5\). Find Z-parameters.</p>
+  <div class="card">
+    \[
+    Z_{11}=\frac{A}{C}=\frac{5}{3},\quad
+    Z_{21}=\frac{1}{C}=\frac{1}{3},\quad
+    Z_{22}=\frac{D}{C}=\frac{5}{3},\quad
+    Z_{12}=\frac{AD-BC}{C}=\frac{1}{3}
+    \]
+    Symmetric and reciprocal as expected.
+  </div>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Define Z-parameters of a two-port network. How are they determined? <span class="marks">5 marks</span></div>
+    <div class="a">Open-circuit impedance parameters relating \(V_1,V_2\) to \(I_1,I_2\). Each \(Z_{ij}\) is found by driving one port with current and opening the other (\(I=0\)), then taking the appropriate \(V/I\) ratio (see §5.2.1).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Define Y, ABCD, h and g parameters briefly. <span class="marks">8 marks</span></div>
+    <div class="a">Y: short-circuit admittances (\(I\) vs \(V\)). ABCD: transmission matrix mapping \((V_2,-I_2)\) to \((V_1,I_1)\). h: hybrid (\(V_1,I_2\) vs \(I_1,V_2\)). g: inverse hybrid (\(I_1,V_2\) vs \(V_1,I_2\)). Give defining equations from §5.2.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Express h-parameters in terms of Z-parameters. <span class="marks">5 marks</span></div>
+    <div class="a">\(h_{11}=\Delta_Z/Z_{22}\), \(h_{12}=Z_{12}/Z_{22}\), \(h_{21}=-Z_{21}/Z_{22}\), \(h_{22}=1/Z_{22}\) with \(\Delta_Z=Z_{11}Z_{22}-Z_{12}Z_{21}\).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Express Z-parameters in terms of ABCD parameters. <span class="marks">4 marks</span></div>
+    <div class="a">\(Z_{11}=A/C\), \(Z_{12}=(AD-BC)/C\), \(Z_{21}=1/C\), \(Z_{22}=D/C\).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Find Z-parameters of a T-network with series arms \(Z_a,Z_b\) and shunt \(Z_c\). State reciprocity/symmetry conditions. <span class="marks">7 marks</span></div>
+    <div class="a">See Example 1: \(\mathbf{Z}=\begin{bmatrix}Z_a+Z_c&Z_c\\Z_c&Z_b+Z_c\end{bmatrix}\). Always reciprocal; symmetric iff \(Z_a=Z_b\).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Explain series, parallel and cascade interconnection of two-ports. <span class="marks">6 marks</span></div>
+    <div class="a">Series ⇒ add Z-matrices; parallel ⇒ add Y-matrices; cascade ⇒ multiply ABCD (T) matrices in order. Mention validity constraints (Brune tests) briefly.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. State reciprocity and symmetry conditions for Z and ABCD parameters. <span class="marks">5 marks</span></div>
+    <div class="a">Reciprocal: \(Z_{12}=Z_{21}\) or \(AD-BC=1\). Symmetric: \(Z_{11}=Z_{22}\) or \(A=D\). Passive RLC networks without dependent sources are reciprocal.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Two networks in cascade have ABCD matrices \(\begin{bmatrix}2&3\\1&2\end{bmatrix}\) and \(\begin{bmatrix}1&1\\1&2\end{bmatrix}\). Find overall ABCD. <span class="marks">6 marks</span></div>
+    <div class="a">Product \(\begin{bmatrix}5&8\\3&5\end{bmatrix}\) (Example 4). \(\Delta=1\) ⇒ reciprocal; \(A=D\) ⇒ symmetric.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. Why do networks with dependent sources often fail reciprocity? <span class="marks">3 marks</span></div>
+    <div class="a">Controlled sources introduce unilateral coupling: excitation at one port may affect the other differently than the reverse experiment, so \(Z_{12}\neq Z_{21}\) (or \(AD-BC\neq 1\)).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q10. For \(\mathbf{Z}=\begin{bmatrix}8&6\\6&9\end{bmatrix}\Omega\), find h-parameters. <span class="marks">5 marks</span></div>
+    <div class="a">Example 6: \(h_{11}=4\,\Omega\), \(h_{12}=2/3\), \(h_{21}=-2/3\), \(h_{22}=1/9\,\text{S}\).</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter4.html">← Chapter 4</a>
+    <a href="chapter6.html">Next: Chapter 6 — Magnetic Circuit and Induction →</a>
+  </div>
+</div>
+</body>
+</html>

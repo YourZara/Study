@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 7: Transformers — ECM ENEE 154</title>
+<link rel="stylesheet" href="style.css">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html" class="current">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 7.</span> Transformers</h1>
+  <p class="subtitle">6 hours · 6 marks</p>
+
+  <h2>7.1 Construction, Principle, EMF Equation of 1-ph Transformer</h2>
+
+  <h3>Construction</h3>
+  <p>A single-phase transformer has two magnetically coupled windings wound on a laminated soft-iron (or silicon-steel) core, with no electrical connection between them (except in an auto-transformer). Main parts:</p>
+  <ul>
+    <li><strong>Core</strong> — provides a low-reluctance path for flux. Laminated (≈0.3–0.5 mm sheets, insulated) to reduce eddy-current loss. Materials: CRGO silicon steel.</li>
+    <li><strong>Primary winding</strong> — connected to the AC supply; receives electrical energy.</li>
+    <li><strong>Secondary winding</strong> — delivers energy to the load at transformed voltage/current.</li>
+    <li><strong>Insulation, tank, oil, conservator, breather</strong> — for HV units (cooling and insulation).</li>
+  </ul>
+  <p><strong>Core type:</strong> windings surround the limbs; more copper, less iron — common for high voltage.<br>
+  <strong>Shell type:</strong> iron surrounds the windings; more iron, better short-circuit strength — common for low-voltage distribution.</p>
+
+  <h3>Working principle</h3>
+  <p>Based on <strong>Faraday’s law of mutual induction</strong>. An alternating voltage $V_1$ applied to the primary produces alternating flux $\Phi = \Phi_m\sin\omega t$ in the core. This flux links both windings and induces EMFs:</p>
+  $$e = -N\frac{d\phi}{dt}$$
+  <p>Energy is transferred magnetically from primary to secondary with (ideally) no change in frequency and nearly equal power (neglecting losses).</p>
+
+  <h3>EMF equation</h3>
+  <p>Instantaneous flux: $\phi = \Phi_m\sin\omega t$, $\omega=2\pi f$.</p>
+  $$e = -N\frac{d\phi}{dt} = -N\Phi_m\omega\cos\omega t = N\Phi_m\,2\pi f\sin(\omega t-90^\circ)$$
+  <p>Maximum EMF: $E_m = 2\pi f\,N\Phi_m$. RMS value:</p>
+  $$E = \frac{E_m}{\sqrt{2}} = 4.44\,f\,N\,\Phi_m$$
+  <p>For primary and secondary:</p>
+  $$E_1 = 4.44\,f\,N_1\,\Phi_m,\qquad E_2 = 4.44\,f\,N_2\,\Phi_m$$
+  <p><strong>Turns ratio / transformation ratio:</strong></p>
+  $$K = \frac{E_2}{E_1} = \frac{N_2}{N_1} \approx \frac{V_2}{V_1}$$
+  <ul>
+    <li>$K &gt; 1$: step-up transformer</li>
+    <li>$K &lt; 1$: step-down transformer</li>
+    <li>$K = 1$: isolation transformer (same voltage, galvanic isolation)</li>
+  </ul>
+
+  <h3>Ideal transformer — features</h3>
+  <div class="card">
+    <ul>
+      <li>No winding resistance ($R_1=R_2=0$) → no copper loss, no $IR$ drop.</li>
+      <li>No leakage flux → $X_1=X_2=0$; all flux links both windings.</li>
+      <li>No core loss (iron loss = 0); infinite permeability → zero magnetizing current.</li>
+      <li>$V_1/V_2 = N_1/N_2 = I_2/I_1$; input VA = output VA.</li>
+      <li>Primary and secondary mmf balance: $I_1 N_1 = I_2 N_2$.</li>
+    </ul>
+  </div>
+
+  <h2>7.2 No-Load and Load Operation; Main Flux Independent of Load</h2>
+
+  <h3>No-load operation</h3>
+  <p>Secondary open. Primary draws a small no-load current $I_0$ (2–5% of full-load current), resolving into:</p>
+  <ul>
+    <li><strong>Magnetizing component</strong> $I_m$ — lags $V_1$ by $90^\circ$; produces main flux $\Phi_m$.</li>
+    <li><strong>Core-loss (active) component</strong> $I_w$ — in phase with $V_1$; supplies hysteresis + eddy losses.</li>
+  </ul>
+  $$I_0 = \sqrt{I_w^2 + I_m^2},\qquad \cos\phi_0 = \frac{I_w}{I_0}$$
+  <p>Induced $E_1 \approx V_1$ (no $I R$ drop at no load, neglecting $I_0 R_1$). Flux $\Phi_m = E_1/(4.44 f N_1)$ is fixed by supply voltage and frequency.</p>
+
+  <h3>On-load operation</h3>
+  <p>When load is connected, secondary current $I_2$ flows. Secondary mmf $I_2 N_2$ tends to demagnetize the core. Primary current increases by a load component $I_2'$ so that:</p>
+  $$I_1' N_1 = I_2 N_2 \quad\Rightarrow\quad I_1' = K I_2$$
+  <p>Total primary current: $\vec{I}_1 = \vec{I}_0 + \vec{I}_1'$.</p>
+
+  <h3>Proof: main flux is (nearly) independent of load</h3>
+  <p>From Kirchhoff’s law on the primary (steady state):</p>
+  $$\vec{V}_1 = \vec{I}_1 R_1 + j\vec{I}_1 X_1 + (-\vec{E}_1)$$
+  <p>At no load, $I_0$ is very small, so $I_0 R_1$ and $I_0 X_1$ drops are negligible → $E_1 \approx V_1$.</p>
+  <p>On load, primary current rises, but the increase in $IR$ and $IX$ drops is typically only a few percent of $V_1$. Hence $E_1$ (and therefore $\Phi_m = E_1/(4.44 f N_1)$) remains essentially constant — <strong>main flux is nearly independent of load</strong>.</p>
+  <p>Physically: any attempt by secondary mmf to reduce flux is immediately opposed by an equal and opposite primary load mmf ($I_1' N_1 = I_2 N_2$), so net ampere-turns (and flux) stay almost the same as at no load.</p>
+
+  <h2>7.3 Equivalent Circuit</h2>
+  <p>A practical transformer is represented by resistances, leakage reactances, and a magnetizing branch:</p>
+  <ul>
+    <li>$R_1$, $X_1$ — primary resistance and leakage reactance</li>
+    <li>$R_2$, $X_2$ — secondary resistance and leakage reactance</li>
+    <li>$R_0$ (or $R_c$) — core-loss resistance; $X_m$ — magnetizing reactance (shunt branch)</li>
+  </ul>
+  <p><strong>Referred to secondary</strong> (divide primary quantities by $K^2$ for impedance, by $K$ for voltage/current as appropriate):</p>
+  $$R_1' = K^2 R_1,\quad X_1' = K^2 X_1$$
+  $$R_{02} = R_2 + R_1',\quad X_{02} = X_2 + X_1',\quad Z_{02} = \sqrt{R_{02}^2 + X_{02}^2}$$
+  <p><strong>Referred to primary:</strong></p>
+  $$R_2' = \frac{R_2}{K^2},\quad X_2' = \frac{X_2}{K^2},\quad R_{01}=R_1+R_2',\quad X_{01}=X_1+X_2'$$
+  <p>Approximate equivalent circuit: shunt branch moved to the supply terminals (valid because $I_0 \ll I_1$).</p>
+
+  <h2>7.4 OC and SC Tests</h2>
+
+  <h3>Open-circuit (OC / no-load) test</h3>
+  <p>Usually performed on the LV side; HV left open. Measure $V_0$, $I_0$, $W_0$.</p>
+  $$W_0 = \text{iron (core) loss } P_i \text{ (full rated voltage)}$$
+  $$\cos\phi_0 = \frac{W_0}{V_0 I_0},\quad I_w = I_0\cos\phi_0,\quad I_m = I_0\sin\phi_0$$
+  $$R_0 = \frac{V_0}{I_w},\qquad X_m = \frac{V_0}{I_m}$$
+  <p>Gives shunt-branch parameters and constant iron loss.</p>
+
+  <h3>Short-circuit (SC) test</h3>
+  <p>Usually on HV side; LV shorted. Apply reduced voltage $V_{sc}$ so that full-load current flows. Measure $V_{sc}$, $I_{sc}$, $W_{sc}$.</p>
+  $$W_{sc} = \text{full-load copper loss } P_{\mathrm{cu,fl}}$$
+  $$Z_{01} = \frac{V_{sc}}{I_{sc}},\quad R_{01} = \frac{W_{sc}}{I_{sc}^2},\quad X_{01} = \sqrt{Z_{01}^2 - R_{01}^2}$$
+  <p>Iron loss during SC is negligible (flux very small at reduced voltage). Gives series parameters of the equivalent circuit.</p>
+
+  <h2>7.5 Voltage Regulation, Losses, Efficiency, Condition for Max Efficiency</h2>
+
+  <h3>Voltage regulation</h3>
+  <p>Change in secondary terminal voltage from no-load to full-load, at constant primary voltage, expressed as % of full-load (or rated) secondary voltage:</p>
+  $$\mathrm{VR} = \frac{E_2 - V_2}{V_2}\times 100\% \approx \frac{I_2 R_{02}\cos\phi \pm I_2 X_{02}\sin\phi}{V_2}\times 100\%$$
+  <p>$+$ for lagging pf, $−$ for leading pf. At unity pf, $\mathrm{VR}\approx I_2 R_{02}/V_2$.</p>
+
+  <h3>Losses</h3>
+  <table>
+    <tr><th>Loss</th><th>Nature</th><th>How obtained</th></tr>
+    <tr><td>Iron / core ($P_i$)</td><td>Hysteresis + eddy; nearly constant</td><td>OC test ($W_0$)</td></tr>
+    <tr><td>Copper ($P_{\mathrm{cu}}$)</td><td>$I^2 R$; varies as (load)$^2$</td><td>SC test ($W_{sc}$ at FL)</td></tr>
+  </table>
+  <p>$P_{\mathrm{cu}} = x^2 P_{\mathrm{cu,fl}}$ where $x$ = load fraction (p.u. of rated kVA).</p>
+
+  <h3>Efficiency</h3>
+  $$\eta = \frac{\text{output}}{\text{output}+\text{losses}} = \frac{x\,S_{\mathrm{rated}}\cos\phi}{x\,S_{\mathrm{rated}}\cos\phi + P_i + x^2 P_{\mathrm{cu,fl}}}$$
+
+  <h3>Condition for maximum efficiency</h3>
+  <p>Differentiate $\eta$ w.r.t. $x$ and set to zero:</p>
+  $$P_i = x^2 P_{\mathrm{cu,fl}} \quad\Rightarrow\quad x = \sqrt{\frac{P_i}{P_{\mathrm{cu,fl}}}}$$
+  <p>i.e. <strong>iron loss = copper loss</strong> at that load. Load kVA for $\eta_{\max} = x\times$ rated kVA.</p>
+
+  <h2>7.6 Auto Transformer and Isolation Transformer</h2>
+
+  <h3>Auto transformer</h3>
+  <p>Single winding acts as both primary and secondary; part of the winding is common. Conductively connected.</p>
+  <ul>
+    <li><strong>Advantages:</strong> less copper, smaller size, cheaper, higher efficiency, better voltage regulation for small $K$ near 1.</li>
+    <li><strong>Disadvantages:</strong> no galvanic isolation; fault on HV side can appear on LV; not safe for large transformation ratios.</li>
+    <li>Copper saving = $K\times$(copper of two-winding transformer) for step-down with $K=N_2/N_1$.</li>
+  </ul>
+  <p>Used for: starting induction motors, interconnecting grids of close voltages, laboratory variable AC (Variac).</p>
+
+  <h3>Isolation transformer</h3>
+  <p>$K=1$ (or near 1) two-winding transformer providing <strong>galvanic isolation</strong> between supply and load — safety, noise reduction, breaking ground loops. No intentional voltage change; focus is isolation.</p>
+
+  <!-- ========== SOLVED EXAMPLES ========== -->
+  <h2>Solved Examples</h2>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Solved</span> Example 1 — Losses &amp; efficiency at overload</div>
+    <div class="a">
+      <p><strong>Q.</strong> A 150 kVA transformer has iron loss of 700 W and full-load copper loss of 1800 W. Find the losses and efficiency at 0.8 pf when the transformer is 25% overloaded.</p>
+      <p><strong>Given:</strong> $S=150\,\mathrm{kVA}$, $P_i=700\,\mathrm{W}$, $P_{\mathrm{cu,fl}}=1800\,\mathrm{W}$, overload 25% → $x=1.25$, $\cos\phi=0.8$.</p>
+      <p><strong>Copper loss at 1.25× load:</strong></p>
+      $$P_{\mathrm{cu}} = x^2 P_{\mathrm{cu,fl}} = (1.25)^2\times 1800 = 1.5625\times 1800 = 2812.5\,\mathrm{W}$$
+      <p><strong>Iron loss</strong> (constant): $P_i = 700\,\mathrm{W}$</p>
+      <p><strong>Total losses:</strong> $2812.5 + 700 = 3512.5\,\mathrm{W}$</p>
+      <p><strong>Output power:</strong></p>
+      $$P_{\mathrm{out}} = x\,S\cos\phi = 1.25\times 150\times 0.8 = 150\,\mathrm{kW} = 150000\,\mathrm{W}$$
+      <p><strong>Efficiency:</strong></p>
+      $$\eta = \frac{150000}{150000+3512.5}\times 100\% = \frac{150000}{153512.5}\times 100\% = \mathbf{97.71\%}$$
+      <p><strong>Answer:</strong> Total losses = <strong>3512.5 W</strong>; efficiency = <strong>97.71%</strong>.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Solved</span> Example 2 — OC/SC → equivalent circuit referred to secondary</div>
+    <div class="a">
+      <p><strong>Q.</strong> A 20 kVA, 2200/220 V, 50 Hz single-phase transformer gave the following test results:</p>
+      <ul>
+        <li><strong>OC test</strong> (instruments on LV side): 220 V, 4 A, 150 W</li>
+        <li><strong>SC test</strong> (instruments on HV side): 100 V, 9 A, 400 W</li>
+      </ul>
+      <p>Draw the equivalent circuit referred to the secondary.</p>
+
+      <p><strong>Step 1 — Shunt branch (from OC on LV = secondary side already):</strong></p>
+      $$\cos\phi_0 = \frac{150}{220\times 4} = 0.1705,\quad I_w = 4\times 0.1705 = 0.682\,\mathrm{A},\quad I_m = \sqrt{4^2-0.682^2}=3.941\,\mathrm{A}$$
+      $$R_{02}' = R_0 = \frac{220}{0.682} = 322.6\,\Omega,\qquad X_{m2} = \frac{220}{3.941} = 55.8\,\Omega$$
+      <p>(These $R_0$, $X_m$ are already referred to secondary / LV.)</p>
+
+      <p><strong>Step 2 — Series branch from SC on HV (primary):</strong></p>
+      $$Z_{01} = \frac{100}{9} = 11.11\,\Omega,\quad R_{01} = \frac{400}{9^2} = 4.938\,\Omega,\quad X_{01} = \sqrt{11.11^2-4.938^2}=9.95\,\Omega$$
+      <p><strong>Refer to secondary:</strong> $K = V_2/V_1 = 220/2200 = 0.1$</p>
+      $$R_{02} = K^2 R_{01} = (0.1)^2\times 4.938 = 0.0494\,\Omega$$
+      $$X_{02} = K^2 X_{01} = 0.01\times 9.95 = 0.0995\,\Omega$$
+
+      <p><strong>Equivalent circuit referred to secondary:</strong></p>
+      <ul>
+        <li>Series: $R_{02}=0.0494\,\Omega$, $X_{02}=0.0995\,\Omega$</li>
+        <li>Shunt at secondary terminals: $R_0=322.6\,\Omega$, $X_m=55.8\,\Omega$</li>
+        <li>Ideal transformation $2200:220$ (or omit ideal TF if entire circuit is on secondary side with secondary voltage source $V_2$)</li>
+      </ul>
+      <p>Iron loss from OC = 150 W (constant). Full-load copper loss = 400 W (from SC at ~rated current: rated $I_1=20000/2200=9.09\,\mathrm{A}\approx 9\,\mathrm{A}$).</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Solved</span> Example 3 — Condition for max efficiency</div>
+    <div class="a">
+      <p>For the 150 kVA transformer of Example 1 ($P_i=700\,\mathrm{W}$, $P_{\mathrm{cu,fl}}=1800\,\mathrm{W}$), find kVA at maximum efficiency and $\eta_{\max}$ at unity pf.</p>
+      $$x = \sqrt{\frac{P_i}{P_{\mathrm{cu,fl}}}} = \sqrt{\frac{700}{1800}} = 0.6236$$
+      $$\text{kVA for }\eta_{\max} = 0.6236\times 150 = 93.54\,\mathrm{kVA}$$
+      $$P_{\mathrm{cu}}=P_i=700\,\mathrm{W},\quad P_{\mathrm{out}}=93.54\times 1\times 1000=93540\,\mathrm{W}$$
+      $$\eta_{\max}=\frac{93540}{93540+700+700}\times 100\% = \mathbf{98.53\%}$$
+    </div>
+  </div>
+
+  <!-- ========== MPQ ========== -->
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Derive the EMF equation of a single-phase transformer. <span class="marks">5 marks</span></div>
+    <div class="a">Start from $\phi=\Phi_m\sin 2\pi ft$, apply $e=-N\,d\phi/dt$, obtain $E_{\mathrm{rms}}=4.44\,f\,N\,\Phi_m$. Write $E_1$ and $E_2$. See §7.1.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Prove that the main flux in a transformer is approximately independent of load. <span class="marks">5 marks</span></div>
+    <div class="a">Use $V_1\approx E_1$ (small impedance drop) so $\Phi_m=E_1/(4.44 f N_1)$ is fixed by $V$ and $f$; primary load mmf balances secondary mmf. See §7.2.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Explain OC and SC tests. How are equivalent-circuit parameters obtained? <span class="marks">6 marks</span></div>
+    <div class="a">OC → $P_i$, $R_0$, $X_m$. SC → $P_{\mathrm{cu,fl}}$, $R_{01}$, $X_{01}$. Refer to primary or secondary with $K^2$. See §7.4 and Example 2.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Define voltage regulation of a transformer. Derive the approximate expression. <span class="marks">4 marks</span></div>
+    <div class="a">$\mathrm{VR}=(E_2-V_2)/V_2\times 100\%$; approx. $(IR\cos\phi\pm IX\sin\phi)/V$. See §7.5.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Derive the condition for maximum efficiency of a transformer. <span class="marks">4 marks</span></div>
+    <div class="a">Set $d\eta/dx=0$ → iron loss = copper loss → $x=\sqrt{P_i/P_{\mathrm{cu,fl}}}$. See §7.5.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. A 150 kVA transformer has iron loss 700 W and FL copper loss 1800 W. Find efficiency at 0.8 pf when 25% overloaded. <span class="marks">5 marks</span></div>
+    <div class="a">Worked in Solved Example 1 — $\eta=97.71\%$; total losses 3512.5 W.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Differentiate between auto transformer and isolation transformer. <span class="marks">4 marks</span></div>
+    <div class="a">Auto: single winding, conductive link, copper saving, no isolation. Isolation: two windings, $K\approx 1$, galvanic isolation for safety. See §7.6.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. List the features of an ideal transformer. Draw the equivalent circuit of a practical transformer. <span class="marks">5 marks</span></div>
+    <div class="a">Ideal: $R=0$, no leakage, no core loss, $V\propto N$, $I\propto 1/N$. Practical: add $R_1,X_1,R_2,X_2,R_0,X_m$. See §7.1 and §7.3.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. From OC and SC test data of a 20 kVA, 2200/220 V transformer, obtain the equivalent circuit referred to secondary. <span class="marks">6 marks</span></div>
+    <div class="a">Full numerical solution in Solved Example 2.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter6.html">← Chapter 6</a>
+    <a href="chapter8.html">Next: Chapter 8 — DC Machine →</a>
+  </div>
+</div>
+</body>
+</html>

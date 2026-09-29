@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1: Transients in Electric Circuit</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html" class="current">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 1.</span> Transients in Electric Circuit</h1>
+  <p class="subtitle">7 hours · 7 marks</p>
+
+  <h2>1.1 Characteristics of Various Network Elements</h2>
+  <p>A lumped electric network is built from <strong>passive</strong> elements (R, L, C) and <strong>active</strong> sources (independent / dependent). Transient response arises because L and C store energy and cannot change that energy instantaneously.</p>
+
+  <h3>Resistor (R)</h3>
+  <ul>
+    <li>Ohm’s law: \(v_R = Ri\), \(i_R = Gv\) with \(G = 1/R\).</li>
+    <li>Power (always dissipated): \(p = vi = Ri^2 = v^2/R\).</li>
+    <li>Memoryless: voltage and current can jump together; no energy storage.</li>
+  </ul>
+
+  <h3>Inductor (L)</h3>
+  <ul>
+    <li>\(v_L = L\dfrac{di}{dt}\), \(i_L = \dfrac{1}{L}\int_{-\infty}^{t} v\,d\tau = i(t_0) + \dfrac{1}{L}\int_{t_0}^{t} v\,d\tau\).</li>
+    <li>Energy stored: \(W_L = \tfrac12 Li^2\).</li>
+    <li><strong>Continuity:</strong> inductor current is continuous for finite voltage: \(i_L(0^+) = i_L(0^-)\). An open-circuit inductor at \(t=0^+\) appears if \(i_L(0^-)=0\); a short for DC steady state (\(di/dt=0\)).</li>
+  </ul>
+
+  <h3>Capacitor (C)</h3>
+  <ul>
+    <li>\(i_C = C\dfrac{dv}{dt}\), \(v_C = v(t_0) + \dfrac{1}{C}\int_{t_0}^{t} i\,d\tau\).</li>
+    <li>Energy stored: \(W_C = \tfrac12 Cv^2\).</li>
+    <li><strong>Continuity:</strong> capacitor voltage is continuous for finite current: \(v_C(0^+) = v_C(0^-)\). Uncharged capacitor looks like a short at \(t=0^+\); open circuit in DC steady state (\(dv/dt=0\)).</li>
+  </ul>
+
+  <h3>Independent sources</h3>
+  <ul>
+    <li><strong>Independent voltage source:</strong> fixed \(v(t)\) regardless of load current (ideal \(R_s=0\)).</li>
+    <li><strong>Independent current source:</strong> fixed \(i(t)\) regardless of terminal voltage (ideal \(R_p=\infty\)).</li>
+  </ul>
+
+  <h3>Dependent (controlled) sources</h3>
+  <table>
+    <tr><th>Type</th><th>Controlling variable</th><th>Controlled output</th><th>Symbol / gain</th></tr>
+    <tr><td>VCVS</td><td>Voltage \(v_x\)</td><td>Voltage \(\mu v_x\)</td><td>Voltage-controlled voltage source</td></tr>
+    <tr><td>VCCS</td><td>Voltage \(v_x\)</td><td>Current \(g_m v_x\)</td><td>Transconductance \(g_m\)</td></tr>
+    <tr><td>CCVS</td><td>Current \(i_x\)</td><td>Voltage \(r_m i_x\)</td><td>Transresistance \(r_m\)</td></tr>
+    <tr><td>CCCS</td><td>Current \(i_x\)</td><td>Current \(\beta i_x\)</td><td>Current gain \(\beta\)</td></tr>
+  </table>
+  <p>Dependent sources model amplifiers/op-amps in circuit exams. Always express the controlling variable in terms of the same node voltages / mesh currents used in KCL/KVL.</p>
+
+  <h2>1.2 Nodal Analysis with Dependent and Independent Sources</h2>
+  <p><strong>Procedure:</strong></p>
+  <ol>
+    <li>Choose a reference (ground) node.</li>
+    <li>Assign unknown node voltages \(v_1,v_2,\ldots\) to remaining essential nodes.</li>
+    <li>Convert voltage sources in series with resistors to current sources if convenient (source transformation), or use a supernode for floating voltage sources.</li>
+    <li>Write KCL at each non-reference node: sum of currents leaving = 0 (or entering = leaving).</li>
+    <li>Express every branch current as \(G(v_a-v_b)\) plus independent/dependent source currents.</li>
+    <li>Substitute dependent-source laws (\(i = g_m v_x\), etc.) and solve the linear system.</li>
+  </ol>
+  <p>General admittance form for \(n\) nodes:</p>
+  \[
+  \mathbf{Y}\mathbf{V} = \mathbf{I}_{\text{s}}
+  \]
+  where \(Y_{ii}\) = sum of admittances connected to node \(i\), \(Y_{ij}=-G_{ij}\) for the branch between \(i\) and \(j\), and \(\mathbf{I}_s\) collects independent current injections (dependent parts move to the left side and modify \(\mathbf{Y}\)).
+
+  <h3>Worked Example 1 — Nodal analysis with VCCS</h3>
+  <p>Nodes: reference, \(V_1\), \(V_2\). Elements: \(2\,\Omega\) from \(V_1\) to gnd, \(4\,\Omega\) between \(V_1\) and \(V_2\), \(4\,\Omega\) from \(V_2\) to gnd, independent current source \(3\,\text{A}\) into \(V_1\), and VCCS \(2V_1\) leaving node \(V_2\) toward gnd.</p>
+  <p><strong>KCL at \(V_1\):</strong></p>
+  \[
+  \frac{V_1}{2} + \frac{V_1-V_2}{4} = 3
+  \quad\Rightarrow\quad 2V_1 + (V_1-V_2) = 12
+  \quad\Rightarrow\quad 3V_1 - V_2 = 12 \tag{1}
+  \]
+  <p><strong>KCL at \(V_2\):</strong></p>
+  \[
+  \frac{V_2-V_1}{4} + \frac{V_2}{4} + 2V_1 = 0
+  \quad\Rightarrow\quad V_2-V_1 + V_2 + 8V_1 = 0
+  \quad\Rightarrow\quad 7V_1 + 2V_2 = 0 \tag{2}
+  \]
+  <p>From (2): \(V_2 = -\tfrac72 V_1\). Substitute in (1):</p>
+  \[
+  3V_1 - \Bigl(-\frac{7}{2}V_1\Bigr)=12
+  \Rightarrow \Bigl(3+\frac{7}{2}\Bigr)V_1=12
+  \Rightarrow \frac{13}{2}V_1=12
+  \Rightarrow V_1=\frac{24}{13}\,\text{V},\quad
+  V_2=-\frac{84}{13}\,\text{V}.
+  \]
+  <p><strong>Final answer:</strong> \(V_1 = 24/13\,\text{V}\), \(V_2 = -84/13\,\text{V}\).</p>
+
+  <h3>Worked Example 2 — Nodal analysis with CCVS (supernode idea)</h3>
+  <p>A CCVS \(v = 4i_x\) sits between nodes \(V_a\) and \(V_b\) (positive at \(V_a\)), with controlling current \(i_x\) through a \(2\,\Omega\) sense resistor from \(V_b\) to ground. An independent \(10\,\text{V}\) source feeds \(V_a\) through \(1\,\Omega\).</p>
+  <p>Constraint from the CCVS:</p>
+  \[
+  V_a - V_b = 4i_x,\qquad i_x = \frac{V_b}{2}
+  \Rightarrow V_a - V_b = 2V_b \Rightarrow V_a = 3V_b.
+  \]
+  <p>KCL at the supernode \(\{V_a,V_b\}\) (current through the ideal CCVS cancels internally):</p>
+  \[
+  \frac{V_a-10}{1} + \frac{V_b}{2} = 0
+  \Rightarrow V_a + \frac{V_b}{2} = 10.
+  \]
+  With \(V_a=3V_b\): \(3V_b + V_b/2 = 10 \Rightarrow (7/2)V_b=10 \Rightarrow V_b=20/7\,\text{V}\), \(V_a=60/7\,\text{V}\), \(i_x=10/7\,\text{A}\).</p>
+  <p><strong>Final answer:</strong> \(V_a=60/7\,\text{V}\), \(V_b=20/7\,\text{V}\), \(i_x=10/7\,\text{A}\).</p>
+
+  <h2>1.3 Mesh Analysis with Dependent and Independent Sources</h2>
+  <p><strong>Procedure:</strong></p>
+  <ol>
+    <li>Identify \(m\) independent meshes (planar circuit).</li>
+    <li>Assign clockwise mesh currents \(I_1,I_2,\ldots,I_m\).</li>
+    <li>Write KVL around each mesh: sum of voltage drops = 0.</li>
+    <li>Shared resistor \(R\) between meshes \(i\) and \(j\) contributes \(R(I_i-I_j)\) in mesh \(i\).</li>
+    <li>Current sources: if a current source is on the periphery, that mesh current is known; if shared by two meshes, form a <strong>supermesh</strong> and add the current-source constraint \(I_i-I_j = I_s\).</li>
+    <li>Express dependent sources using mesh currents, then solve \(\mathbf{Z}\mathbf{I}=\mathbf{V}\).</li>
+  </ol>
+
+  <h3>Worked Example 3 — Mesh + dependent CCVS, find \(V_x\) and power</h3>
+  <p>Two meshes. Left mesh: \(12\,\text{V}\) source, \(2\,\Omega\), \(4\,\Omega\) shared. Right mesh: \(4\,\Omega\) shared, \(6\,\Omega\), and CCVS \(3I_1\) (polarity opposing \(I_2\)). \(V_x\) is voltage across the \(6\,\Omega\) resistor.</p>
+  <p><strong>Mesh 1 KVL:</strong></p>
+  \[
+  -12 + 2I_1 + 4(I_1-I_2)=0
+  \Rightarrow 6I_1 - 4I_2 = 12
+  \Rightarrow 3I_1 - 2I_2 = 6 \tag{A}
+  \]
+  <p><strong>Mesh 2 KVL:</strong></p>
+  \[
+  4(I_2-I_1) + 6I_2 + 3I_1 = 0
+  \Rightarrow -4I_1 + 10I_2 + 3I_1 = 0
+  \Rightarrow -I_1 + 10I_2 = 0
+  \Rightarrow I_1 = 10I_2 \tag{B}
+  \]
+  Substitute (B) into (A): \(3(10I_2)-2I_2=6\Rightarrow 28I_2=6\Rightarrow I_2=3/14\,\text{A}\), \(I_1=15/7\,\text{A}\).</p>
+  \[
+  V_x = 6I_2 = 6\cdot\frac{3}{14}=\frac{9}{7}\,\text{V}.
+  \]
+  Power absorbed by \(6\,\Omega\): \(P=I_2^2\cdot 6 = (9/196)\cdot 6 = 27/98\,\text{W}\).</p>
+  <p><strong>Final answer:</strong> \(I_1=15/7\,\text{A}\), \(I_2=3/14\,\text{A}\), \(V_x=9/7\,\text{V}\), \(P_{6\Omega}=27/98\,\text{W}\).</p>
+
+  <h2>1.4 Application of Matrix Method in Network Analysis</h2>
+  <p>Both nodal and mesh equations are written compactly as \(\mathbf{A}\mathbf{x}=\mathbf{b}\) and solved by Cramer’s rule, Gaussian elimination, or \(\mathbf{x}=\mathbf{A}^{-1}\mathbf{b}\).</p>
+
+  <h3>Mesh impedance matrix</h3>
+  \[
+  \begin{bmatrix}
+  R_{11} & R_{12} & \cdots \\
+  R_{21} & R_{22} & \cdots \\
+  \vdots & \vdots & \ddots
+  \end{bmatrix}
+  \begin{bmatrix} I_1\\ I_2\\ \vdots \end{bmatrix}
+  =
+  \begin{bmatrix} V_1\\ V_2\\ \vdots \end{bmatrix}
+  \]
+  <ul>
+    <li>\(R_{ii}\) = sum of all resistances in mesh \(i\).</li>
+    <li>\(R_{ij}=R_{ji}=-R_{\text{shared}}\) if both mesh currents enter the shared resistor from opposite sides (standard clockwise convention).</li>
+    <li>Dependent sources alter off-diagonal / diagonal entries after the controlling variable is substituted.</li>
+  </ul>
+
+  <h3>Worked Example 4 — \(2\times 2\) matrix for \(V_x\) and source power</h3>
+  <p>From Example 3 before substituting the CCVS into numbers, the unmodified passive matrix would be</p>
+  \[
+  \begin{bmatrix} 6 & -4 \\ -4 & 10 \end{bmatrix}
+  \begin{bmatrix} I_1\\ I_2 \end{bmatrix}
+  =
+  \begin{bmatrix} 12\\ -3I_1 \end{bmatrix}.
+  \]
+  Move \(-3I_1\) to the left:</p>
+  \[
+  \begin{bmatrix} 6 & -4 \\ -1 & 10 \end{bmatrix}
+  \begin{bmatrix} I_1\\ I_2 \end{bmatrix}
+  =
+  \begin{bmatrix} 12\\ 0 \end{bmatrix}.
+  \]
+  Determinant \(\Delta=60-4=56\). By Cramer:</p>
+  \[
+  I_1=\frac{\begin{vmatrix}12&-4\\0&10\end{vmatrix}}{56}=\frac{120}{56}=\frac{15}{7},\quad
+  I_2=\frac{\begin{vmatrix}6&12\\-1&0\end{vmatrix}}{56}=\frac{12}{56}=\frac{3}{14}.
+  \]
+  Source power delivered by the \(12\,\text{V}\) source: \(P_s=12\cdot I_1=12\cdot 15/7=180/7\,\text{W}\).</p>
+  <p><strong>Final answer:</strong> \(I_1=15/7\,\text{A}\), \(I_2=3/14\,\text{A}\), \(P_s=180/7\,\text{W}\).</p>
+
+  <h2>1.5 Procedure of Evaluating Initial Conditions</h2>
+  <p>Initial conditions are values of capacitor voltages and inductor currents (and their derivatives if needed) at the switching instant \(t=0^+\) (or \(t=t_0^+\)).</p>
+  <ol>
+    <li><strong>Steady state before switching (\(t=0^-\)):</strong> replace capacitors by open circuits, inductors by short circuits; solve the resulting resistive circuit for \(v_C(0^-)\) and \(i_L(0^-)\).</li>
+    <li><strong>Continuity:</strong> \(v_C(0^+)=v_C(0^-)\), \(i_L(0^+)=i_L(0^-)\). (Exception: impulse sources / infinite \(dv\) or \(di\) — rare in IOE papers.)</li>
+    <li><strong>Redraw circuit at \(t=0^+\):</strong> replace each capacitor by a DC voltage source of value \(v_C(0^+)\); replace each inductor by a DC current source of value \(i_L(0^+)\).</li>
+    <li>Solve this resistive circuit for any other requested quantities: resistor voltages/currents, \(v_L(0^+)\), \(i_C(0^+)\), source currents, etc.</li>
+    <li>If derivatives are required, use element laws: \(L\,di_L/dt|_{0^+}=v_L(0^+)\), \(C\,dv_C/dt|_{0^+}=i_C(0^+)\), and differentiate KCL/KVL if higher derivatives appear.</li>
+  </ol>
+
+  <h2>1.6 Initial Values of Derivatives</h2>
+  <p>Exams often ask \(di/dt|_{0^+}\) or \(dv/dt|_{0^+}\) in addition to \(i(0^+)\), \(v(0^+)\).</p>
+  <ul>
+    <li>For an inductor: \(\displaystyle\left.\frac{di_L}{dt}\right|_{0^+}=\frac{v_L(0^+)}{L}\).</li>
+    <li>For a capacitor: \(\displaystyle\left.\frac{dv_C}{dt}\right|_{0^+}=\frac{i_C(0^+)}{C}\).</li>
+    <li>Differentiate the differential equation of the network and evaluate at \(t=0^+\) using already-known \(0^+\) values when second derivatives are needed (e.g. for series RLC: \(L\,d^2i/dt^2 + R\,di/dt + i/C = dv_s/dt\)).</li>
+  </ul>
+
+  <h3>Worked Example 5 — \(i\), \(di/dt\), \(v\), \(dv/dt\) at \(t=0^+\)</h3>
+  <p>Series \(R=4\,\Omega\), \(L=1\,\text{H}\), \(C=1/4\,\text{F}\) with DC source \(12\,\text{V}\) switched in at \(t=0\). Before \(t=0\) the circuit is relaxed (\(i_L(0^-)=0\), \(v_C(0^-)=0\)).</p>
+  <p>At \(t=0^+\): \(i(0^+)=i_L(0^+)=0\), \(v_C(0^+)=0\). KVL at \(0^+\):</p>
+  \[
+  12 = Ri(0^+) + v_L(0^+) + v_C(0^+) = v_L(0^+)
+  \Rightarrow v_L(0^+)=12\,\text{V}
+  \Rightarrow \left.\frac{di}{dt}\right|_{0^+}=\frac{12}{L}=12\,\text{A/s}.
+  \]
+  Capacitor current equals series current, so \(i_C(0^+)=0\) and</p>
+  \[
+  \left.\frac{dv_C}{dt}\right|_{0^+}=\frac{i_C(0^+)}{C}=0.
+  \]
+  (Immediately after switching the uncharged capacitor still has zero voltage and zero current because inductor current is still zero; voltage starts rising as current builds.)</p>
+  <p><strong>Final answer:</strong> \(i(0^+)=0\), \(di/dt|_{0^+}=12\,\text{A/s}\), \(v_C(0^+)=0\), \(dv_C/dt|_{0^+}=0\).</p>
+
+  <h2>1.7 Initial Condition in R-L-C Network</h2>
+  <p>In a general RLC network after switching:</p>
+  <ul>
+    <li>Keep all independent sources at their \(t=0^+\) values (step sources jump; sinusoids take \(\sin/\cos\) at \(0^+\)).</li>
+    <li>Replace \(C\) by voltage source \(v_C(0^+)\), \(L\) by current source \(i_L(0^+)\).</li>
+    <li>Solve for branch currents/voltages; then get derivatives from \(v_L=L\,di/dt\), \(i_C=C\,dv/dt\).</li>
+  </ul>
+
+  <h3>Worked Example 6 — Switched RL–C with prior steady state</h3>
+  <p>For \(t&lt;0\): a \(24\,\text{V}\) DC source, \(6\,\Omega\) resistor, and \(2\,\text{H}\) inductor in series have been connected long enough; capacitor \(C=1/3\,\text{F}\) across the inductor+resistor combination is open in DC steady state. Switch rearranges at \(t=0\) so that the source is removed and a series RLC discharge loop of \(R=6\,\Omega\), \(L=2\,\text{H}\), \(C=1/3\,\text{F}\) remains with initial energy on \(C\) and \(L\).</p>
+  <p><strong>Before switching:</strong> inductor short \(\Rightarrow\) \(i_L(0^-)=24/6=4\,\text{A}\). Capacitor sees full \(24\,\text{V}\) (across the shorted L and the path) depending on topology — assume parallel C across the series RL so \(v_C(0^-)=24\,\text{V}\).</p>
+  <p>Thus \(i_L(0^+)=4\,\text{A}\), \(v_C(0^+)=24\,\text{V}\). At \(t=0^+\) in the discharge loop KVL:</p>
+  \[
+  Ri(0^+) + v_L(0^+) + v_C(0^+) = 0
+  \Rightarrow 6\cdot 4 + v_L(0^+) + 24 = 0
+  \Rightarrow v_L(0^+)=-48\,\text{V}
+  \Rightarrow \left.\frac{di}{dt}\right|_{0^+}=\frac{-48}{2}=-24\,\text{A/s}.
+  \]
+  \[
+  i_C(0^+)=-i_L(0^+)=-4\,\text{A (sign by discharge direction)},\quad
+  \left.\frac{dv_C}{dt}\right|_{0^+}=\frac{-4}{1/3}=-12\,\text{V/s}.
+  \]
+  <p><strong>Final answer:</strong> \(i(0^+)=4\,\text{A}\), \(di/dt|_{0^+}=-24\,\text{A/s}\), \(v_C(0^+)=24\,\text{V}\), \(dv_C/dt|_{0^+}=-12\,\text{V/s}\).</p>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. State the continuity properties of inductor current and capacitor voltage. Why can resistor voltage jump at switching? <span class="marks">3 marks</span></div>
+    <div class="a">\(i_L(0^+)=i_L(0^-)\) for finite \(v_L\) because \(\Delta i = (1/L)\int v\,dt\) stays finite over an infinitesimal interval. \(v_C(0^+)=v_C(0^-)\) similarly. A resistor has no storage; its \(v=Ri\) follows whatever current the L/C constraints allow, so it may jump.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Classify the four types of dependent sources with symbols for their gains. <span class="marks">4 marks</span></div>
+    <div class="a">VCVS (\(\mu\)), VCCS (\(g_m\)), CCVS (\(r_m\)), CCCS (\(\beta\)). Controlling variable is either a branch voltage or current; controlled quantity is either voltage or current (see §1.1 table).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Using nodal analysis, find node voltages in a circuit containing a VCCS. <span class="marks">7 marks</span></div>
+    <div class="a">Write KCL at each node; express the VCCS current as \(g_m v_x\) with \(v_x\) in terms of node voltages; solve the linear system (see Worked Example 1).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Write mesh equations in matrix form for a two-mesh circuit with a CCVS and find \(V_x\) and power. <span class="marks">7 marks</span></div>
+    <div class="a">Form \(\mathbf{Z}\mathbf{I}=\mathbf{V}\), move dependent source terms into \(\mathbf{Z}\), solve by determinants, then \(V_x=R I_k\) and \(P=I^2R\) or \(VI\) (see Examples 3–4).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Outline the step-by-step procedure to evaluate initial conditions in an RLC network. <span class="marks">5 marks</span></div>
+    <div class="a">Steady state at \(0^-\) (C open, L short) → continuity of \(v_C\), \(i_L\) → redraw at \(0^+\) with C as voltage source and L as current source → solve resistive circuit → derivatives via \(v_L/L\) and \(i_C/C\) (§1.5–1.6).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. For a series RLC switched to a DC source at \(t=0\) with zero initial energy, find \(i(0^+)\), \(di/dt|_{0^+}\), \(v_C(0^+)\), \(dv_C/dt|_{0^+}\). <span class="marks">7 marks</span></div>
+    <div class="a">\(i(0^+)=0\), \(v_C(0^+)=0\), \(v_L(0^+)=V_s\), \(di/dt|_{0^+}=V_s/L\), \(dv_C/dt|_{0^+}=0\) (Example 5). Show KVL clearly for full marks.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Explain how dependent sources modify the bus admittance / mesh impedance matrix. <span class="marks">4 marks</span></div>
+    <div class="a">Independent sources appear only in \(\mathbf{b}\). After substituting \(i=\beta i_x\) or \(v=\mu v_x\), terms proportional to unknowns move to the left, changing diagonal and off-diagonal entries of \(\mathbf{Y}\) or \(\mathbf{Z}\) (asymmetry is possible).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. In a network that was in DC steady state, a switch opens at \(t=0\). How do you find \(v_L(0^+)\) and \(di_L/dt|_{0^+}\)? <span class="marks">5 marks</span></div>
+    <div class="a">Find \(i_L(0^-)\) with L shorted; set \(i_L(0^+)=i_L(0^-)\); replace L by that current source in the \(t=0^+\) circuit; compute voltage across the inductor terminals \(v_L(0^+)\); then \(di_L/dt|_{0^+}=v_L(0^+)/L\).</div>
+  </div>
+
+  <div class="footnav">
+    <span></span>
+    <a href="chapter2.html">Next: Chapter 2 — Transient Analysis (Classical) →</a>
+  </div>
+</div>
+</body>
+</html>

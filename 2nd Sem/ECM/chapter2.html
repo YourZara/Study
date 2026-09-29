@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2: Transient Analysis R-L-C by Classical Method</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html" class="current">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 2.</span> Transient Analysis of R-L-C Circuits by Classical Method</h1>
+  <p class="subtitle">10 hours · 10 marks</p>
+
+  <h2>2.1 Introduction</h2>
+  <p>The <strong>classical method</strong> finds transient response by writing integro-differential equations from KCL/KVL, converting them to ordinary differential equations (ODEs) with constant coefficients, and solving for natural + forced response. Switching, initial stored energy, and source type (DC / exponential / sinusoidal) determine constants via initial conditions from Chapter 1.</p>
+  <p>General solution of a linear ODE:</p>
+  \[
+  y(t) = y_h(t) + y_p(t)
+  \]
+  where \(y_h\) is the complementary (homogeneous / natural / transient) solution and \(y_p\) is a particular (forced / steady-state) solution. For stable passive RLC networks, \(y_h\to 0\) as \(t\to\infty\).</p>
+
+  <h2>2.2 First-Order Differential Equation with Constant Coefficients</h2>
+  <p>Standard form:</p>
+  \[
+  \frac{dy}{dt} + ay = f(t)
+  \quad\text{or}\quad
+  \tau\frac{dy}{dt} + y = K\,f(t).
+  \]
+  Homogeneous solution: \(y_h = A e^{-at} = A e^{-t/\tau}\) with time constant \(\tau=1/a\).</p>
+  <p>For DC forcing \(f(t)=F\) (constant), \(y_p = F/a\) (or final value \(y(\infty)\)). Complete response:</p>
+  \[
+  y(t) = y(\infty) + \bigl[y(0^+)-y(\infty)\bigr]e^{-t/\tau},\quad t\ge 0.
+  \]
+  <ul>
+    <li>Series RL: \(\tau = L/R\), state variable usually \(i_L\).</li>
+    <li>Series RC: \(\tau = RC\), state variable usually \(v_C\).</li>
+    <li>Parallel RL: \(\tau = L/R\); parallel RC: \(\tau = RC\).</li>
+  </ul>
+
+  <h2>2.3 Higher-Order Homogeneous and Non-Homogeneous DE</h2>
+  <p>An \(n\)th-order linear DE with constant coefficients:</p>
+  \[
+  a_n y^{(n)} + a_{n-1} y^{(n-1)} + \cdots + a_1 y' + a_0 y = f(t).
+  \]
+  <h3>Homogeneous equation (\(f=0\))</h3>
+  Assume \(y=e^{st}\). Characteristic equation:</p>
+  \[
+  a_n s^n + a_{n-1}s^{n-1}+\cdots+a_0=0.
+  \]
+  Roots \(s_1,\ldots,s_n\) give:
+  <ul>
+    <li>Distinct real: \(y_h=\sum A_i e^{s_i t}\).</li>
+    <li>Repeated real root of multiplicity \(m\): \((A_0+A_1 t+\cdots+A_{m-1}t^{m-1})e^{st}\).</li>
+    <li>Complex conjugate \(\alpha\pm j\omega\): \(e^{\alpha t}(A\cos\omega t+B\sin\omega t)\) or \(Ce^{\alpha t}\cos(\omega t-\phi)\).</li>
+  </ul>
+  <h3>Non-homogeneous equation</h3>
+  \(y=y_h+y_p\). Find \(y_p\) by undetermined coefficients (below) or variation of parameters. Constants in \(y_h\) are fixed by \(n\) initial conditions.</p>
+
+  <h2>2.4 Particular Integral by Method of Undetermined Coefficients</h2>
+  <p>Guess \(y_p\) matching the form of \(f(t)\), multiply by \(t^s\) if that form already appears in \(y_h\):</p>
+  <table>
+    <tr><th>Forcing \(f(t)\)</th><th>Trial \(y_p\)</th></tr>
+    <tr><td>Constant \(K\)</td><td>\(A\)</td></tr>
+    <tr><td>Polynomial \(a_0+a_1 t+\cdots+a_m t^m\)</td><td>\(A_0+A_1 t+\cdots+A_m t^m\)</td></tr>
+    <tr><td>\(Ke^{\alpha t}\)</td><td>\(Ae^{\alpha t}\) (or \(At^s e^{\alpha t}\) if \(\alpha\) is a root)</td></tr>
+    <tr><td>\(K\cos\omega t\) or \(K\sin\omega t\)</td><td>\(A\cos\omega t+B\sin\omega t\)</td></tr>
+    <tr><td>\(e^{\alpha t}\cos\omega t\) / \(\sin\)</td><td>\(e^{\alpha t}(A\cos\omega t+B\sin\omega t)\)</td></tr>
+  </table>
+  <p>Substitute into the DE, equate coefficients, solve for unknowns \(A,B,\ldots\).</p>
+
+  <h2>2.5 Response of R-L and R-C Circuits</h2>
+
+  <h3>2.5.1 DC excitation</h3>
+  <p><strong>Series RL</strong> with step \(V_s u(t)\), \(i(0^+)=I_0\):</p>
+  \[
+  L\frac{di}{dt}+Ri=V_s
+  \Rightarrow
+  i(t)=\frac{V_s}{R}+\Bigl(I_0-\frac{V_s}{R}\Bigr)e^{-(R/L)t}.
+  \]
+  <p><strong>Series RC</strong> charging, \(v_C(0^+)=V_0\):</p>
+  \[
+  RC\frac{dv_C}{dt}+v_C=V_s
+  \Rightarrow
+  v_C(t)=V_s+\bigl(V_0-V_s\bigr)e^{-t/(RC)}.
+  \]
+
+  <h3>2.5.2 Exponential excitation</h3>
+  <p>Source \(v_s(t)=V_m e^{\alpha t}\) (\(\alpha\) usually negative for decaying sources in exams). For series RC:</p>
+  \[
+  RC\,v_C' + v_C = V_m e^{\alpha t}.
+  \]
+  Homogeneous: \(v_{Ch}=A e^{-t/(RC)}\). Particular (undetermined coefficients): try \(v_{Cp}=B e^{\alpha t}\) if \(\alpha\neq -1/(RC)\):</p>
+  \[
+  RC(\alpha B)e^{\alpha t}+B e^{\alpha t}=V_m e^{\alpha t}
+  \Rightarrow B=\frac{V_m}{1+\alpha RC}.
+  \]
+  \[
+  v_C(t)=A e^{-t/(RC)}+\frac{V_m}{1+\alpha RC}\,e^{\alpha t}.
+  \]
+  Apply \(v_C(0^+)\) to find \(A\).</p>
+
+  <h3>Worked Example 1 — Classical RC with exponential source (derivation)</h3>
+  <p>\(R=2\,\Omega\), \(C=1\,\text{F}\), \(v_s=10e^{-2t}\,\text{V}\), \(v_C(0^+)=0\). DE:</p>
+  \[
+  2\frac{dv_C}{dt}+v_C=10e^{-2t}.
+  \]
+  \(v_{Ch}=Ae^{-t/2}\). Try \(v_{Cp}=Be^{-2t}\):</p>
+  \[
+  2(-2B)e^{-2t}+Be^{-2t}=10e^{-2t}
+  \Rightarrow (-4B+B)=10\Rightarrow B=-10/3.
+  \]
+  \[
+  v_C(t)=Ae^{-t/2}-\frac{10}{3}e^{-2t}.
+  \]
+  \(v_C(0)=0\Rightarrow A-10/3=0\Rightarrow A=10/3\).</p>
+  \[
+  v_C(t)=\frac{10}{3}\bigl(e^{-t/2}-e^{-2t}\bigr)\,\text{V}.
+  \]
+  <p><strong>Final answer:</strong> \(v_C(t)=\dfrac{10}{3}\bigl(e^{-t/2}-e^{-2t}\bigr)\,\text{V}\).</p>
+
+  <h3>2.5.3 Sinusoidal excitation</h3>
+  <p>Source \(v_s=V_m\cos\omega t\) (or \(\sin\)). For series RL:</p>
+  \[
+  L i'+Ri = V_m\cos\omega t.
+  \]
+  Particular solution: \(i_p=A\cos\omega t+B\sin\omega t\). Substitute:</p>
+  \[
+  L(-\omega A\sin\omega t+\omega B\cos\omega t)+R(A\cos\omega t+B\sin\omega t)=V_m\cos\omega t.
+  \]
+  Equate \(\cos\) / \(\sin\) coefficients:</p>
+  \[
+  RA + L\omega B = V_m,\qquad
+  -L\omega A + RB = 0
+  \]
+  \[
+  A=\frac{R V_m}{R^2+(\omega L)^2},\quad
+  B=\frac{\omega L V_m}{R^2+(\omega L)^2}.
+  \]
+  Complete: \(i(t)=Ce^{-(R/L)t}+A\cos\omega t+B\sin\omega t\); fix \(C\) from \(i(0^+)\).</p>
+  <p>Phasor shortcut for \(i_p\): \(\mathbf{I}=V_m\angle 0^\circ / (R+j\omega L)\), then convert to time domain and still add the transient term.</p>
+
+  <h3>Worked Example 2 — RL with DC step</h3>
+  <p>\(R=5\,\Omega\), \(L=2\,\text{H}\), \(V_s=20\,\text{V}\), \(i(0^+)=0\):</p>
+  \[
+  i(t)=\frac{20}{5}\bigl(1-e^{-(5/2)t}\bigr)=4\bigl(1-e^{-2.5t}\bigr)\,\text{A}.
+  \]
+  <p><strong>Final answer:</strong> \(i(t)=4(1-e^{-2.5t})\,\text{A}\).</p>
+
+  <h2>2.6 Response of Series R-L-C Circuits</h2>
+  <p>KVL: \(L\dfrac{di}{dt}+Ri+\dfrac{1}{C}\int i\,dt = v_s(t)\). Differentiate:</p>
+  \[
+  L\frac{d^2i}{dt^2}+R\frac{di}{dt}+\frac{1}{C}i = \frac{dv_s}{dt}.
+  \]
+  Or in terms of \(v_C\):</p>
+  \[
+  LC\,v_C''+RC\,v_C'+v_C=v_s(t).
+  \]
+  Characteristic equation (natural response):</p>
+  \[
+  s^2+\frac{R}{L}s+\frac{1}{LC}=0.
+  \]
+  Define \(\alpha = R/(2L)\) (neper frequency), \(\omega_0=1/\sqrt{LC}\) (resonant radian frequency).</p>
+  \[
+  s_{1,2}=-\alpha\pm\sqrt{\alpha^2-\omega_0^2}.
+  \]
+
+  <h3>Damping cases (natural response)</h3>
+  <table>
+    <tr><th>Case</th><th>Condition</th><th>Natural response form</th></tr>
+    <tr><td>Overdamped</td><td>\(\alpha&gt;\omega_0\) (\(R&gt;2\sqrt{L/C}\))</td><td>\(A_1 e^{s_1 t}+A_2 e^{s_2 t}\) (two real roots)</td></tr>
+    <tr><td>Critically damped</td><td>\(\alpha=\omega_0\)</td><td>\((A_1+A_2 t)e^{-\alpha t}\)</td></tr>
+    <tr><td>Underdamped</td><td>\(\alpha&lt;\omega_0\)</td><td>\(e^{-\alpha t}(A_1\cos\omega_d t+A_2\sin\omega_d t)\), \(\omega_d=\sqrt{\omega_0^2-\alpha^2}\)</td></tr>
+  </table>
+
+  <h3>2.6.1 DC excitation (step)</h3>
+  <p>For \(v_s=V_s u(t)\), right-hand side of the \(i\)-equation is \(0\) for \(t&gt;0\), so \(i(t)\) is purely natural with \(i(\infty)=0\). Capacitor voltage:</p>
+  \[
+  v_C(t)=V_s + v_{Ch}(t),\quad v_C(\infty)=V_s.
+  \]
+  Constants from \(v_C(0^+)\) and \(i(0^+)=C v_C'(0^+)\).</p>
+
+  <h3>Worked Example 3 — Series RLC step, all three damping cases</h3>
+  <p>Common data: \(L=1\,\text{H}\), \(C=1\,\text{F}\), \(V_s=10\,\text{V}\), zero IC. Then \(\omega_0=1\). Critical \(R=2\,\Omega\).</p>
+  <p><strong>(a) Overdamped</strong> \(R=3\,\Omega\): \(\alpha=1.5\), \(s_{1,2}=-1.5\pm\sqrt{2.25-1}=-1.5\pm\sqrt{1.25}=-1.5\pm 1.118\).</p>
+  \[
+  s_1=-0.382,\quad s_2=-2.618.
+  \]
+  \(v_C=10+A_1 e^{s_1 t}+A_2 e^{s_2 t}\). \(v_C(0)=0\Rightarrow A_1+A_2=-10\). \(i=C v_C'\), \(i(0)=0\Rightarrow s_1 A_1+s_2 A_2=0\).</p>
+  Solving: \(A_1\approx 11.18\), \(A_2\approx -21.18\) (exact via \(\sqrt{5}/2\) form often left symbolic in exams).</p>
+  <p><strong>(b) Critical</strong> \(R=2\,\Omega\): \(v_C=10+(A_1+A_2 t)e^{-t}\). \(v_C(0)=0\Rightarrow A_1=-10\). \(v_C'(0)=0\Rightarrow -A_1+A_2=0\Rightarrow A_2=-10\).</p>
+  \[
+  v_C(t)=10-10(1+t)e^{-t}\,\text{V}.
+  \]
+  <p><strong>(c) Underdamped</strong> \(R=1\,\Omega\): \(\alpha=0.5\), \(\omega_d=\sqrt{1-0.25}=\sqrt{0.75}=\sqrt{3}/2\).</p>
+  \[
+  v_C=10+e^{-0.5t}(A_1\cos\omega_d t+A_2\sin\omega_d t).
+  \]
+  \(v_C(0)=0\Rightarrow A_1=-10\). \(v_C'(0)=0\Rightarrow -0.5 A_1+\omega_d A_2=0\Rightarrow A_2=-5/\omega_d\).</p>
+  <p><strong>Final answer (critical case boxed):</strong> \(v_C(t)=10\bigl[1-(1+t)e^{-t}\bigr]\,\text{V}\).</p>
+
+  <h3>2.6.2 Exponential excitation</h3>
+  <p>\(v_s=V_m e^{\alpha t}\). Particular solution \(v_{Cp}=B e^{\alpha t}\) (if \(\alpha\) is not a natural root):</p>
+  \[
+  B=\frac{V_m}{LC\alpha^2+RC\alpha+1}.
+  \]
+  Add the homogeneous solution of the appropriate damping type; apply ICs.</p>
+
+  <h3>2.6.3 Sinusoidal excitation</h3>
+  <p>\(v_s=V_m\cos\omega t\). Particular solution via undetermined coefficients or phasors:</p>
+  \[
+  \mathbf{V}_C = \frac{1/(j\omega C)}{R+j\omega L+1/(j\omega C)}\,V_m\angle 0^\circ.
+  \]
+  Convert to \(A\cos\omega t+B\sin\omega t\), then add natural transient matching damping case; constants from \(v_C(0^+)\), \(i(0^+)\).</p>
+
+  <h2>2.7 Response of Parallel R-L-C Circuits</h2>
+  <p>Parallel R, L, C driven by a current source \(i_s(t)\). Node voltage \(v\) satisfies:</p>
+  \[
+  C\frac{dv}{dt}+\frac{v}{R}+\frac{1}{L}\int v\,dt = i_s(t).
+  \]
+  Differentiate:</p>
+  \[
+  C v'' + \frac{1}{R}v' + \frac{1}{L}v = i_s'(t).
+  \]
+  Characteristic: \(s^2 + \dfrac{1}{RC}s + \dfrac{1}{LC}=0\). Now \(\alpha = 1/(2RC)\), \(\omega_0=1/\sqrt{LC}\). Same over / critical / under-damped forms for \(v_h(t)\).</p>
+
+  <h3>2.7.1 DC excitation</h3>
+  <p>Current step \(I_s u(t)\): for \(t&gt;0\), \(i_s'=0\), so \(v(t)\) is natural + constant particular. In DC steady state inductor shorts the node \(\Rightarrow v(\infty)=0\), and \(i_L(\infty)=I_s\). Thus \(v(t)=v_h(t)\) only, with ICs \(v(0^+)=v_C(0^+)\) and \(i_L(0^+)\).</p>
+
+  <h3>Worked Example 4 — Parallel RLC, DC current step</h3>
+  <p>\(R=1\,\Omega\), \(L=1\,\text{H}\), \(C=1\,\text{F}\), \(i_s=2u(t)\,\text{A}\), zero IC. \(\alpha=1/(2RC)=0.5\), \(\omega_0=1\) → underdamped, \(\omega_d=\sqrt{3}/2\).</p>
+  \[
+  v(t)=e^{-0.5t}(A_1\cos\omega_d t+A_2\sin\omega_d t).
+  \]
+  \(v(0^+)=0\Rightarrow A_1=0\). Capacitor current \(C v'(0^+)=i_s(0^+)-v(0)/R-i_L(0)=2\), so \(v'(0^+)=2\).</p>
+  \[
+  v'(0)= -0.5 A_1 + \omega_d A_2 =2 \Rightarrow A_2=2/\omega_d.
+  \]
+  \[
+  v(t)=\frac{2}{\omega_d}e^{-0.5t}\sin\omega_d t\,\text{V},\quad \omega_d=\sqrt{3}/2.
+  \]
+  <p><strong>Final answer:</strong> \(v(t)=\dfrac{4}{\sqrt{3}}\,e^{-t/2}\sin\bigl(\dfrac{\sqrt{3}}{2}t\bigr)\,\text{V}\).</p>
+
+  <h3>2.7.2 Exponential excitation</h3>
+  <p>\(i_s=I_m e^{\alpha t}\). Particular \(v_p=Be^{\alpha t}\) with</p>
+  \[
+  B=\frac{I_m}{C\alpha + 1/R + 1/(L\alpha)}
+  \]
+  (from substituting into the integro-differential form, or equivalently from the impedance of the parallel tank at “frequency” \(\alpha\)). Add \(v_h\); apply ICs.</p>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Write the general solution of a first-order linear DE with constant coefficients for DC forcing. Define the time constant for RL and RC. <span class="marks">4 marks</span></div>
+    <div class="a">\(y(t)=y(\infty)+[y(0^+)-y(\infty)]e^{-t/\tau}\). \(\tau=L/R\) (RL), \(\tau=RC\) (RC).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Explain the method of undetermined coefficients for finding a particular integral. Give trial solutions for exponential and sinusoidal forcing. <span class="marks">5 marks</span></div>
+    <div class="a">Assume a form matching \(f(t)\); upgrade by \(t^s\) if resonant with \(y_h\); substitute and equate coefficients. Trials: \(Ae^{\alpha t}\); \(A\cos\omega t+B\sin\omega t\) (§2.4).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Derive \(v_C(t)\) for a series RC circuit with exponential source \(V_m e^{\alpha t}\). <span class="marks">7 marks</span></div>
+    <div class="a">Write DE \(RC v'+v=V_m e^{\alpha t}\); \(v_h=Ae^{-t/RC}\); \(v_p=Be^{\alpha t}\) with \(B=V_m/(1+\alpha RC)\); apply IC (Example 1).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. For series RLC, define \(\alpha\), \(\omega_0\), and write natural responses for over-, critical, and under-damped cases. <span class="marks">6 marks</span></div>
+    <div class="a">\(\alpha=R/(2L)\), \(\omega_0=1/\sqrt{LC}\). Forms in the §2.6 table. Critical resistance \(R_{cr}=2\sqrt{L/C}\).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. A series RLC circuit with zero IC is switched to a DC source. Find \(v_C(t)\) for the critically damped case. <span class="marks">8 marks</span></div>
+    <div class="a">\(v_C=V_s+(A_1+A_2 t)e^{-\alpha t}\) with \(\alpha=\omega_0\). Use \(v_C(0)=0\), \(i(0)=0\Rightarrow v_C'(0)=0\) (Example 3b).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Obtain the complete response of series RL to \(v_s=V_m\cos\omega t\). <span class="marks">7 marks</span></div>
+    <div class="a">\(i=Ce^{-(R/L)t}+A\cos\omega t+B\sin\omega t\) with \(A,B\) from undetermined coefficients / phasors; \(C\) from \(i(0^+)\) (§2.5.3).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Write the differential equation for parallel RLC and find \(v(t)\) for a DC current step (underdamped). <span class="marks">8 marks</span></div>
+    <div class="a">\(C v''+(1/R)v'+(1/L)v=i_s'\). For step, \(v=e^{-\alpha t}(A_1\cos\omega_d t+A_2\sin\omega_d t)\), \(\alpha=1/(2RC)\); apply \(v(0^+)\), \(C v'(0^+)=i_s(0^+)-v(0)/R-i_L(0)\) (Example 4).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Distinguish homogeneous and particular solutions physically in circuit transients. <span class="marks">3 marks</span></div>
+    <div class="a">Homogeneous / natural: source-free behaviour set by stored energy and network poles (dies out if passive). Particular / forced: long-term shape tracking the excitation (DC, exponential, or AC steady state).</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter1.html">← Chapter 1 — Transients in Electric Circuit</a>
+    <a href="chapter3.html">Next: Chapter 3 — Laplace Transform Method →</a>
+  </div>
+</div>
+</body>
+</html>

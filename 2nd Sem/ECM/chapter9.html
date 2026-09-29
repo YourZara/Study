@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 9: AC Motor — ECM ENEE 154</title>
+<link rel="stylesheet" href="style.css">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html" class="current">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 9.</span> AC Motor</h1>
+  <p class="subtitle">6 hours · 6 marks</p>
+
+  <h2>9.1 Three-Phase Induction Motor: Construction, Rotating Field, Principle</h2>
+
+  <h3>Construction</h3>
+  <ul>
+    <li><strong>Stator:</strong> laminated slotted core; three-phase winding distributed 120° electrically; connected to 3-ph supply. Produces rotating magnetic field (RMF).</li>
+    <li><strong>Rotor:</strong>
+      <ul>
+        <li><strong>Squirrel-cage:</strong> copper/aluminium bars shorted by end rings; rugged, cheap, no slip rings.</li>
+        <li><strong>Wound (slip-ring) rotor:</strong> 3-ph winding brought out via slip rings; external resistance for starting/speed control.</li>
+      </ul>
+    </li>
+    <li>Air gap is small (0.25–2 mm) for good magnetizing efficiency.</li>
+  </ul>
+
+  <h3>Rotating magnetic field</h3>
+  <p>Three stator windings displaced 120° in space, fed by currents displaced 120° in time, produce a magnetic field of constant amplitude that <strong>rotates at synchronous speed</strong>:</p>
+  $$N_s = \frac{120 f}{P}\quad(\mathrm{rpm})$$
+  <p>where $f$ = supply frequency (Hz), $P$ = number of poles. Direction of rotation reverses if any two supply phases are interchanged.</p>
+
+  <h3>Principle of operation</h3>
+  <ol>
+    <li>Stator RMF rotates at $N_s$ and cuts rotor conductors → induced EMF and current in rotor (closed paths).</li>
+    <li>Rotor currents in the stator field produce torque (Fleming’s left-hand rule) that drags the rotor in the direction of the RMF.</li>
+    <li>Rotor can never catch up with $N_s$: if $N_r=N_s$, relative speed = 0 → no induced EMF/current → no torque. Hence induction motors always run at $N_r &lt; N_s$ (asynchronous).</li>
+  </ol>
+  <p><strong>Slip:</strong></p>
+  $$s = \frac{N_s - N_r}{N_s},\qquad N_r = N_s(1-s)$$
+  <p>Rotor frequency: $f_r = s f$. Rotor induced EMF at slip $s$: $E_r = s E_2$ (where $E_2$ = standstill rotor EMF).</p>
+
+  <h2>9.2 Torque at Standstill and Running</h2>
+  <p>General torque expression (per phase model):</p>
+  $$T = \frac{3}{2\pi N_s}\cdot\frac{s E_2^2 R_2}{R_2^2 + (s X_2)^2}\quad(N_s\text{ in rps})$$
+  <p>or in proportional form:</p>
+  $$T \propto \frac{s E_2^2 R_2}{R_2^2 + (s X_2)^2}$$
+
+  <h3>Standstill (starting) torque — $s=1$</h3>
+  $$T_{\mathrm{st}} \propto \frac{E_2^2 R_2}{R_2^2 + X_2^2}$$
+  <p>At start, $f_r=f$, rotor reactance $X_2$ is high → starting torque of ordinary cage motors is moderate; slip-ring motors add $R_{\mathrm{ext}}$ to raise $T_{\mathrm{st}}$.</p>
+
+  <h3>Running torque</h3>
+  <p>For small slip (normal running), $s X_2 \ll R_2$:</p>
+  $$T \propto \frac{s E_2^2}{R_2}\quad\Rightarrow\quad T\propto s$$
+  <p>(near-linear torque–slip region used for load sharing / stability).</p>
+
+  <h2>9.3 Torque–Slip Characteristics, Max Torque, Effect of Rotor Resistance</h2>
+
+  <h3>T–s curve shape</h3>
+  <ul>
+    <li>$s=0$: $T=0$ (synchronous speed — no relative motion).</li>
+    <li>Small $s$: $T$ rises almost linearly with $s$.</li>
+    <li>Maximum (breakdown) torque at $s_m$, then $T$ falls toward $s=1$.</li>
+    <li>Stable operating region: $0 &lt; s &lt; s_m$ (usually $s_m\approx 0.1$–$0.2$ for cage motors).</li>
+  </ul>
+
+  <h3>Condition for maximum torque</h3>
+  <p>Differentiate $T$ w.r.t. $s$ (or use $R_2 = s X_2$):</p>
+  $$s_m = \frac{R_2}{X_2},\qquad T_{\max} \propto \frac{E_2^2}{2 X_2}$$
+  <p><strong>Important:</strong> $T_{\max}$ is independent of $R_2$; only the slip at which $T_{\max}$ occurs changes with $R_2$.</p>
+
+  <h3>Effect of rotor resistance</h3>
+  <table>
+    <tr><th>Increase $R_2$</th><th>Effect</th></tr>
+    <tr><td>$s_m = R_2/X_2$</td><td>Shifts toward $s=1$ (max torque nearer to start)</td></tr>
+    <tr><td>$T_{\mathrm{st}}$</td><td>Increases (up to $T_{\max}$ when $R_2=X_2$)</td></tr>
+    <tr><td>$T_{\max}$</td><td>Unchanged (ideally)</td></tr>
+    <tr><td>Running efficiency / slip</td><td>Higher full-load slip → more Cu loss, lower $\eta$</td></tr>
+  </table>
+  <p>Hence: high $R_2$ for starting (or external $R$ in wound rotor), low $R_2$ for efficient running (deep-bar / double-cage designs compromise both).</p>
+
+  <h2>9.4 Single-Phase Induction Motor</h2>
+  <p>Stator has a single-phase main winding (plus usually an auxiliary winding for starting). Rotor is typically squirrel-cage.</p>
+  <ul>
+    <li>When only the main winding is excited, the field is <strong>pulsating</strong> (not rotating) — resolves into two equal counter-rotating fields (double-field revolving theory).</li>
+    <li><strong>No starting torque</strong> if only one winding is used at standstill (torques of forward and backward fields cancel).</li>
+    <li>Once started by some means in either direction, net torque becomes nonzero and the motor accelerates to near $N_s$.</li>
+  </ul>
+  <p>Used in fans, blowers, washing machines, refrigerators, small pumps — fractional-kW domestic/commercial drives.</p>
+
+  <h2>9.5 Double Field Revolving Theory</h2>
+  <p>A pulsating MMF along a fixed axis with amplitude $F_m\cos\omega t$ is equivalent to two rotating MMFs of amplitude $F_m/2$:</p>
+  <ul>
+    <li><strong>Forward</strong> field rotating at $+N_s$</li>
+    <li><strong>Backward</strong> field rotating at $-N_s$</li>
+  </ul>
+  <p>At standstill, slips w.r.t. both fields are 1 → equal opposite torques → $T_{\mathrm{net}}=0$.</p>
+  <p>If rotor is given a push in the forward direction, slip to forward field $s_f = (N_s-N_r)/N_s$ becomes &lt; 1, while slip to backward field $s_b = (N_s+N_r)/N_s$ becomes &gt; 1. Forward torque exceeds backward torque → motor continues in that direction.</p>
+  <p><strong>Conclusion:</strong> single-phase IM is not self-starting; needs a second (auxiliary) winding or shaded poles to create a rotating (or elliptical) field at start.</p>
+
+  <h2>9.6 Starting Methods (Capacitor Start / Run, Shaded Pole)</h2>
+
+  <h3>Why two windings?</h3>
+  <p>Main + auxiliary windings displaced in space, currents displaced in phase → produce a revolving (or elliptical) field → nonzero starting torque. After start, auxiliary may be disconnected (centrifugal switch) or left in (capacitor-run).</p>
+
+  <h3>Capacitor-start motor</h3>
+  <p>Capacitor in series with auxiliary winding → nearly 90° phase shift → high $T_{\mathrm{st}}$ (2–3× FL). Centrifugal switch cuts out aux + capacitor above ~75% speed. Good for compressors, pumps needing high start torque.</p>
+
+  <h3>Capacitor-start capacitor-run / permanent-split capacitor (PSC)</h3>
+  <p>Run capacitor remains in circuit for better pf, quieter running, and improved efficiency; start capacitor (if used) is short-time rated and switched out.</p>
+
+  <h3>Shaded-pole motor</h3>
+  <p>Salient pole with a copper shading ring on part of the pole face. Induced current in the ring delays flux in the shaded portion → sweeping field from unshaded to shaded → weak starting torque. Simple, cheap, low efficiency — small fans, timers.</p>
+
+  <h3>Other (brief)</h3>
+  <p>Split-phase (R-start): resistance aux winding, moderate $T_{\mathrm{st}}$. Repulsion-start, etc., rarely examined beyond name.</p>
+
+  <h2>9.7 Introduction to Special Motors</h2>
+  <table>
+    <tr><th>Motor</th><th>Idea / use</th></tr>
+    <tr><td><strong>PM BLDC</strong></td><td>Permanent-magnet rotor; electronic commutation (Hall/encoder); high efficiency, long life — fans, drones, EVs, HDDs.</td></tr>
+    <tr><td><strong>Hysteresis motor</strong></td><td>Rotor of hysteresis material; synchronous speed; smooth quiet torque — clocks, recorders, gyros.</td></tr>
+    <tr><td><strong>Stepper motor</strong></td><td>Moves in discrete steps with pulsed excitation; open-loop position control — printers, CNC, robotics.</td></tr>
+    <tr><td><strong>Servo motor</strong></td><td>Closed-loop position/speed control with feedback; DC or AC — robotics, CNC, automation.</td></tr>
+    <tr><td><strong>Universal motor</strong></td><td>Series-wound; runs on AC or DC; high speed, high starting torque — drills, mixers, vacuum cleaners.</td></tr>
+  </table>
+
+  <!-- ========== SOLVED ========== -->
+  <h2>Solved Examples &amp; Short Theory Answers</h2>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Solved</span> Example 1 — Synchronous speed, rotor speed, rotor frequency</div>
+    <div class="a">
+      <p><strong>Q.</strong> A 4-pole, 50 Hz induction motor runs at 5% slip. Find (i) synchronous speed $N_s$, (ii) rotor speed $N_r$. Also find rotor frequency when the rotor runs at 600 rpm.</p>
+      <p><strong>(i) Synchronous speed:</strong></p>
+      $$N_s = \frac{120 f}{P} = \frac{120\times 50}{4} = \mathbf{1500\,\mathrm{rpm}}$$
+      <p><strong>(ii) Rotor speed at 5% slip:</strong></p>
+      $$N_r = N_s(1-s) = 1500\times(1-0.05) = 1500\times 0.95 = \mathbf{1425\,\mathrm{rpm}}$$
+      <p><strong>(iii) Rotor frequency at $N_r=600\,\mathrm{rpm}$:</strong></p>
+      $$s = \frac{N_s - N_r}{N_s} = \frac{1500-600}{1500} = 0.6$$
+      $$f_r = s f = 0.6\times 50 = \mathbf{30\,\mathrm{Hz}}$$
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Theory</span> Why is $N_r &lt; N_s$ in an induction motor?</div>
+    <div class="a">
+      <p>Torque requires induced rotor current, which needs relative motion between stator RMF and rotor conductors. If $N_r=N_s$, slip $s=0$, relative speed = 0 → $E_r=0$, $I_r=0$ → $T=0$. The motor cannot sustain load (or even overcome friction) at synchronous speed. Hence it runs asynchronously with $N_r &lt; N_s$ so that slip produces the required torque. (Ideal unloaded speed approaches but never quite reaches $N_s$.)</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Theory</span> Why is starting current of a DC motor very high?</div>
+    <div class="a">
+      <p>At the instant of starting, $N=0$ so back EMF $E_b=0$. Armature current $I_a=(V-E_b)/R_a=V/R_a$. Since $R_a$ is intentionally very small (to reduce running Cu loss), $I_{\mathrm{st}}$ is many times full-load current and can damage the armature / commutator. Hence a starter (external resistance) is used to limit $I_{\mathrm{st}}$, then cut out as $E_b$ builds up with speed.</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Theory</span> Why does a 1-phase IM need two windings?</div>
+    <div class="a">
+      <p>With a single winding the air-gap field is purely pulsating. By the double-field revolving theory this equals two equal opposite rotating fields → net starting torque is zero. A second (auxiliary) winding, spatially displaced and carrying a phase-shifted current (via capacitor or resistance), produces a rotating/elliptical field and thus starting torque. After start, the aux winding may be disconnected (capacitor-start) or retained (PSC / capacitor-run).</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Solved</span> Example 2 — Slip and torque region check</div>
+    <div class="a">
+      <p>A 6-pole, 50 Hz IM has full-load speed 960 rpm. Find slip and rotor frequency at full load.</p>
+      $$N_s=\frac{120\times 50}{6}=1000\,\mathrm{rpm},\quad s=\frac{1000-960}{1000}=0.04=4\%,\quad f_r=sf=2\,\mathrm{Hz}$$
+    </div>
+  </div>
+
+  <!-- ========== MPQ ========== -->
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Explain the production of a rotating magnetic field in a 3-phase induction motor. <span class="marks">5 marks</span></div>
+    <div class="a">Three windings 120° apart in space + currents 120° in time → constant-magnitude RMF at $N_s=120f/P$. See §9.1.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Derive / state the torque equation of a 3-ph IM. Explain torque at starting and running. <span class="marks">5 marks</span></div>
+    <div class="a">$T\propto s E_2^2 R_2/[R_2^2+(s X_2)^2]$; at $s=1$ use full $X_2$; for small $s$, $T\propto s$. See §9.2.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Draw and explain the torque–slip characteristic. Effect of rotor resistance on $T_{\max}$ and $T_{\mathrm{st}}$. <span class="marks">6 marks</span></div>
+    <div class="a">$s_m=R_2/X_2$; $T_{\max}$ independent of $R_2$; increasing $R_2$ raises $T_{\mathrm{st}}$ and shifts peak toward $s=1$. See §9.3.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Explain double-field revolving theory. Why is a single-phase IM not self-starting? <span class="marks">5 marks</span></div>
+    <div class="a">Pulsating field = forward + backward RMF; equal opposite $T$ at standstill. Needs aux winding / shaded pole. See §9.5.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Explain capacitor-start and shaded-pole methods of starting 1-ph IM. <span class="marks">4 marks</span></div>
+    <div class="a">Capacitor → phase shift &amp; high $T_{\mathrm{st}}$; shaded ring delays flux → weak sweeping field. See §9.6.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. A 4-pole 50 Hz IM has 5% slip. Find $N_r$. Also find $f_r$ at 600 rpm. <span class="marks">4 marks</span></div>
+    <div class="a">Solved Example 1: $N_r=1425\,\mathrm{rpm}$; at 600 rpm, $f_r=30\,\mathrm{Hz}$.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Why is rotor speed always less than synchronous speed? Why does 1-ph IM need two windings? Why high starting current in DC motor? <span class="marks">6 marks</span></div>
+    <div class="a">All three short answers are in the Solved / Theory boxes above.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Write short notes on: PM BLDC, stepper, servo, universal, hysteresis motor. <span class="marks">5 marks</span></div>
+    <div class="a">See comparison table in §9.7.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. Differentiate squirrel-cage and slip-ring induction motors. <span class="marks">3 marks</span></div>
+    <div class="a">Cage: bars + end rings, no external $R$, rugged. Slip-ring: wound rotor + rings, external $R$ for start/speed control, costlier. See §9.1.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter8.html">← Chapter 8</a>
+    <a href="index.html">Back to Index →</a>
+  </div>
+</div>
+</body>
+</html>

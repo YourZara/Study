@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TU ECM (ENEE 154) — Solved Question Papers</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['$','$'],['\\(','\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+:root{
+  --bg:#fafaf8; --card:#ffffff; --ink:#1c1c1a; --sub:#5c5c56;
+  --accent:#8a4f2e; --accent2:#c76b3c; --line:#e6e2da; --code-bg:#282420;
+  --code-ink:#f2ede4; --marks:#8a4f2e; --tab-inactive:#f0ece3;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17140f; --card:#221e18; --ink:#f2ede4; --sub:#b8b0a1;
+    --accent:#e0925a; --accent2:#e0925a; --line:#3a352b; --code-bg:#100e0b;
+    --code-ink:#e8e2d5; --marks:#e0925a; --tab-inactive:#2a251d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17140f; --card:#221e18; --ink:#f2ede4; --sub:#b8b0a1;
+  --accent:#e0925a; --accent2:#e0925a; --line:#3a352b; --code-bg:#100e0b;
+  --code-ink:#e8e2d5; --marks:#e0925a; --tab-inactive:#2a251d;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Georgia','Iowan Old Style',serif;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  line-height:1.55;
+}
+header{
+  padding:28px 20px 18px; max-width:900px; margin:0 auto;
+}
+header h1{font-size:1.5rem; margin:0 0 4px; letter-spacing:-0.01em;}
+header p{color:var(--sub); margin:0; font-size:0.95rem; font-family:-apple-system,sans-serif;}
+nav.tabs{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:10;
+  background:var(--bg); border-bottom:1px solid var(--line);
+  overflow-x:auto; white-space:nowrap; padding:0 20px;
+}
+nav.tabs::-webkit-scrollbar{display:none;}
+nav.tabs button{
+  font-family:-apple-system,sans-serif; font-size:0.85rem; font-weight:600;
+  background:none; border:none; color:var(--sub); padding:14px 14px;
+  cursor:pointer; border-bottom:3px solid transparent;
+}
+nav.tabs button.active{color:var(--accent); border-bottom-color:var(--accent);}
+main{max-width:900px; margin:0 auto; padding:20px;}
+.paper{display:none;}
+.paper.active{display:block;}
+.paper-head{color:var(--sub); font-family:-apple-system,sans-serif; font-size:0.85rem; margin-bottom:18px;}
+.q{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  margin-bottom:14px; overflow:hidden; box-shadow:var(--shadow);
+}
+.q-head{
+  padding:14px 16px; cursor:pointer; display:flex; justify-content:space-between;
+  align-items:flex-start; gap:12px; font-family:-apple-system,sans-serif;
+}
+.q-head h3{margin:0; font-size:0.98rem; font-weight:600; line-height:1.4;}
+.q-head .marks{color:var(--marks); font-size:0.78rem; font-weight:700; white-space:nowrap; padding-top:2px;}
+.q-body{display:none; padding:0 16px 18px; border-top:1px solid var(--line);}
+.q.open .q-body{display:block;}
+.q.open .q-head{border-bottom:1px solid var(--line);}
+.q-body h4{
+  font-family:-apple-system,sans-serif; font-size:0.72rem; text-transform:uppercase;
+  letter-spacing:0.06em; color:var(--accent2); margin:16px 0 6px;
+}
+.q-body p{margin:6px 0; font-size:0.95rem;}
+.q-body ul,.q-body ol{margin:6px 0; padding-left:20px;}
+.q-body li{margin:3px 0; font-size:0.95rem;}
+pre{
+  background:var(--code-bg); color:var(--code-ink); padding:14px;
+  border-radius:8px; overflow-x:auto; font-size:0.82rem; line-height:1.5;
+  font-family:'SF Mono','Consolas',monospace; margin:8px 0;
+  white-space:pre-wrap;
+}
+.chev{font-family:-apple-system,sans-serif; color:var(--sub); font-size:0.8rem;
+  transition:transform 0.15s; display:inline-block;}
+.q.open .chev{transform:rotate(90deg);}
+.tip{
+  background:rgba(138,79,46,0.08); border-left:3px solid var(--accent);
+  padding:8px 12px; margin:10px 0; font-size:0.88rem; font-family:-apple-system,sans-serif;
+  border-radius:0 6px 6px 0;
+}
+.exam-tips{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:14px 16px; margin-bottom:18px; box-shadow:var(--shadow);
+  font-family:-apple-system,sans-serif; font-size:0.9rem;
+}
+.exam-tips h3{margin:0 0 8px; font-size:0.95rem; color:var(--accent);}
+.exam-tips ul{margin:0; padding-left:18px;}
+.exam-tips li{margin:4px 0;}
+footer{text-align:center; color:var(--sub); font-family:-apple-system,sans-serif; font-size:0.8rem; padding:30px 20px 50px;}
+</style>
+</head>
+<body>
+<div style="max-width:900px;margin:0 auto;padding:12px 20px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:0.88rem;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;">
+  <a href="index.html" style="color:var(--accent);font-weight:700;text-decoration:none;">← ECM Home</a>
+  <a href="ECM (ENEE 154) — Solved Question Papers.html" style="color:var(--accent);font-weight:700;text-decoration:none;">Past Papers</a>
+  <a href="formula.html" style="color:var(--sub);text-decoration:none;">Formula</a>
+  <a href="chapter1.html" style="color:var(--sub);text-decoration:none;">Ch1</a>
+  <a href="chapter2.html" style="color:var(--sub);text-decoration:none;">Ch2</a>
+  <a href="chapter3.html" style="color:var(--sub);text-decoration:none;">Ch3</a>
+  <a href="chapter4.html" style="color:var(--sub);text-decoration:none;">Ch4</a>
+  <a href="chapter5.html" style="color:var(--sub);text-decoration:none;">Ch5</a>
+  <a href="chapter6.html" style="color:var(--sub);text-decoration:none;">Ch6</a>
+  <a href="chapter7.html" style="color:var(--sub);text-decoration:none;">Ch7</a>
+  <a href="chapter8.html" style="color:var(--sub);text-decoration:none;">Ch8</a>
+  <a href="chapter9.html" style="color:var(--sub);text-decoration:none;">Ch9</a>
+</div>
+<header>
+  <h1>Electrical Circuits &amp; Machines — Solved Papers</h1>
+  <p>TU IOE · ENEE 154 · 4 exam papers with full model solutions. Tap a question to expand. Keep the formula sheet open while you drill.</p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<footer>Answers follow IOE marking style · numerical values rounded sensibly · <a href="index.html" style="color:var(--accent)">ECM Home</a> · <a href="formula.html" style="color:var(--accent)">Formula sheet</a></footer>
+
+<script>
+const tipsHTML = `<div class="exam-tips"><h3>Exam tips — repeated themes</h3><ul>
+<li><b>Every paper:</b> nodal/mesh with dependent sources + matrix; IC at 0+; classical RLC; Laplace switched circuit; Bode asymptotes; two-port Z/ABCD/h; machines short notes.</li>
+<li><b>Numeric care:</b> generator Ia=IL+Ish, motor Ia=IL−If; Pcu∝x²; fr=s f; Φm≈V/(4.44 f N).</li>
+<li><b>IC recipe:</b> 0− steady (L short, C open) → continuity iL,vC → 0+ equivalents (L open-ish for di/dt from vL=L di/dt; C short-ish for vC) → derivatives from differentiated KCL/KVL.</li>
+<li><b>Bode:</b> factor, cancel, write as K·∏(1+s/z)/∏(1+s/p), list corners, walk slopes ±20 (±40 quadratic).</li>
+</ul></div>`;
+const papers = [
+{
+  id:"p1", label:"2083 Baishakh (Back)",
+  meta:"BEI,BCT \u00b7 I/II \u00b7 FM 60 \u00b7 ENEE 154",
+  tips:true,
+  questions:[
+    {q:"Using nodal analysis, find the currents through the 10 V sources. Circuit: nodes v1, v2, v3; 2 \u03a9 from v1 to ground (sense current i); 6 \u03a9 || 10 V between v1\u2013v2 (positive at v2); 4 \u03a9 from v2 to ground; CCVS 5i from v2 to v3; 3 \u03a9 from v3 to ground.", marks:"[6]",
+     body:`<h4>Circuit constraints</h4>
+<pre>Sense current:  i = v1 / 2
+
+10 V source ( + at v2 ):   v2 − v1 = 10
+
+CCVS 5i ( + at v3 ):       v3 − v2 = 5i = 5(v1/2) = (5/2) v1</pre>
+<h4>Supernode KCL</h4>
+<p>Ideal voltage sources link v1, v2, v3. Currents through those ideal sources cancel inside the supernode — only the three grounded resistors appear in KCL:</p>
+<pre>v1/2 + v2/4 + v3/3 = 0</pre>
+<h4>Substitute constraints</h4>
+<pre>v2 = v1 + 10
+v3 = v2 + (5/2)v1 = (7/2)v1 + 10
+
+v1/2 + (v1+10)/4 + ((7/2)v1 + 10)/3 = 0
+
+Multiply by 12:
+6 v1 + 3(v1+10) + 4((7/2)v1 + 10) = 0
+23 v1 + 70 = 0
+v1 = −70/23 V
+v2 = 160/23 V
+v3 = −15/23 V
+i  = v1/2 = −35/23 A</pre>
+<h4>Current through the 10 V source</h4>
+<p>Let I10 be current through the 10 V source from + (v2) to − (v1). KCL at v1:</p>
+<pre>i + (v1−v2)/6 − I10 = 0
+I10 = i + (v1−v2)/6
+    = −35/23 + (−10)/6
+    = −220/69 A ≈ −3.19 A</pre>
+<p class="tip"><b>Final answer:</b> I10 = <b>−220/69 A ≈ −3.19 A</b> ( + → − ). Voltages: v1=−70/23 V, v2=160/23 V, v3=−15/23 V.</p>`},
+    {q:"Find i1, i2, di1/dt and di2/dt at t = 0+. Circuit: 10 V with switch, L = 1 H, shared 10 \u03a9, another 10 \u03a9, and C = 1 F (two-mesh network).", marks:"[5]",
+     body:`<h4>Topology (standard two-mesh)</h4>
+<pre>Mesh 1 (i1): 10 V — L = 1 H — shared 10 Ω
+Mesh 2 (i2): shared 10 Ω — C = 1 F — 10 Ω
+Switch closes at t = 0; previously relaxed.</pre>
+<h4>Continuity</h4>
+<pre>i1(0+) = i1(0−) = 0
+vC(0+) = vC(0−) = 0</pre>
+<h4>KVL at t = 0+</h4>
+<pre>Mesh 2 (vC = 0): 10(i2 − i1) + 10 i2 = 0
+With i1 = 0 ⇒ i2(0+) = 0
+
+Mesh 1: 10 = L di1/dt + 10(i1 − i2)
+⇒ di1/dt|_{0+} = 10 A/s</pre>
+<h4>di2/dt from differentiated mesh 2</h4>
+<pre>10(di2/dt − di1/dt) + i2/C + 10 di2/dt = 0
+At 0+: 10(di2/dt − 10) + 10 di2/dt = 0
+⇒ di2/dt|_{0+} = 5 A/s</pre>
+<p class="tip"><b>Final answer:</b> i1(0+)=0, i2(0+)=0, di1/dt = 10 A/s, di2/dt = 5 A/s.</p>`},
+    {q:"Derive the classical solution of a series RC circuit with exponential excitation.", marks:"[6]",
+     body:`<h4>DE</h4>
+<pre>vs(t) = V e^{−αt}, series R–C, zero IC.
+RC vC' + vC = V e^{−αt}</pre>
+<h4>Solution (α ≠ 1/(RC))</h4>
+<pre>Homogeneous:  vC,h = A e^{−t/(RC)}
+Particular:   vC,p = [V/(1 − α RC)] e^{−αt}
+
+vC(0)=0 ⇒ A = −V/(1 − α RC)
+
+vC(t) = [V/(1 − α RC)] ( e^{−αt} − e^{−t/(RC)} )
+i(t) = C dvC/dt</pre>
+<p class="tip"><b>Final answer:</b> vC(t)=V/(1−αRC)·(e^{−αt} − e^{−t/(RC)}) for α≠1/(RC); if α=1/(RC) use particular form (V/RC) t e^{−αt}.</p>`},
+    {q:"Using Laplace transforms: switch opens at t=0. Source 4 V; then 1 F in parallel with (0.5 H + 1 \u03a9). Find i(t) and vL(t) for t&gt;0.", marks:"[6]",
+     body:`<h4>IC at t = 0− (DC)</h4>
+<pre>C open, L short ⇒ iL(0−) = 4/1 = 4 A,  vC(0−) = 4 V
+After open: source gone; series R–L–C loop with those ICs.</pre>
+<h4>Characteristic equation</h4>
+<pre>0.5 i'' + i' + i = 0  ⇒  i'' + 2i' + 2i = 0
+s = −1 ± j</pre>
+<h4>Constants</h4>
+<pre>i(t) = e^{−t}(A cos t + B sin t)
+i(0)=4 ⇒ A=4
+di/dt(0+)= (−R i − vC)/L = (−4−4)/0.5 = −16
+−A + B = −16 ⇒ B = −12
+
+i(t) = e^{−t}(4 cos t − 12 sin t) A
+vL = L di/dt = 4 e^{−t}(sin t − 2 cos t) V</pre>
+<p class="tip"><b>Final answer:</b> i(t)=e^{−t}(4 cos t − 12 sin t) A; vL(t)=4 e^{−t}(sin t − 2 cos t) V.</p>`},
+    {q:"Define network function. Draw the asymptotic Bode magnitude plot of H(s)=10(s\u00b2+8s+15)/[s\u00b2(s+3)(0.05s+1)].", marks:"[7]",
+     body:`<h4>Definition</h4>
+<p>A <b>network function</b> is the Laplace ratio of a zero-state response to an excitation. Driving-point: same port (Zin, Yin). Transfer: different ports / variable types.</p>
+<h4>Simplify</h4>
+<pre>s²+8s+15=(s+3)(s+5) ⇒ cancel (s+3):
+H(s)=10(s+5)/[s²(0.05s+1)] = 50(1+s/5)/[s²(1+s/20)]</pre>
+<h4>Bode</h4>
+<pre>20 log 50 ≈ 34 dB (K/s² reference)
+Slopes: −40 dB/dec → zero at ω=5 → −20 → pole at ω=20 → −40</pre>
+<p class="tip"><b>Final answer:</b> H(s)=50(1+s/5)/[s²(1+s/20)]; asymptotes −40 / −20 / −40 dB/dec with corners 5 and 20 rad/s.</p>`},
+    {q:"Find Z-parameters of the ladder: series 8 \u03a9, shunt 20 \u03a9, series 10 \u03a9, shunt 20 \u03a9. Is the network reciprocal? Symmetric?", marks:"[6]",
+     body:`<pre>Z11 (I2=0) = 8 + (20||30) = 8+12 = 20 Ω
+Z21 (I2=0) = 8 Ω   (divider: VA=12 I1, I10Ω=0.4 I1, V2=8 I1)
+Z22 (I1=0) = 20||30 = 12 Ω
+Z12 = 8 Ω  (reciprocity / direct calc)
+
+Z = [[20, 8], [8, 12]] Ω</pre>
+<p class="tip"><b>Final answer:</b> Z11=20, Z12=Z21=8, Z22=12 Ω. Reciprocal: yes. Symmetric (Z11=Z22): no.</p>`},
+    {q:"List features of an ideal transformer. Prove that the flux is independent of the load.", marks:"[5]",
+     body:`<h4>Ideal transformer</h4>
+<ul>
+<li>No R, leakage, or core loss; μ→∞ ⇒ Im→0</li>
+<li>Perfect coupling: V1/V2=N1/N2=I2/I1</li>
+<li>Complex power in = complex power out</li>
+</ul>
+<h4>Flux vs load</h4>
+<pre>V1 ≈ 4.44 f N1 Φm  (sinusoidal)
+⇒ Φm = V1/(4.44 f N1)  fixed by supply V1 and f.
+Load changes I2; ampere-turn balance I1 N1=I2 N2 adjusts I1 without changing Φm (ideal / neglect IaRa drop).</pre>
+<p class="tip"><b>Final answer:</b> Ideal TF as above; Φm set by V1/f — independent of load.</p>`},
+    {q:"A shunt generator delivers 96 A at 200 V. Ra=0.1 \u03a9, Rsh=50 \u03a9. Iron + friction = 2500 W. Find Eg and commercial efficiency.", marks:"[5]",
+     body:`<pre>Ish = 200/50 = 4 A
+Ia  = 96+4 = 100 A
+Eg  = 200 + 100×0.1 = 210 V
+
+Pout = 200×96 = 19200 W
+Pcu  = 100²×0.1 + 4²×50 = 1800 W
+ηcomm = 19200/(19200+1800+2500)×100% = 81.70%</pre>
+<p class="tip"><b>Final answer:</b> Eg=<b>210 V</b>; ηcomm=<b>81.70%</b>.</p>`},
+    {q:"A 4-pole, 50 Hz IM runs at 5% slip. Find Nr. Also find rotor frequency fr when rotor speed is 600 rpm.", marks:"[5]",
+     body:`<pre>Ns = 120×50/4 = 1500 rpm
+Nr = 1500(1−0.05) = 1425 rpm
+
+At 600 rpm: s=(1500−600)/1500=0.6
+fr = s f = 30 Hz</pre>
+<p class="tip"><b>Final answer:</b> Nr=<b>1425 rpm</b>; fr=<b>30 Hz</b>.</p>`},
+    {q:"Write short notes on any three: (i) magnetic series/parallel (ii) universal motor (iii) DC starter (iv) transformer voltage regulation.", marks:"[9]",
+     body:`<h4>(i) Magnetic series / parallel</h4>
+<p>Series: same Φ, MMFs add; gap usually dominates. Parallel: same MMF, fluxes add.</p>
+<h4>(ii) Universal motor</h4>
+<p>Series motor for AC/DC; high Tst; used in portable tools / appliances.</p>
+<h4>(iii) DC starter</h4>
+<p>Limits Ist=V/Ra by external R cut out in steps; NVC/overload protection (3-/4-point).</p>
+<h4>(iv) Voltage regulation</h4>
+<pre>VR% = (Vnl − Vfl)/Vfl × 100% ≈ vr cosφ ± vx sinφ</pre>
+<p class="tip"><b>Final answer:</b> Any three of the notes above (~3 marks each).</p>`}
+  ]
+},
+{
+  id:"p2", label:"2082 Bhadra (Regular)",
+  meta:"BEI,BCT \u00b7 I/II \u00b7 FM 60 \u00b7 ENEE 154",
+  tips:false,
+  questions:[
+    {q:"Using mesh analysis, find Ix and the power of the dependent source 10Ix. Circuit: 100 V, 5 \u03a9, 15 \u03a9, 10 \u03a9, 50 \u03a9 (carries Ix), 25 \u03a9.", marks:"[6]",
+     body:`<h4>Meshes</h4>
+<pre>I1 left: 100 V, 5 Ω, 50 Ω (Ix = I1), shared 15 Ω
+I2 right: shared 15 Ω, 10 Ω, 25 Ω, dependent voltage 10 Ix
+(10 Ix written in the direction opposing I2)</pre>
+<h4>Equations</h4>
+<pre>70 I1 − 15 I2 = 100
+−5 I1 + 50 I2 = 0  ⇒  I2 = I1/10
+
+70 I1 − 1.5 I1 = 100 ⇒ I1 = 200/137 ≈ 1.460 A = Ix
+I2 = 20/137 ≈ 0.146 A
+P_dep = (10 Ix) I2 = 40000/18769 ≈ 2.13 W</pre>
+<p class="tip"><b>Final answer:</b> Ix ≈ <b>1.46 A</b>; Pdep ≈ <b>2.13 W</b> (sign depends on passive/active orientation of 10Ix).</p>`},
+    {q:"Inductor switching: I = 2 A, R = 200 \u03a9, L = 1 H. Find v, dv/dt and d\u00b2v/dt\u00b2 at t = 0+.", marks:"[5]",
+     body:`<pre>i(t) = 2 e^{−200t} A
+v = vL = L di/dt = −400 e^{−200t} V
+
+v(0+) = −400 V
+dv/dt|_{0+} = 8×10^4 V/s
+d²v/dt²|_{0+} = −1.6×10^7 V/s²</pre>
+<p class="tip"><b>Final answer:</b> v=−400 V; dv/dt=8×10⁴ V/s; d²v/dt²=−1.6×10⁷ V/s².</p>`},
+    {q:"For series RLC with a step input, write the DE and discuss the three damping cases.", marks:"[6]",
+     body:`<pre>L i'' + R i' + i/C = 0   (homogeneous / source-free form)
+α = R/(2L),  ω0 = 1/√(LC)</pre>
+<ul>
+<li><b>Overdamped</b> (α&gt;ω0): two real roots; no oscillation</li>
+<li><b>Critical</b> (α=ω0): (A1+A2 t)e^{−αt}</li>
+<li><b>Underdamped</b> (α&lt;ω0): e^{−αt}(A cos ωd t + B sin ωd t), ωd=√(ω0²−α²)</li>
+</ul>
+<p class="tip"><b>Final answer:</b> DE and cases as above.</p>`},
+    {q:"Laplace: switch a\u2192b. Before: 10 V\u20135 \u03a9 with L=0.1 H. After: L to C=10 \u03bcF. Find i(t).", marks:"[6]",
+     body:`<pre>iL(0−)=10/5=2 A; vC(0−)=0
+ω0=1/√(0.1×10×10^{−6})=1000 rad/s
+i(t)=A cos 1000t + B sin 1000t
+i(0)=2 ⇒ A=2
+di/dt(0)=−vC(0)/L=0 ⇒ B=0
+i(t)=2 cos(1000 t) A</pre>
+<p class="tip"><b>Final answer:</b> i(t)=<b>2 cos(1000 t) A</b>.</p>`},
+    {q:"Define a two-port network. Find Z-parameters for the network with 3 \u03a9, dependent source 2I2, \u2212j2 \u03a9, and 1+j5 \u03a9.", marks:"[5]",
+     body:`<h4>Definition</h4>
+<p>Four terminals as port 1 (V1,I1) and port 2 (V2,I2); both currents enter + terminals in the standard convention.</p>
+<h4>Z-parameters (CCVS 2I2 in port-2 series path)</h4>
+<pre>Passive ladder (series 3, shunt −j2, series 1+j5):
+Z11 = 3 − j2
+Z12 = Z21 = −j2
+Z22' = 1 + j3
+
+Add CCVS 2I2 in series at port 2 ⇒ Z22 = 3 + j3
+(Z12 gains +2 only if 2I2 also appears in the V1 equation — check the figure.)</pre>
+<p class="tip"><b>Final answer:</b> Z11=3−j2, Z12=Z21=−j2, Z22=3+j3 Ω (typical placement).</p>`},
+    {q:"What are poles and zeros? Draw Bode magnitude asymptotes for T(s)=100(s+5)/[s\u00b2(s\u00b2+21s+20)].", marks:"[8]",
+     body:`<p><b>Zeros</b> = numerator roots; <b>poles</b> = denominator roots. Stability: LHP poles for BIBO (causal LTI).</p>
+<pre>s²+21s+20=(s+1)(s+20)
+T(s)=25(1+s/5)/[s²(1+s)(1+s/20)]
+20 log 25 ≈ 28 dB
+Slopes: −40 →(ω=1)−60 →(ω=5)−40 →(ω=20)−60 dB/dec</pre>
+<p class="tip"><b>Final answer:</b> Asymptotes as above; corners at 1, 5, 20 rad/s.</p>`},
+    {q:"Explain commutator and brushes. Discuss DC generator characteristics.", marks:"[5]",
+     body:`<p><b>Commutator:</b> segmented cylinder; converts coil AC ↔ unidirectional terminal quantity; keeps motor torque unidirectional.<br>
+<b>Brushes:</b> carbon contacts on commutator; interface to external circuit.</p>
+<ul>
+<li>OCC: Eg vs If at fixed N</li>
+<li>External: V vs IL (droop from IaRa + AR)</li>
+<li>Shape depends on separate / shunt / series / compound field</li>
+</ul>
+<p class="tip"><b>Final answer:</b> Roles + OCC/external characteristics as above.</p>`},
+    {q:"Magnetic ring: \u2113=0.5 m, A=100 cm\u00b2, gap=4 mm, \u03c6=2 mWb, \u03bcr=800, N=200. Find MMF (and exciting current).", marks:"[5]",
+     body:`<pre>A=0.01 m², B=0.2 T
+ℓi=0.496 m, ℓg=0.004 m
+ATi ≈ (B/(μr μ0))ℓi ≈ 98.7 AT
+ATg ≈ (B/μ0)ℓg ≈ 636.6 AT
+MMF ≈ 735 AT,  I = MMF/N ≈ 3.68 A</pre>
+<p class="tip"><b>Final answer:</b> MMF≈<b>735 AT</b>; I≈<b>3.68 A</b>.</p>`},
+    {q:"150 kVA transformer: Pi=700 W, Pcu,FL=1800 W. Losses and \u03b7 at 0.8 pf, 25% overload.", marks:"[5]",
+     body:`<pre>Pcu=(1.25)²×1800=2812.5 W
+Losses=2812.5+700=3512.5 W
+Pout=1.25×150×0.8=150 kW
+η=97.71%</pre>
+<p class="tip"><b>Final answer:</b> Losses=<b>3512.5 W</b>; η=<b>97.71%</b>.</p>`},
+    {q:"Short notes \u2014 any three: (i) why Nr&lt;Ns (ii) iron loss independent of load (iii) high Ist of DC motor (iv) two windings of 1-ph IM.", marks:"[9]",
+     body:`<h4>(i) Nr &lt; Ns</h4>
+<p>Torque needs rotor induction ⇒ nonzero slip. At s=0, T=0.</p>
+<h4>(ii) Iron loss vs load</h4>
+<p>Bm set by V/f ≈ constant; Ph+Pe nearly load-independent. Load mainly changes Cu loss.</p>
+<h4>(iii) High Ist</h4>
+<p>Start: Eb≈0 ⇒ Ist=V/Ra ≫ IFL — need starter resistance.</p>
+<h4>(iv) Two windings (1-ph)</h4>
+<p>Main + auxiliary, space + time phase shift → starting revolving field; aux often cut out after start.</p>
+<p class="tip"><b>Final answer:</b> Any three notes.</p>`}
+  ]
+},
+{
+  id:"p3", label:"2082 Baishakh (Back)",
+  meta:"BEI,BCT \u00b7 I/II \u00b7 FM 60 \u00b7 EE154 / ENEE 154",
+  tips:false,
+  questions:[
+    {q:"Using mesh analysis (matrix form), find Vx and the power associated with the dependent source. Circuit: \u221210 A, 1 \u03a9, Vx/10, 3 \u03a9, 2 \u03a9, 5 \u03a9.", marks:"[6]",
+     body:`<h4>Circuit model</h4>
+<pre>Left mesh current fixed by independent CS: I1 = −10 A
+Shared 2 Ω; right mesh has 3 Ω and 5 Ω
+Vx across 5 Ω; dependent current Vx/10 in parallel with 5 Ω</pre>
+<h4>Equations</h4>
+<pre>Current through 5 Ω: I5 = I2 − Vx/10,  Vx = 5 I5
+⇒ Vx = 5 I2 − 0.5 Vx ⇒ Vx = (10/3) I2
+
+KVL mesh 2: 2(I2 − I1) + 3 I2 + Vx = 0
+2(I2 + 10) + 3 I2 + (10/3) I2 = 0
+(25/3) I2 = −20 ⇒ I2 = −2.4 A
+Vx = (10/3)(−2.4) = −8 V
+
+Power into dependent CS (voltage Vx, current Vx/10):
+P = Vx · (Vx/10) = 6.4 W absorbed</pre>
+<p class="tip"><b>Final answer:</b> Vx=<b>−8 V</b>; Pdep=<b>6.4 W</b> (absorbed).</p>`},
+    {q:"Switch a\u2192b at t=0: 12 V, 2 \u03a9, then parallel of 2 F and (4 \u03a9 + 3 H). Find currents, diL/dt and dvC/dt at 0+.", marks:"[5]",
+     body:`<h4>t = 0− (switch at a, DC)</h4>
+<pre>C open, L short ⇒ branch is 4 Ω
+i = 12/(2+4)=2 A = iL(0−)
+vC(0−)=4×2=8 V</pre>
+<h4>t = 0+ (to b: source removed; C || (4Ω+3H))</h4>
+<pre>iL(0+)=2 A, vC(0+)=8 V
+KCL: iC(0+) + iL(0+) = 0 ⇒ iC(0+)=−2 A
+Current in 4 Ω = iL = 2 A
+vL = vC − 4 iL = 8−8=0 ⇒ diL/dt = vL/L = 0
+dvC/dt = iC/C = −2/2 = −1 V/s</pre>
+<p class="tip"><b>Final answer:</b> iL=2 A, iC=−2 A, i4=2 A; diL/dt=0; dvC/dt=−1 V/s.</p>`},
+    {q:"Classical method: series R=2 \u03a9, L=0.5 H, C=1 F, switched to 100 V DC. Find i(t) (zero IC).", marks:"[6]",
+     body:`<pre>i'' + (R/L)i' + i/(LC) = 0
+i'' + 4 i' + 2 i = 0
+s = −2 ± √2
+α=2 &gt; ω0=√2 ⇒ overdamped
+
+i(t) = A e^{s1 t} + B e^{s2 t}
+s1=−2+√2, s2=−2−√2
+i(0)=0 ⇒ A+B=0
+di/dt(0)=V/L=200 ⇒ A s1 + B s2 = 200
+A = 200/(s1−s2) = 100/√2 = 50√2
+B = −50√2
+
+i(t) = 50√2 ( e^{ (−2+√2)t } − e^{ (−2−√2)t } ) A</pre>
+<p class="tip"><b>Final answer:</b> i(t)=50√2 [e^{(−2+√2)t} − e^{(−2−√2)t}] A.</p>`},
+    {q:"Laplace: same RLC (R=2, L=0.5, C=1) with v(t)=20 e^{\u22124t}. Find i(t) (zero IC).", marks:"[6]",
+     body:`<pre>Z(s)=0.5s + 2 + 1/s = (0.5 s² + 2s + 1)/s
+I(s)= [20/(s+4)] · s/(0.5 s²+2s+1)
+    = 40 s / [(s+4)(s²+4s+2)]
+
+Partial fractions:
+I(s)= 40(2s+1)/(s²+4s+2) − 80/(s+4)
+
+s²+4s+2=(s+2)²−2
+(2s+1)=2(s+2)−3
+
+i(t)= −80 e^{−4t}
+     + 80 e^{−2t} cosh(√2 t)
+     − 60√2 e^{−2t} sinh(√2 t)  A</pre>
+<p class="tip"><b>Final answer:</b> i(t)=−80e^{−4t}+80e^{−2t}cosh(√2 t)−60√2 e^{−2t}sinh(√2 t) A.</p>`},
+    {q:"Draw asymptotic Bode magnitude plot of H(s)=100 s(s+5)/[(s+1)(s\u00b2+10s+100)].", marks:"[8]",
+     body:`<pre>ωn=10, ζ=0.5 (quadratic)
+H(s)=5 s (1+s/5) / [(1+s)(1+0.1s+0.01 s²)]
+
+Factors: zero @0 (+20 start); pole @1; zero @5; complex poles @ωn=10 (−40 after)
+Slopes: +20 →(1) 0 →(5) +20 →(10) −20 dB/dec</pre>
+<p class="tip"><b>Final answer:</b> Slope sequence +20 / 0 / +20 / −20; mark ζ=0.5 peaking near ω=10.</p>`},
+    {q:"Express h-parameters in terms of Z-parameters. Explain cascade connection using ABCD parameters.", marks:"[6]",
+     body:`<h4>h from Z</h4>
+<pre>h11 = ΔZ / Z22
+h12 = Z12 / Z22
+h21 = −Z21 / Z22
+h22 = 1 / Z22
+where ΔZ = Z11 Z22 − Z12 Z21</pre>
+<h4>Cascade (ABCD)</h4>
+<pre>V1 = A V2 + B (−I2)
+I1 = C V2 + D (−I2)
+Overall: [A B; C D] = [A1 B1; C1 D1][A2 B2; C2 D2]
+(multiply left-to-right in signal-flow order)</pre>
+<p class="tip"><b>Final answer:</b> h↔Z formulas + ABCD multiply for cascade.</p>`},
+    {q:"OC and SC tests \u2192 equivalent circuit referred to secondary for a 20 kVA, 2200/220 V transformer. (Use typical instrument readings if not printed: OC 220 V, 4 A, 150 W on LV; SC 100 V, 9 A, 400 W on HV.)", marks:"[5]",
+     body:`<pre>OC (LV): cosφ0=150/(220×4)=0.1705
+Iw=0.682 A, Im=3.941 A
+R0=220/0.682=322.6 Ω, Xm=220/3.941=55.8 Ω  (already on secondary)
+
+SC (HV): Z01=100/9=11.11 Ω, R01=400/81=4.94 Ω, X01=9.95 Ω
+K=220/2200=0.1
+R02=K² R01=0.0494 Ω, X02=K² X01=0.0995 Ω</pre>
+<p class="tip"><b>Final answer:</b> Secondary eqckt: shunt R0≈323 Ω, Xm≈56 Ω; series R02≈0.049 Ω, X02≈0.100 Ω.</p>`},
+    {q:"Explain DC motor torque production and the role of back EMF.", marks:"[6]",
+     body:`<p><b>Torque:</b> conductors under poles experience F=BIℓ; commutator keeps current direction so forces produce unidirectional T. T∝Φ Ia.</p>
+<p><b>Back EMF:</b> Eb=ΦωN (∝ NΦ) opposes supply. Steady: V=Eb+IaRa ⇒ Ia=(V−Eb)/Ra. Eb limits Ia, enables energy conversion (VIa = Eb Ia + Ia²Ra), and provides inherent speed regulation.</p>
+<p class="tip"><b>Final answer:</b> T from BIℓ + commutation; Eb governs Ia and electromechanical power Eb Ia.</p>`},
+    {q:"How does a 3-phase induction motor start? Why can it not run at synchronous speed?", marks:"[6]",
+     body:`<p><b>Start:</b> Balanced 3-ph stator currents → rotating field at Ns. Rotor (still) sees fr=f; large induced Emf/current; Tst∝s E2² R2 / … At DOL, Ist≈4–7 IFL. Reduced-voltage / star-delta / soft-start / VFD used to limit Ist.</p>
+<p><b>Not at Ns:</b> s=0 ⇒ no relative motion ⇒ no rotor Emf/current ⇒ T=0. Load torque cannot be met at s=0, so Nr&lt;Ns in motoring.</p>
+<p class="tip"><b>Final answer:</b> Rotating field induces rotor currents → Tst; Ns forbidden because T=0 at s=0.</p>`},
+    {q:"Short notes \u2014 any two: (i) magnetization curve (ii) autotransformer (iii) stepper motor.", marks:"[6]",
+     body:`<h4>(i) Magnetization curve</h4>
+<p>B–H or Φ–I (OCC): linear then saturates; residual magnetism; used to find Eg vs If.</p>
+<h4>(ii) Autotransformer</h4>
+<p>Single winding, part common; Cu saving, higher η; no galvanic isolation — ratio near 1 preferred.</p>
+<h4>(iii) Stepper</h4>
+<p>Moves in discrete steps with pulsed drive; open-loop position; VR / PM / hybrid types; CNC, printers.</p>
+<p class="tip"><b>Final answer:</b> Any two notes.</p>`}
+  ]
+},
+{
+  id:"p4", label:"2081 Ashwin (Regular)",
+  meta:"BEI,BCT \u00b7 I/II \u00b7 FM 60 \u00b7 ENEE 154",
+  tips:false,
+  questions:[
+    {q:"Using nodal analysis (matrix form), find Vx and the current through the 2 \u03a9 resistor. Circuit: 5 A, 3 \u03a9, 4 \u03a9, 1 \u03a9, 2 \u03a9, 5 V, dependent source 4Vx.", marks:"[6]",
+     body:`<h4>Node assignment</h4>
+<pre>Node v1: 5 A entering; 3 Ω to ground (define Vx = v1); 4 Ω to node v2
+Node v2: 4 Ω from v1; 1 Ω to ground; 2 Ω to the dependent VCVS 4Vx (=4 v1) referenced to ground
+(Independent 5 V appears in some paper figures as a separate source — here the controlling relation uses Vx=v1; if 5 V is series with 2 Ω toward ground instead of 4Vx, replace 4v1 by 5.)</pre>
+<h4>KCL matrix</h4>
+<pre>v1/3 + (v1−v2)/4 = 5
+(v2−v1)/4 + v2/1 + (v2 − 4 v1)/2 = 0
+
+In matrix form [Y][v1; v2] = [5; 0] after expanding dependent terms into Y.</pre>
+<h4>Solve</h4>
+<pre>From the two equations:
+v1 = 210/11 ≈ 19.09 V = Vx
+v2 = 270/11 ≈ 24.55 V
+I_{2Ω} = (v2 − 4 v1)/2 = −285/11 ≈ −25.91 A</pre>
+<p class="tip"><b>Final answer:</b> Vx=<b>210/11 ≈ 19.09 V</b>; I2Ω=<b>−285/11 ≈ −25.91 A</b> (direction: toward the VCVS if positive formula (v2−4Vx)/2).</p>`},
+    {q:"Find i1, i2, di1/dt, di2/dt at t=0+. (Same IC circuit as Paper 1 Q2: 10 V switch, 1 H, shared 10 \u03a9, 10 \u03a9, 1 F.)", marks:"[5]",
+     body:`<p>Identical to Paper 1 Question 2.</p>
+<pre>i1(0+)=0, i2(0+)=0
+di1/dt|_{0+}=10 A/s
+di2/dt|_{0+}=5 A/s</pre>
+<p class="tip"><b>Final answer:</b> 0, 0, 10 A/s, 5 A/s.</p>`},
+    {q:"Classical method: switch a\u2192b. Circuit 1 V, 1 \u03a9, 1 H, 2 H, 0.5 \u03a9. Find v(t) across the 2 H inductor and iL(t).", marks:"[6]",
+     body:`<h4>t = 0−</h4>
+<pre>Series path 1 V–1 Ω–1 H–2 H–0.5 Ω; L shorts at DC
+i(0−)=1/(1+0.5)=2/3 A</pre>
+<h4>t &gt; 0 (switch to b shorts/removes source)</h4>
+<pre>R=1.5 Ω, L=1+2=3 H
+τ = L/R = 2 s
+iL(t) = (2/3) e^{−t/2} A
+
+v_{2H}(t) = 2 di/dt = 2 · (2/3)(−1/2) e^{−t/2}
+         = −(2/3) e^{−t/2} V</pre>
+<p class="tip"><b>Final answer:</b> iL=(2/3)e^{−t/2} A; v2H=−(2/3)e^{−t/2} V.</p>`},
+    {q:"Laplace: switch a\u2192b. 6 V, 2 \u03a9, parallel of (1 \u03a9 + 0.5 H) and 1 F. Find vC(t).", marks:"[6]",
+     body:`<h4>IC</h4>
+<pre>DC: L short, C open ⇒ i=6/(2+1)=2 A
+vC(0−)=1·2=2 V, iL(0−)=2 A
+After a→b (source removed): C || (1 Ω + 0.5 H)</pre>
+<h4>DE for vC</h4>
+<pre>v'' + 2 v' + 2 v = 0
+v(t)=e^{−t}(A cos t + B sin t)
+v(0)=2 ⇒ A=2
+iC(0)=−iL(0)=−2 ⇒ v'(0)=iC/C=−2
+−A+B=−2 ⇒ B=0
+
+vC(t)=2 e^{−t} cos t  V</pre>
+<p class="tip"><b>Final answer:</b> vC(t)=<b>2 e^{−t} cos t V</b>.</p>`},
+    {q:"Draw asymptotic Bode plot of G(s)=500(s+2)/[s(s\u00b2+15s+121)].", marks:"[7]",
+     body:`<pre>ωn=11, 2ζωn=15 ⇒ ζ≈0.682
+G(s)≈8.26 (1+s/2) / [ s (1 + 15s/121 + s²/121) ]
+20 log 8.26 ≈ 18.3 dB
+
+Slopes: −20 (origin pole) →(ω=2) 0 →(ω=11) −40 dB/dec
+Mild peaking (ζ≈0.68).</pre>
+<p class="tip"><b>Final answer:</b> −20 / 0 / −40 with corners 2 and 11 rad/s; K≈18.3 dB.</p>`},
+    {q:"Express Z-parameters in terms of ABCD. Find ABCD of the network: series 8 \u03a9, dependent 0.5 Ix, series 5 \u03a9 (Ix through the 5 \u03a9).", marks:"[6]",
+     body:`<h4>Z from ABCD</h4>
+<pre>Z11 = A/C,  Z12 = (AD−BC)/C,  Z21 = 1/C,  Z22 = D/C
+(requires C ≠ 0)</pre>
+<h4>ABCD of given chain (series two-port, Ix = −I2 = I1)</h4>
+<pre>V1 − V2 = 8 I1 + 0.5 Ix + 5 I1,  Ix = I1
+V1 = V2 + 13.5 I1,  I1 = −I2
+
+⇒ A=1, B=13.5 Ω, C=0, D=1
+(Reciprocal check: AD−BC=1.)</pre>
+<p>If a shunt path exists so C≠0, compute Z via the formulas above after finding C from open/short tests.</p>
+<p class="tip"><b>Final answer:</b> Z↔ABCD as above; for pure series chain A=D=1, B=13.5 Ω, C=0.</p>`},
+    {q:"Explain a loaded transformer. Prove that core flux is approximately constant (independent of load).", marks:"[6]",
+     body:`<p><b>Loaded TF:</b> secondary supplies current I2; primary draws I1≈I0+I2' so ampere-turns balance. Voltage drops I1Z1 and I2Z2 cause VR; flux still ≈ V1/(4.44 f N1) if IaRa, leakage drops ≪ V1.</p>
+<pre>Primary phasor: V1 = E1 + I1 (R1+jX1)
+E1 = 4.44 f N1 Φm
+With small series drop, E1≈V1 ⇒ Φm≈constant vs load.
+I2 increase is met by I1 increase (AT balance), not by Φm change.</pre>
+<p class="tip"><b>Final answer:</b> Load → Cu drop / VR; Φm≈V1/(4.44 f N1) nearly load-independent.</p>`},
+    {q:"240 V shunt motor: Ra=0.4 \u03a9, Rf=120 \u03a9, draws 30 A at 1400 rpm. With 1.2 \u03a9 added in armature and torque reduced 20%, find new speed.", marks:"[6]",
+     body:`<pre>If=240/120=2 A
+Ia1=30−2=28 A
+Eb1=240−28×0.4=228.8 V
+
+T∝Ia (Φ const) ⇒ Ia2=0.8×28=22.4 A
+Eb2=240−22.4×(0.4+1.2)=240−35.84=204.16 V
+N2=1400×(204.16/228.8)≈1249 rpm</pre>
+<p class="tip"><b>Final answer:</b> N2 ≈ <b>1249 rpm</b>.</p>`},
+    {q:"Explain the torque\u2013speed characteristic of a 3-phase induction motor.", marks:"[6]",
+     body:`<pre>T = (3/ωs) · (s E2² R2)/[R2² + (s X2)²]
+
+• s=0 (Ns): T=0
+• Small s: T≈k s  (linear near Nr)
+• Tmax at s_m = R2/X2  (breakdown)
+• s=1 (start): Tst = (3/ωs)·(E2² R2)/(R2²+X2²)
+
+Motoring: 0&lt;s&lt;1; generating s&lt;0; braking s&gt;1.
+Shape: rise from Tst to Tmax then fall to 0 at Ns.</pre>
+<p class="tip"><b>Final answer:</b> Sketch T–N with Tst, Tmax, Nfl; formulas as above.</p>`},
+    {q:"Short notes \u2014 any two: (i) commutator (ii) hysteresis and eddy-current loss (iii) stepper motor.", marks:"[6]",
+     body:`<h4>(i) Commutator</h4>
+<p>Segmented cylinder + brushes; mechanical rectifier / current reverser for DC machines.</p>
+<h4>(ii) Hysteresis &amp; eddy</h4>
+<pre>Ph = η Bm^{1.6} f V  (Steinmetz approx.)
+Pe = k Bm² f² t² V
+Reduce Pe by laminations; Ph by material grade. Together = iron loss.</pre>
+<h4>(iii) Stepper</h4>
+<p>Discrete steps from pulse train; open-loop positioning; VR/PM/hybrid.</p>
+<p class="tip"><b>Final answer:</b> Any two notes.</p>`}
+  ]
+}
+];
+
+const tabsEl = document.getElementById('tabs');
+const mainEl = document.getElementById('main');
+
+papers.forEach((paper, pi) => {
+  const btn = document.createElement('button');
+  btn.textContent = paper.label;
+  btn.className = pi === 0 ? 'active' : '';
+  btn.onclick = () => showPaper(pi);
+  tabsEl.appendChild(btn);
+
+  const section = document.createElement('div');
+  section.className = 'paper' + (pi === 0 ? ' active' : '');
+  section.id = paper.id;
+
+  const head = document.createElement('div');
+  head.className = 'paper-head';
+  head.textContent = paper.meta;
+  section.appendChild(head);
+
+  if (paper.tips) {
+    const tipWrap = document.createElement('div');
+    tipWrap.innerHTML = tipsHTML;
+    section.appendChild(tipWrap);
+  }
+
+  paper.questions.forEach((item, qi) => {
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    qDiv.innerHTML = `
+      <div class="q-head" onclick="this.parentElement.classList.toggle('open')">
+        <h3><span class="chev">▸</span> Q${qi+1}. ${item.q}</h3>
+        <span class="marks">${item.marks}</span>
+      </div>
+      <div class="q-body">${item.body}</div>
+    `;
+    section.appendChild(qDiv);
+  });
+
+  mainEl.appendChild(section);
+});
+
+function showPaper(idx) {
+  document.querySelectorAll('.paper').forEach((el,i) => el.classList.toggle('active', i===idx));
+  document.querySelectorAll('nav.tabs button').forEach((el,i) => el.classList.toggle('active', i===idx));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>

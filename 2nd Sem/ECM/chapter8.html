@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 8: DC Machine — ECM ENEE 154</title>
+<link rel="stylesheet" href="style.css">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html" class="current">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 8.</span> DC Machine</h1>
+  <p class="subtitle">5 hours · 5 marks</p>
+
+  <h2>8.1 Constructional Details</h2>
+  <p>A DC machine (motor or generator) has the following main parts:</p>
+  <table>
+    <tr><th>Part</th><th>Function / notes</th></tr>
+    <tr><td><strong>Yoke (frame)</strong></td><td>Outer cast-iron/steel casing; mechanical support; carries magnetic flux of the field system.</td></tr>
+    <tr><td><strong>Poles &amp; pole shoes</strong></td><td>Field poles bolted to yoke; laminated shoes spread flux and support field winding.</td></tr>
+    <tr><td><strong>Field winding</strong></td><td>Copper coils on poles; produce main magnetic field when excited.</td></tr>
+    <tr><td><strong>Armature core</strong></td><td>Laminated cylindrical iron; slots hold armature conductors; rotates in magnetic field.</td></tr>
+    <tr><td><strong>Armature winding</strong></td><td>Lap or wave winding in slots; where EMF is induced / torque produced.</td></tr>
+    <tr><td><strong>Commutator</strong></td><td>Cylinder of copper segments insulated by mica; mechanical rectifier/inverter — converts AC in armature to DC at brushes (generator) or DC supply to alternating currents in coils (motor).</td></tr>
+    <tr><td><strong>Brushes</strong></td><td>Carbon/graphite; press on commutator; connect rotating armature circuit to external stationary circuit.</td></tr>
+    <tr><td><strong>Shaft, bearings, interpoles</strong></td><td>Mechanical support; interpoles (compoles) improve commutation under load.</td></tr>
+  </table>
+
+  <h3>Commutator and brushes (exam focus)</h3>
+  <div class="card">
+    <p>The armature winding carries <em>alternating</em> current relative to the rotating conductors. The commutator + brushes form a switching arrangement that:</p>
+    <ul>
+      <li><strong>As generator:</strong> rectifies the induced AC so that brush polarity is unidirectional (DC output).</li>
+      <li><strong>As motor:</strong> reverses current in each coil as it passes under a brush so that torque remains unidirectional.</li>
+    </ul>
+    <p>Good commutation requires brush at magnetic neutral axis (or slightly shifted / with interpoles). Sparking indicates poor commutation (high reactance voltage, worn brushes, wrong brush position).</p>
+  </div>
+
+  <h2>8.2 Generator Principle &amp; EMF Equation</h2>
+  <p><strong>Principle:</strong> Faraday’s law — when armature conductors cut magnetic flux (driven by prime mover), an EMF is induced. Commutator delivers DC at the brushes.</p>
+  <p>Average EMF per conductor $= B\ell v$. For $Z$ conductors, $P$ poles, $A$ parallel paths, flux/pole $\Phi$, speed $N$ rpm:</p>
+  $$E_g = \frac{\Phi Z N}{60}\times\frac{P}{A}$$
+  <ul>
+    <li>Lap winding: $A = P$</li>
+    <li>Wave winding: $A = 2$</li>
+  </ul>
+  <p>Also $E_g = V + I_a R_a$ (+ brush drop if considered) for a separately/shunt generator supplying terminal voltage $V$.</p>
+
+  <h2>8.3 Motor Principle &amp; Torque Equation</h2>
+  <p><strong>Principle:</strong> When a current-carrying conductor lies in a magnetic field, it experiences a force $F=B I \ell$ (Fleming’s left-hand rule). Forces on armature conductors produce a torque about the shaft.</p>
+
+  <h3>Production of torque</h3>
+  <p>Under a N-pole, conductors carrying current into the page experience force in one tangential direction; under S-pole, reverse current (via commutator) experiences force in the same rotational sense → continuous unidirectional torque.</p>
+  <p><strong>Gross (developed) torque:</strong> electrical power converted $= E_b I_a = T\omega$, with $\omega=2\pi N/60$:</p>
+  $$T = \frac{E_b I_a}{\omega} = 0.159\,\Phi Z I_a\frac{P}{A}\quad(\mathrm{N\cdot m})$$
+  <p>In proportional form: $T \propto \Phi I_a$. For constant field (shunt), $T \propto I_a$.</p>
+
+  <h2>8.4 Types of DC Machine</h2>
+  <table>
+    <tr><th>Type</th><th>Field connection</th><th>Notes</th></tr>
+    <tr><td>Separately excited</td><td>Field from independent DC source</td><td>Flexible control; lab / Ward–Leonard.</td></tr>
+    <tr><td>Shunt</td><td>Field parallel with armature</td><td>Nearly constant speed (motor); flat voltage (generator).</td></tr>
+    <tr><td>Series</td><td>Field in series with armature</td><td>High starting torque; never run without load (motor).</td></tr>
+    <tr><td>Compound (long/short shunt)</td><td>Both series + shunt fields</td><td>Cumulative: good regulation / torque; differential: special uses.</td></tr>
+  </table>
+
+  <h2>8.5 Back EMF and Its Role</h2>
+  <p>When a DC motor armature rotates in the field, an EMF is induced that opposes the applied voltage — the <strong>back EMF</strong> $E_b$:</p>
+  $$E_b = \frac{\Phi Z N}{60}\frac{P}{A} = V - I_a R_a$$
+  <p><strong>Roles of back EMF:</strong></p>
+  <ul>
+    <li>Makes the motor self-regulating: if load ↑ → speed dips slightly → $E_b$ ↓ → $I_a=(V-E_b)/R_a$ ↑ → torque ↑ to meet load.</li>
+    <li>Limits armature current in running condition ($R_a$ is small; without $E_b$, $I_a\approx V/R_a$ would be huge).</li>
+    <li>At start, $N=0$ → $E_b=0$ → starting current $=V/R_a$ is dangerously high → need a starter.</li>
+  </ul>
+
+  <h2>8.6 Performance Characteristics of DC Motor</h2>
+  <ul>
+    <li><strong>Torque–current:</strong> shunt $T\propto I_a$ (straight line); series $T\propto I_a^2$ (unsaturated).</li>
+    <li><strong>Speed–current / speed–torque:</strong> shunt — almost flat (slight droop); series — speed high at light load, falls as torque rises.</li>
+    <li><strong>Speed–torque:</strong> shunt suitable for constant-speed drives; series for traction, cranes (high $T_{\mathrm{st}}$).</li>
+  </ul>
+
+  <h2>8.7 Starting with 3-Point Starter</h2>
+  <p>At start $E_b=0$, so a variable resistance (starter) is inserted in series with the armature to limit $I_{\mathrm{st}}$ to a safe value (≈1.5–2.5× FL).</p>
+  <p><strong>Three-point starter</strong> (shunt motor) terminals: L (line), A (armature), F (field).</p>
+  <ul>
+    <li><strong>Starting resistance</strong> graded; handle moves from OFF toward RUN, cutting out resistance stepwise.</li>
+    <li><strong>No-volt release (NVR) coil</strong> in series with field — holds handle in RUN; if supply fails or field opens, spring returns handle to OFF (protects against restart on full voltage / runaway on field failure).</li>
+    <li><strong>Overload release (OLR)</strong> — electromagnet across a shunt; heavy current attracts armature shorting NVR → handle returns to OFF.</li>
+  </ul>
+  <p>“Three-point” = L, A, F connection points. (Four-point starter puts NVR across supply for better field-control compatibility.)</p>
+
+  <h2>8.8 Speed Control (Armature, Field)</h2>
+  From $N \propto E_b/\Phi \approx (V - I_a R_a)/\Phi$:
+  <table>
+    <tr><th>Method</th><th>How</th><th>Effect</th></tr>
+    <tr><td><strong>Armature voltage / rheostat</strong></td><td>Series resistance with armature, or variable $V_a$</td><td>Speed below rated (rheostat); Ward–Leonard / chopper for wide range. Rheostat: inefficient ($I_a^2 R$ loss).</td></tr>
+    <tr><td><strong>Field control</strong></td><td>Rheostat in shunt-field circuit; weaken $\Phi$</td><td>Speed above rated; limited by commutation and mechanical strength.</td></tr>
+  </table>
+
+  <h2>8.9 Losses and Efficiency</h2>
+  <ul>
+    <li><strong>Copper losses:</strong> $I_a^2 R_a$, $I_{\mathrm{sh}}^2 R_{\mathrm{sh}}$, series-field $I_{\mathrm{se}}^2 R_{\mathrm{se}}$.</li>
+    <li><strong>Iron losses:</strong> hysteresis + eddy in armature core (and poles).</li>
+    <li><strong>Mechanical:</strong> friction + windage.</li>
+    <li><strong>Stray / brush contact</strong> losses.</li>
+  </ul>
+  <p>Iron + friction + windage often grouped as <strong>constant losses</strong>.</p>
+  $$\eta_{\mathrm{commercial}} = \frac{\text{output}}{\text{input}} = \frac{\text{output}}{\text{output}+\text{total losses}}$$
+  <p>For generator: output $= V I_L$; input = mechanical power from prime mover ≈ $E_g I_a$ (gross electrical generated).</p>
+
+  <!-- ========== SOLVED ========== -->
+  <h2>Solved Examples</h2>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Solved</span> Example 1 — Shunt generator: $E_g$ and commercial efficiency</div>
+    <div class="a">
+      <p><strong>Q.</strong> A shunt generator delivers 96 A at 200 V. Armature resistance $R_a=0.1\,\Omega$, shunt-field resistance $R_{\mathrm{sh}}=50\,\Omega$. Iron and friction losses are 2500 W. Find the generated EMF and commercial efficiency.</p>
+      <p><strong>Shunt current:</strong></p>
+      $$I_{\mathrm{sh}} = \frac{V}{R_{\mathrm{sh}}} = \frac{200}{50} = 4\,\mathrm{A}$$
+      <p><strong>Armature current</strong> (generator: armature supplies load + shunt):</p>
+      $$I_a = I_L + I_{\mathrm{sh}} = 96 + 4 = 100\,\mathrm{A}$$
+      <p><strong>Generated EMF:</strong></p>
+      $$E_g = V + I_a R_a = 200 + 100\times 0.1 = \mathbf{210\,\mathrm{V}}$$
+      <p><strong>Output</strong> $= V I_L = 200\times 96 = 19200\,\mathrm{W}$</p>
+      <p><strong>Copper losses:</strong></p>
+      $$I_a^2 R_a + I_{\mathrm{sh}}^2 R_{\mathrm{sh}} = 100^2\times 0.1 + 4^2\times 50 = 1000 + 800 = 1800\,\mathrm{W}$$
+      <p><strong>Iron + friction</strong> $= 2500\,\mathrm{W}$</p>
+      <p><strong>Total losses</strong> $= 1800 + 2500 = 4300\,\mathrm{W}$</p>
+      <p><strong>Input</strong> $= \text{output} + \text{losses} = 19200 + 4300 = 23500\,\mathrm{W}$</p>
+      $$\eta_{\mathrm{comm}} = \frac{19200}{23500}\times 100\% = \mathbf{81.70\%}$$
+      <p>(Check: generated power $E_g I_a = 210\times 100 = 21000\,\mathrm{W}$; after Cu losses in armature+field path accounting, commercial $\eta$ uses terminal output / mechanical input.)</p>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Solved</span> Example 2 — Shunt motor speed after armature series resistance &amp; torque drop</div>
+    <div class="a">
+      <p><strong>Q.</strong> A 240 V shunt motor has $R_a=0.4\,\Omega$ and $R_f=120\,\Omega$. It draws 30 A at half load and runs at 1400 rpm. A resistance of $1.2\,\Omega$ is connected in series with the armature and the torque is reduced by 20%. Find the new speed. (Field unchanged.)</p>
+
+      <p><strong>Field current:</strong> $I_f = V/R_f = 240/120 = 2\,\mathrm{A}$</p>
+      <p><strong>Half-load armature current:</strong> $I_{a1} = 30 - 2 = 28\,\mathrm{A}$</p>
+      $$E_{b1} = V - I_{a1} R_a = 240 - 28\times 0.4 = 240 - 11.2 = 228.8\,\mathrm{V}$$
+      <p>Since $T\propto\Phi I_a$ and $\Phi$ constant (shunt field unchanged):</p>
+      $$T_2 = 0.8\,T_1 \;\Rightarrow\; I_{a2} = 0.8\times 28 = 22.4\,\mathrm{A}$$
+      <p>With $1.2\,\Omega$ in series with armature:</p>
+      $$E_{b2} = V - I_{a2}(R_a+1.2) = 240 - 22.4\times(0.4+1.2) = 240 - 22.4\times 1.6 = 240 - 35.84 = 204.16\,\mathrm{V}$$
+      <p>$N\propto E_b/\Phi$; $\Phi$ constant:</p>
+      $$N_2 = N_1\times\frac{E_{b2}}{E_{b1}} = 1400\times\frac{204.16}{228.8} = \mathbf{1249\,\mathrm{rpm}}\text{ (approx.)}$$
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q"><span class="tag">Theory</span> Commutator, brushes &amp; torque production</div>
+    <div class="a">
+      <p><strong>Commutator:</strong> segmented copper cylinder; converts generated AC in coils to DC at brushes (generator), and ensures torque remains unidirectional (motor) by reversing coil current under brush.</p>
+      <p><strong>Brushes:</strong> carbon blocks sliding on commutator; connect external circuit; placed near GNA for sparkless commutation.</p>
+      <p><strong>Torque:</strong> $F=BI\ell$ on each conductor; commutator maintains correct current direction under N and S poles so all forces contribute to the same rotation; $T=0.159\,\Phi Z I_a (P/A)$.</p>
+    </div>
+  </div>
+
+  <!-- ========== MPQ ========== -->
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Describe the construction of a DC machine with neat sketches of main parts. <span class="marks">5 marks</span></div>
+    <div class="a">Yoke, poles, field winding, armature core &amp; winding, commutator, brushes — see §8.1.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Derive the EMF equation of a DC generator. <span class="marks">4 marks</span></div>
+    <div class="a">$E_g=\Phi Z N P/(60 A)$. State $A=P$ (lap), $A=2$ (wave). See §8.2.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Explain the principle of a DC motor and derive the torque equation. How is torque produced? <span class="marks">5 marks</span></div>
+    <div class="a">$F=BI\ell$; $E_b I_a=T\omega$; $T\propto\Phi I_a$. Commutator keeps unidirectional torque. See §8.3.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. What is back EMF? Explain its significance in a DC motor. Why is starting current high? <span class="marks">4 marks</span></div>
+    <div class="a">$E_b=V-I_a R_a$; self-regulates $I_a$; at start $E_b=0$ so $I_{\mathrm{st}}=V/R_a$ is very large. See §8.5.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Explain the working of a 3-point starter for a DC shunt motor. <span class="marks">5 marks</span></div>
+    <div class="a">Graded resistance; NVR in field; OLR protection; L–A–F connections. See §8.7.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Explain armature and field methods of speed control of a DC shunt motor. <span class="marks">4 marks</span></div>
+    <div class="a">Armature: speed below base; field weakening: above base. See §8.8.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. A shunt generator delivers 96 A at 200 V; $R_a=0.1\,\Omega$, $R_{\mathrm{sh}}=50\,\Omega$; iron+friction = 2500 W. Find $E_g$ and commercial efficiency. <span class="marks">5 marks</span></div>
+    <div class="a">Solved Example 1: $E_g=210\,\mathrm{V}$, $\eta=81.70\%$.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. A 240 V shunt motor ($R_a=0.4\,\Omega$, $R_f=120\,\Omega$) draws 30 A at 1400 rpm (half load). With $1.2\,\Omega$ in series with armature and torque reduced 20%, find new speed. <span class="marks">5 marks</span></div>
+    <div class="a">Solved Example 2: $N_2\approx 1249\,\mathrm{rpm}$.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. Classify DC machines and state applications of series and shunt motors. <span class="marks">3 marks</span></div>
+    <div class="a">Separately, shunt, series, compound. Series: traction, cranes. Shunt: lathes, fans, constant-speed drives. See §8.4.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter7.html">← Chapter 7</a>
+    <a href="chapter9.html">Next: Chapter 9 — AC Motor →</a>
+  </div>
+</div>
+</body>
+</html>

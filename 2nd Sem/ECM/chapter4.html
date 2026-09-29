@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 4: Network Transfer Function and Frequency Response</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html" class="current">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 4.</span> Network Transfer Function and Frequency Response</h1>
+  <p class="subtitle">8 hours · 8 marks</p>
+
+  <p>This chapter links Laplace-domain network functions to steady-state sinusoidal behaviour. Exam questions typically ask definitions (network function, poles/zeros), Bode asymptotic construction for given \(H(s)\), bandwidth/Q concepts, and filter classification.</p>
+
+  <h2>4.1 Complex Frequency</h2>
+  <p>A general exponential signal may be written \(e^{st}\) where the <strong>complex frequency</strong> is</p>
+  \[
+  s = \sigma + j\omega
+  \]
+  <ul>
+    <li>\(\sigma\) (nepers/s) — damping / growth rate of the envelope</li>
+    <li>\(\omega\) (rad/s) — angular frequency of oscillation</li>
+  </ul>
+  <p>Special cases:</p>
+  <table>
+    <tr><th>\(s\)</th><th>Signal</th><th>Interpretation</th></tr>
+    <tr><td>\(s = 0\)</td><td>DC / constant</td><td>steady value</td></tr>
+    <tr><td>\(s = \sigma\) (real)</td><td>\(e^{\sigma t}\)</td><td>pure exponential (no oscillation)</td></tr>
+    <tr><td>\(s = j\omega\)</td><td>\(e^{j\omega t}\)</td><td>steady-state sinusoid (phasor analysis)</td></tr>
+    <tr><td>\(s = \sigma + j\omega\)</td><td>\(e^{\sigma t}e^{j\omega t}\)</td><td>damped / growing sinusoid</td></tr>
+  </table>
+  <p>Replacing \(s\) by \(j\omega\) in a network function yields the <strong>sinusoidal steady-state frequency response</strong>.</p>
+
+  <h2>4.2 Transfer Functions of Two-Port Networks</h2>
+  <h3>Network function (definition)</h3>
+  <p>A <strong>network function</strong> (driving-point or transfer) is the Laplace-domain ratio of a response transform to an excitation transform, with zero initial conditions:</p>
+  \[
+  H(s) = \frac{\text{Response}(s)}{\text{Excitation}(s)}
+  \]
+  <p>Common transfer functions of a two-port:</p>
+  <table>
+    <tr><th>Name</th><th>Definition</th><th>Condition</th></tr>
+    <tr><td>Voltage transfer</td><td>\(G_v(s) = V_2(s)/V_1(s)\)</td><td>port 2 open or specified load</td></tr>
+    <tr><td>Current transfer</td><td>\(\alpha(s) = I_2(s)/I_1(s)\)</td><td>port 2 short or specified</td></tr>
+    <tr><td>Transfer impedance</td><td>\(Z_{21}(s) = V_2(s)/I_1(s)\)</td><td>\(I_2=0\)</td></tr>
+    <tr><td>Transfer admittance</td><td>\(Y_{21}(s) = I_2(s)/V_1(s)\)</td><td>\(V_2=0\)</td></tr>
+    <tr><td>Driving-point impedance</td><td>\(Z_{\text{in}}(s) = V_1(s)/I_1(s)\)</td><td>same port</td></tr>
+  </table>
+  <p>In general a rational network function has the form</p>
+  \[
+  H(s) = K\,\frac{(s-z_1)(s-z_2)\cdots(s-z_m)}{(s-p_1)(s-p_2)\cdots(s-p_n)}
+  \]
+  where \(K\) is a gain constant, \(z_i\) are zeros and \(p_k\) are poles.
+
+  <h2>4.3 Poles and Zeros</h2>
+  <ul>
+    <li><strong>Zeros:</strong> values of \(s\) that make \(H(s)=0\) (numerator roots). At a zero the response vanishes for that complex-frequency excitation.</li>
+    <li><strong>Poles:</strong> values of \(s\) that make \(H(s)\to\infty\) (denominator roots). Poles determine natural modes and stability.</li>
+    <li><strong>Pole-zero diagram:</strong> zeros marked ○, poles marked × in the \(s\)-plane.</li>
+  </ul>
+  <div class="card">
+    <strong>Stability (LTI lumped networks):</strong> all poles must lie in the open left-half plane (or simple poles on the \(j\omega\) axis for lossless LC). Right-half-plane poles ⇒ unstable.
+  </div>
+  <p><strong>Example — locate poles and zeros.</strong> Given</p>
+  \[
+  H(s)=\frac{10(s^2+8s+15)}{s^2(s+3)(0.05s+1)}
+  \]
+  <p>Numerator: \(s^2+8s+15=(s+3)(s+5)\) ⇒ zeros at \(s=-3,-5\).</p>
+  <p>Denominator: \(s^2(s+3)(0.05s+1)=0\) ⇒ poles at \(s=0\) (double), \(s=-3\), \(s=-20\).</p>
+  <p>Note the zero at \(-3\) cancels one factor of \((s+3)\) if allowed, leaving an effective pole-zero set after cancellation (check before Bode drawing).</p>
+
+  <h2>4.4 Magnitude and Phase Response</h2>
+  <p>On the \(j\omega\) axis, \(H(j\omega)=|H(j\omega)|\,e^{j\phi(\omega)}\):</p>
+  \[
+  |H(j\omega)| = \text{magnitude},\qquad
+  \phi(\omega)=\angle H(j\omega)=\text{phase}
+  \]
+  <p>In decibels:</p>
+  \[
+  |H|_{\text{dB}} = 20\log_{10}|H(j\omega)|
+  \]
+  <p>Useful identities for Bode construction:</p>
+  \[
+  20\log|AB|=20\log|A|+20\log|B|,\qquad
+  20\log\Bigl|\frac{A}{B}\Bigr|=20\log|A|-20\log|B|
+  \]
+  \[
+  \angle(AB)=\angle A+\angle B,\qquad
+  \angle(A/B)=\angle A-\angle B
+  \]
+
+  <h2>4.5 Bode Diagrams</h2>
+  <p>A Bode diagram plots \(20\log|H|\) (dB) and \(\phi\) (degrees) vs \(\omega\) on a log frequency axis. <strong>Asymptotic</strong> Bode plots use straight-line approximations that are fast and exam-friendly.</p>
+
+  <h3>Standard factors</h3>
+  <p>Write \(H(s)\) in Bode (corner-frequency) form before plotting:</p>
+  \[
+  H(s)=K\,\frac{\prod(1+s/\omega_{z})}{\prod(1+s/\omega_{p})\cdot\prod\bigl(1+2\zeta s/\omega_n + s^2/\omega_n^2\bigr)}
+  \]
+  (also include \(s^{\pm r}\) factors for poles/zeros at the origin).
+
+  <h3>Asymptotic magnitude rules</h3>
+  <table>
+    <tr><th>Factor</th><th>Asymptote</th></tr>
+    <tr><td>Constant \(K\)</td><td>\(20\log|K|\) dB horizontal</td></tr>
+    <tr><td>\(s\) (zero at origin)</td><td>\(+20\) dB/decade through \(0\) dB at \(\omega=1\)</td></tr>
+    <tr><td>\(1/s\) (pole at origin)</td><td>\(-20\) dB/decade through \(0\) dB at \(\omega=1\)</td></tr>
+    <tr><td>\(1+s/\omega_c\) (real zero)</td><td>\(0\) dB for \(\omega\ll\omega_c\); \(+20\) dB/dec for \(\omega\gg\omega_c\); corner at \(\omega_c\)</td></tr>
+    <tr><td>\(1/(1+s/\omega_c)\) (real pole)</td><td>\(0\) dB then \(-20\) dB/dec after \(\omega_c\)</td></tr>
+    <tr><td>Quadratic \(\omega_n,\zeta\)</td><td>\(0\) then \(\pm 40\) dB/dec after \(\omega_n\); peaking depends on \(\zeta\)</td></tr>
+  </table>
+
+  <h3>Asymptotic phase rules (real poles/zeros)</h3>
+  <ul>
+    <li>Constant \(K&gt;0\): \(0^\circ\); \(K&lt;0\): \(\pm 180^\circ\)</li>
+    <li>Pole at origin \(1/s\): \(-90^\circ\) constant; zero at origin \(s\): \(+90^\circ\)</li>
+    <li>Real pole at \(\omega_c\): phase goes \(0^\circ\to -90^\circ\); asymptotic sketch often uses \(0^\circ\) until \(0.1\omega_c\), linear to \(-90^\circ\) at \(10\omega_c\)</li>
+    <li>Real zero at \(\omega_c\): \(0^\circ\to +90^\circ\) over the same decade span</li>
+    <li>Quadratic: \(0^\circ\to \pm 180^\circ\) centred at \(\omega_n\)</li>
+  </ul>
+
+  <h2>4.6 Bandwidth, High-Q and Low-Q Circuits</h2>
+  <p>For a second-order band-pass or resonant circuit with centre (resonant) frequency \(\omega_0\) and half-power frequencies \(\omega_1,\omega_2\):</p>
+  \[
+  \text{BW}=\omega_2-\omega_1=\frac{R}{L}\quad\text{(series RLC)},\qquad
+  Q=\frac{\omega_0}{\text{BW}}
+  \]
+  <ul>
+    <li><strong>High-Q</strong> (\(Q\gg 1\), typically \(Q&gt;10\)): sharp resonance, narrow bandwidth, lightly damped; magnitude peak near \(\omega_0\).</li>
+    <li><strong>Low-Q</strong> (\(Q\) small, e.g. \(Q&lt;0.5\)): overdamped / broad response; poles are real or widely spaced; little peaking.</li>
+  </ul>
+  <p>For the standard quadratic factor \(s^2+2\zeta\omega_n s+\omega_n^2\), \(Q=1/(2\zeta)\). High-Q ⇔ small damping ratio \(\zeta\).</p>
+
+  <h2>4.7 Filters: HP, LP, Band-Stop, Band-Pass</h2>
+  <table>
+    <tr><th>Type</th><th>Pass / stop behaviour</th><th>Typical first-order TF (RC)</th></tr>
+    <tr><td>Low-pass (LP)</td><td>passes low \(\omega\), attenuates high</td><td>\(\dfrac{\omega_c}{s+\omega_c}\)</td></tr>
+    <tr><td>High-pass (HP)</td><td>passes high \(\omega\), attenuates low</td><td>\(\dfrac{s}{s+\omega_c}\)</td></tr>
+    <tr><td>Band-pass (BP)</td><td>passes a band around \(\omega_0\)</td><td>\(\dfrac{(\text{BW})s}{s^2+(\text{BW})s+\omega_0^2}\)</td></tr>
+    <tr><td>Band-stop / notch</td><td>rejects a band around \(\omega_0\)</td><td>\(\dfrac{s^2+\omega_0^2}{s^2+(\text{BW})s+\omega_0^2}\)</td></tr>
+  </table>
+  <p>Order equals degree of denominator (after proper reduction). Cascading stages raises order and steepens roll-off (\(\pm 20n\) dB/decade for order \(n\) real poles).</p>
+
+  <h2>Solved Examples — Asymptotic Bode Plots</h2>
+
+  <h3>Example 1</h3>
+  <p class="tag">Exam type</p>
+  <p>Sketch the asymptotic magnitude Bode plot of</p>
+  \[
+  H(s)=\frac{10(s^2+8s+15)}{s^2(s+3)(0.05s+1)}
+  \]
+  <div class="card">
+    <p><strong>Solution.</strong> Factor and rewrite in corner form.</p>
+    \[
+    s^2+8s+15=(s+3)(s+5)
+    \]
+    \[
+    H(s)=\frac{10(s+3)(s+5)}{s^2(s+3)(0.05s+1)}
+    \]
+    <p>Cancel \((s+3)\) (assuming no hidden RHP issues — here both cancel safely for magnitude asymptotes):</p>
+    \[
+    H(s)=\frac{10(s+5)}{s^2(0.05s+1)}=\frac{10\cdot 5\,(1+s/5)}{s^2\cdot 1\cdot(1+s/20)}=\frac{50(1+s/5)}{s^2(1+s/20)}
+    \]
+    <p><strong>Corners / factors:</strong></p>
+    <ul>
+      <li>\(K=50\) ⇒ \(20\log 50\approx 34\) dB</li>
+      <li>Double pole at origin: start with slope \(-40\) dB/dec</li>
+      <li>Zero at \(\omega=5\) rad/s: slope increases by \(+20\) → becomes \(-20\) dB/dec</li>
+      <li>Pole at \(\omega=20\) rad/s: slope decreases by \(20\) → back to \(-40\) dB/dec</li>
+    </ul>
+    <p>To draw: pick a reference on the \(-40\) dB/dec line from the \(K/s^2\) behaviour (at \(\omega=1\), \(|H|\approx 50\) ⇒ \(34\) dB if only \(K/s^2\)), then break at \(5\) and \(20\).</p>
+  </div>
+
+  <h3>Example 2</h3>
+  <p class="tag">Exam type</p>
+  \[
+  T(s)=\frac{100(s+5)}{s^2(s^2+21s+20)}
+  \]
+  <div class="card">
+    <p><strong>Solution.</strong> Factor \(s^2+21s+20=(s+1)(s+20)\).</p>
+    \[
+    T(s)=\frac{100(s+5)}{s^2(s+1)(s+20)}=\frac{100\cdot 5\,(1+s/5)}{s^2\cdot 1\cdot 20\,(1+s)(1+s/20)}=\frac{25(1+s/5)}{s^2(1+s)(1+s/20)}
+    \]
+    <p>Corners: poles at \(0\) (double), \(1\), \(20\); zero at \(5\). Gain \(20\log 25\approx 28\) dB.</p>
+    <p>Slope sequence: start \(-40\) dB/dec → after \(\omega=1\): \(-60\) → after \(\omega=5\): \(-40\) → after \(\omega=20\): \(-60\) dB/dec.</p>
+  </div>
+
+  <h3>Example 3</h3>
+  <p class="tag">Exam type</p>
+  \[
+  H(s)=\frac{100s(s+5)}{(s+1)(s^2+10s+100)}
+  \]
+  <div class="card">
+    <p><strong>Solution.</strong> Quadratic: \(s^2+10s+100\) ⇒ \(\omega_n=10\), \(2\zeta\omega_n=10\) ⇒ \(\zeta=0.5\) (moderately damped, \(Q=1\)).</p>
+    \[
+    H(s)=\frac{100s\cdot 5(1+s/5)}{1\cdot(1+s)\cdot 100\bigl(1+s/10+s^2/100\bigr)}=\frac{5\,s\,(1+s/5)}{(1+s)\bigl(1+0.1s+0.01s^2\bigr)}
+    \]
+    <p>Factors: zero at origin (\(+20\) dB/dec start), real pole at \(1\), real zero at \(5\), complex poles at \(\omega_n=10\) (\(-40\) dB/dec after).</p>
+    <p>Slope: \(+20\) → after \(1\): \(0\) → after \(5\): \(+20\) → after \(10\): \(-20\) dB/dec.</p>
+  </div>
+
+  <h3>Example 4</h3>
+  <p class="tag">Exam type</p>
+  \[
+  G(s)=\frac{500(s+2)}{s(s^2+15s+121)}
+  \]
+  <div class="card">
+    <p><strong>Solution.</strong> \(\omega_n=\sqrt{121}=11\), \(2\zeta\omega_n=15\) ⇒ \(\zeta=15/(22)\approx 0.682\) (low peaking).</p>
+    \[
+    G(s)=\frac{500\cdot 2(1+s/2)}{s\cdot 121\bigl(1+15s/121+s^2/121\bigr)}=\frac{(1000/121)\,(1+s/2)}{s\,(1+\cdots)}\approx\frac{8.26\,(1+s/2)}{s(\cdots)}
+    \]
+    <p>Start: pole at origin (\(-20\) dB/dec); zero at \(2\) → slope \(0\); quadratic poles at \(11\) → slope \(-40\) dB/dec. \(20\log 8.26\approx 18.3\) dB sets the mid-band plateau level approximately.</p>
+  </div>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Define network function. Distinguish driving-point and transfer functions. <span class="marks">4 marks</span></div>
+    <div class="a">A network function is the Laplace ratio of a response to an excitation with zero initial conditions. A <strong>driving-point</strong> function relates voltage and current at the <em>same</em> port (\(Z_{\text{in}},Y_{\text{in}}\)). A <strong>transfer</strong> function relates quantities at <em>different</em> ports or different variable types (\(V_2/V_1\), \(V_2/I_1\), etc.).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. What are poles and zeros of a network function? How do they relate to stability? <span class="marks">5 marks</span></div>
+    <div class="a">Zeros are roots of the numerator (\(H=0\)); poles are roots of the denominator (\(H\to\infty\)). For BIBO stability of a causal LTI network, all poles must have negative real parts (left-half plane); simple \(j\omega\)-axis poles are acceptable only in special lossless cases.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Explain complex frequency \(s=\sigma+j\omega\). When is \(s=j\omega\) used? <span class="marks">4 marks</span></div>
+    <div class="a">\(s\) generalises exponential signals \(e^{st}\). \(\sigma\) sets growth/decay; \(\omega\) is oscillation rate. Setting \(s=j\omega\) recovers AC steady-state phasor analysis and frequency response \(H(j\omega)\).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Draw the asymptotic Bode magnitude plot of \(H(s)=10(s^2+8s+15)/[s^2(s+3)(0.05s+1)]\). <span class="marks">8 marks</span></div>
+    <div class="a">Follow Example 1: cancel \((s+3)\), rewrite as \(50(1+s/5)/[s^2(1+s/20)]\). Slopes: \(-40\) → break at \(5\) to \(-20\) → break at \(20\) to \(-40\). Mark \(20\log 50\approx 34\) dB reference for the \(K/s^2\) asymptote.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. State the rules for constructing asymptotic magnitude and phase Bode plots. <span class="marks">6 marks</span></div>
+    <div class="a">Magnitude: constants contribute \(20\log|K|\); each origin pole/zero \(\mp 20\) dB/dec; each real corner changes slope by \(\pm 20\) dB/dec; quadratic by \(\pm 40\). Phase: origin pole/zero \(\mp 90^\circ\); each real factor contributes a \(0\to\mp 90^\circ\) transition spanning roughly \(0.1\omega_c\) to \(10\omega_c\); add contributions.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Define bandwidth and quality factor. Differentiate high-Q and low-Q circuits. <span class="marks">5 marks</span></div>
+    <div class="a">BW is the width between half-power frequencies; \(Q=\omega_0/\text{BW}\). High-Q: narrow BW, sharp peak, small \(\zeta\). Low-Q: wide BW, heavy damping, little or no resonance peak.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Classify filters (LP, HP, BP, BS) with typical transfer functions. <span class="marks">6 marks</span></div>
+    <div class="a">LP: \(\omega_c/(s+\omega_c)\); HP: \(s/(s+\omega_c)\); BP: \((\text{BW})s/(s^2+(\text{BW})s+\omega_0^2)\); BS: \((s^2+\omega_0^2)/(s^2+(\text{BW})s+\omega_0^2)\). Classify by which frequency bands are passed vs attenuated.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. For \(T(s)=100(s+5)/[s^2(s^2+21s+20)]\), find corner frequencies and asymptotic slopes. <span class="marks">7 marks</span></div>
+    <div class="a">See Example 2. Corners at \(1\), \(5\), \(20\) plus double pole at \(0\). Slopes: \(-40\to-60\to-40\to-60\) dB/dec.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. Sketch Bode asymptotes for \(G(s)=500(s+2)/[s(s^2+15s+121)]\). <span class="marks">8 marks</span></div>
+    <div class="a">Example 4: pole at \(0\), zero at \(2\), \(\omega_n=11\). Slopes \(-20\to 0\to-40\). Gain factor \(\approx 8.26\) ⇒ about \(18.3\) dB plateau.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q10. What is the significance of \(\zeta\) (or \(Q\)) in a quadratic Bode factor? <span class="marks">3 marks</span></div>
+    <div class="a">It controls peaking near \(\omega_n\). Small \(\zeta\) (high \(Q\)) → resonant peak above the asymptote; \(\zeta\approx 0.707\) → maximally flat; larger \(\zeta\) → no peak, smoother magnitude.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter3.html">← Chapter 3</a>
+    <a href="chapter5.html">Next: Chapter 5 — Two-Port Parameters →</a>
+  </div>
+</div>
+</body>
+</html>

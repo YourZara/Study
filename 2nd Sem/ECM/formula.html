@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ECM (ENEE 154) — Formula Quick Reference</title>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+:root{
+  --bg:#fafaf8; --card:#ffffff; --ink:#1c1c1a; --sub:#5c5c56;
+  --accent:#2e5f8a; --accent2:#3c86c7; --line:#e6e2da; --code-bg:#282420;
+  --code-ink:#f2ede4; --tab-inactive:#f0ece3;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12151a; --card:#1a1e24; --ink:#f0ede4; --sub:#a8b0bb;
+    --accent:#7ab6e0; --accent2:#7ab6e0; --line:#333a44; --code-bg:#0d0f12;
+    --code-ink:#e8e2d5; --tab-inactive:#22262d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12151a; --card:#1a1e24; --ink:#f0ede4; --sub:#a8b0bb;
+  --accent:#7ab6e0; --accent2:#7ab6e0; --line:#333a44; --code-bg:#0d0f12;
+  --code-ink:#e8e2d5; --tab-inactive:#22262d;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  line-height:1.5;
+}
+header{max-width:920px; margin:0 auto; padding:26px 20px 14px;}
+header h1{font-size:1.45rem; margin:0 0 4px; font-family:Georgia,serif;}
+header p{color:var(--sub); margin:0; font-size:0.92rem;}
+input#search{
+  width:100%; max-width:920px; display:block; margin:0 auto 10px; padding:11px 14px;
+  border-radius:9px; border:1px solid var(--line); background:var(--card); color:var(--ink);
+  font-size:0.9rem; font-family:inherit;
+}
+nav.tabs{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:10;
+  background:var(--bg); border-bottom:1px solid var(--line);
+  overflow-x:auto; white-space:nowrap; padding:0 20px 0;
+}
+nav.tabs::-webkit-scrollbar{display:none;}
+nav.tabs button{
+  font-size:0.83rem; font-weight:600; background:none; border:none; color:var(--sub);
+  padding:13px 12px; cursor:pointer; border-bottom:3px solid transparent;
+}
+nav.tabs button.active{color:var(--accent); border-bottom-color:var(--accent);}
+main{max-width:920px; margin:0 auto; padding:18px 20px 50px;}
+.cat{display:none;}
+.cat.active{display:grid; gap:14px;}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:16px 18px; box-shadow:var(--shadow);
+}
+.card h3{margin:0 0 8px; font-size:1.02rem; font-family:Georgia,serif; color:var(--ink);}
+.card .label{
+  font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent2);
+  font-weight:700; margin:12px 0 4px;
+}
+.card p.explain{margin:4px 0 0; font-size:0.92rem; color:var(--ink);}
+.card ul{margin:6px 0 0; padding-left:1.15em; font-size:0.92rem;}
+.card li{margin:3px 0;}
+.mj{
+  background:var(--code-bg); color:var(--code-ink); padding:12px 14px;
+  border-radius:8px; overflow-x:auto; font-size:0.95rem; line-height:1.7;
+  margin:4px 0;
+}
+.mj mjx-container{color:var(--code-ink) !important;}
+footer{text-align:center; color:var(--sub); font-size:0.8rem; padding:20px;}
+.hidden{display:none !important;}
+.topnav{max-width:920px;margin:0 auto;padding:12px 20px 0;font-size:0.88rem;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;}
+.topnav a{color:var(--sub);text-decoration:none;}
+.topnav a.current,.topnav a.home{color:var(--accent);font-weight:700;}
+</style>
+</head>
+<body>
+<div class="topnav">
+  <a class="home" href="index.html">← ECM Home</a>
+  <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+  <a class="current" href="formula.html">Formula</a>
+  <a href="chapter1.html">Ch1</a>
+  <a href="chapter2.html">Ch2</a>
+  <a href="chapter3.html">Ch3</a>
+  <a href="chapter4.html">Ch4</a>
+  <a href="chapter5.html">Ch5</a>
+  <a href="chapter6.html">Ch6</a>
+  <a href="chapter7.html">Ch7</a>
+  <a href="chapter8.html">Ch8</a>
+  <a href="chapter9.html">Ch9</a>
+</div>
+<header>
+  <h1>ECM — Formula Quick Reference</h1>
+  <p>Electrical Circuits and Machines (ENEE 154). Dense exam formulas by chapter — search or browse tabs.</p>
+</header>
+<div style="max-width:920px;margin:0 auto;padding:0 20px;">
+  <input id="search" type="text" placeholder="Search formulas (e.g. 'tau', 'ABCD', 'slip', 'Faraday')…">
+</div>
+<nav class="tabs" id="tabs">
+  <button type="button" class="active" data-cat="ch1">1 Network &amp; IC</button>
+  <button type="button" data-cat="ch2">2 Classical</button>
+  <button type="button" data-cat="ch3">3 Laplace</button>
+  <button type="button" data-cat="ch4">4 Bode/TF</button>
+  <button type="button" data-cat="ch5">5 Two-port</button>
+  <button type="button" data-cat="ch6">6 Magnetic</button>
+  <button type="button" data-cat="ch7">7 Transformer</button>
+  <button type="button" data-cat="ch8">8 DC machine</button>
+  <button type="button" data-cat="ch9">9 AC motor</button>
+</nav>
+<main id="main">
+
+<!-- ===================== Ch1 ===================== -->
+<section class="cat active" id="ch1" data-cat="ch1">
+
+<div class="card searchable" data-text="ohm kirchhoff kvl kcl r l c laws voltage current resistance inductance capacitance power energy">
+  <h3>R, L, C element laws</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ v = Ri,\quad p = vi = i^2 R = \frac{v^2}{R} \]
+    \[ v_L = L\frac{di}{dt},\quad i_L = \frac{1}{L}\int v\,dt + i(0) \]
+    \[ i_C = C\frac{dv}{dt},\quad v_C = \frac{1}{C}\int i\,dt + v(0) \]
+    \[ w_L = \tfrac12 L i^2,\quad w_C = \tfrac12 C v^2 \]
+  </div>
+  <div class="label">Notes</div>
+  <p class="explain">KCL: \(\sum i = 0\) at a node. KVL: \(\sum v = 0\) around a loop. Passive sign: current into + of \(v\).</p>
+</div>
+
+<div class="card searchable" data-text="initial conditions continuity inductor capacitor 0+ 0- di/dt dv/dt switching">
+  <h3>Initial conditions &amp; continuity</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ i_L(0^+) = i_L(0^-)\qquad\text{(inductor current continuous)} \]
+    \[ v_C(0^+) = v_C(0^-)\qquad\text{(capacitor voltage continuous)} \]
+    \[ \frac{di_L}{dt}\Big|_{0^+} = \frac{v_L(0^+)}{L},\qquad \frac{dv_C}{dt}\Big|_{0^+} = \frac{i_C(0^+)}{C} \]
+  </div>
+  <div class="label">Exam use</div>
+  <p class="explain">Find DC steady state before switch (\(L\) short, \(C\) open) → get \(i_L(0^-)\), \(v_C(0^-)\). After switch, write KVL/KCL at \(t=0^+\) to get \(v_L(0^+)\), \(i_C(0^+)\), then slopes.</p>
+</div>
+
+<div class="card searchable" data-text="nodal analysis conductance matrix g v = i supernode">
+  <h3>Nodal analysis (matrix form)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \mathbf{G}\,\mathbf{V} = \mathbf{I} \]
+    \[ G_{ii} = \sum\text{conductances at node }i,\quad G_{ij} = -\sum\text{conductances between }i\text{ and }j \]
+  </div>
+  <div class="label">Notes</div>
+  <p class="explain">Unknowns = node voltages. Current sources enter RHS. Voltage sources → supernode or source transformation.</p>
+</div>
+
+<div class="card searchable" data-text="mesh analysis resistance matrix r i = v supermesh">
+  <h3>Mesh analysis (matrix form)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \mathbf{R}\,\mathbf{I} = \mathbf{V} \]
+    \[ R_{ii} = \sum\text{resistances in mesh }i,\quad R_{ij} = -\sum\text{shared resistances} \]
+  </div>
+  <div class="label">Notes</div>
+  <p class="explain">Unknowns = mesh currents. Voltage sources enter RHS. Current sources → supermesh.</p>
+</div>
+
+<div class="card searchable" data-text="series parallel equivalent thevenin norton source transformation">
+  <h3>Series / parallel &amp; Thévenin–Norton</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ R_\mathrm{eq,s} = \sum R_k,\quad \frac{1}{R_\mathrm{eq,p}} = \sum\frac{1}{R_k} \]
+    \[ L_\mathrm{eq,s}=\sum L,\quad C_\mathrm{eq,s}^{-1}=\sum C^{-1};\quad L_\mathrm{eq,p}^{-1}=\sum L^{-1},\quad C_\mathrm{eq,p}=\sum C \]
+    \[ V_\mathrm{Th}=V_\mathrm{oc},\quad R_\mathrm{Th}=R_\mathrm{in}\text{ (sources off)},\quad I_N=\frac{V_\mathrm{Th}}{R_\mathrm{Th}} \]
+  </div>
+</div>
+
+</section>
+
+<!-- ===================== Ch2 ===================== -->
+<section class="cat" id="ch2" data-cat="ch2">
+
+<div class="card searchable" data-text="time constant tau rl rc first order step response exponential">
+  <h3>First-order RL / RC — time constants &amp; step</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \tau_{RL} = \frac{L}{R_\mathrm{Th}},\qquad \tau_{RC} = R_\mathrm{Th}\,C \]
+    \[ x(t) = x(\infty) + \bigl[x(0^+) - x(\infty)\bigr]e^{-t/\tau},\quad t\ge 0 \]
+  </div>
+  <div class="label">Special cases</div>
+  <div class="mj">
+    \[ i_L(t)=I_f+(I_0-I_f)e^{-(R/L)t};\quad v_C(t)=V_f+(V_0-V_f)e^{-t/(RC)} \]
+    \[ \text{zero-input: }x(\infty)=0;\quad\text{zero-state: }x(0^+)=0 \]
+  </div>
+  <p class="explain">\(R_\mathrm{Th}\) = resistance seen by \(L\) or \(C\) with independent sources killed. At \(t=\tau\): ~63% of the way to final; \(5\tau\approx\) settled.</p>
+</div>
+
+<div class="card searchable" data-text="series rlc second order alpha omega natural damping overdamped underdamped critically">
+  <h3>Series RLC — \(\alpha\), \(\omega_0\), cases</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \alpha = \frac{R}{2L},\qquad \omega_0 = \frac{1}{\sqrt{LC}},\qquad \omega_d=\sqrt{\omega_0^2-\alpha^2} \]
+    \[ s^2 + 2\alpha s + \omega_0^2 = 0,\quad s_{1,2}=-\alpha\pm\sqrt{\alpha^2-\omega_0^2} \]
+  </div>
+  <div class="label">Cases</div>
+  <ul>
+    <li>Overdamped \(\alpha&gt;\omega_0\): \(x(t)=A_1 e^{s_1 t}+A_2 e^{s_2 t}\)</li>
+    <li>Critically damped \(\alpha=\omega_0\): \(x(t)=(A_1+A_2 t)e^{-\alpha t}\)</li>
+    <li>Underdamped \(\alpha&lt;\omega_0\): \(x(t)=e^{-\alpha t}(A_1\cos\omega_d t+A_2\sin\omega_d t)\)</li>
+  </ul>
+  <p class="explain">Find \(A_1,A_2\) from \(x(0^+)\) and \(dx/dt|_{0^+}\). Steady \(x(\infty)\) from DC final circuit.</p>
+</div>
+
+<div class="card searchable" data-text="parallel rlc alpha 1/2rc omega natural damping">
+  <h3>Parallel RLC</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \alpha = \frac{1}{2RC},\qquad \omega_0 = \frac{1}{\sqrt{LC}} \]
+  </div>
+  <p class="explain">Same three damping cases as series. Natural response usually written for \(v_C(t)\) (or \(i_L\)). Source-free: use IC only.</p>
+</div>
+
+<div class="card searchable" data-text="step response forced particular complete solution second order">
+  <h3>Complete response (classical)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ x(t) = x_n(t) + x_f,\qquad x_f = x(\infty)\text{ for DC step} \]
+    \[ x_n\text{ uses same }\alpha,\omega_0\text{ as source-free DE} \]
+  </div>
+  <p class="explain">Write DE from KVL/KCL → find roots → apply IC at \(0^+\) on the complete expression.</p>
+</div>
+
+</section>
+
+<!-- ===================== Ch3 ===================== -->
+<section class="cat" id="ch3" data-cat="ch3">
+
+<div class="card searchable" data-text="laplace transform pairs unit step ramp exponential sin cos">
+  <h3>Common Laplace pairs</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \mathcal{L}\{1\}=\frac{1}{s},\quad \mathcal{L}\{t\}=\frac{1}{s^2},\quad \mathcal{L}\{e^{-at}\}=\frac{1}{s+a} \]
+    \[ \mathcal{L}\{\sin\omega t\}=\frac{\omega}{s^2+\omega^2},\quad \mathcal{L}\{\cos\omega t\}=\frac{s}{s^2+\omega^2} \]
+    \[ \mathcal{L}\{e^{-at}\sin\omega t\}=\frac{\omega}{(s+a)^2+\omega^2},\quad \mathcal{L}\{e^{-at}\cos\omega t\}=\frac{s+a}{(s+a)^2+\omega^2} \]
+    \[ \mathcal{L}\{t\,e^{-at}\}=\frac{1}{(s+a)^2},\quad \mathcal{L}\{u(t-a)f(t-a)\}=e^{-as}F(s) \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="laplace properties derivative integral initial final value theorem">
+  <h3>Properties &amp; theorems</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \mathcal{L}\{f'(t)\}=sF(s)-f(0^-),\quad \mathcal{L}\{f''(t)\}=s^2 F-sf(0^-)-f'(0^-) \]
+    \[ \mathcal{L}\!\left\{\!\int_0^t f(\tau)\,d\tau\right\}=\frac{F(s)}{s} \]
+    \[ f(0^+)=\lim_{s\to\infty}sF(s),\qquad f(\infty)=\lim_{s\to 0}sF(s)\ \text{(IVT/FVT)} \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="s-domain impedance inductor capacitor initial condition source Li(0) v(0)/s">
+  <h3>s-domain models (with IC)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ Z_R=R,\quad Z_L=sL,\quad Z_C=\frac{1}{sC} \]
+    \[ V_L(s)=sL\,I(s)-L\,i(0),\quad I_C(s)=sC\,V(s)-C\,v(0) \]
+    \[ \text{series:}\; L\,i(0)\text{ voltage source};\quad \frac{v(0)}{s}\text{ voltage (C)} \]
+  </div>
+  <p class="explain">Redraw circuit in \(s\)-domain → nodal/mesh algebra → partial fractions → inverse Laplace.</p>
+</div>
+
+<div class="card searchable" data-text="partial fractions residue inverse laplace">
+  <h3>Partial fractions (quick)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \frac{N(s)}{(s+a)(s+b)}=\frac{A}{s+a}+\frac{B}{s+b} \]
+    \[ \text{complex: }\frac{\alpha s+\beta}{(s+a)^2+\omega^2}\ \to\ e^{-at}(A\cos\omega t+B\sin\omega t) \]
+  </div>
+</div>
+
+</section>
+
+<!-- ===================== Ch4 ===================== -->
+<section class="cat" id="ch4" data-cat="ch4">
+
+<div class="card searchable" data-text="transfer function H(s) poles zeros frequency response">
+  <h3>Transfer function</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ H(s)=\frac{Y(s)}{X(s)}=\frac{b_m s^m+\cdots+b_0}{a_n s^n+\cdots+a_0} \]
+    \[ H(j\omega)=|H|\,e^{j\angle H},\quad |H|_{\mathrm{dB}}=20\log_{10}|H(j\omega)| \]
+  </div>
+  <p class="explain">Poles of \(H(s)\) = natural modes. For Bode: substitute \(s=j\omega\).</p>
+</div>
+
+<div class="card searchable" data-text="bode plot asymptote decade slope decade corner frequency rules">
+  <h3>Bode asymptotic rules</h3>
+  <div class="label">Rules</div>
+  <ul>
+    <li>\(K/(j\omega)^n\): slope \(-20n\) dB/dec; phase \(-90°n\)</li>
+    <li>\((1+j\omega/\omega_c)\): +20 dB/dec after \(\omega_c\); phase \(0\to +90°\)</li>
+    <li>\(1/(1+j\omega/\omega_c)\): −20 dB/dec after \(\omega_c\); phase \(0\to -90°\)</li>
+    <li>Quadratic \((s/\omega_0)^2+2\zeta s/\omega_0+1\): ±40 dB/dec; peak if \(\zeta&lt;0.707\)</li>
+  </ul>
+  <div class="mj">
+    \[ \omega_c\text{ (corner)}=\text{break frequency from factor roots} \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="quality factor Q bandwidth BW resonance omega0 filter cutoff fc">
+  <h3>Resonance, \(Q\), bandwidth &amp; filters</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ Q=\frac{\omega_0}{\mathrm{BW}},\qquad \mathrm{BW}=\omega_H-\omega_L\ \text{(rad/s half-power)} \]
+    \[ \text{series RLC: }Q=\frac{\omega_0 L}{R}=\frac{1}{R}\sqrt{\frac{L}{C}} \]
+    \[ \text{parallel RLC: }Q=R\sqrt{\frac{C}{L}}=R\omega_0 C \]
+    \[ f_c=\frac{1}{2\pi RC}\ \text{(1st-order RC LPF/HPF)};\quad f_0=\frac{1}{2\pi\sqrt{LC}} \]
+  </div>
+  <p class="explain">LPF: pass \(\omega&lt;\omega_c\). HPF: \(\omega&gt;\omega_c\). BPF: pass near \(\omega_0\); BSF: reject near \(\omega_0\).</p>
+</div>
+
+</section>
+
+<!-- ===================== Ch5 ===================== -->
+<section class="cat" id="ch5" data-cat="ch5">
+
+<div class="card searchable" data-text="two-port z parameters open circuit impedance">
+  <h3>Z-parameters (open-circuit)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ V_1=z_{11}I_1+z_{12}I_2,\quad V_2=z_{21}I_1+z_{22}I_2 \]
+    \[ z_{11}=\frac{V_1}{I_1}\Big|_{I_2=0},\ z_{21}=\frac{V_2}{I_1}\Big|_{I_2=0},\ z_{12}=\frac{V_1}{I_2}\Big|_{I_1=0},\ z_{22}=\frac{V_2}{I_2}\Big|_{I_1=0} \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="two-port y parameters short circuit admittance">
+  <h3>Y-parameters (short-circuit)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ I_1=y_{11}V_1+y_{12}V_2,\quad I_2=y_{21}V_1+y_{22}V_2 \]
+    \[ y_{11}=\frac{I_1}{V_1}\Big|_{V_2=0},\ \ldots \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="ABCD transmission cascade chain parameters">
+  <h3>ABCD (transmission) parameters</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ V_1=AV_2+BI_2,\quad I_1=CV_2+DI_2 \]
+    \[ A=\frac{V_1}{V_2}\Big|_{I_2=0},\ B=\frac{V_1}{I_2}\Big|_{V_2=0},\ C=\frac{I_1}{V_2}\Big|_{I_2=0},\ D=\frac{I_1}{I_2}\Big|_{V_2=0} \]
+  </div>
+  <p class="explain">Cascade: \(\begin{bmatrix}A&amp;B\\C&amp;D\end{bmatrix}_\mathrm{eq}=\begin{bmatrix}A_1&amp;B_1\\C_1&amp;D_1\end{bmatrix}\begin{bmatrix}A_2&amp;B_2\\C_2&amp;D_2\end{bmatrix}\) (port-2 of first into port-1 of second; \(I_2\) polarity convention as taught).</p>
+</div>
+
+<div class="card searchable" data-text="h hybrid g inverse hybrid parameters">
+  <h3>h- and g-parameters</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ V_1=h_{11}I_1+h_{12}V_2,\quad I_2=h_{21}I_1+h_{22}V_2 \]
+    \[ I_1=g_{11}V_1+g_{12}I_2,\quad V_2=g_{21}V_1+g_{22}I_2 \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="reciprocity symmetric conversion z y abcd det">
+  <h3>Reciprocity &amp; key conversions</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \text{Reciprocal: }z_{12}=z_{21},\ y_{12}=y_{21},\ AD-BC=1,\ h_{12}=-h_{21} \]
+    \[ \mathbf{Y}=\mathbf{Z}^{-1};\quad A=\frac{z_{11}}{z_{21}},\ B=\frac{\Delta_z}{z_{21}},\ C=\frac{1}{z_{21}},\ D=\frac{z_{22}}{z_{21}} \]
+    \[ \Delta_z=z_{11}z_{22}-z_{12}z_{21} \]
+  </div>
+  <p class="explain">Symmetric network: \(z_{11}=z_{22}\) (etc.). For reciprocal passive networks \(AD-BC=1\).</p>
+</div>
+
+</section>
+
+<!-- ===================== Ch6 ===================== -->
+<section class="cat" id="ch6" data-cat="ch6">
+
+<div class="card searchable" data-text="reluctance mmf magnetic circuit flux permeability ampere turn">
+  <h3>Magnetic circuit basics</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \mathfrak{R}=\frac{l}{\mu A},\qquad \mathrm{MMF}=\mathcal{F}=NI=\Phi\,\mathfrak{R} \]
+    \[ \Phi=BA,\quad B=\mu H=\mu_0\mu_r H,\quad \mu_0=4\pi\times 10^{-7} \]
+    \[ H=\frac{NI}{l}\ \text{(mean path)},\quad \text{air gap: }\mathfrak{R}_g=\frac{l_g}{\mu_0 A_g} \]
+  </div>
+  <p class="explain">Analogy: \(\mathcal{F}\leftrightarrow V\), \(\Phi\leftrightarrow I\), \(\mathfrak{R}\leftrightarrow R\). Series reluctances add.</p>
+</div>
+
+<div class="card searchable" data-text="faraday lenz induced emf flux linkage inductance">
+  <h3>Faraday’s law &amp; inductance</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ e = -N\frac{d\Phi}{dt} = -\frac{d\lambda}{dt},\quad \lambda=N\Phi=Li \]
+    \[ L=\frac{N\Phi}{i}=\frac{N^2}{\mathfrak{R}} \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="hysteresis eddy core loss steinmetz pe ph">
+  <h3>Core losses</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ P_h = \eta\, B_m^{1.6}\, f\, V \quad\text{(Steinmetz; exponent ~1.5–2.5)} \]
+    \[ P_e = K_e\, B_m^2\, f^2\, t^2\, V \]
+    \[ P_\mathrm{core}=P_h+P_e \]
+  </div>
+  <p class="explain">\(V\) = volume, \(t\) = lamination thickness. Eddy ∝ \(f^2\); hysteresis ∝ \(f\).</p>
+</div>
+
+<div class="card searchable" data-text="force on conductor BIl lorentz torque">
+  <h3>Force on current-carrying conductor</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ F = B\,I\,l\quad (\perp),\qquad \vec F=I\,\vec\ell\times\vec B \]
+  </div>
+</div>
+
+</section>
+
+<!-- ===================== Ch7 ===================== -->
+<section class="cat" id="ch7" data-cat="ch7">
+
+<div class="card searchable" data-text="transformer emf equation turns ratio a voltage current">
+  <h3>EMF equation &amp; turns ratio</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ E = 4.44\, f\, N\, \Phi_m = 4.44\, f\, N\, B_m A \]
+    \[ a=\frac{N_1}{N_2}=\frac{E_1}{E_2}\approx\frac{V_1}{V_2}=\frac{I_2}{I_1} \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="transformer efficiency voltage regulation max efficiency copper iron loss">
+  <h3>Efficiency &amp; voltage regulation</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \eta=\frac{\text{output}}{\text{output}+\text{losses}}=\frac{V_2 I_2\cos\phi}{V_2 I_2\cos\phi+P_i+P_\mathrm{cu}} \]
+    \[ \%\mathrm{VR}=\frac{V_{\mathrm{no\text{-}load}}-V_{\mathrm{full\text{-}load}}}{V_{\mathrm{full\text{-}load}}}\times 100 \]
+    \[ \text{max }\eta:\ P_\mathrm{cu}=P_i\ \Rightarrow\ \text{kVA}_\mathrm{opt}=S_\mathrm{rated}\sqrt{\frac{P_i}{P_{\mathrm{cu,fl}}}} \]
+  </div>
+  <p class="explain">\(P_i\) ≈ constant (OC); \(P_\mathrm{cu}=I^2 R\) ∝ (load)². At max \(\eta\), iron loss = copper loss.</p>
+</div>
+
+<div class="card searchable" data-text="open circuit oc short circuit sc test equivalent circuit">
+  <h3>OC &amp; SC tests</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \text{OC (LV): }P_0=P_i,\quad I_0,\ V_0;\quad R_0=\frac{V_0}{I_w},\ X_0=\frac{V_0}{I_\mu} \]
+    \[ I_w=\frac{P_0}{V_0},\ I_\mu=\sqrt{I_0^2-I_w^2} \]
+    \[ \text{SC (HV): }P_\mathrm{sc}=P_{\mathrm{cu,fl}},\ Z_{01}=\frac{V_\mathrm{sc}}{I_\mathrm{sc}},\ R_{01}=\frac{P_\mathrm{sc}}{I_\mathrm{sc}^2} \]
+    \[ X_{01}=\sqrt{Z_{01}^2-R_{01}^2} \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="referred impedance equivalent circuit primary secondary">
+  <h3>Referred quantities</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ R_2'=a^2 R_2,\quad X_2'=a^2 X_2,\quad Z_2'=a^2 Z_2 \]
+    \[ R_{01}=R_1+R_2',\quad X_{01}=X_1+X_2' \]
+  </div>
+</div>
+
+</section>
+
+<!-- ===================== Ch8 ===================== -->
+<section class="cat" id="ch8" data-cat="ch8">
+
+<div class="card searchable" data-text="dc generator emf eg flux poles armature conductors parallel paths">
+  <h3>Generated EMF (DC machine)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ E_g = \frac{\Phi Z N P}{60 A} \]
+  </div>
+  <p class="explain">\(\Phi\) Wb/pole, \(Z\) armature conductors, \(N\) rpm, \(P\) poles, \(A\) parallel paths (\(A=P\) lap; \(A=2\) wave).</p>
+</div>
+
+<div class="card searchable" data-text="dc motor torque ta armature current">
+  <h3>Torque</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ T = 0.159\,\Phi\, Z\, I_a\,\frac{P}{A}\ \text{(N·m)}\approx\frac{PZ\Phi I_a}{2\pi A} \]
+    \[ T\propto\Phi I_a \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="back emf eb voltage equation series shunt compound">
+  <h3>Voltage equations</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ \text{Motor: }E_b=V-I_a R_a\quad(\text{shunt: }I_L=I_a+I_f) \]
+    \[ \text{Generator: }E_g=V+I_a R_a \]
+    \[ \text{Series motor: }E_b=V-I_a(R_a+R_\mathrm{se}) \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="speed control flux armature voltage ward leonard">
+  <h3>Speed &amp; speed control</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ N\propto\frac{E_b}{\Phi}\propto\frac{V-I_a R_a}{\Phi} \]
+  </div>
+  <ul>
+    <li>Flux control (field rheostat): above base speed (weaken \(\Phi\))</li>
+    <li>Armature voltage / rheostat: below base speed</li>
+    <li>\(N_2/N_1=(E_{b2}/E_{b1})(\Phi_1/\Phi_2)\)</li>
+  </ul>
+</div>
+
+</section>
+
+<!-- ===================== Ch9 ===================== -->
+<section class="cat" id="ch9" data-cat="ch9">
+
+<div class="card searchable" data-text="synchronous speed ns poles frequency slip nr rotor">
+  <h3>Synchronous speed &amp; slip</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ N_s=\frac{120 f}{P}\ \text{(rpm)},\qquad s=\frac{N_s-N_r}{N_s} \]
+    \[ N_r=N_s(1-s),\qquad f_r=s f \]
+  </div>
+  <p class="explain">\(f_r\) = rotor frequency. At standstill \(s=1\); sync. speed \(s=0\) (ideal, zero torque for induction motor).</p>
+</div>
+
+<div class="card searchable" data-text="induction motor torque formula developed Tmax breakdown slip">
+  <h3>Torque (induction motor)</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ T=\frac{3}{2\pi N_s}\, \frac{s E_2^2 R_2}{R_2^2+(s X_2)^2}\quad (N_s\text{ in rps}) \]
+    \[ T=\frac{3}{\omega_s}\frac{V^2(R_2/s)}{(R_1+R_2/s)^2+(X_1+X_2)^2}\ \text{(approx. Thévenin forms vary)} \]
+  </div>
+</div>
+
+<div class="card searchable" data-text="maximum torque tmax sm slip max r2 x2">
+  <h3>Maximum torque</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ s_m=\frac{R_2}{X_2}\quad\text{(approx., neglected stator)},\quad T_\mathrm{max}\propto\frac{1}{2X_2} \]
+    \[ \text{with stator: }s_m=\frac{R_2}{\sqrt{R_\mathrm{Th}^2+(X_\mathrm{Th}+X_2)^2}} \]
+  </div>
+  <p class="explain">\(T_\mathrm{max}\) independent of \(R_2\) (approx.); \(s_m\) rises if \(R_2\) increased (wound-rotor starters).</p>
+</div>
+
+<div class="card searchable" data-text="starting torque current power factor efficiency induction">
+  <h3>Starting &amp; power</h3>
+  <div class="label">Formulas</div>
+  <div class="mj">
+    \[ T_\mathrm{st}=T\big|_{s=1}\propto\frac{E_2^2 R_2}{R_2^2+X_2^2} \]
+    \[ P_g=(1-s)P_g+s P_g=\underbrace{P_m}_{\text{mech}}+\underbrace{P_\mathrm{cu2}}_{\text{rotor Cu}} \]
+    \[ \eta\approx\frac{(1-s)P_g-\text{mech losses}}{\text{input}} \]
+  </div>
+</div>
+
+</section>
+
+</main>
+<footer>Companion to <a href="ECM (ENEE 154) — Solved Question Papers.html" style="color:var(--accent)">Solved Question Papers</a> · <a href="index.html" style="color:var(--accent)">ECM Home</a></footer>
+
+<script>
+(function () {
+  const tabs = document.querySelectorAll('nav.tabs button');
+  const cats = document.querySelectorAll('.cat');
+  const search = document.getElementById('search');
+  let activeIdx = 0;
+
+  function showCat(idx) {
+    activeIdx = idx;
+    cats.forEach((el, i) => el.classList.toggle('active', i === idx));
+    tabs.forEach((el, i) => el.classList.toggle('active', i === idx));
+    if (!search.value.trim()) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('hidden'));
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  tabs.forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      search.value = '';
+      showCat(i);
+    });
+  });
+
+  // Build searchable text from visible content + data-text
+  document.querySelectorAll('.card.searchable').forEach(card => {
+    const extra = (card.dataset.text || '');
+    const body = card.textContent || '';
+    card.dataset.text = (extra + ' ' + body).toLowerCase().replace(/\s+/g, ' ');
+  });
+
+  search.addEventListener('input', () => {
+    const q = search.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.card.searchable');
+    if (!q) {
+      cards.forEach(c => c.classList.remove('hidden'));
+      showCat(activeIdx);
+      return;
+    }
+    cats.forEach(el => el.classList.add('active'));
+    tabs.forEach(el => el.classList.remove('active'));
+    cards.forEach(c => {
+      c.classList.toggle('hidden', !c.dataset.text.includes(q));
+    });
+  });
+})();
+</script>
+</body>
+</html>

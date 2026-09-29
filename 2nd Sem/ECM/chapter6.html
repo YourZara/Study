@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 6: Magnetic Circuit and Induction</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">ECM · ENEE 154</a>
+  <div class="nav">
+    <a href="ECM (ENEE 154) — Solved Question Papers.html">Past Papers</a>
+    <a href="formula.html">Formula</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html" class="current">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 6.</span> Magnetic Circuit and Induction</h1>
+  <p class="subtitle">3 hours · 3 marks</p>
+
+  <p>Magnetic circuits analyse flux paths using analogies to electric circuits. This short chapter also covers B–H behaviour, hysteresis and eddy losses, Faraday induction, and force on current-carrying conductors — all frequent short-answer / numerical topics.</p>
+
+  <h2>6.1 Magnetic Circuit Types</h2>
+  <h3>Basic quantities</h3>
+  <table>
+    <tr><th>Magnetic</th><th>Symbol / unit</th><th>Electric analogy</th></tr>
+    <tr><td>MMF (magnetomotive force)</td><td>\(\mathcal{F}=NI\) (AT)</td><td>EMF \(E\)</td></tr>
+    <tr><td>Flux</td><td>\(\Phi\) (Wb)</td><td>Current \(I\)</td></tr>
+    <tr><td>Reluctance</td><td>\(\mathcal{R}=l/(\mu A)\) (AT/Wb)</td><td>Resistance \(R\)</td></tr>
+    <tr><td>Permeance</td><td>\(\mathcal{P}=1/\mathcal{R}\)</td><td>Conductance \(G\)</td></tr>
+    <tr><td>Flux density</td><td>\(B=\Phi/A\) (T)</td><td>—</td></tr>
+    <tr><td>Field intensity</td><td>\(H=\mathcal{F}/l=NI/l\) (AT/m)</td><td>—</td></tr>
+  </table>
+  \[
+  \Phi=\frac{\mathcal{F}}{\mathcal{R}}=\frac{NI}{\mathcal{R}},\qquad
+  B=\mu H=\mu_0\mu_r H,\qquad
+  \mu_0=4\pi\times 10^{-7}\,\text{H/m}
+  \]
+
+  <h3>Series magnetic circuit</h3>
+  <p>Same flux \(\Phi\) through each section (core + air gap, etc.); MMFs (reluctance drops) add:</p>
+  \[
+  NI=\Phi(\mathcal{R}_1+\mathcal{R}_2+\cdots)=H_1\ell_1+H_2\ell_2+\cdots
+  \]
+  <p>Air gaps dominate because \(\mu_r\approx 1\) ⇒ large \(\mathcal{R}_g=\ell_g/(\mu_0 A_g)\). Fringing increases effective gap area slightly; often neglected in first-order exam problems.</p>
+
+  <h3>Parallel magnetic circuit</h3>
+  <p>Same MMF across parallel branches; fluxes add:</p>
+  \[
+  \Phi_{\text{total}}=\Phi_a+\Phi_b,\qquad
+  NI=H_a\ell_a=H_b\ell_b
+  \]
+  <p>Composite cores (window frames, multiple limbs) are solved like parallel–series resistor networks.</p>
+
+  <h3>Magnetization notes</h3>
+  <ul>
+    <li>Soft magnetic materials (silicon steel): high \(\mu_r\), narrow hysteresis — used in transformers/machines.</li>
+    <li>Hard magnetic materials (permanent magnets): wide loop, high coercivity.</li>
+    <li>Saturation: beyond a knee on the B–H curve, large \(H\) gives little increase in \(B\); \(\mu_r\) falls.</li>
+    <li>Leakage flux: flux that does not follow the intended path; leakage factor \(>1\) sometimes applied in design.</li>
+  </ul>
+
+  <h2>6.2 B–H Curve and Hysteresis (DC)</h2>
+  <p>Plotting \(B\) vs \(H\) for a ferromagnetic core while slowly increasing then decreasing magnetizing current yields a <strong>hysteresis loop</strong>.</p>
+  <table>
+    <tr><th>Point / quantity</th><th>Meaning</th></tr>
+    <tr><td>Residual flux density \(B_r\)</td><td>\(B\) remaining when \(H=0\) after magnetization</td></tr>
+    <tr><td>Coercive force \(H_c\)</td><td>\(H\) needed to bring \(B\) back to zero</td></tr>
+    <tr><td>Saturation \(B_{\text{sat}}\)</td><td>maximum practical \(B\)</td></tr>
+    <tr><td>Loop area</td><td>energy loss per cycle per unit volume (DC cycling)</td></tr>
+  </table>
+  <p>For DC (or very slow) magnetization, domain alignment lags \(H\), producing the loop. Remanence and coercivity characterise soft vs hard materials.</p>
+
+  <h2>6.3 Hysteresis (AC)</h2>
+  <p>Under AC excitation the operating point traverses the hysteresis loop every cycle. Instantaneous \(B\) and \(H\) are not single-valued; the loop area still represents energy dissipated as heat per cycle.</p>
+  <p>At higher frequency the loop may widen slightly (dynamic effects), but the classical separation still treats hysteresis loss as proportional to frequency (once per cycle) and eddy loss as proportional to \(f^2\).</p>
+
+  <h2>6.4 Hysteresis Loss and Eddy Current Loss</h2>
+  <h3>Hysteresis loss (Steinmetz)</h3>
+  \[
+  P_h=\eta\,B_m^{x}\,f\,V
+  \]
+  <ul>
+    <li>\(\eta\) — Steinmetz coefficient (material)</li>
+    <li>\(B_m\) — maximum flux density</li>
+    <li>\(x\) — Steinmetz exponent (\(\approx 1.5\) to \(2.5\), often \(\approx 1.6\))</li>
+    <li>\(f\) — frequency; \(V\) — volume of core</li>
+  </ul>
+
+  <h3>Eddy current loss</h3>
+  <p>Changing flux induces circulating currents in the core (Faraday). These \(I^2R\) losses are reduced by laminating the core (thin sheets insulated from each other):</p>
+  \[
+  P_e=k_e\,B_m^{2}\,f^{2}\,t^{2}\,V
+  \]
+  where \(t\) is lamination thickness. Finer laminations ⇒ smaller \(P_e\).</p>
+
+  <h3>Total core (iron) loss</h3>
+  \[
+  P_{\text{iron}}=P_h+P_e
+  \]
+  <p>Separation of losses: measure core loss at two frequencies (same \(B_m\)) or use the \(P/f\) vs \(f\) method.</p>
+
+  <h2>6.5 Faraday’s Law — Statically and Dynamically Induced EMF</h2>
+  <p><strong>Faraday’s law:</strong> the induced EMF in a coil equals the rate of change of flux linkage:</p>
+  \[
+  e=-N\frac{d\Phi}{dt}=-\frac{d\lambda}{dt}
+  \]
+  <p>Lenz’s law: the minus sign — induced current opposes the change causing it.</p>
+
+  <h3>Statically induced EMF</h3>
+  <p>Conductor / coil is stationary; flux through it changes with time (transformer action).</p>
+  <ul>
+    <li><strong>Self-induced:</strong> \(e=L\,di/dt\) due to coil’s own changing current.</li>
+    <li><strong>Mutually induced:</strong> \(e=M\,di_1/dt\) in coil 2 due to changing current in coil 1.</li>
+  </ul>
+  <p>For sinusoidal flux \(\Phi=\Phi_m\sin\omega t\):</p>
+  \[
+  E_{\text{rms}}=4.44\,f\,N\,\Phi_m
+  \]
+  (transformer EMF equation).</p>
+
+  <h3>Dynamically induced EMF</h3>
+  <p>Flux density is constant in time, but conductors move in the field (generator action):</p>
+  \[
+  e=B\,\ell\,v\sin\theta
+  \]
+  where \(\theta\) is the angle between velocity and \(\mathbf{B}\) (maximum when motion is perpendicular to \(\mathbf{B}\) and to the conductor length).</p>
+
+  <h2>6.6 Force on a Current-Carrying Conductor</h2>
+  <p>A conductor of length \(\ell\) carrying current \(I\) in a magnetic field \(\mathbf{B}\) experiences</p>
+  \[
+  \mathbf{F}=I\,(\boldsymbol{\ell}\times\mathbf{B}),\qquad
+  F=B I \ell\sin\theta
+  \]
+  <p>Direction: Fleming’s left-hand rule (motors) — Forefinger (Field), Centre finger (Current), Thumb (Motion/Force).</p>
+  <p>For two long parallel conductors:</p>
+  \[
+  F/l=\frac{\mu_0 I_1 I_2}{2\pi d}
+  \]
+  (attractive if currents same direction).</p>
+
+  <h2>Solved Example — Toroidal Ring with Air Gap</h2>
+  <p class="tag">Classic numerical</p>
+  <p>A circular magnetic ring has mean circumference (mean length of iron path) \(0.5\,\text{m}\), cross-section \(A=100\,\text{cm}^2\), air gap \(4\,\text{mm}\), flux \(\Phi=2\,\text{mWb}\), relative permeability of iron \(\mu_r=800\), turns \(N=200\). Find the MMF (and magnetizing current).</p>
+
+  <div class="card">
+    <p><strong>Given data (SI):</strong></p>
+    <ul>
+      <li>\(\ell_i=0.5\,\text{m}\)</li>
+      <li>\(A=100\,\text{cm}^2=100\times 10^{-4}=0.01\,\text{m}^2\)</li>
+      <li>\(\ell_g=4\,\text{mm}=0.004\,\text{m}\)</li>
+      <li>\(\Phi=2\,\text{mWb}=0.002\,\text{Wb}\)</li>
+      <li>\(\mu_r=800\), \(N=200\)</li>
+    </ul>
+    <p><strong>Flux density</strong> (assume same \(A\) in gap, neglect fringing):</p>
+    \[
+    B=\frac{\Phi}{A}=\frac{0.002}{0.01}=0.2\,\text{T}
+    \]
+    <p><strong>Field in iron:</strong></p>
+    \[
+    H_i=\frac{B}{\mu_0\mu_r}=\frac{0.2}{4\pi\times 10^{-7}\times 800}
+    =\frac{0.2}{1.0053\times 10^{-3}}\approx 199\,\text{AT/m}
+    \]
+    \[
+    \text{AT for iron}=H_i\ell_i\approx 199\times 0.5\approx 99.5\,\text{AT}
+    \]
+    <p><strong>Field in air gap</strong> (\(\mu_r=1\)):</p>
+    \[
+    H_g=\frac{B}{\mu_0}=\frac{0.2}{4\pi\times 10^{-7}}\approx 1.59\times 10^{5}\,\text{AT/m}
+    \]
+    \[
+    \text{AT for gap}=H_g\ell_g\approx 1.59\times 10^{5}\times 0.004\approx 636\,\text{AT}
+    \]
+    <p><strong>Total MMF:</strong></p>
+    \[
+    NI=H_i\ell_i+H_g\ell_g\approx 99.5+636=735.5\,\text{AT}
+    \]
+    \[
+    I=\frac{NI}{N}=\frac{735.5}{200}\approx 3.68\,\text{A}
+    \]
+    <p><strong>Observation:</strong> the tiny air gap accounts for most of the MMF (\(\approx 86\%\)). This is why air-gap design dominates machine/magnetics calculations.</p>
+    <p><strong>Reluctance check:</strong></p>
+    \[
+    \mathcal{R}_i=\frac{\ell_i}{\mu_0\mu_r A},\quad
+    \mathcal{R}_g=\frac{\ell_g}{\mu_0 A},\quad
+    NI=\Phi(\mathcal{R}_i+\mathcal{R}_g)
+    \]
+    yields the same numerical result.
+  </div>
+
+  <h3>Series vs parallel — quick comparison</h3>
+  <table>
+    <tr><th></th><th>Series</th><th>Parallel</th></tr>
+    <tr><td>Flux</td><td>Same \(\Phi\) in each part</td><td>Splits among branches</td></tr>
+    <tr><td>MMF</td><td>Drops add (\(NI=\sum H\ell\))</td><td>Same \(NI\) on each branch</td></tr>
+    <tr><td>Typical structure</td><td>Ring + one air gap</td><td>Multiple limbs / leakage paths</td></tr>
+  </table>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Define magnetic circuit. Compare series and parallel magnetic circuits. <span class="marks">3 marks</span></div>
+    <div class="a">A magnetic circuit is a closed path for flux, analysed with MMF, flux and reluctance (analogous to \(E\), \(I\), \(R\)). Series: same \(\Phi\), MMFs add. Parallel: same MMF across branches, fluxes add.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. A circular ring has mean length \(0.5\) m, \(A=100\) cm\(^2\), air gap \(4\) mm, \(\Phi=2\) mWb, \(\mu_r=800\), \(N=200\). Find MMF. <span class="marks">3 marks</span></div>
+    <div class="a">Worked example above: \(NI\approx 736\) AT (iron \(\approx 100\) AT, gap \(\approx 636\) AT). \(I\approx 3.68\) A.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Explain the B–H curve and hysteresis loop for DC magnetization. Define \(B_r\) and \(H_c\). <span class="marks">3 marks</span></div>
+    <div class="a">\(B\) vs \(H\) is nonlinear and multi-valued under cyclic magnetization. \(B_r\): remanent flux density at \(H=0\). \(H_c\): coercivity — field to demagnetize to \(B=0\). Loop area ∝ energy loss per cycle.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Distinguish hysteresis loss and eddy current loss. How are eddy losses reduced? <span class="marks">3 marks</span></div>
+    <div class="a">Hysteresis: domain friction, \(P_h\propto B_m^x f\). Eddy: induced circulating currents, \(P_e\propto B_m^2 f^2 t^2\). Reduce eddy loss by thin laminations (small \(t\)) and high-resistivity core steel.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. State Faraday’s law. Differentiate statically and dynamically induced EMF. <span class="marks">3 marks</span></div>
+    <div class="a">\(e=-N\,d\Phi/dt\). Static: conductor fixed, flux changes (transformer; self/mutual). Dynamic: conductor moves in (usually steady) field — \(e=B\ell v\sin\theta\) (generator).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Write the expression for force on a current-carrying conductor in a magnetic field. State Fleming’s left-hand rule. <span class="marks">3 marks</span></div>
+    <div class="a">\(F=BI\ell\sin\theta\). Left hand: Forefinger = Field (\(B\)), Centre = Current (\(I\)), Thumb = Force/Motion — used for motors.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Why does a small air gap require a large MMF? <span class="marks">2 marks</span></div>
+    <div class="a">Air has \(\mu_r\approx 1\), so reluctance \(\ell_g/(\mu_0 A)\) is huge compared with iron (\(\mu_r\sim 10^2\text{–}10^3\)). Most ampere-turns drop across the gap.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Write Steinmetz’s formula for hysteresis loss and the eddy-current loss formula. <span class="marks">3 marks</span></div>
+    <div class="a">\(P_h=\eta B_m^x f V\); \(P_e=k_e B_m^2 f^2 t^2 V\). Total iron loss \(P_h+P_e\).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. Derive / state the transformer EMF equation \(E=4.44 f N\Phi_m\). <span class="marks">3 marks</span></div>
+    <div class="a">\(\Phi=\Phi_m\sin\omega t\) ⇒ \(e=N\omega\Phi_m\cos\omega t\) ⇒ \(E_{\text{max}}=2\pi f N\Phi_m\) ⇒ \(E_{\text{rms}}=2\pi f N\Phi_m/\sqrt{2}=4.44 f N\Phi_m\).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q10. What is meant by saturation of a magnetic material? <span class="marks">2 marks</span></div>
+    <div class="a">Beyond the knee of the B–H curve, further increase in \(H\) produces little rise in \(B\) because domains are nearly fully aligned; effective \(\mu_r\) drops sharply.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter5.html">← Chapter 5</a>
+    <a href="chapter7.html">Next: Chapter 7 →</a>
+  </div>
+</div>
+</body>
+</html>
