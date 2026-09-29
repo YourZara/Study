@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C++ OOP — Syntax Reference</title>
+<style>
+:root{
+  --bg:#fafaf8; --card:#ffffff; --ink:#1c1c1a; --sub:#5c5c56;
+  --accent:#2e5f8a; --accent2:#3c86c7; --line:#e6e2da; --code-bg:#282420;
+  --code-ink:#f2ede4; --tab-inactive:#f0ece3;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12151a; --card:#1a1e24; --ink:#f0ede4; --sub:#a8b0bb;
+    --accent:#7ab6e0; --accent2:#7ab6e0; --line:#333a44; --code-bg:#0d0f12;
+    --code-ink:#e8e2d5; --tab-inactive:#22262d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12151a; --card:#1a1e24; --ink:#f0ede4; --sub:#a8b0bb;
+  --accent:#7ab6e0; --accent2:#7ab6e0; --line:#333a44; --code-bg:#0d0f12;
+  --code-ink:#e8e2d5; --tab-inactive:#22262d;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  line-height:1.5;
+}
+header{max-width:920px; margin:0 auto; padding:26px 20px 14px;}
+header h1{font-size:1.45rem; margin:0 0 4px; font-family:Georgia,serif;}
+header p{color:var(--sub); margin:0; font-size:0.92rem;}
+input#search{
+  width:100%; max-width:920px; display:block; margin:0 auto 10px; padding:11px 14px;
+  border-radius:9px; border:1px solid var(--line); background:var(--card); color:var(--ink);
+  font-size:0.9rem; font-family:inherit;
+}
+nav.tabs{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:10;
+  background:var(--bg); border-bottom:1px solid var(--line);
+  overflow-x:auto; white-space:nowrap; padding:0 20px 0;
+}
+nav.tabs::-webkit-scrollbar{display:none;}
+nav.tabs button{
+  font-size:0.83rem; font-weight:600; background:none; border:none; color:var(--sub);
+  padding:13px 12px; cursor:pointer; border-bottom:3px solid transparent;
+}
+nav.tabs button.active{color:var(--accent); border-bottom-color:var(--accent);}
+main{max-width:920px; margin:0 auto; padding:18px 20px 50px;}
+.cat{display:none;}
+.cat.active{display:grid; gap:14px;}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  padding:16px 18px; box-shadow:var(--shadow);
+}
+.card h3{margin:0 0 8px; font-size:1.02rem; font-family:Georgia,serif; color:var(--ink);}
+.card .label{
+  font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent2);
+  font-weight:700; margin:12px 0 4px;
+}
+.card p.explain{margin:4px 0 0; font-size:0.92rem; color:var(--ink);}
+pre{
+  background:var(--code-bg); color:var(--code-ink); padding:12px 14px;
+  border-radius:8px; overflow-x:auto; font-size:0.81rem; line-height:1.5;
+  font-family:'SF Mono','Consolas',monospace; margin:4px 0;
+}
+footer{text-align:center; color:var(--sub); font-size:0.8rem; padding:20px;}
+.hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div style="max-width:920px;margin:0 auto;padding:12px 20px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:0.88rem;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;">
+  <a href="index.html" style="color:var(--accent);font-weight:700;text-decoration:none;">← OOP Home</a>
+  <a href="OOP (ENCT_CT 151) — Solved Question Papers.html" style="color:var(--sub);text-decoration:none;">Past Papers</a>
+  <a href="C++ OOP — Syntax Reference.html" style="color:var(--accent);font-weight:700;text-decoration:none;">Syntax</a>
+  <a href="chapter1.html" style="color:var(--sub);text-decoration:none;">Ch1</a>
+  <a href="chapter2.html" style="color:var(--sub);text-decoration:none;">Ch2</a>
+  <a href="chapter3.html" style="color:var(--sub);text-decoration:none;">Ch3</a>
+  <a href="chapter4.html" style="color:var(--sub);text-decoration:none;">Ch4</a>
+  <a href="chapter5.html" style="color:var(--sub);text-decoration:none;">Ch5</a>
+  <a href="chapter6.html" style="color:var(--sub);text-decoration:none;">Ch6</a>
+  <a href="chapter7.html" style="color:var(--sub);text-decoration:none;">Ch7</a>
+  <a href="chapter8.html" style="color:var(--sub);text-decoration:none;">Ch8</a>
+  <a href="chapter9.html" style="color:var(--sub);text-decoration:none;">Ch9</a>
+</div>
+<header>
+  <h1>C++ OOP — Complete Syntax Reference</h1>
+  <p>Every construct used across the 4 solved question papers, isolated with its bare syntax, a minimal example, and why it exists. Search or browse by category.</p>
+</header>
+<div style="max-width:920px;margin:0 auto;padding:0 20px;">
+  <input id="search" type="text" placeholder="Search syntax (e.g. 'virtual', 'friend', 'try')…">
+</div>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<footer>Reference companion to the <a href="OOP (ENCT_CT 151) — Solved Question Papers.html" style="color:var(--accent)">Solved Question Papers</a> · <a href="index.html" style="color:var(--accent)">OOP Home</a></footer>
+
+<script>
+const categories = [
+{id:"basics", label:"Class Basics", items:[
+  {name:"Class definition & object creation",
+   syntax:`class ClassName {
+private:                  // default for class
+    dataType member;
+public:
+    returnType method() { ... }
+};
+
+ClassName obj;             // create object
+ClassName obj(args);       // with constructor args`,
+   explain:"A class is a blueprint bundling data (members) and behaviour (methods). Members are private by default — inaccessible from outside — unless marked public. An object is a concrete instance of the class."},
+  {name:"Access specifiers",
+   syntax:`class Demo {
+private:    int a;      // only this class
+protected:  int b;      // this class + derived classes
+public:     int c;      // anyone
+};`,
+   explain:"Controls visibility of members. private = strictest (hidden even from derived classes), protected = visible to the class and its children, public = visible everywhere."},
+  {name:"this pointer",
+   syntax:`class Box {
+    int size;
+public:
+    Box(int size) { this->size = size; }   // disambiguate
+};`,
+   explain:"'this' is an implicit pointer to the calling object, available inside every non-static member function. Used when a parameter name shadows a member name, or to return *this for chaining."},
+  {name:"Reference variable",
+   syntax:`dataType &refName = existingVar;
+
+void modify(int &x) { x = 100; }  // pass by reference`,
+   explain:"A reference is an alias for an existing variable — not a copy. Once bound it can't be reseated. Passing by reference avoids copying and lets a function modify the caller's variable directly."},
+  {name:"Namespace",
+   syntax:`namespace MyLib {
+    void show() { ... }
+}
+MyLib::show();              // qualified access
+using namespace MyLib;      // bring all names into scope`,
+   explain:"Groups identifiers under a name to prevent naming collisions when combining code from multiple sources — two functions named show() in different namespaces don't clash."},
+  {name:"Inline function",
+   syntax:`inline int square(int x) { return x * x; }`,
+   explain:"Hints the compiler to substitute the function's body directly at each call site instead of doing a real function call — saves call overhead for small, frequently-used functions."}
+]},
+{id:"ctor", label:"Constructors & Destructors", items:[
+  {name:"Default constructor",
+   syntax:`class Point {
+    int x, y;
+public:
+    Point() { x = 0; y = 0; }
+};`,
+   explain:"Takes no arguments; called automatically when an object is created with no initialization values. Initializes members to default/sensible values."},
+  {name:"Parameterized constructor",
+   syntax:`class Point {
+    int x, y;
+public:
+    Point(int a, int b) : x(a), y(b) {}   // initializer list
+};
+Point p(3, 4);`,
+   explain:"Accepts arguments to initialize an object with specific values at creation time. The colon-syntax after the parameter list is a member initializer list — the preferred, more efficient way to set members."},
+  {name:"Copy constructor",
+   syntax:`class Point {
+public:
+    Point(const Point &other) { x = other.x; y = other.y; }
+};
+Point p2 = p1;    // invokes copy constructor
+Point p3(p1);     // also invokes it`,
+   explain:"Constructs a new object as a copy of an existing one of the same class. Called implicitly when an object is passed by value, returned by value, or explicitly copy-initialized."},
+  {name:"Destructor",
+   syntax:`class Point {
+public:
+    ~Point() { cout << "destroyed"; }
+};`,
+   explain:"Special member function called automatically when an object goes out of scope or is deleted. Used to release resources (memory, file handles) the object acquired."},
+  {name:"Virtual destructor",
+   syntax:`class Base {
+public:
+    virtual ~Base() { ... }
+};
+class Derived : public Base {
+public:
+    ~Derived() { ... }
+};
+Base *b = new Derived();
+delete b;   // both destructors run, in Derived -> Base order`,
+   explain:"Without 'virtual', deleting a derived object through a base pointer only calls the base destructor, leaking any resources the derived part allocated. Always make base destructors virtual when using polymorphism."}
+]},
+{id:"inherit", label:"Inheritance", items:[
+  {name:"Single inheritance",
+   syntax:`class Base { ... };
+class Derived : public Base { ... };`,
+   explain:"One derived class inherits from exactly one base class, gaining its public/protected members. 'public' inheritance preserves the base's access levels (mostly)."},
+  {name:"Multilevel inheritance",
+   syntax:`class A { ... };
+class B : public A { ... };
+class C : public B { ... };   // A -> B -> C chain`,
+   explain:"A chain of inheritance — C inherits from B, which itself inherits from A. Constructors run base-first: A, then B, then C."},
+  {name:"Multiple inheritance",
+   syntax:`class Employee { ... };
+class Student { ... };
+class Manager : public Employee, public Student { ... };`,
+   explain:"One derived class inherits directly from two or more base classes at once, combining their members."},
+  {name:"Hierarchical inheritance",
+   syntax:`class Shape { ... };
+class Circle : public Shape { ... };
+class Square : public Shape { ... };`,
+   explain:"One base class is inherited by several independent derived classes — each specializes the base differently."},
+  {name:"Virtual base class (resolves diamond ambiguity)",
+   syntax:`class A { public: int x; };
+class B : virtual public A { ... };
+class C : virtual public A { ... };
+class D : public B, public C { ... };  // D has ONE copy of A::x`,
+   explain:"When two intermediate classes both derive from a common base, a class inheriting from both gets duplicate copies unless the base is inherited virtually — that keeps a single shared copy, removing the ambiguity."},
+  {name:"Calling base class constructor",
+   syntax:`class Derived : public Base {
+public:
+    Derived(int a, int b) : Base(a), extra(b) {}
+};`,
+   explain:"A derived class constructor can pass arguments up to its base class constructor via the initializer list, ensuring the base part of the object is set up correctly first."}
+]},
+{id:"poly", label:"Polymorphism", items:[
+  {name:"Function overloading",
+   syntax:`void area(int side);
+void area(int l, int b);
+void area(double r);`,
+   explain:"Multiple functions share a name but differ in parameter type/count. The compiler picks the right one at compile time based on the arguments — this is compile-time (early binding) polymorphism."},
+  {name:"Function overriding",
+   syntax:`class Base {
+public:
+    virtual void show() { ... }
+};
+class Derived : public Base {
+public:
+    void show() override { ... }   // same name, same signature
+};`,
+   explain:"A derived class redefines a base class function with the identical signature. Requires 'virtual' in the base for the override to actually take effect at runtime (late binding); 'override' is optional but catches signature mistakes at compile time."},
+  {name:"Virtual function & late binding",
+   syntax:`Base *ptr = new Derived();
+ptr->show();   // calls Derived::show() — decided at RUNTIME`,
+   explain:"A base class pointer/reference holding a derived object calls the derived version of a virtual function, not the base version — decided at runtime based on the actual object type, not the pointer's declared type."},
+  {name:"Pure virtual function & abstract class",
+   syntax:`class Shape {
+public:
+    virtual double area() = 0;   // pure virtual
+};
+// Shape s;  <- ERROR: cannot instantiate abstract class
+class Circle : public Shape {
+public:
+    double area() override { return 3.14*r*r; }
+};`,
+   explain:"A virtual function with no body, marked '= 0'. It forces every derived class to implement it, and makes the class abstract — it can only be used as a base, never instantiated directly."},
+  {name:"Operator overloading (member function)",
+   syntax:`class Matrix {
+public:
+    Matrix operator+(const Matrix &other) {
+        // 'this' is the left operand, 'other' is the right
+        ...
+    }
+};
+c = a + b;   // equivalent to a.operator+(b)`,
+   explain:"Redefines what an operator does for class objects. As a member function, the left operand is the implicit object and the right operand is the single explicit parameter."},
+  {name:"Operator overloading (friend / non-member function)",
+   syntax:`class Complex {
+    friend Complex operator+(const Complex&, const Complex&);
+};
+Complex operator+(const Complex &a, const Complex &b) { ... }`,
+   explain:"Used when the left operand isn't a class object (e.g. '2 * obj'), or to keep the operator outside the class. Both operands are passed explicitly; needs 'friend' to reach private members."},
+  {name:"Overloading increment (pre vs post)",
+   syntax:`Time operator++()     { ...; return *this; }      // pre:  ++t
+Time operator++(int)  { Time old=*this; ...; return old; } // post: t++`,
+   explain:"The dummy 'int' parameter (unused) is a convention that distinguishes the post-increment overload from the pre-increment one. Post-increment must save and return the original value."}
+]},
+{id:"friend", label:"Friend", items:[
+  {name:"Friend function",
+   syntax:`class Box {
+    int volume;
+    friend void showVolume(Box &b);   // declared inside class
+};
+void showVolume(Box &b) {
+    cout << b.volume;   // can access private member
+}`,
+   explain:"Grants one specific external (non-member) function access to a class's private/protected members. The friend declaration goes inside the class; the function itself is defined normally, outside."},
+  {name:"Friend class",
+   syntax:`class Box {
+    friend class Auditor;   // Auditor gets full access to Box
+};
+class Auditor {
+public:
+    void inspect(Box &b) { /* can read b's private members */ }
+};`,
+   explain:"Grants every member function of another class full access to this class's private/protected members — used when two classes are tightly coupled and need deep mutual access."},
+  {name:"Friend member function of another class",
+   syntax:`class Box;  // forward declaration
+class Printer {
+public:
+    void showVolume(Box &b);
+};
+class Box {
+    friend void Printer::showVolume(Box&);  // only THIS method is a friend
+};`,
+   explain:"More restrictive than a friend class — grants access to only one specific member function of another class, rather than the whole class. Requires a forward declaration since Box references Printer before it's fully known."}
+]},
+{id:"templates", label:"Templates & STL", items:[
+  {name:"Function template",
+   syntax:`template <class T>
+T maxValue(T a, T b) { return (a > b) ? a : b; }
+
+maxValue(3, 7);        // T = int
+maxValue(2.5, 1.1);    // T = double`,
+   explain:"Writes a function once using a placeholder type T; the compiler generates a specific version for whatever type is used at each call site — eliminating duplicated, type-specific code."},
+  {name:"Class template",
+   syntax:`template <class T>
+class Stack {
+    T arr[100]; int top = -1;
+public:
+    void push(T val) { arr[++top] = val; }
+};
+Stack<int> s1;
+Stack<string> s2;`,
+   explain:"Same idea as a function template but for an entire class — one class definition works for any data type, instantiated per type when used (Stack<int>, Stack<string>, ...)."},
+  {name:"Default template argument",
+   syntax:`template <class T = int>
+class Box { T value; ... };
+
+Box<> b1;         // uses default: T = int
+Box<double> b2;   // explicit override`,
+   explain:"Lets you omit the type argument when the common case applies, just like a default function argument — the template parameter falls back to the specified default type."},
+  {name:"STL vector",
+   syntax:`#include <vector>
+vector<int> v;
+v.push_back(10);
+for (int x : v) cout << x;`,
+   explain:"A dynamic, resizable array container from the Standard Template Library. push_back() appends; supports range-based for loops and random access via [ ]."},
+  {name:"STL sort with custom order",
+   syntax:`#include <algorithm>
+sort(v.begin(), v.end());                 // ascending
+sort(v.begin(), v.end(), greater<int>()); // descending`,
+   explain:"Sorts a range given by iterators. Passing greater<T>() as a third argument reverses the default ascending order to descending."},
+  {name:"STL stack",
+   syntax:`#include <stack>
+stack<int> s;
+s.push(10); s.push(20);
+s.top();   // 20
+s.pop();`,
+   explain:"A container adapter enforcing LIFO (last-in-first-out) access — elements can only be added/removed from one end via push(), pop(), and top()."}
+]},
+{id:"files", label:"File Handling", items:[
+  {name:"Opening a file (text mode)",
+   syntax:`#include <fstream>
+ofstream fout("data.txt");   // write
+ifstream fin("data.txt");    // read
+if (!fout) { /* handle error */ }`,
+   explain:"ofstream opens a file for writing, ifstream for reading. Checking '!fout' (or .is_open()) catches abnormal situations like a missing file or permission failure before you try to use the stream."},
+  {name:"File modes",
+   syntax:`fstream f("data.dat",
+    ios::in | ios::out | ios::binary | ios::app);`,
+   explain:"ios::in = read, ios::out = write, ios::app = append (write at end, keep existing content), ios::ate = jump to end on open, ios::trunc = erase existing content, ios::binary = binary (not text) mode. Combine with | ."},
+  {name:"Writing / reading text character by character",
+   syntax:`char ch;
+while (in.get(ch)) out.put(toupper(ch));`,
+   explain:"get() reads one character at a time (returns false at end-of-file, ending the loop); put() writes one character. Common pattern for transforming file content on the fly."},
+  {name:"Binary read/write of structs/objects",
+   syntax:`Employee e;
+fout.write((char*)&e, sizeof(e));   // write a whole record
+fin.read((char*)&e, sizeof(e));     // read a whole record`,
+   explain:"Writes/reads the raw memory bytes of an object directly — fast and preserves exact structure, but requires reinterpreting the object's address as a char* since streams work in bytes."},
+  {name:"Random file access",
+   syntax:`fin.seekg(recordSize * index, ios::beg);  // input: jump to position
+fout.seekp(recordSize * index, ios::beg); // output: jump to position`,
+   explain:"seekg (get) and seekp (put) move the file's read/write pointer directly to a byte offset, instead of reading sequentially — enabling direct access to a specific record without scanning from the start."}
+]},
+{id:"except", label:"Exception Handling", items:[
+  {name:"try / throw / catch",
+   syntax:`try {
+    if (b == 0) throw runtime_error("Divide by zero");
+    result = a / b;
+}
+catch (runtime_error &e) {
+    cout << e.what();
+}`,
+   explain:"Risky code goes in try{}. throw signals a problem by raising an exception object. catch(){} intercepts a matching exception type and handles it — keeping error-handling logic separate from normal logic."},
+  {name:"Multiple catch blocks",
+   syntax:`try { ... }
+catch (invalid_argument &e) { ... }
+catch (out_of_range &e) { ... }
+catch (...) { cout << "unknown error"; }   // catch-all`,
+   explain:"Several catch blocks can follow one try, each handling a different exception type — the first matching type's block runs. catch(...) matches any exception type as a fallback."},
+  {name:"Standard exception types",
+   syntax:`#include <stdexcept>
+throw runtime_error("message");
+throw invalid_argument("message");
+throw out_of_range("message");`,
+   explain:"The C++ standard library provides a hierarchy of exception classes (all derived from std::exception) for common error categories, each exposing a .what() method that returns the error message."},
+  {name:"Throwing a custom type",
+   syntax:`throw string("Roll number cannot be negative");
+catch (string &e) { cout << e; }`,
+   explain:"Any type can be thrown — not just standard exception classes — but using std::exception-derived types (runtime_error etc.) is preferred since they carry a consistent .what() interface."}
+]},
+{id:"other", label:"Defaults & Misc", items:[
+  {name:"Default function argument",
+   syntax:`void printMessage(string msg, int count = 1) { ... }
+printMessage("Hi");        // count defaults to 1
+printMessage("Hi", 3);     // overrides default`,
+   explain:"Lets a caller omit a parameter that usually takes the same value; the default is used only when the argument isn't supplied. Default values must be trailing (rightmost) parameters."},
+  {name:"Default arg + overloading ambiguity",
+   syntax:`void f(int a, int b = 5);
+void f(int a);
+f(10);   // ERROR: ambiguous — matches both`,
+   explain:"If a default argument makes one overload's call signature identical to another overload's, the compiler cannot decide which to call — a compile error results."},
+  {name:"IS-A vs HAS-A",
+   syntax:`class Student : public Person { };  // IS-A (inheritance)
+class Car { Engine e; };            // HAS-A (composition)`,
+   explain:"IS-A is expressed through inheritance (a Student is a kind of Person). HAS-A is expressed through composition — one class holds another as a member (a Car has an Engine)."}
+]}
+];
+
+const tabsEl = document.getElementById('tabs');
+const mainEl = document.getElementById('main');
+
+categories.forEach((cat, ci) => {
+  const btn = document.createElement('button');
+  btn.textContent = cat.label;
+  btn.className = ci === 0 ? 'active' : '';
+  btn.onclick = () => showCat(ci);
+  tabsEl.appendChild(btn);
+
+  const section = document.createElement('div');
+  section.className = 'cat' + (ci === 0 ? ' active' : '');
+  section.id = cat.id;
+
+  cat.items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card searchable';
+    card.dataset.text = (item.name + ' ' + item.syntax + ' ' + item.explain).toLowerCase();
+    card.innerHTML = `
+      <h3>${item.name}</h3>
+      <div class="label">Syntax</div>
+      <pre>${item.syntax.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
+      <div class="label">Explanation</div>
+      <p class="explain">${item.explain}</p>
+    `;
+    section.appendChild(card);
+  });
+
+  mainEl.appendChild(section);
+});
+
+function showCat(idx) {
+  document.querySelectorAll('.cat').forEach((el,i) => el.classList.toggle('active', i===idx));
+  document.querySelectorAll('nav.tabs button').forEach((el,i) => el.classList.toggle('active', i===idx));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('search').addEventListener('input', (e) => {
+  const q = e.target.value.toLowerCase().trim();
+  const cards = document.querySelectorAll('.card');
+  if (!q) {
+    cards.forEach(c => c.classList.remove('hidden'));
+    return;
+  }
+  // search across ALL categories when actively searching
+  document.querySelectorAll('.cat').forEach(el => el.classList.add('active'));
+  cards.forEach(c => {
+    c.classList.toggle('hidden', !c.dataset.text.includes(q));
+  });
+});
+</script>
+</body>
+</html>

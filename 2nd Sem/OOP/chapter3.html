@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 3: Objects and Classes</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">OOP · ENCT 151</a>
+  <div class="nav">
+    <a href="OOP (ENCT_CT 151) — Solved Question Papers.html">Past Papers</a>
+    <a href="C++ OOP — Syntax Reference.html">Syntax</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html" class="current">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 3.</span> Objects and Classes</h1>
+  <p class="subtitle">7 hours · 9 marks (largest chapter)</p>
+
+  <h2>3.1 C++ Classes</h2>
+  <p>A class is a user-defined blueprint that groups data members (attributes) and member functions (methods) into one unit. Declared with the keyword <code>class</code>.</p>
+  <pre><code>class Student {
+private:
+    int roll;
+    string name;
+public:
+    void setData(int r, string n) { roll = r; name = n; }
+    void display() { cout &lt;&lt; roll &lt;&lt; " " &lt;&lt; name; }
+};</code></pre>
+  <p>Access specifiers control visibility: <code>private</code> (accessible only inside the class — default for <code>class</code>), <code>protected</code> (accessible in class and derived classes), <code>public</code> (accessible anywhere the object is visible).</p>
+
+  <h2>3.2 Objects and Member Access</h2>
+  <p>An object is an instance of a class — creating an object allocates memory for its data members.</p>
+  <pre><code>Student s1;                 // object creation
+s1.setData(1, "Ram");       // member access using dot (.) operator
+s1.display();
+Student *sp = &amp;s1;
+sp-&gt;display();               // member access via pointer using -&gt;</code></pre>
+
+  <h2>3.3 Relation of Object, Class and Memory</h2>
+  <ul>
+    <li>A <strong>class</strong> itself occupies no memory for its data members — it is only a description/template.</li>
+    <li>Each <strong>object</strong> gets its own separate copy of the (non-static) data members.</li>
+    <li><strong>Member functions</strong> are not duplicated per object — a single copy of the code is shared by all objects; the compiler passes a hidden pointer <code>this</code> so the function knows which object's data to use.</li>
+    <li>Memory for an object is allocated when it is defined (stack) or via <code>new</code> (heap), and released when it goes out of scope or is <code>delete</code>d.</li>
+  </ul>
+
+  <h2>3.4 Defining Member Function (inside the class)</h2>
+  <pre><code>class Box {
+    int length;
+public:
+    void setLength(int l) { length = l; }   // defined inside class -> implicitly inline
+};</code></pre>
+
+  <h2>3.5 Defining Member Function Outside the Class (using scope resolution)</h2>
+  <pre><code>class Box {
+    int length;
+public:
+    void setLength(int l);       // declaration only
+    int getLength();
+};
+void Box::setLength(int l) { length = l; }  // :: scope resolution operator
+int Box::getLength() { return length; }</code></pre>
+  <p>Functions defined outside the class using <code>::</code> are NOT implicitly inline (unless explicitly marked <code>inline</code>), whereas functions defined inside the class body are implicitly treated as inline requests.</p>
+
+  <h2>3.6 Objects as Members (Composition)</h2>
+  <p>A class can contain objects of another class as its data members — this is called <strong>composition</strong> or a <em>has-a</em> relationship.</p>
+  <pre><code>class Engine { public: void start() { cout &lt;&lt; "Engine started"; } };
+class Car {
+    Engine e;    // Engine object as a member of Car
+public:
+    void drive() { e.start(); cout &lt;&lt; " Car moving"; }
+};</code></pre>
+
+  <h2>3.7 Constructors and Destructors</h2>
+  <p><strong>Constructor:</strong> a special member function with the same name as the class, automatically invoked when an object is created; used to initialize data members. No return type (not even <code>void</code>).</p>
+  <p><strong>Destructor:</strong> a special member function named <code>~ClassName()</code>, automatically invoked when an object is destroyed; used to release resources. Takes no arguments, cannot be overloaded, and has no return type.</p>
+  <table>
+    <tr><th>Type</th><th>Description</th></tr>
+    <tr><td>Default constructor</td><td>Takes no arguments; compiler supplies one if none is defined.</td></tr>
+    <tr><td>Parameterized constructor</td><td>Takes arguments to initialize members with specific values.</td></tr>
+    <tr><td>Copy constructor</td><td><code>ClassName(const ClassName &amp;obj)</code> — creates a new object as a copy of an existing object.</td></tr>
+  </table>
+  <pre><code>class Demo {
+    int x;
+public:
+    Demo() { x = 0; cout &lt;&lt; "Default ctor\n"; }              // default
+    Demo(int a) { x = a; cout &lt;&lt; "Param ctor\n"; }            // parameterized
+    Demo(const Demo &amp;d) { x = d.x; cout &lt;&lt; "Copy ctor\n"; }   // copy
+    ~Demo() { cout &lt;&lt; "Destructor\n"; }
+};
+int main() {
+    Demo d1;        // default ctor
+    Demo d2(5);      // param ctor
+    Demo d3 = d2;    // copy ctor
+}                     // destructors called in reverse order: d3, d2, d1</code></pre>
+
+  <h2>3.8 Objects as Function Arguments</h2>
+  <p>Objects can be passed to functions by value (a copy is made using the copy constructor), by reference (<code>&amp;</code>, no copy, changes affect original), or by pointer.</p>
+  <pre><code>void show(Demo d) { }          // pass by value -> copy constructor invoked
+void show(Demo &amp;d) { }         // pass by reference -> no copy
+void show(Demo *d) { }         // pass by pointer</code></pre>
+
+  <h2>3.9 Returning Objects from Functions</h2>
+  <pre><code>class Point {
+    int x, y;
+public:
+    Point(int a=0, int b=0): x(a), y(b) {}
+    Point add(Point p) {              // returns a new Point object by value
+        return Point(x + p.x, y + p.y);
+    }
+};</code></pre>
+  <p>When a function returns an object by value, a temporary object is created (often optimized away by the compiler via <em>return value optimization</em>, RVO).</p>
+
+  <h2>3.10 Array of Objects</h2>
+  <pre><code>class Student { public: int roll; };
+Student s[3];       // array of 3 Student objects, default ctor called 3 times
+s[0].roll = 1;
+s[1].roll = 2;</code></pre>
+
+  <h2>3.11 Pointer to Objects</h2>
+  <pre><code>Student *p = new Student;   // dynamically allocated object
+p-&gt;roll = 5;                  // access member via -&gt;
+delete p;
+Student arr[3];
+Student *q = arr;             // pointer to first element
+(q+1)-&gt;roll = 10;             // access second element via pointer arithmetic</code></pre>
+
+  <h2>3.12 Dynamic Memory Allocation for Objects</h2>
+  <pre><code>Student *p = new Student();          // single object on heap
+Student *arr = new Student[5];       // array of objects on heap
+delete p;
+delete[] arr;                         // must use [] for arrays</code></pre>
+
+  <h2>3.13 Dynamic Constructors</h2>
+  <p>A constructor that allocates memory dynamically (using <code>new</code>) for a data member at object-creation time — commonly used when the size of a member (e.g., a string or array) is not known until run time.</p>
+  <pre><code>class Str {
+    char *data;
+public:
+    Str(const char *s) {
+        data = new char[strlen(s) + 1];   // dynamic allocation inside constructor
+        strcpy(data, s);
+    }
+    ~Str() { delete[] data; }              // must free in destructor
+};</code></pre>
+  <p>Classes with dynamic constructors must also define a proper copy constructor and destructor (the "Rule of Three") to avoid shallow-copy bugs (two objects pointing to and freeing the same memory).</p>
+
+  <h2>3.14 Pointer (<code>this</code> pointer)</h2>
+  <p>Every non-static member function has an implicit parameter called <code>this</code> — a pointer to the object that invoked the function. Used to resolve naming conflicts between a parameter and a data member, and to return the current object (e.g., for chaining).</p>
+  <pre><code>class Box {
+    int length;
+public:
+    Box &amp;setLength(int length) {
+        this-&gt;length = length;   // 'this->length' is the member, 'length' is the parameter
+        return *this;             // enables chaining: obj.setLength(1).setLength(2);
+    }
+};</code></pre>
+
+  <h2>3.15 Static Data Member and Static Member Function</h2>
+  <p><strong>Static data member:</strong> shared by all objects of the class — only one copy exists regardless of how many objects are created. Must be defined (given storage) outside the class.</p>
+  <p><strong>Static member function:</strong> can be called without an object (using the class name), and can only access other static members directly (it has no <code>this</code> pointer).</p>
+  <pre><code>class Counter {
+    static int count;              // declaration
+public:
+    Counter() { count++; }
+    static int getCount() { return count; }  // static function
+};
+int Counter::count = 0;             // definition + initialization (outside class)
+int main() {
+    Counter a, b, c;
+    cout &lt;&lt; Counter::getCount();   // 3 -- called using class name
+}</code></pre>
+
+  <h2>3.16 Constant Member Functions and Constant Objects</h2>
+  <pre><code>class Box {
+    int length;
+public:
+    int getLength() const { return length; }  // const member function: cannot modify data members
+};
+const Box b;             // constant object: can only call const member functions on it
+// b.getLength();          -> OK
+// b.setLength(5);         -> error if setLength is non-const</code></pre>
+  <p>A <code>const</code> member function guarantees it will not modify the object's data members (except members marked <code>mutable</code>). A <code>const</code> object can only invoke <code>const</code> member functions.</p>
+
+  <h2>3.17 Friend Functions and Friend Classes</h2>
+  <p>A <strong>friend function</strong> is a non-member function granted access to a class's private and protected members. A <strong>friend class</strong> grants all member functions of another class the same access.</p>
+  <pre><code>class Box {
+    int length;
+public:
+    Box(int l): length(l) {}
+    friend void printLength(Box b);   // friend declaration inside class
+};
+void printLength(Box b) {              // NOT a member function, but can access b.length
+    cout &lt;&lt; b.length;
+}
+
+class B; // forward declaration
+class A {
+    friend class B;   // B can access A's private members
+    int secret = 42;
+};
+class B {
+public:
+    void reveal(A a) { cout &lt;&lt; a.secret; }
+};</code></pre>
+  <p>Friendship is not mutual and not inherited: if A declares B as a friend, B does not automatically consider A a friend, and derived classes of B do not automatically gain the friendship either.</p>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Define class and object. Write a C++ program to define a class <code>Rectangle</code> with member functions to set dimensions and calculate area. <span class="marks">6 marks</span></div>
+    <div class="a">
+      A class is a user-defined blueprint describing data and behaviour; an object is an instance of a class occupying its own memory.
+      <pre><code>class Rectangle {
+    float length, width;
+public:
+    void setDimension(float l, float w) { length = l; width = w; }
+    float area() { return length * width; }
+};
+int main() {
+    Rectangle r;
+    r.setDimension(4, 5);
+    cout &lt;&lt; r.area();   // 20
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. What are constructors and destructors? Explain their types with a program showing constructor overloading. <span class="marks">7 marks</span></div>
+    <div class="a">See section 3.7 for definitions and the table of constructor types. Include the example program that shows default, parameterized, and copy constructors plus the destructor, and explain that objects are destroyed in the reverse order of their creation (LIFO).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. What is the <code>this</code> pointer? Explain its uses with an example. <span class="marks">4 marks</span></div>
+    <div class="a"><code>this</code> is an implicit pointer available inside every non-static member function, pointing to the calling object. Uses: (1) disambiguate a data member from a parameter of the same name, (2) return the current object by reference to support method chaining, (3) pass the current object to another function. See code in section 3.14.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Differentiate between static data member and ordinary (instance) data member. <span class="marks">4 marks</span></div>
+    <div class="a">An ordinary data member has a separate copy in every object. A static data member has exactly one copy shared by all objects of the class, exists even if no object is created (once defined), must be defined outside the class to allocate storage, and is typically used for values common to the whole class (e.g., an object counter).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. What is a friend function? Write a program to add two distances of different classes using a friend function. <span class="marks">6 marks</span></div>
+    <div class="a">
+      A friend function is a non-member function that is granted access to a class's private/protected data, declared inside the class with the <code>friend</code> keyword.
+      <pre><code>class ClassB;
+class ClassA {
+    int a = 10;
+public:
+    friend int addValues(ClassA, ClassB);
+};
+class ClassB {
+    int b = 20;
+public:
+    friend int addValues(ClassA, ClassB);
+};
+int addValues(ClassA x, ClassB y) { return x.a + y.b; }
+int main() { cout &lt;&lt; addValues(ClassA(), ClassB()); } // 30</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Explain dynamic constructors with a suitable example. <span class="marks">5 marks</span></div>
+    <div class="a">A dynamic constructor allocates memory for a data member at run time using <code>new</code>, useful when the required size is unknown at compile time (e.g., a variable-length string). See the <code>Str</code> class example in section 3.13; explain why the destructor must free this memory and why a proper copy constructor is also required to prevent two objects sharing (and both freeing) the same memory block.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. What is the difference between passing an object by value and by reference to a function? <span class="marks">4 marks</span></div>
+    <div class="a">Pass by value invokes the copy constructor to create a new copy of the object for the function — changes inside the function do not affect the caller's object, and copying can be expensive for large objects. Pass by reference passes an alias to the original object — no copy is made, it is more efficient, and changes made inside the function affect the caller's object directly.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. What are constant member functions? Why are they needed? <span class="marks">4 marks</span></div>
+    <div class="a">A member function declared with <code>const</code> after its parameter list guarantees that it will not modify any data member of the object (except <code>mutable</code> members). They are needed so that <code>const</code> objects (and references/pointers to const objects) can still call safe, read-only methods — without <code>const</code> member functions, a <code>const</code> object could call no member functions at all. See section 3.16.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. Write a program to demonstrate an array of objects. <span class="marks">5 marks</span></div>
+    <div class="a">
+      <pre><code>class Student {
+    int roll; string name;
+public:
+    void set(int r, string n) { roll = r; name = n; }
+    void show() { cout &lt;&lt; roll &lt;&lt; " " &lt;&lt; name &lt;&lt; endl; }
+};
+int main() {
+    Student s[3];
+    s[0].set(1, "Ram"); s[1].set(2, "Shyam"); s[2].set(3, "Hari");
+    for (int i = 0; i &lt; 3; i++) s[i].show();
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q10. Explain the relation between object, class and memory allocation. <span class="marks">4 marks</span></div>
+    <div class="a">See section 3.3: a class itself is only a template and occupies no memory for data members; each object gets its own copy of the class's non-static data members, while all objects share the same member function code (invoked with a different <code>this</code> pointer per object).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q11. What is a friend class? How is it different from inheritance? <span class="marks">4 marks</span></div>
+    <div class="a">A friend class is granted access to another class's private/protected members without being related to it by inheritance. Unlike inheritance, a friend class does NOT acquire the other class's members, does not establish an <em>is-a</em> relationship, and friendship is neither mutual nor inherited by subclasses (see section 3.17).</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter2.html">← Chapter 2</a>
+    <a href="chapter4.html">Next: Chapter 4 — Operator Overloading →</a>
+  </div>
+</div>
+</body>
+</html>

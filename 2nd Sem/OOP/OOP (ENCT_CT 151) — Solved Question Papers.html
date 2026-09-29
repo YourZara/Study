@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TU OOP (ENCT/CT 151) — Solved Question Papers</title>
+<style>
+:root{
+  --bg:#fafaf8; --card:#ffffff; --ink:#1c1c1a; --sub:#5c5c56;
+  --accent:#8a4f2e; --accent2:#c76b3c; --line:#e6e2da; --code-bg:#282420;
+  --code-ink:#f2ede4; --marks:#8a4f2e; --tab-inactive:#f0ece3;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17140f; --card:#221e18; --ink:#f2ede4; --sub:#b8b0a1;
+    --accent:#e0925a; --accent2:#e0925a; --line:#3a352b; --code-bg:#100e0b;
+    --code-ink:#e8e2d5; --marks:#e0925a; --tab-inactive:#2a251d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17140f; --card:#221e18; --ink:#f2ede4; --sub:#b8b0a1;
+  --accent:#e0925a; --accent2:#e0925a; --line:#3a352b; --code-bg:#100e0b;
+  --code-ink:#e8e2d5; --marks:#e0925a; --tab-inactive:#2a251d;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Georgia','Iowan Old Style',serif;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  line-height:1.55;
+}
+header{
+  padding:28px 20px 18px; max-width:900px; margin:0 auto;
+}
+header h1{font-size:1.5rem; margin:0 0 4px; letter-spacing:-0.01em;}
+header p{color:var(--sub); margin:0; font-size:0.95rem; font-family:-apple-system,sans-serif;}
+nav.tabs{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:10;
+  background:var(--bg); border-bottom:1px solid var(--line);
+  overflow-x:auto; white-space:nowrap; padding:0 20px;
+}
+nav.tabs::-webkit-scrollbar{display:none;}
+nav.tabs button{
+  font-family:-apple-system,sans-serif; font-size:0.85rem; font-weight:600;
+  background:none; border:none; color:var(--sub); padding:14px 14px;
+  cursor:pointer; border-bottom:3px solid transparent;
+}
+nav.tabs button.active{color:var(--accent); border-bottom-color:var(--accent);}
+main{max-width:900px; margin:0 auto; padding:20px;}
+.paper{display:none;}
+.paper.active{display:block;}
+.paper-head{color:var(--sub); font-family:-apple-system,sans-serif; font-size:0.85rem; margin-bottom:18px;}
+.q{
+  background:var(--card); border:1px solid var(--line); border-radius:10px;
+  margin-bottom:14px; overflow:hidden; box-shadow:var(--shadow);
+}
+.q-head{
+  padding:14px 16px; cursor:pointer; display:flex; justify-content:space-between;
+  align-items:flex-start; gap:12px; font-family:-apple-system,sans-serif;
+}
+.q-head h3{margin:0; font-size:0.98rem; font-weight:600; line-height:1.4;}
+.q-head .marks{color:var(--marks); font-size:0.78rem; font-weight:700; white-space:nowrap; padding-top:2px;}
+.q-body{display:none; padding:0 16px 18px; border-top:1px solid var(--line);}
+.q.open .q-body{display:block;}
+.q.open .q-head{border-bottom:1px solid var(--line);}
+.q-body h4{
+  font-family:-apple-system,sans-serif; font-size:0.72rem; text-transform:uppercase;
+  letter-spacing:0.06em; color:var(--accent2); margin:16px 0 6px;
+}
+.q-body p{margin:6px 0; font-size:0.95rem;}
+.q-body ul{margin:6px 0; padding-left:20px;}
+.q-body li{margin:3px 0; font-size:0.95rem;}
+pre{
+  background:var(--code-bg); color:var(--code-ink); padding:14px;
+  border-radius:8px; overflow-x:auto; font-size:0.82rem; line-height:1.5;
+  font-family:'SF Mono','Consolas',monospace; margin:8px 0;
+}
+.chev{font-family:-apple-system,sans-serif; color:var(--sub); font-size:0.8rem;}
+.q.open .chev{transform:rotate(90deg);}
+.chev{transition:transform 0.15s; display:inline-block;}
+.tip{
+  background:rgba(138,79,46,0.08); border-left:3px solid var(--accent);
+  padding:8px 12px; margin:10px 0; font-size:0.88rem; font-family:-apple-system,sans-serif;
+  border-radius:0 6px 6px 0;
+}
+footer{text-align:center; color:var(--sub); font-family:-apple-system,sans-serif; font-size:0.8rem; padding:30px 20px 50px;}
+</style>
+</head>
+<body>
+<div style="max-width:900px;margin:0 auto;padding:12px 20px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:0.88rem;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;">
+  <a href="index.html" style="color:var(--accent);font-weight:700;text-decoration:none;">← OOP Home</a>
+  <a href="OOP (ENCT_CT 151) — Solved Question Papers.html" style="color:var(--accent);font-weight:700;text-decoration:none;">Past Papers</a>
+  <a href="C++ OOP — Syntax Reference.html" style="color:var(--sub);text-decoration:none;">Syntax</a>
+  <a href="chapter1.html" style="color:var(--sub);text-decoration:none;">Ch1</a>
+  <a href="chapter2.html" style="color:var(--sub);text-decoration:none;">Ch2</a>
+  <a href="chapter3.html" style="color:var(--sub);text-decoration:none;">Ch3</a>
+  <a href="chapter4.html" style="color:var(--sub);text-decoration:none;">Ch4</a>
+  <a href="chapter5.html" style="color:var(--sub);text-decoration:none;">Ch5</a>
+  <a href="chapter6.html" style="color:var(--sub);text-decoration:none;">Ch6</a>
+  <a href="chapter7.html" style="color:var(--sub);text-decoration:none;">Ch7</a>
+  <a href="chapter8.html" style="color:var(--sub);text-decoration:none;">Ch8</a>
+  <a href="chapter9.html" style="color:var(--sub);text-decoration:none;">Ch9</a>
+</div>
+<header>
+  <h1>Object Oriented Programming — Solved Papers</h1>
+  <p>TU IOE · ENCT/CT 151 · 4 exam papers, model answers written the way you'd write them in the exam. Tap a question to expand.</p>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main id="main"></main>
+<footer>Answers assume C++11 or later · marks shown per official schemes · <a href="index.html" style="color:var(--accent)">OOP Home</a> · <a href="C++ OOP — Syntax Reference.html" style="color:var(--accent)">Syntax Reference</a></footer>
+
+<script>
+const papers = [
+{
+  id:"p1", label:"2083 Baishakh (Back)",
+  meta:"BE · BEI, BCT · Year I/II · Full Marks 60 · ENCT 151",
+  questions:[
+    {q:"What are the advantages of object oriented programming? Differentiate between procedural oriented programming and object oriented programming.", marks:"[2+2]",
+     body:`<h4>Advantages of OOP</h4>
+     <ul><li>Data hiding via encapsulation improves security</li>
+     <li>Code reuse through inheritance reduces duplication</li>
+     <li>Polymorphism allows one interface, many implementations</li>
+     <li>Easier maintenance — real-world entities map directly to objects</li></ul>
+     <h4>POP vs OOP</h4>
+     <table style="width:100%;border-collapse:collapse;font-family:-apple-system,sans-serif;font-size:0.88rem">
+     <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 8px 6px 0"><b>Procedural</b></td><td style="padding:6px 0"><b>Object Oriented</b></td></tr>
+     <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 8px 6px 0">Program divided into functions</td><td style="padding:6px 0">Program divided into objects</td></tr>
+     <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 8px 6px 0">Data moves freely between functions</td><td style="padding:6px 0">Data hidden, accessed via methods</td></tr>
+     <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 8px 6px 0">No data hiding</td><td style="padding:6px 0">Encapsulation hides data</td></tr>
+     <tr><td style="padding:6px 8px 6px 0">Harder to extend/reuse</td><td style="padding:6px 0">Inheritance enables reuse</td></tr>
+     </table>`},
+    {q:"When do we use default argument in functions? When can conflict occur when default argument and function overloading are used together? Create a C++ program to illustrate default arguments with printMessage(message, count=1).", marks:"[1+2+4]",
+     body:`<p>Default arguments are used when a function is usually called with the same value for a parameter, so the caller can omit it. Useful for optional/rarely-changed parameters (e.g. a print count that's usually 1).</p>
+     <p><b>Conflict:</b> ambiguity arises when an overloaded version's signature becomes indistinguishable from a call made using default arguments — e.g. <code>void f(int a, int b=5)</code> and <code>void f(int a)</code> both match <code>f(10)</code>, so the compiler can't decide which to call.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+void printMessage(string message, int count = 1) {
+    for (int i = 0; i < count; i++)
+        cout &lt;&lt; message &lt;&lt; endl;
+}
+
+int main() {
+    printMessage("Hello");           // uses default count = 1
+    printMessage("Namaste", 3);      // overrides default
+    return 0;
+}</pre>`},
+    {q:"What do you mean by a constructor? Explain with example types of constructors in C++. Create class Person (name, age, address, citizenship_number); assign citizenship number only if age > 16, else 0. Also display values.", marks:"[1+4+4]",
+     body:`<p>A constructor is a special member function, same name as the class, called automatically when an object is created — used to initialize data members.</p>
+     <h4>Types</h4>
+     <ul><li><b>Default constructor</b> — no parameters</li>
+     <li><b>Parameterized constructor</b> — takes arguments to initialize with specific values</li>
+     <li><b>Copy constructor</b> — initializes an object using another object of the same class</li></ul>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Person {
+    string name, address;
+    int age;
+    long citizenship_number;
+public:
+    Person(string n, int a, string addr, long cn) {
+        name = n; age = a; address = addr;
+        citizenship_number = (age > 16) ? cn : 0;
+    }
+    void display() {
+        cout &lt;&lt; "Name: " &lt;&lt; name &lt;&lt; "\\nAge: " &lt;&lt; age
+             &lt;&lt; "\\nAddress: " &lt;&lt; address
+             &lt;&lt; "\\nCitizenship No: " &lt;&lt; citizenship_number &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Person p1("Hari", 20, "Pokhara", 123456);
+    Person p2("Rita", 15, "Kathmandu", 999999);
+    p1.display();
+    p2.display();   // citizenship_number prints as 0
+    return 0;
+}</pre>`},
+    {q:"Explain different ways binary operator overloading is performed. Using a class to model a 3×3 matrix, overload + and − to add and subtract two matrices.", marks:"[3+4]",
+     body:`<h4>Ways to overload a binary operator</h4>
+     <ul><li><b>As a member function</b> — takes one explicit argument (right operand); left operand is the implicit <code>this</code></li>
+     <li><b>As a non-member (friend) function</b> — takes two explicit arguments; needed when the left operand isn't an object of the class (e.g. <code>2 * obj</code>)</li></ul>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Matrix {
+    int m[3][3];
+public:
+    void input() {
+        for (int i=0;i&lt;3;i++)
+            for (int j=0;j&lt;3;j++) cin &gt;&gt; m[i][j];
+    }
+    Matrix operator+(const Matrix &o) {
+        Matrix r;
+        for (int i=0;i&lt;3;i++)
+            for (int j=0;j&lt;3;j++) r.m[i][j] = m[i][j] + o.m[i][j];
+        return r;
+    }
+    Matrix operator-(const Matrix &o) {
+        Matrix r;
+        for (int i=0;i&lt;3;i++)
+            for (int j=0;j&lt;3;j++) r.m[i][j] = m[i][j] - o.m[i][j];
+        return r;
+    }
+    void display() {
+        for (int i=0;i&lt;3;i++){
+            for (int j=0;j&lt;3;j++) cout &lt;&lt; m[i][j] &lt;&lt; " ";
+            cout &lt;&lt; endl;
+        }
+    }
+};
+
+int main() {
+    Matrix a, b;
+    cout &lt;&lt; "Enter matrix A:\\n"; a.input();
+    cout &lt;&lt; "Enter matrix B:\\n"; b.input();
+    Matrix sum = a + b, diff = a - b;
+    cout &lt;&lt; "Sum:\\n"; sum.display();
+    cout &lt;&lt; "Difference:\\n"; diff.display();
+    return 0;
+}</pre>`},
+    {q:"Difference between private and protected access specifier. Define function overriding. Write a Cricketer class (name, age, matches). Derive Bowler (wickets) and Batsman (runs, centuries). Implement function overriding; mention type of inheritance.", marks:"[2+1+4]",
+     body:`<p><b>private:</b> accessible only inside the class itself, not even by derived classes.<br>
+     <b>protected:</b> accessible inside the class and by any class derived from it (but not from outside).</p>
+     <p><b>Function overriding:</b> a derived class redefines a base class function with the same name and signature, so the derived version runs instead of the base version for objects of the derived type.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Cricketer {
+protected:
+    string name; int age, matches;
+public:
+    Cricketer(string n,int a,int m):name(n),age(a),matches(m){}
+    virtual void showInfo() {
+        cout &lt;&lt; "Name: " &lt;&lt; name &lt;&lt; ", Age: " &lt;&lt; age
+             &lt;&lt; ", Matches: " &lt;&lt; matches &lt;&lt; endl;
+    }
+};
+
+class Bowler : public Cricketer {          // single inheritance
+    int wickets;
+public:
+    Bowler(string n,int a,int m,int w):Cricketer(n,a,m),wickets(w){}
+    void showInfo() override {              // overriding
+        Cricketer::showInfo();
+        cout &lt;&lt; "Wickets: " &lt;&lt; wickets &lt;&lt; endl;
+    }
+};
+
+class Batsman : public Cricketer {          // single inheritance
+    int runs, centuries;
+public:
+    Batsman(string n,int a,int m,int r,int c):Cricketer(n,a,m),runs(r),centuries(c){}
+    void showInfo() override {
+        Cricketer::showInfo();
+        cout &lt;&lt; "Runs: " &lt;&lt; runs &lt;&lt; ", Centuries: " &lt;&lt; centuries &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Bowler b("Sandeep",26,80,120);
+    Batsman s("Kushal",29,95,3200,5);
+    b.showInfo();
+    s.showInfo();
+    return 0;
+}</pre>
+     <div class="tip">Both Bowler and Batsman inherit from a single base (Cricketer) — this is <b>single inheritance</b>, applied twice.</div>`},
+    {q:"Why do you need virtual destructor? Distinguish between function overloading and overriding with example.", marks:"[1+4]",
+     body:`<p>A virtual destructor is needed so that when a base class pointer holding a derived object is deleted, the <b>derived class's destructor runs too</b> (not just the base's). Without it, only the base destructor runs, and any resources the derived class allocated are leaked.</p>
+     <h4>Overloading vs Overriding</h4>
+     <table style="width:100%;border-collapse:collapse;font-family:-apple-system,sans-serif;font-size:0.88rem">
+     <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 8px 6px 0"><b>Overloading</b></td><td style="padding:6px 0"><b>Overriding</b></td></tr>
+     <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 8px 6px 0">Same class, same name, different parameters</td><td style="padding:6px 0">Base & derived class, same name, same signature</td></tr>
+     <tr style="border-bottom:1px solid var(--line)"><td style="padding:6px 8px 6px 0">Resolved at compile time</td><td style="padding:6px 0">Resolved at runtime (needs virtual)</td></tr>
+     <tr><td style="padding:6px 8px 6px 0">No inheritance needed</td><td style="padding:6px 0">Requires inheritance</td></tr>
+     </table>
+     <pre>void area(int side);          // overload 1
+void area(int l, int b);      // overload 2 — same class
+
+class Shape { virtual void draw(){...} };
+class Circle : public Shape { void draw() override {...} }; // overriding</pre>`},
+    {q:"Explain how abnormal situations are handled in I/O process. Write a program that reads from user, writes to source file, copies to destination file converting lowercase to uppercase, then displays destination file content.", marks:"[3+5]",
+     body:`<p>C++ streams track state via flags checked with <code>fail()</code>, <code>bad()</code>, <code>eof()</code>. Before performing file operations you check <code>if(!file)</code> or <code>file.is_open()</code> to catch situations like a missing file, disk full, or permission denied, and handle them gracefully (print an error, exit) instead of continuing with a broken stream.</p>
+     <pre>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;cctype&gt;
+using namespace std;
+
+int main() {
+    ofstream src("source.txt");
+    if (!src) { cout &lt;&lt; "Cannot open source file\\n"; return 1; }
+    string text;
+    cout &lt;&lt; "Enter text: ";
+    getline(cin, text);
+    src &lt;&lt; text;
+    src.close();
+
+    ifstream in("source.txt");
+    ofstream out("destination.txt");
+    if (!in || !out) { cout &lt;&lt; "File error\\n"; return 1; }
+    char ch;
+    while (in.get(ch)) out.put(toupper(ch));
+    in.close(); out.close();
+
+    ifstream result("destination.txt");
+    cout &lt;&lt; "Destination file content:\\n";
+    while (result.get(ch)) cout &lt;&lt; ch;
+    result.close();
+    return 0;
+}</pre>`},
+    {q:"Why are templates in C++ referred to as a form of generic programming? What are containers and iterators in STL? Briefly explain default arguments with Class Template with suitable example.", marks:"[2+2+4]",
+     body:`<p>Templates let you write a function or class once using a placeholder type <code>T</code>, and the compiler generates the actual code for whatever type you use it with — so the same logic works generically across <code>int</code>, <code>float</code>, custom classes, etc., without rewriting it. That's the essence of generic programming.</p>
+     <p><b>Containers:</b> STL data structures that store collections of objects — <code>vector</code>, <code>list</code>, <code>map</code>, <code>set</code>, etc.<br>
+     <b>Iterators:</b> objects that act like pointers, used to traverse elements of a container (<code>begin()</code> to <code>end()</code>) without exposing its internal structure.</p>
+     <pre>template &lt;class T = int&gt;      // default template argument
+class Box {
+    T value;
+public:
+    Box(T v) : value(v) {}
+    void show() { cout &lt;&lt; "Value: " &lt;&lt; value &lt;&lt; endl; }
+};
+
+int main() {
+    Box&lt;&gt; b1(10);          // uses default type int
+    Box&lt;double&gt; b2(3.14);  // explicit type
+    b1.show(); b2.show();
+}</pre>`},
+    {q:"How is exception handling mechanism in C++ better than traditional techniques? Write a program to read name, roll number and marks that catches multiple exceptions if roll number is negative and marks greater than full marks. Also handle the exceptions.", marks:"[2+3]",
+     body:`<p>Traditional error handling (return codes, <code>errno</code>) mixes error-checking logic with normal logic and is easy to ignore. Exception handling separates the two: error-prone code sits in a <code>try</code> block, and errors are handled centrally in <code>catch</code> blocks — code stays readable, and errors can't silently propagate unnoticed since an uncaught exception terminates the program.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    string name; int roll; float marks, fullMarks = 100;
+    cout &lt;&lt; "Enter name, roll no, marks: ";
+    cin &gt;&gt; name &gt;&gt; roll &gt;&gt; marks;
+
+    try {
+        if (roll &lt; 0)
+            throw string("Roll number cannot be negative");
+        if (marks &gt; fullMarks)
+            throw runtime_error("Marks cannot exceed full marks");
+        cout &lt;&lt; "Valid record: " &lt;&lt; name &lt;&lt; ", " &lt;&lt; roll &lt;&lt; ", " &lt;&lt; marks &lt;&lt; endl;
+    }
+    catch (string &e) {
+        cout &lt;&lt; "Error: " &lt;&lt; e &lt;&lt; endl;
+    }
+    catch (runtime_error &e) {
+        cout &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; endl;
+    }
+    return 0;
+}</pre>`}
+  ]
+},
+{
+  id:"p2", label:"2082 Bhadra (Regular)",
+  meta:"BE · BCT, BEI · Year I/II · Full Marks 60 · ENCT 151",
+  questions:[
+    {q:"What is the drawback of procedural programming and advantage of object-oriented programming along with suitable program code of each?", marks:"[2+2]",
+     body:`<h4>Drawback of POP</h4>
+     <p>Data is global and freely accessible to all functions, so there's no protection against accidental modification, and as programs grow, functions and data become tightly tangled, making them hard to maintain or extend.</p>
+     <h4>Advantage of OOP</h4>
+     <p>Encapsulation bundles data with the functions that operate on it and restricts direct access, protecting data integrity and making code modular and reusable.</p>
+     <pre>// Procedural
+int balance = 1000;
+void withdraw(int amt) { balance -= amt; }   // balance exposed globally
+
+// OOP
+class Account {
+    int balance = 1000;               // hidden
+public:
+    void withdraw(int amt) { if (amt &lt;= balance) balance -= amt; }
+    int getBalance() { return balance; }
+};</pre>`},
+    {q:"What do you mean by Namespace? Why namespace feature is needed in C++? Explain with an example program.", marks:"[1+2+4]",
+     body:`<p>A namespace is a declarative region that groups related identifiers (classes, functions, variables) under a name, so they don't clash with identically-named identifiers elsewhere.</p>
+     <p><b>Why needed:</b> as programs grow or combine multiple libraries, two pieces of code may define something with the same name (e.g. two libraries both have a function <code>display()</code>). Namespaces prevent this <b>naming collision</b> by scoping each under its own namespace name.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+namespace Physics {
+    double gravity = 9.8;
+    void show() { cout &lt;&lt; "Gravity: " &lt;&lt; gravity &lt;&lt; endl; }
+}
+
+namespace Finance {
+    double gravity = 0;   // unrelated, same name — no clash
+    void show() { cout &lt;&lt; "Finance module\\n"; }
+}
+
+int main() {
+    Physics::show();       // resolved via scope
+    Finance::show();
+    return 0;
+}</pre>`},
+    {q:"Explain with example how object can be passed or returned from functions. In which condition can a class be made friend? How can we make a specific member function of a class a friend function? With a complete example show both cases.", marks:"[3+1+1+4]",
+     body:`<p>Objects can be passed to functions <b>by value</b> (a copy is made — via copy constructor), <b>by reference</b> (no copy, original modified), or <b>by pointer</b>. A function can also <b>return</b> an object by value.</p>
+     <p><b>Friend class:</b> used when an entire class needs full access to another class's private/protected members — e.g. two tightly coupled classes like <code>LinkedList</code> and its <code>Iterator</code>.</p>
+     <p><b>Friend member function:</b> instead of making a whole class a friend, only one specific function of another class is granted access — more restrictive, better encapsulation.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Box; // forward declaration
+
+class Printer {
+public:
+    void showVolume(Box &b);   // to be declared friend of Box
+};
+
+class Box {
+    int length, width, height;
+public:
+    Box(int l,int w,int h):length(l),width(w),height(h){}
+    friend class Auditor;                 // whole class is friend
+    friend void Printer::showVolume(Box&); // only this member function is friend
+};
+
+class Auditor {
+public:
+    void inspect(Box &b) {
+        cout &lt;&lt; "Auditor sees dimensions: " &lt;&lt; b.length &lt;&lt; "," &lt;&lt; b.width &lt;&lt; "," &lt;&lt; b.height &lt;&lt; endl;
+    }
+};
+
+void Printer::showVolume(Box &b) {
+    cout &lt;&lt; "Volume: " &lt;&lt; b.length * b.width * b.height &lt;&lt; endl;
+}
+
+Box returnBox() { return Box(2,3,4); }   // returning object by value
+
+int main() {
+    Box b1(2,3,4);
+    Auditor a; a.inspect(b1);
+    Printer p; p.showVolume(b1);
+    Box b2 = returnBox();
+    return 0;
+}</pre>`},
+    {q:"What is operator overloading? Write down the syntax for overloading binary operator using non-member operator function in a class. Write a program to perform addition, subtraction, multiplication and division with complex objects.", marks:"[1+2+4]",
+     body:`<p>Operator overloading lets existing operators (<code>+</code>, <code>-</code>, etc.) be given additional meaning when applied to objects of a user-defined class, so class objects can be manipulated with natural operator syntax.</p>
+     <p><b>Syntax (non-member/friend):</b><br><code>returnType operator&lt;symbol&gt;(const ClassName &a, const ClassName &b);</code></p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Complex {
+    float real, imag;
+public:
+    Complex(float r=0, float i=0):real(r),imag(i){}
+    friend Complex operator+(const Complex&, const Complex&);
+    friend Complex operator-(const Complex&, const Complex&);
+    friend Complex operator*(const Complex&, const Complex&);
+    friend Complex operator/(const Complex&, const Complex&);
+    void display() { cout &lt;&lt; real &lt;&lt; " + " &lt;&lt; imag &lt;&lt; "i" &lt;&lt; endl; }
+};
+
+Complex operator+(const Complex &a, const Complex &b) {
+    return Complex(a.real+b.real, a.imag+b.imag);
+}
+Complex operator-(const Complex &a, const Complex &b) {
+    return Complex(a.real-b.real, a.imag-b.imag);
+}
+Complex operator*(const Complex &a, const Complex &b) {
+    return Complex(a.real*b.real - a.imag*b.imag, a.real*b.imag + a.imag*b.real);
+}
+Complex operator/(const Complex &a, const Complex &b) {
+    float d = b.real*b.real + b.imag*b.imag;
+    return Complex((a.real*b.real + a.imag*b.imag)/d, (a.imag*b.real - a.real*b.imag)/d);
+}
+
+int main() {
+    Complex c1(3,2), c2(1,4);
+    (c1+c2).display(); (c1-c2).display();
+    (c1*c2).display(); (c1/c2).display();
+    return 0;
+}</pre>`},
+    {q:"Explain different forms of inheritance with an example for each. Create a class Person and inherit it to create a class Student. Write a complete program showing function overriding.", marks:"[3+4]",
+     body:`<h4>Forms of inheritance</h4>
+     <ul><li><b>Single</b> — one base, one derived</li>
+     <li><b>Multilevel</b> — A → B → C, chained</li>
+     <li><b>Multiple</b> — one derived class, two or more base classes</li>
+     <li><b>Hierarchical</b> — one base, several derived classes</li>
+     <li><b>Hybrid</b> — combination of the above</li></ul>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Person {
+protected:
+    string name; int age;
+public:
+    Person(string n,int a):name(n),age(a){}
+    virtual void display() {
+        cout &lt;&lt; "Name: " &lt;&lt; name &lt;&lt; ", Age: " &lt;&lt; age &lt;&lt; endl;
+    }
+};
+
+class Student : public Person {     // single inheritance
+    string faculty; float gpa;
+public:
+    Student(string n,int a,string f,float g):Person(n,a),faculty(f),gpa(g){}
+    void display() override {        // overriding
+        Person::display();
+        cout &lt;&lt; "Faculty: " &lt;&lt; faculty &lt;&lt; ", GPA: " &lt;&lt; gpa &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Person *p = new Student("Anish",21,"BCT",3.7);
+    p-&gt;display();     // runs Student::display — late binding
+    delete p;
+    return 0;
+}</pre>`},
+    {q:"Discuss about late binding and early binding. Write a program to create a class Employee. Now create a class Manager derived from Employee. Show the use of virtual function.", marks:"[2+3]",
+     body:`<p><b>Early (static) binding:</b> the compiler decides which function to call at compile time, based on the declared type of the pointer/object. Fast, but inflexible — used by default and for non-virtual functions.</p>
+     <p><b>Late (dynamic) binding:</b> the decision is deferred to runtime, based on the actual object type. Achieved using <code>virtual</code> functions — enables polymorphic behaviour through base class pointers.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Employee {
+protected:
+    string name; float salary;
+public:
+    Employee(string n,float s):name(n),salary(s){}
+    virtual void showSalary() {
+        cout &lt;&lt; name &lt;&lt; "'s salary: " &lt;&lt; salary &lt;&lt; endl;
+    }
+};
+
+class Manager : public Employee {
+    float bonus;
+public:
+    Manager(string n,float s,float b):Employee(n,s),bonus(b){}
+    void showSalary() override {
+        cout &lt;&lt; name &lt;&lt; "'s total pay: " &lt;&lt; (salary+bonus) &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Employee *e = new Manager("Puja", 50000, 10000);
+    e-&gt;showSalary();   // late binding -&gt; calls Manager version
+    delete e;
+    return 0;
+}</pre>`},
+    {q:"What are the different types of file modes used in C++? Write a program with class Employee (name, employeeId, age, salary). Add record of 10 employees in a file and display them; search a specific record by employeeId from user input.", marks:"[2+6]",
+     body:`<h4>File modes (ios::)</h4>
+     <ul><li><code>ios::in</code> — read</li><li><code>ios::out</code> — write</li>
+     <li><code>ios::app</code> — append</li><li><code>ios::ate</code> — go to end on open</li>
+     <li><code>ios::trunc</code> — truncate existing content</li><li><code>ios::binary</code> — binary mode</li></ul>
+     <pre>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+class Employee {
+public:
+    char name[30]; int id, age; float salary;
+};
+
+int main() {
+    Employee e;
+    ofstream fout("employees.dat", ios::binary);
+    for (int i=0;i&lt;10;i++) {
+        cout &lt;&lt; "Enter name id age salary: ";
+        cin &gt;&gt; e.name &gt;&gt; e.id &gt;&gt; e.age &gt;&gt; e.salary;
+        fout.write((char*)&e, sizeof(e));
+    }
+    fout.close();
+
+    ifstream fin("employees.dat", ios::binary);
+    cout &lt;&lt; "\\nAll records:\\n";
+    while (fin.read((char*)&e, sizeof(e)))
+        cout &lt;&lt; e.id &lt;&lt; " " &lt;&lt; e.name &lt;&lt; " " &lt;&lt; e.age &lt;&lt; " " &lt;&lt; e.salary &lt;&lt; endl;
+    fin.close();
+
+    int searchId; bool found=false;
+    cout &lt;&lt; "\\nEnter employeeId to search: "; cin &gt;&gt; searchId;
+    ifstream fin2("employees.dat", ios::binary);
+    while (fin2.read((char*)&e, sizeof(e))) {
+        if (e.id == searchId) {
+            cout &lt;&lt; "Found: " &lt;&lt; e.name &lt;&lt; " " &lt;&lt; e.age &lt;&lt; " " &lt;&lt; e.salary &lt;&lt; endl;
+            found = true; break;
+        }
+    }
+    if (!found) cout &lt;&lt; "Employee not found\\n";
+    return 0;
+}</pre>`},
+    {q:"Show with an example how we eliminate code redundancy using template. WAP to read n numbers of any type and sort them in descending order using vector.", marks:"[4+4]",
+     body:`<p>Without templates, sorting <code>int</code>s and <code>float</code>s would need two near-identical functions. A template writes the logic once with a placeholder type <code>T</code>; the compiler generates the specific version needed at compile time — eliminating duplicated, redundant code.</p>
+     <pre>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+template &lt;class T&gt;
+void sortDescending(vector&lt;T&gt; &v) {
+    sort(v.begin(), v.end(), greater&lt;T&gt;());
+    for (T x : v) cout &lt;&lt; x &lt;&lt; " ";
+    cout &lt;&lt; endl;
+}
+
+int main() {
+    int n; cout &lt;&lt; "How many numbers? "; cin &gt;&gt; n;
+    vector&lt;double&gt; nums(n);
+    cout &lt;&lt; "Enter " &lt;&lt; n &lt;&lt; " numbers: ";
+    for (double &x : nums) cin &gt;&gt; x;
+    sortDescending(nums);   // same function works for int, float, double...
+    return 0;
+}</pre>`},
+    {q:"Explain exception along with their handling constructs. Develop a C++ program that shows multiple exception handling scenarios.", marks:"[2+3]",
+     body:`<p>An exception is a runtime anomaly (divide by zero, invalid input, out-of-range access) that disrupts normal flow. C++ handles it with three constructs: <code>try</code> (risky code), <code>throw</code> (signals the exception), and <code>catch</code> (handles a specific exception type). Multiple <code>catch</code> blocks can follow one <code>try</code> to handle different error types separately.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+double divide(double a, double b) {
+    if (b == 0) throw runtime_error("Division by zero");
+    return a / b;
+}
+
+int main() {
+    int arr[5] = {1,2,3,4,5};
+    try {
+        cout &lt;&lt; divide(10, 0);          // throws runtime_error
+    } catch (runtime_error &e) {
+        cout &lt;&lt; "Caught: " &lt;&lt; e.what() &lt;&lt; endl;
+    }
+
+    try {
+        int idx; cout &lt;&lt; "Enter index (0-4): "; cin &gt;&gt; idx;
+        if (idx &lt; 0 || idx &gt; 4) throw out_of_range("Index out of bounds");
+        cout &lt;&lt; "Value: " &lt;&lt; arr[idx] &lt;&lt; endl;
+    } catch (out_of_range &e) {
+        cout &lt;&lt; "Caught: " &lt;&lt; e.what() &lt;&lt; endl;
+    } catch (...) {
+        cout &lt;&lt; "Unknown exception\\n";   // catch-all
+    }
+    return 0;
+}</pre>`}
+  ]
+},
+{
+  id:"p3", label:"2082 Baishakh (Back)",
+  meta:"BE · BCT, BEI · Year I/II · Full Marks 60 · CT 151",
+  questions:[
+    {q:"Compare procedure oriented programming and object-oriented programming. Explain the basic concept of object oriented programming.", marks:"[2+2]",
+     body:`<p>See the POP vs OOP comparison in Paper 1, Q1 — same core distinction (function-centric vs object-centric, no data hiding vs encapsulation).</p>
+     <h4>Basic concepts of OOP</h4>
+     <ul><li><b>Class & Object</b> — a class is a blueprint; an object is its instance</li>
+     <li><b>Encapsulation</b> — bundling data + methods, hiding internal details</li>
+     <li><b>Inheritance</b> — deriving new classes from existing ones</li>
+     <li><b>Polymorphism</b> — one interface, many forms (overloading/overriding)</li>
+     <li><b>Abstraction</b> — exposing only essential features, hiding complexity</li></ul>`},
+    {q:"When should you prefer the use of inline function? Explain with example. Explain function overloading in object-oriented programming.", marks:"[3+4]",
+     body:`<p>Prefer <code>inline</code> for <b>small, frequently-called functions</b> — the compiler substitutes the function body directly at the call site, avoiding function-call overhead (stack push/pop). Best for one-or-two-line functions like getters/setters; inlining a large function bloats the binary and rarely helps.</p>
+     <pre>inline int square(int x) { return x * x; }
+int main() {
+    cout &lt;&lt; square(5);   // compiler replaces this with 5*5 directly
+}</pre>
+     <p><b>Function overloading:</b> multiple functions share the same name but differ in the number or type of parameters; the compiler picks the right one at compile time based on the arguments passed.</p>
+     <pre>void area(int side) { cout &lt;&lt; side*side; }              // square
+void area(int l, int b) { cout &lt;&lt; l*b; }                 // rectangle
+void area(double r) { cout &lt;&lt; 3.14*r*r; }                 // circle</pre>`},
+    {q:"Write about different types of constructors with respective syntaxes. In which condition can a class be made friend? WAP to create a class Information to store name and address of students. Store info of two students and swap the values of these objects.", marks:"[3+2+4]",
+     body:`<p>See constructor types in Paper 1, Q3. Syntaxes:</p>
+     <pre>ClassName() {}                          // default
+ClassName(type a) { ... }               // parameterized
+ClassName(const ClassName &obj) { ... } // copy</pre>
+     <p><b>Friend class condition:</b> made when a class needs to access another class's private/protected members directly for a tightly-coupled operation (like swapping private members between two objects of another class) without exposing public getters/setters.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Information {
+    string name, address;
+public:
+    Information(string n, string a):name(n),address(a){}
+    void display() { cout &lt;&lt; name &lt;&lt; " - " &lt;&lt; address &lt;&lt; endl; }
+    friend void swapInfo(Information &a, Information &b);
+};
+
+void swapInfo(Information &a, Information &b) {
+    Information temp = a;   // uses copy constructor
+    a = b;
+    b = temp;
+}
+
+int main() {
+    Information s1("Ram","Pokhara"), s2("Shyam","Kathmandu");
+    cout &lt;&lt; "Before swap:\\n"; s1.display(); s2.display();
+    swapInfo(s1, s2);
+    cout &lt;&lt; "After swap:\\n"; s1.display(); s2.display();
+    return 0;
+}</pre>`},
+    {q:"What are the rules for operator overloading? Write a program to create a class 'time' with hour, minute, second and overload post increment operator for increment in seconds.", marks:"[2+5]",
+     body:`<h4>Rules</h4>
+     <ul><li>At least one operand must be a user-defined type</li>
+     <li>Cannot change the operator's precedence or associativity</li>
+     <li>Cannot create new operators (only overload existing ones)</li>
+     <li>Some operators cannot be overloaded (<code>::</code>, <code>.</code>, <code>?:</code>, <code>sizeof</code>)</li>
+     <li>Overloading doesn't change the number of operands an operator takes</li></ul>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Time {
+    int hour, minute, second;
+public:
+    Time(int h=0,int m=0,int s=0):hour(h),minute(m),second(s){}
+    Time operator++(int) {      // int parameter marks POST-increment
+        Time old = *this;       // save current state to return
+        second++;
+        if (second == 60) { second = 0; minute++; }
+        if (minute == 60) { minute = 0; hour++; }
+        return old;              // post-increment returns OLD value
+    }
+    void display() { cout &lt;&lt; hour &lt;&lt; ":" &lt;&lt; minute &lt;&lt; ":" &lt;&lt; second &lt;&lt; endl; }
+};
+
+int main() {
+    Time t(10, 59, 59);
+    Time old = t++;
+    cout &lt;&lt; "Before: "; old.display();
+    cout &lt;&lt; "After: "; t.display();
+    return 0;
+}</pre>`},
+    {q:"Define inheritance in OOP. Give a suitable example to show how function overriding differs from function overloading. Write a program to show constructor invocation order in multilevel inheritance.", marks:"[1+3+3]",
+     body:`<p>Inheritance lets a new class (derived) acquire properties and behaviour of an existing class (base), promoting reuse and establishing an IS-A relationship.</p>
+     <p>Overloading vs overriding — see Paper 1, Q6.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class A {
+public: A() { cout &lt;&lt; "A's constructor\\n"; }
+};
+class B : public A {
+public: B() { cout &lt;&lt; "B's constructor\\n"; }
+};
+class C : public B {
+public: C() { cout &lt;&lt; "C's constructor\\n"; }
+};
+
+int main() {
+    C obj;   // Output order: A -> B -> C
+    return 0;
+}</pre>
+     <div class="tip">Constructors always run base-to-derived: the base's constructor must finish setting up its part of the object before the derived class can build on top of it.</div>`},
+    {q:"What is virtual function? Define pure virtual function with suitable example.", marks:"[1+4]",
+     body:`<p>A virtual function is a base-class member function declared with the <code>virtual</code> keyword, allowing derived classes to override it and enabling runtime (late) binding through base class pointers/references.</p>
+     <p><b>Pure virtual function:</b> a virtual function with no implementation in the base class, declared as <code>virtual void f() = 0;</code>. It forces every derived class to provide its own implementation, and makes the base class <b>abstract</b> (can't be instantiated directly).</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Shape {
+public:
+    virtual double area() = 0;   // pure virtual -&gt; Shape is abstract
+};
+
+class Circle : public Shape {
+    double radius;
+public:
+    Circle(double r):radius(r){}
+    double area() override { return 3.14159 * radius * radius; }
+};
+
+int main() {
+    Shape *s = new Circle(5);
+    cout &lt;&lt; "Area: " &lt;&lt; s-&gt;area() &lt;&lt; endl;
+    delete s;
+    return 0;
+}</pre>`},
+    {q:"How random access of data in file can be handled? Write a program to store name, roll_no, address and batch of 'n' students in a file. Also add a feature to search by roll_no.", marks:"[2+6]",
+     body:`<p>Random access means jumping directly to any position in a file instead of reading sequentially from the start. C++ provides <code>seekg()</code> (for input) and <code>seekp()</code> (for output) to move the file pointer to a byte offset — combined with fixed-size binary records, you can compute <code>offset = recordSize * recordIndex</code> to jump straight to a record.</p>
+     <pre>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+class Student {
+public:
+    char name[30], address[30], batch[10];
+    int roll_no;
+};
+
+int main() {
+    int n; cout &lt;&lt; "How many students? "; cin &gt;&gt; n;
+    Student s;
+    ofstream fout("students.dat", ios::binary);
+    for (int i=0;i&lt;n;i++) {
+        cout &lt;&lt; "Enter name roll_no address batch: ";
+        cin &gt;&gt; s.name &gt;&gt; s.roll_no &gt;&gt; s.address &gt;&gt; s.batch;
+        fout.write((char*)&s, sizeof(s));
+    }
+    fout.close();
+
+    int target; cout &lt;&lt; "Enter roll_no to search: "; cin &gt;&gt; target;
+    ifstream fin("students.dat", ios::binary);
+    bool found = false;
+    while (fin.read((char*)&s, sizeof(s))) {
+        if (s.roll_no == target) {
+            cout &lt;&lt; "Found: " &lt;&lt; s.name &lt;&lt; " " &lt;&lt; s.address &lt;&lt; " " &lt;&lt; s.batch &lt;&lt; endl;
+            found = true; break;
+        }
+    }
+    if (!found) cout &lt;&lt; "Roll number not found\\n";
+    return 0;
+}</pre>`},
+    {q:"\"Templates in C++ enable generic programming, allowing the creation of reusable functions and classes that work with different data types within a single framework.\" Give example to justify the given statement.", marks:"[4+4]",
+     body:`<p>A template defines logic once using a type parameter <code>T</code>. The compiler generates a separate version for each concrete type used at the call site — so the same function/class body serves <code>int</code>, <code>float</code>, strings, or custom types, without rewriting it, proving it's reusable and generic.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+template &lt;class T&gt;
+T maxValue(T a, T b) { return (a &gt; b) ? a : b; }
+
+template &lt;class T&gt;
+class Stack {
+    T arr[100]; int top = -1;
+public:
+    void push(T val) { arr[++top] = val; }
+    T pop() { return arr[top--]; }
+};
+
+int main() {
+    cout &lt;&lt; maxValue(3, 7) &lt;&lt; endl;         // works with int
+    cout &lt;&lt; maxValue(3.5, 2.1) &lt;&lt; endl;      // works with double
+    cout &lt;&lt; maxValue('a', 'z') &lt;&lt; endl;      // works with char
+
+    Stack&lt;int&gt; s1; s1.push(10);
+    Stack&lt;string&gt; s2; s2.push("hello");     // same class, different types
+    return 0;
+}</pre>`},
+    {q:"What are exceptions in a program? Write a meaningful program that can handle multiple exceptions.", marks:"[1+4]",
+     body:`<p>Exceptions are runtime errors or unexpected conditions (invalid input, resource failure, out-of-range access) that would otherwise crash the program if left unhandled; C++'s try/throw/catch mechanism lets you detect and respond to them gracefully.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a, b;
+    cout &lt;&lt; "Enter two numbers: "; cin &gt;&gt; a &gt;&gt; b;
+    try {
+        if (b == 0) throw runtime_error("Cannot divide by zero");
+        if (a &lt; 0 || b &lt; 0) throw invalid_argument("Negative numbers not allowed");
+        cout &lt;&lt; "Result: " &lt;&lt; (a / b) &lt;&lt; endl;
+    }
+    catch (runtime_error &e) {
+        cout &lt;&lt; "Runtime error: " &lt;&lt; e.what() &lt;&lt; endl;
+    }
+    catch (invalid_argument &e) {
+        cout &lt;&lt; "Invalid argument: " &lt;&lt; e.what() &lt;&lt; endl;
+    }
+    catch (...) {
+        cout &lt;&lt; "Unexpected error occurred\\n";
+    }
+    return 0;
+}</pre>`}
+  ]
+},
+{
+  id:"p4", label:"2081 Ashwin (Regular)",
+  meta:"BE · BCT, BEI · Year I/II · Full Marks 60 · CT 151 (2080 Batch)",
+  questions:[
+    {q:"What are the benefits of object-oriented programming? Describe the feature of object-oriented programming.", marks:"[2+2]",
+     body:`<p>Benefits: modularity, code reuse via inheritance, data protection via encapsulation, flexibility via polymorphism, and easier debugging/maintenance since objects map to real-world entities.</p>
+     <p>Features: <b>Class/Object</b>, <b>Encapsulation</b>, <b>Inheritance</b>, <b>Polymorphism</b>, <b>Abstraction</b> — same five pillars as Paper 3 Q1.</p>`},
+    {q:"Define reference variable and write syntax for defining reference variable. WAP a function which calculates A = P(1+r/100)^n for data p, r and n. For some cases value of r is fixed at 50 — call this function in main.", marks:"[2+5]",
+     body:`<p>A reference variable is an alias — another name for an already-existing variable. Once bound, it cannot be reseated to refer to a different variable, and any operation on it directly affects the original.</p>
+     <pre>dataType &refName = variable;   // syntax</pre>
+     <pre>#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+double calcAmount(double p, double r, int n) {
+    return p * pow(1 + r/100.0, n);
+}
+
+int main() {
+    double p; int n;
+    cout &lt;&lt; "Enter principal and years: "; cin &gt;&gt; p &gt;&gt; n;
+    cout &lt;&lt; "Amount (fixed r=50): " &lt;&lt; calcAmount(p, 50, n) &lt;&lt; endl;
+
+    double r;
+    cout &lt;&lt; "Enter custom rate: "; cin &gt;&gt; r;
+    cout &lt;&lt; "Amount (custom r): " &lt;&lt; calcAmount(p, r, n) &lt;&lt; endl;
+    return 0;
+}</pre>`},
+    {q:"Explain friend function and with program code, how friend function can be used to make a bridge between two classes. Create a class time, constructor with hour/min/sec, an add function that takes two objects and displays aggregate (60s=1min, 60min=1hr, 24hr=1day).", marks:"[2+3+4]",
+     body:`<p>A friend function is a non-member function given explicit access to a class's private/protected members via a <code>friend</code> declaration inside the class. When one friend function is declared inside <b>two different classes</b>, it can access private members of both — effectively bridging them so they can interact directly.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Time {
+    int hour, minute, second;
+public:
+    Time(int h,int m,int s):hour(h),minute(m),second(s){}
+    friend void add(Time &t1, Time &t2);
+};
+
+void add(Time &t1, Time &t2) {
+    int totalSec = t1.second + t2.second;
+    int totalMin = t1.minute + t2.minute + totalSec/60;
+    int totalHr  = t1.hour + t2.hour + totalMin/60;
+    int day = totalHr / 24;
+    totalSec %= 60; totalMin %= 60; totalHr %= 24;
+    cout &lt;&lt; "Aggregate: " &lt;&lt; day &lt;&lt; " day(s), "
+         &lt;&lt; totalHr &lt;&lt; "hr " &lt;&lt; totalMin &lt;&lt; "min " &lt;&lt; totalSec &lt;&lt; "sec\\n";
+}
+
+int main() {
+    Time t1(14, 45, 40), t2(15, 30, 50);
+    add(t1, t2);
+    return 0;
+}</pre>`},
+    {q:"How is operator overloading used in case of binary operator? List down the rules. Create a class Length (meter, centimeter). Compare two objects by overloading '>'. Use constructor to initialize.", marks:"[1+2+4]",
+     body:`<p>For a binary operator overloaded as a member function, the left operand is the implicit object (<code>this</code>) and the right operand is the single explicit parameter. Rules — see Paper 3, Q4.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Length {
+    int meter, centimeter;
+public:
+    Length(int m,int c):meter(m),centimeter(c){}
+    int totalCm() { return meter*100 + centimeter; }
+    bool operator>(const Length &other) {
+        return totalCm() &gt; other.totalCm();
+    }
+};
+
+int main() {
+    Length l1(5, 40), l2(5, 20);
+    if (l1 &gt; l2) cout &lt;&lt; "l1 is longer\\n";
+    else cout &lt;&lt; "l2 is longer or equal\\n";
+    return 0;
+}</pre>`},
+    {q:"What is IS-A relation and HAS-A relationship? What do you mean by multipath inheritance? Explain how ambiguity due to multipath inheritance could be resolved.", marks:"[2+2+3]",
+     body:`<p><b>IS-A:</b> expressed via inheritance — a Student IS-A Person. <b>HAS-A:</b> expressed via composition — a Car HAS-A Engine (an object as a member).</p>
+     <p><b>Multipath (diamond) inheritance:</b> occurs when a class inherits from two classes that both derive from the same common base — creating two copies of that base's members, reachable through two different paths.</p>
+     <pre>class A { public: int x; };
+class B : public A {};
+class C : public A {};
+class D : public B, public C {};   // D has TWO copies of A::x -&gt; ambiguous</pre>
+     <p><b>Resolution:</b> declare B and C as <code>virtual</code> base classes of A — this ensures only one shared copy of A exists in D, removing the ambiguity:</p>
+     <pre>class B : virtual public A {};
+class C : virtual public A {};
+class D : public B, public C {};   // now D.x is unambiguous</pre>`},
+    {q:"What do you mean by abstract class? WAP to create classes employee and student. Create a class manager derived from both employee and student, and a class secretary derived from employee. Show the use of virtual destructor.", marks:"[1+4]",
+     body:`<p>An abstract class contains at least one pure virtual function and cannot be instantiated directly — it exists only to be a base class, defining an interface that derived classes must implement.</p>
+     <pre>#include &lt;iostream&gt;
+using namespace std;
+
+class Employee {
+public:
+    Employee() { cout &lt;&lt; "Employee created\\n"; }
+    virtual ~Employee() { cout &lt;&lt; "Employee destroyed\\n"; }  // virtual destructor
+};
+
+class Student {
+public:
+    Student() { cout &lt;&lt; "Student created\\n"; }
+    virtual ~Student() { cout &lt;&lt; "Student destroyed\\n"; }
+};
+
+class Manager : public Employee, public Student {   // multiple inheritance
+public:
+    Manager() { cout &lt;&lt; "Manager created\\n"; }
+    ~Manager() { cout &lt;&lt; "Manager destroyed\\n"; }
+};
+
+class Secretary : public Employee {
+public:
+    Secretary() { cout &lt;&lt; "Secretary created\\n"; }
+    ~Secretary() { cout &lt;&lt; "Secretary destroyed\\n"; }
+};
+
+int main() {
+    Employee *e = new Manager();
+    delete e;   // virtual destructor ensures Manager's destructor runs too
+    return 0;
+}</pre>`},
+    {q:"Explain different types of file access. Write a program for a library to store information of different books (at least 5 items) in a file and display them on console.", marks:"[3+5]",
+     body:`<h4>Types of file access</h4>
+     <ul><li><b>Sequential access</b> — records read/written in order, from the start</li>
+     <li><b>Random access</b> — jump directly to any record using <code>seekg()</code>/<code>seekp()</code></li></ul>
+     <pre>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+class Book {
+public:
+    char title[50], author[30];
+    int year; float price;
+};
+
+int main() {
+    Book b;
+    ofstream fout("library.dat", ios::binary);
+    for (int i=0;i&lt;5;i++) {
+        cout &lt;&lt; "Enter title author year price: ";
+        cin &gt;&gt; b.title &gt;&gt; b.author &gt;&gt; b.year &gt;&gt; b.price;
+        fout.write((char*)&b, sizeof(b));
+    }
+    fout.close();
+
+    ifstream fin("library.dat", ios::binary);
+    cout &lt;&lt; "\\nLibrary records:\\n";
+    while (fin.read((char*)&b, sizeof(b)))
+        cout &lt;&lt; b.title &lt;&lt; " by " &lt;&lt; b.author &lt;&lt; " (" &lt;&lt; b.year &lt;&lt; ") - Rs." &lt;&lt; b.price &lt;&lt; endl;
+    fin.close();
+    return 0;
+}</pre>`},
+    {q:"Explain the use of default argument in template class. Write a suitable program to show the concept of function template. Explain in brief about stack in Standard Template Library.", marks:"[3+3+2]",
+     body:`<p>A template class can have a default type, so users can omit the type argument when the common case applies — same idea as default function arguments, but for template parameters (e.g. <code>template&lt;class T=int&gt;</code>, see Paper 1 Q8's Box example).</p>
+     <pre>template &lt;class T&gt;
+T add(T a, T b) { return a + b; }
+
+int main() {
+    cout &lt;&lt; add(3, 4) &lt;&lt; endl;        // T = int
+    cout &lt;&lt; add(2.5, 1.5) &lt;&lt; endl;     // T = double
+}</pre>
+     <p><b>STL <code>stack</code>:</b> a container adapter implementing LIFO (last-in-first-out) access, built on top of another container (deque by default). Core operations: <code>push()</code>, <code>pop()</code>, <code>top()</code>, <code>empty()</code> — elements can only be added/removed from one end.</p>
+     <pre>#include &lt;stack&gt;
+stack&lt;int&gt; s;
+s.push(10); s.push(20);
+cout &lt;&lt; s.top();  // 20
+s.pop();</pre>`},
+    {q:"Discuss steps taken during exception handling. Write a program to compute square root of a number; input value must be tested for validity — if negative, an exception must be raised.", marks:"[2+3]",
+     body:`<h4>Steps in exception handling</h4>
+     <ol><li>Risky code is placed inside a <code>try</code> block</li>
+     <li>If an error condition occurs, it's signalled with <code>throw</code></li>
+     <li>Control jumps out of the try block to a matching <code>catch</code> block</li>
+     <li>The catch block handles the error; execution continues after the try-catch</li></ol>
+     <pre>#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+int main() {
+    double num;
+    cout &lt;&lt; "Enter a number: "; cin &gt;&gt; num;
+    try {
+        if (num &lt; 0)
+            throw invalid_argument("Cannot compute square root of a negative number");
+        cout &lt;&lt; "Square root: " &lt;&lt; sqrt(num) &lt;&lt; endl;
+    }
+    catch (invalid_argument &e) {
+        cout &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; endl;
+    }
+    return 0;
+}</pre>`}
+  ]
+}
+];
+
+const tabsEl = document.getElementById('tabs');
+const mainEl = document.getElementById('main');
+
+papers.forEach((paper, pi) => {
+  const btn = document.createElement('button');
+  btn.textContent = paper.label;
+  btn.className = pi === 0 ? 'active' : '';
+  btn.onclick = () => showPaper(pi);
+  tabsEl.appendChild(btn);
+
+  const section = document.createElement('div');
+  section.className = 'paper' + (pi === 0 ? ' active' : '');
+  section.id = paper.id;
+
+  const head = document.createElement('div');
+  head.className = 'paper-head';
+  head.textContent = paper.meta;
+  section.appendChild(head);
+
+  paper.questions.forEach((item, qi) => {
+    const qDiv = document.createElement('div');
+    qDiv.className = 'q';
+    qDiv.innerHTML = `
+      <div class="q-head" onclick="this.parentElement.classList.toggle('open')">
+        <h3><span class="chev">▸</span> Q${qi+1}. ${item.q}</h3>
+        <span class="marks">${item.marks}</span>
+      </div>
+      <div class="q-body">${item.body}</div>
+    `;
+    section.appendChild(qDiv);
+  });
+
+  mainEl.appendChild(section);
+});
+
+function showPaper(idx) {
+  document.querySelectorAll('.paper').forEach((el,i) => el.classList.toggle('active', i===idx));
+  document.querySelectorAll('nav.tabs button').forEach((el,i) => el.classList.toggle('active', i===idx));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+:root {
+  --bg: #0f1117;
+  --panel: #171a23;
+  --panel2: #1e2230;
+  --text: #e6e8ef;
+  --muted: #9aa1b2;
+  --accent: #7aa2ff;
+  --accent2: #7ee2b8;
+  --code-bg: #11141c;
+  --border: #2a2f3f;
+  --warn: #ffb86b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  background: rgba(15,17,23,0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.topbar a.home {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.topbar .nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+}
+
+.topbar .nav a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.topbar .nav a:hover { background: var(--panel2); color: var(--text); }
+.topbar .nav a.current { color: var(--accent2); font-weight: 600; }
+
+h1 {
+  font-size: 1.9rem;
+  margin-bottom: 4px;
+  color: #fff;
+}
+h1 .chnum { color: var(--accent); }
+
+.subtitle { color: var(--muted); margin-top: 0; margin-bottom: 28px; }
+
+h2 {
+  font-size: 1.3rem;
+  margin-top: 44px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+  color: var(--accent2);
+}
+
+h3 {
+  font-size: 1.08rem;
+  margin-top: 26px;
+  color: #fff;
+}
+
+h4 { color: var(--accent); margin-top: 18px; font-size: 1rem; }
+
+p { color: var(--text); }
+
+ul, ol { padding-left: 22px; }
+li { margin-bottom: 6px; }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 16px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  background: var(--panel);
+  border-radius: 8px;
+  overflow: hidden;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 0.92rem;
+}
+th { background: var(--panel2); color: var(--accent2); }
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-size: 0.87rem;
+}
+code {
+  font-family: "Fira Code", Consolas, Monaco, monospace;
+  color: #d6e0ff;
+}
+p code, li code, td code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+
+.qa {
+  background: var(--panel2);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 18px 0;
+}
+.qa .q {
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.qa .q .marks {
+  float: right;
+  font-weight: 500;
+  color: var(--warn);
+  font-size: 0.8rem;
+  background: rgba(255,184,107,0.12);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.qa .a { color: var(--muted); }
+.qa .a strong { color: var(--text); }
+
+.tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  color: var(--bg);
+  background: var(--accent2);
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.footnav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.footnav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+.footnav a:hover { text-decoration: underline; }
+
+.hours { color: var(--muted); font-weight: 400; font-size: 1rem; }
+
+.chapgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.chapcard {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.15s, border-color 0.15s;
+  display: block;
+}
+.chapcard:hover { transform: translateY(-2px); border-color: var(--accent); }
+.chapcard .num { color: var(--accent); font-weight: 700; font-size: 0.85rem; }
+.chapcard .title { font-size: 1.05rem; font-weight: 600; margin: 6px 0; color: #fff; }
+.chapcard .meta { color: var(--muted); font-size: 0.82rem; }
+
+.examtable-note { color: var(--muted); font-size: 0.85rem; }

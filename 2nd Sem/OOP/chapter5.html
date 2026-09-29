@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 5: Inheritance</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">OOP · ENCT 151</a>
+  <div class="nav">
+    <a href="OOP (ENCT_CT 151) — Solved Question Papers.html">Past Papers</a>
+    <a href="C++ OOP — Syntax Reference.html">Syntax</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html" class="current">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 5.</span> Inheritance</h1>
+  <p class="subtitle">5 hours · 7 marks</p>
+
+  <h2>5.1 Base Class and Derived Class</h2>
+  <p>Inheritance lets a new class (<strong>derived/child class</strong>) acquire the properties (data members) and behaviour (member functions) of an existing class (<strong>base/parent class</strong>), promoting code reuse.</p>
+  <pre><code>class Animal {              // base class
+public:
+    void eat() { cout &lt;&lt; "Eating..."; }
+};
+class Dog : public Animal {  // derived class
+public:
+    void bark() { cout &lt;&lt; "Barking..."; }
+};
+int main() {
+    Dog d;
+    d.eat();   // inherited from Animal
+    d.bark();  // Dog's own
+}</code></pre>
+
+  <h2>5.2 <code>protected</code> Access Specifier</h2>
+  <p><code>protected</code> members are accessible within the class itself and within any class derived from it, but NOT from outside the class (unlike <code>public</code>) — this makes it the typical choice for members that a base class wants to hide from the outside world but still share with subclasses.</p>
+
+  <h2>5.3 Derived Class Declaration</h2>
+  <pre><code>class Derived : access-specifier Base {
+    // additional members
+};
+// example:
+class Manager : public Employee { ... };</code></pre>
+
+  <h2>5.4 Is-a Relation and Has-a Relation</h2>
+  <table>
+    <tr><th>Is-a (inheritance)</th><th>Has-a (composition/aggregation)</th></tr>
+    <tr><td>Derived class IS a specialized type of the base class</td><td>A class HAS another class's object as a member</td></tr>
+    <tr><td>Example: <code>Dog</code> is an <code>Animal</code></td><td>Example: <code>Car</code> has an <code>Engine</code></td></tr>
+    <tr><td>Implemented via <code>class D : public B</code></td><td>Implemented by declaring an object as a data member</td></tr>
+  </table>
+
+  <h2>5.5 Public, Protected and Private Inheritance</h2>
+  <p>The access specifier used while inheriting controls how base class members appear in the derived class:</p>
+  <table>
+    <tr><th>Base member</th><th>public inheritance</th><th>protected inheritance</th><th>private inheritance</th></tr>
+    <tr><td>public</td><td>public</td><td>protected</td><td>private</td></tr>
+    <tr><td>protected</td><td>protected</td><td>protected</td><td>private</td></tr>
+    <tr><td>private</td><td>not accessible</td><td>not accessible</td><td>not accessible</td></tr>
+  </table>
+  <p>Private members of the base class are never directly accessible in the derived class regardless of the inheritance mode — they can only be accessed indirectly through public/protected base class methods.</p>
+
+  <h2>5.6 Member Overriding</h2>
+  <p>When a derived class defines a member function with the <strong>same name and signature</strong> as one in the base class, the derived class version "hides"/overrides it for objects of the derived type.</p>
+  <pre><code>class Base {
+public:
+    void show() { cout &lt;&lt; "Base::show"; }
+};
+class Derived : public Base {
+public:
+    void show() { cout &lt;&lt; "Derived::show"; }   // overrides/hides Base::show
+    void callBase() { Base::show(); }             // explicit call to base version
+};</code></pre>
+
+  <h2>5.7 Forms of Inheritance</h2>
+  <ul>
+    <li><strong>Single inheritance:</strong> one derived class from one base class.</li>
+    <li><strong>Multiple inheritance:</strong> one derived class from two or more base classes: <code>class C : public A, public B {};</code></li>
+    <li><strong>Multilevel inheritance:</strong> a chain — class C derived from B, which is derived from A.</li>
+    <li><strong>Hierarchical inheritance:</strong> multiple derived classes from a single base class.</li>
+    <li><strong>Hybrid inheritance:</strong> a combination of two or more forms above (e.g., hierarchical + multiple), which can lead to the <em>diamond problem</em>.</li>
+  </ul>
+
+  <h2>5.8 Constructors in Derived Class</h2>
+  <p>When a derived object is created, the base class constructor is executed <strong>first</strong>, then the derived class constructor body runs. Arguments are passed to the base constructor using a member initialization list.</p>
+  <pre><code>class Base {
+public:
+    Base(int x) { cout &lt;&lt; "Base ctor " &lt;&lt; x; }
+};
+class Derived : public Base {
+public:
+    Derived(int x, int y) : Base(x) {    // explicitly calling base ctor
+        cout &lt;&lt; " Derived ctor " &lt;&lt; y;
+    }
+};
+Derived d(1, 2);  // prints: Base ctor 1  Derived ctor 2</code></pre>
+
+  <h2>5.9 Destructor in Derived Class</h2>
+  <p>Destructors execute in the <strong>reverse order</strong> of constructors — the derived class destructor runs first, then the base class destructor.</p>
+  <pre><code>~Derived() { cout &lt;&lt; "Derived dtor "; }
+~Base() { cout &lt;&lt; "Base dtor"; }
+// output on object destruction: Derived dtor Base dtor</code></pre>
+
+  <h2>5.10 Need of Virtual Base Class</h2>
+  <p>In multiple/hybrid inheritance, if two base classes both inherit from a common ancestor and a further class inherits from both, the common ancestor's members get duplicated (the <strong>diamond problem</strong>), causing ambiguity.</p>
+  <pre><code>class Person { public: string name; };
+class Student : virtual public Person { };   // virtual inheritance
+class Employee : virtual public Person { };
+class TeachingAssistant : public Student, public Employee { };
+// with 'virtual', TeachingAssistant has only ONE copy of Person's members</code></pre>
+  <p>Declaring the common base as a <strong>virtual base class</strong> ensures only a single shared copy of it exists in the most-derived object, eliminating ambiguity and duplication.</p>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. What is inheritance? Explain its different forms with diagrams/examples. <span class="marks">7 marks</span></div>
+    <div class="a">Inheritance allows a derived class to reuse the properties/behaviour of a base class (see 5.1). Explain the five forms — single, multiple, multilevel, hierarchical, hybrid — each with a one-line example and a simple arrow diagram (A → B for single; A → B → C for multilevel; A → B, A → C for hierarchical). See section 5.7.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Differentiate between public, private, and protected inheritance. <span class="marks">6 marks</span></div>
+    <div class="a">Use the visibility table in section 5.5: with public inheritance, base public/protected members keep their access level in the derived class; with protected inheritance, both become protected; with private inheritance, both become private in the derived class. Private base members are never accessible in the derived class under any inheritance mode.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. What is a virtual base class? Explain the diamond problem it solves with a program. <span class="marks">7 marks</span></div>
+    <div class="a">See section 5.10 for the diamond-problem scenario and code example. Explain: without <code>virtual</code>, <code>TeachingAssistant</code> would contain two separate copies of <code>Person</code>'s members (one via <code>Student</code>, one via <code>Employee</code>), causing ambiguous access like <code>ta.name</code>. Declaring <code>Person</code> as a virtual base ensures a single shared copy.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Explain the order of execution of constructors and destructors in an inheritance hierarchy. <span class="marks">5 marks</span></div>
+    <div class="a">Constructors run base-to-derived (base class constructor first, then derived). Destructors run in the exact reverse order: derived-to-base (derived class destructor first, then base). This ensures a derived object is fully built on top of a fully constructed base, and is torn down from the top of the hierarchy downward. See sections 5.8–5.9.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Differentiate between is-a and has-a relationships with examples. <span class="marks">4 marks</span></div>
+    <div class="a">Is-a is implemented through inheritance and represents specialization (a <code>Car</code> is-a <code>Vehicle</code>). Has-a is implemented through composition/aggregation and represents ownership/containment (a <code>Car</code> has-a <code>Engine</code>). See table in section 5.4.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Write a program demonstrating multilevel inheritance where constructors of each class print a message. <span class="marks">6 marks</span></div>
+    <div class="a">
+      <pre><code>class A { public: A() { cout &lt;&lt; "A "; } };
+class B : public A { public: B() { cout &lt;&lt; "B "; } };
+class C : public B { public: C() { cout &lt;&lt; "C "; } };
+int main() { C obj; }   // Output: A B C</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. What is member overriding? How is it different from overloading? <span class="marks">4 marks</span></div>
+    <div class="a">Overriding happens between a base and derived class: the derived class redefines a function with the exact same name and signature as the base class version, hiding it for derived objects (section 5.6). Overloading happens within the same class/scope: multiple functions share a name but differ in parameter list (Ch. 2). Overriding is related to inheritance; overloading is related to compile-time polymorphism.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Why is the <code>protected</code> access specifier needed when <code>private</code> and <code>public</code> already exist? <span class="marks">3 marks</span></div>
+    <div class="a"><code>private</code> members are hidden even from derived classes, which prevents legitimate reuse of implementation details. <code>public</code> members are visible to everyone, breaking encapsulation. <code>protected</code> fills the gap: members are hidden from the outside world (like private) but still accessible to derived classes (unlike private), supporting controlled extension of a base class.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter4.html">← Chapter 4</a>
+    <a href="chapter6.html">Next: Chapter 6 — Virtual Functions →</a>
+  </div>
+</div>
+</body>
+</html>

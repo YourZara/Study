@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 2: Basics of C++ Programming</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">OOP · ENCT 151</a>
+  <div class="nav">
+    <a href="OOP (ENCT_CT 151) — Solved Question Papers.html">Past Papers</a>
+    <a href="C++ OOP — Syntax Reference.html">Syntax</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html" class="current">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 2.</span> Basics of C++ Programming</h1>
+  <p class="subtitle">5 hours · 7 marks</p>
+
+  <h2>2.1 C++ Program Structure</h2>
+  <pre><code>#include &lt;iostream&gt;      // preprocessor directive
+using namespace std;      // namespace declaration
+
+int main() {               // entry point of every program
+    cout &lt;&lt; "Hello World"; // statement
+    return 0;               // return status to OS
+}</code></pre>
+  <p>A typical C++ program has: preprocessor directives, namespace declarations, global declarations (optional), the <code>main()</code> function (mandatory, execution starts here), and other user-defined functions/classes.</p>
+
+  <h2>2.2 Character Set and Tokens</h2>
+  <p><strong>Character set:</strong> letters (A–Z, a–z), digits (0–9), special symbols (+ - * / = ; , . etc.), and white space.</p>
+  <p><strong>Tokens</strong> are the smallest individual units of a program. Types of tokens:</p>
+  <ul>
+    <li><strong>Keywords:</strong> reserved words with fixed meaning — <code>int</code>, <code>class</code>, <code>if</code>, <code>while</code>, <code>return</code>, <code>new</code>, <code>delete</code>, etc.</li>
+    <li><strong>Identifiers:</strong> user-defined names for variables, functions, classes (must start with a letter or underscore).</li>
+    <li><strong>Literals/Constants:</strong> fixed values — integer (10), float (3.14), character ('a'), string ("hi"), boolean (true/false).</li>
+    <li><strong>Punctuators:</strong> <code>{ } ( ) [ ] ; , :</code></li>
+    <li><strong>Operators:</strong> symbols that perform operations — <code>+ - * / % = == != &lt; &gt; && || ++ --</code> etc.</li>
+  </ul>
+
+  <h2>2.3 Variable Declaration and Expression</h2>
+  <p>A variable must be declared with a type before use: <code>int age = 21;</code>. C++ allows declaration anywhere before first use (unlike old C which required declarations at the top of a block).</p>
+  <p>An <strong>expression</strong> combines variables, constants and operators to produce a value, e.g. <code>a + b * c</code>. Expressions can be arithmetic, relational, logical, or assignment expressions.</p>
+
+  <h2>2.4 Data Types</h2>
+  <table>
+    <tr><th>Category</th><th>Types</th><th>Typical size</th></tr>
+    <tr><td>Fundamental</td><td>int, char, float, double, bool, void</td><td>4, 1, 4, 8, 1 bytes</td></tr>
+    <tr><td>Modifiers</td><td>signed, unsigned, short, long</td><td>modifies range/size</td></tr>
+    <tr><td>Derived</td><td>array, pointer, function, reference</td><td>depends on base type</td></tr>
+    <tr><td>User-defined</td><td>struct, union, class, enum, typedef</td><td>depends on members</td></tr>
+  </table>
+
+  <h2>2.5 Type Conversion and Casting</h2>
+  <ul>
+    <li><strong>Implicit conversion:</strong> automatically performed by the compiler, e.g. <code>int</code> to <code>float</code> in a mixed expression.</li>
+    <li><strong>Explicit conversion (casting):</strong> programmer forces a conversion.
+      <pre><code>float f = 9.7;
+int a = (int) f;            // C-style cast
+int b = int(f);              // function-style cast (C++)
+int c = static_cast&lt;int&gt;(f); // C++ style cast (preferred)</code></pre>
+    </li>
+    <li>C++ cast operators: <code>static_cast</code>, <code>dynamic_cast</code>, <code>const_cast</code>, <code>reinterpret_cast</code> — safer and more explicit than C-style casts.</li>
+  </ul>
+
+  <h2>2.6 User Defined Constant — <code>const</code></h2>
+  <pre><code>const float PI = 3.1416;   // value cannot change after initialization
+const int SIZE = 10;
+// PI = 3.14;  -> compile error</code></pre>
+  <p><code>const</code> is preferred over the C preprocessor macro <code>#define</code> because it is type-checked by the compiler and obeys scope rules.</p>
+
+  <h2>2.7 Reference Variables</h2>
+  <p>A reference is an alias (another name) for an existing variable, declared with <code>&amp;</code>. It must be initialized when declared and cannot be reseated afterward.</p>
+  <pre><code>int a = 10;
+int &amp;ref = a;   // ref is an alias for a
+ref = 20;        // a becomes 20 too
+cout &lt;&lt; a;       // prints 20</code></pre>
+  <p>References are commonly used for pass-by-reference function arguments and for returning objects by reference, avoiding costly copies.</p>
+
+  <h2>2.8 Conditions and Looping</h2>
+  <ul>
+    <li><strong>Conditional:</strong> <code>if</code>, <code>if-else</code>, <code>else-if</code> ladder, <code>switch-case</code>.</li>
+    <li><strong>Loops:</strong> <code>for</code> (entry-controlled, counter-based), <code>while</code> (entry-controlled), <code>do-while</code> (exit-controlled, executes at least once).</li>
+    <li><strong>Jump statements:</strong> <code>break</code> (exit loop/switch), <code>continue</code> (skip to next iteration), <code>goto</code>.</li>
+  </ul>
+  <pre><code>for (int i = 1; i &lt;= 5; i++) cout &lt;&lt; i &lt;&lt; " ";
+int i = 0;
+do { cout &lt;&lt; i; i++; } while (i &lt; 3);</code></pre>
+
+  <h2>2.9 Namespace Scope</h2>
+  <p>A namespace groups related identifiers under a name to avoid naming collisions between libraries/modules.</p>
+  <pre><code>namespace MyLib {
+    int value = 5;
+    void show() { cout &lt;&lt; value; }
+}
+int main() {
+    MyLib::show();        // scope resolution operator ::
+    using namespace MyLib; // brings all names into scope
+}</code></pre>
+  <p><code>std</code> is the standard namespace containing <code>cout</code>, <code>cin</code>, <code>string</code>, etc.</p>
+
+  <h2>2.10 Functions</h2>
+  <p>A function is a named block of code that performs a task and can be called repeatedly. Syntax: <code>returnType name(parameters) { body }</code>.</p>
+
+  <h3>2.10.1 Function Overloading</h3>
+  <p>Multiple functions with the <strong>same name</strong> but different parameter lists (number/type of parameters) in the same scope. Resolved at compile time (static polymorphism).</p>
+  <pre><code>int add(int a, int b) { return a + b; }
+double add(double a, double b) { return a + b; }
+int add(int a, int b, int c) { return a + b + c; }</code></pre>
+
+  <h3>2.10.2 Inline Function</h3>
+  <p>Requests the compiler to substitute the function's code directly at the call site instead of a normal function call, avoiding call overhead — best for small, frequently used functions.</p>
+  <pre><code>inline int square(int x) { return x * x; }</code></pre>
+
+  <h3>2.10.3 Default Arguments</h3>
+  <p>A parameter can have a default value used when the caller omits an argument. Default arguments must be specified from right to left.</p>
+  <pre><code>void greet(string name, string msg = "Hello") {
+    cout &lt;&lt; msg &lt;&lt; ", " &lt;&lt; name;
+}
+greet("Ram");           // uses default msg
+greet("Ram", "Hi");     // overrides default</code></pre>
+
+  <h3>2.10.4 Pass by Reference and Return by Reference</h3>
+  <pre><code>void increment(int &amp;x) { x++; }   // pass by reference — modifies caller's variable
+int &amp;getElement(int arr[], int i) { return arr[i]; } // return by reference</code></pre>
+  <p>Pass-by-reference avoids copying (efficient for large objects) and allows the function to modify the caller's variable directly, unlike pass-by-value.</p>
+
+  <h2>2.11 Array, Pointer and String</h2>
+  <ul>
+    <li><strong>Array:</strong> a fixed-size collection of same-type elements stored contiguously: <code>int arr[5] = {1,2,3,4,5};</code></li>
+    <li><strong>Pointer:</strong> a variable that stores the address of another variable: <code>int *p = &amp;arr[0];</code>. Array name decays to a pointer to its first element.</li>
+    <li><strong>String:</strong> a sequence of characters — either a C-style char array (<code>char name[20] = "Ram";</code>) or the C++ <code>std::string</code> class which manages memory automatically and supports operators like <code>+</code> for concatenation.</li>
+  </ul>
+
+  <h2>2.12 Structure and Unions</h2>
+  <table>
+    <tr><th>Structure (<code>struct</code>)</th><th>Union (<code>union</code>)</th></tr>
+    <tr><td>Each member gets its own memory; total size = sum of members</td><td>All members share the same memory location; size = size of largest member</td></tr>
+    <tr><td>All members can hold values simultaneously</td><td>Only one member holds a valid value at a time</td></tr>
+  </table>
+  <pre><code>struct Point { int x, y; };
+union Data { int i; float f; char c; };</code></pre>
+
+  <h2>2.13 Enumeration</h2>
+  <p><code>enum</code> defines a set of named integer constants, improving code readability.</p>
+  <pre><code>enum Day { SUN, MON, TUE, WED, THU, FRI, SAT }; // SUN=0, MON=1 ...
+Day today = WED;
+enum Level { LOW = 1, MEDIUM = 5, HIGH = 10 };   // custom values</code></pre>
+
+  <h2>2.14 Dynamic Memory Allocation</h2>
+  <p>Memory allocated at run time on the <strong>heap</strong>, using <code>new</code> and released using <code>delete</code> (C++), as opposed to C's <code>malloc()</code>/<code>free()</code>.</p>
+  <pre><code>int *p = new int;         // single variable
+*p = 10;
+delete p;                  // free memory
+
+int *arr = new int[5];    // array
+delete[] arr;              // free array memory (note the [])</code></pre>
+  <p>Failing to <code>delete</code> allocated memory causes a <strong>memory leak</strong>.</p>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. What is function overloading? Write a program to overload a function <code>area()</code> for circle, rectangle, and triangle. <span class="marks">5 marks</span></div>
+    <div class="a">
+      Definition: multiple functions with the same name but different parameter lists.
+      <pre><code>#include &lt;iostream&gt;
+using namespace std;
+float area(float r) { return 3.1416 * r * r; }             // circle
+float area(float l, float b) { return l * b; }              // rectangle
+float area(float b, float h, bool tri) { return 0.5*b*h; }  // triangle
+int main() {
+    cout &lt;&lt; area(5) &lt;&lt; endl;
+    cout &lt;&lt; area(4, 6) &lt;&lt; endl;
+    cout &lt;&lt; area(4, 6, true) &lt;&lt; endl;
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Differentiate between call by value and call by reference with example. <span class="marks">4 marks</span></div>
+    <div class="a">Call by value copies the argument's value into the parameter — changes inside the function do not affect the original variable. Call by reference passes an alias to the original variable — changes inside the function directly affect the caller's variable.
+      <pre><code>void byValue(int x) { x = 100; }         // caller's variable unaffected
+void byRef(int &amp;x) { x = 100; }          // caller's variable changed
+int main() {
+    int a = 5;
+    byValue(a); cout &lt;&lt; a; // 5
+    byRef(a);   cout &lt;&lt; a; // 100
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. What is an inline function? What are its advantages and limitations? <span class="marks">4 marks</span></div>
+    <div class="a">An inline function is expanded at the call site instead of being called normally, avoiding function-call overhead (stack push/pop). <strong>Advantages:</strong> faster execution for small functions, avoids call overhead. <strong>Limitations:</strong> increases code size (code bloat) if overused, the compiler may ignore the <code>inline</code> request for large/recursive functions, not suitable for functions with loops or large bodies.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. What is dynamic memory allocation? Explain <code>new</code> and <code>delete</code> operators with example. <span class="marks">5 marks</span></div>
+    <div class="a">Dynamic memory allocation means allocating memory at run time from the heap rather than at compile time. <code>new</code> allocates memory and returns a pointer to it; <code>delete</code> releases memory back to the system. See code in section 2.14. Emphasize: always match every <code>new</code> with a <code>delete</code>, and every <code>new[]</code> with <code>delete[]</code>, to avoid memory leaks.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Differentiate between structure and union. <span class="marks">4 marks</span></div>
+    <div class="a">See table in section 2.12: struct allocates separate memory per member (size = sum of all members); union shares one memory block among all members (size = largest member), so only one member is valid at a time.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. What are default arguments? Write the rule governing their use with an example. <span class="marks">4 marks</span></div>
+    <div class="a">Default arguments are values automatically used for parameters the caller does not supply. Rule: once a parameter is given a default value, all parameters to its right must also have default values (defaults are assigned right-to-left). Example in section 2.10.3.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. What is a reference variable? How is it different from a pointer? <span class="marks">4 marks</span></div>
+    <div class="a">A reference is an alias for an existing variable, must be initialized at declaration, and cannot be changed to refer to another variable afterward. A pointer stores an address, can be reassigned to point elsewhere, can be null, and requires explicit dereferencing (<code>*p</code>). References use simpler syntax and are commonly used for function parameters.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Write a C++ program using <code>enum</code> to represent days of the week and print whether a given day is a weekend. <span class="marks">5 marks</span></div>
+    <div class="a">
+      <pre><code>#include &lt;iostream&gt;
+using namespace std;
+enum Day { SUN, MON, TUE, WED, THU, FRI, SAT };
+int main() {
+    Day d = SAT;
+    if (d == SUN || d == SAT) cout &lt;&lt; "Weekend";
+    else cout &lt;&lt; "Weekday";
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. What is type casting? Explain the different C++ style cast operators. <span class="marks">4 marks</span></div>
+    <div class="a">Type casting converts a value from one data type to another. C++ provides four safer, explicit cast operators: <code>static_cast</code> (general-purpose conversions checked at compile time), <code>dynamic_cast</code> (safe downcasting in polymorphic class hierarchies, checked at run time), <code>const_cast</code> (adds/removes <code>const</code>/<code>volatile</code>), <code>reinterpret_cast</code> (low-level reinterpretation of bit patterns, e.g. pointer type conversions).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q10. What are tokens in C++? List and briefly explain their types. <span class="marks">4 marks</span></div>
+    <div class="a">Tokens are the smallest meaningful elements of a program: keywords, identifiers, literals/constants, punctuators, and operators (see section 2.2 for definitions and examples of each).</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter1.html">← Chapter 1</a>
+    <a href="chapter3.html">Next: Chapter 3 — Objects and Classes →</a>
+  </div>
+</div>
+</body>
+</html>

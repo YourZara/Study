@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 9: Exception Handling</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">OOP · ENCT 151</a>
+  <div class="nav">
+    <a href="OOP (ENCT_CT 151) — Solved Question Papers.html">Past Papers</a>
+    <a href="C++ OOP — Syntax Reference.html">Syntax</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html" class="current">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 9.</span> Exception Handling</h1>
+  <p class="subtitle">4 hours · 5 marks</p>
+
+  <h2>9.1 Basics of Exception Handling</h2>
+  <p>An <strong>exception</strong> is a run-time abnormal condition/error (divide by zero, invalid array index, file not found) that disrupts normal program flow. C++ exception handling uses three keywords:</p>
+  <ul>
+    <li><code>try</code> — a block containing code that might throw an exception.</li>
+    <li><code>throw</code> — signals that an exceptional condition has occurred, passing an exception object.</li>
+    <li><code>catch</code> — a block that receives and handles a thrown exception of a matching type.</li>
+  </ul>
+  <pre><code>try {
+    int a = 10, b = 0;
+    if (b == 0) throw runtime_error("Division by zero");
+    cout &lt;&lt; a / b;
+} catch (runtime_error &amp;e) {
+    cout &lt;&lt; "Caught: " &lt;&lt; e.what();
+}</code></pre>
+
+  <h2>9.2 Advantage Over Conventional Error Handling</h2>
+  <ul>
+    <li>Separates error-handling code from normal program logic, improving readability.</li>
+    <li>Errors cannot be silently ignored the way an unchecked return code can be — an uncaught exception terminates the program, forcing attention.</li>
+    <li>A single <code>catch</code> block can handle errors from many statements/function calls within a <code>try</code> block, avoiding repetitive if-checks after every call.</li>
+    <li>Exceptions can carry rich data (an object, not just an error code) describing what went wrong.</li>
+    <li>Errors propagate automatically up the call stack until a matching handler is found (stack unwinding), unlike manual error codes that must be checked and re-returned at every level.</li>
+  </ul>
+
+  <h2>9.3 Exception Handling Mechanism</h2>
+  <p>When a <code>throw</code> executes: the program immediately stops normal execution, searches up the call stack for a <code>catch</code> block matching the exception's type, calls destructors for all local objects going out of scope along the way (<strong>stack unwinding</strong>), then transfers control into the matching <code>catch</code> block. If no matching handler is found anywhere in the call stack, <code>std::terminate()</code> is called and the program aborts.</p>
+
+  <h2>9.4 Multiple Handlers</h2>
+  <p>A single <code>try</code> block can be followed by multiple <code>catch</code> blocks, each handling a different exception type — the first matching handler (in order) is executed.</p>
+  <pre><code>try {
+    throw 3.14;                  // throws a double
+} catch (int e) {
+    cout &lt;&lt; "int caught";
+} catch (double e) {
+    cout &lt;&lt; "double caught: " &lt;&lt; e;   // this one matches
+} catch (char e) {
+    cout &lt;&lt; "char caught";
+}</code></pre>
+
+  <h2>9.5 Catching All Exceptions</h2>
+  <p>The ellipsis handler <code>catch(...)</code> matches <strong>any</strong> exception type, and is typically placed last as a catch-all fallback for unexpected/unknown exceptions.</p>
+  <pre><code>try {
+    throw "unexpected error";
+} catch (int e) {
+    cout &lt;&lt; "int";
+} catch (...) {                 // catches anything not matched above
+    cout &lt;&lt; "Unknown exception caught";
+}</code></pre>
+
+  <h2>9.6 Rethrowing Exception</h2>
+  <p>A <code>catch</code> block can perform partial handling (e.g., logging) and then re-throw the same exception using a bare <code>throw;</code> so an outer handler can also process it.</p>
+  <pre><code>try {
+    try {
+        throw runtime_error("Disk error");
+    } catch (runtime_error &amp;e) {
+        cout &lt;&lt; "Logged: " &lt;&lt; e.what();
+        throw;                       // rethrow to outer handler
+    }
+} catch (runtime_error &amp;e) {
+    cout &lt;&lt; "Outer handler: " &lt;&lt; e.what();
+}</code></pre>
+
+  <h2>9.7 Exception with Arguments</h2>
+  <p>A thrown exception can carry data — a simple value, or a full object with multiple fields, describing the error in detail.</p>
+  <pre><code>class MyException {
+public:
+    int errorCode;
+    string message;
+    MyException(int c, string m): errorCode(c), message(m) {}
+};
+try {
+    throw MyException(404, "Not Found");
+} catch (MyException &amp;e) {
+    cout &lt;&lt; e.errorCode &lt;&lt; ": " &lt;&lt; e.message;
+}</code></pre>
+
+  <h2>9.8 Exception Specification for Function</h2>
+  <p>Older C++ allowed declaring which exceptions a function might throw: <code>void f() throw(int, char);</code> meaning it may only throw <code>int</code> or <code>char</code>. <code>throw()</code> with an empty list meant the function throws nothing. This mechanism is <strong>deprecated</strong> in modern C++ (C++11 onward) and replaced by the simpler <code>noexcept</code> specifier, which just declares whether a function may throw at all (<code>void f() noexcept;</code>).</p>
+
+  <h2>9.9 Exceptions in Constructors and Destructors</h2>
+  <ul>
+    <li>A <strong>constructor</strong> can safely throw an exception if initialization fails (e.g., memory allocation failure, invalid parameter) — since the object was never fully constructed, its destructor will NOT be called, but destructors of any already-fully-constructed sub-objects/base classes will run during stack unwinding.</li>
+    <li>A <strong>destructor</strong> should generally NOT throw exceptions. If an exception is already propagating (stack unwinding) when a destructor throws another one, the program calls <code>std::terminate()</code> immediately, since C++ cannot handle two simultaneous exceptions.</li>
+  </ul>
+
+  <h2>9.10 Handling Uncaught Exceptions</h2>
+  <p>If an exception is thrown but no matching <code>catch</code> block exists anywhere in the call stack, the special function <code>std::terminate()</code> is automatically invoked, which by default calls <code>std::abort()</code>, ending the program immediately (destructors of objects further up the stack are not guaranteed to run).</p>
+
+  <h2>9.11 Handling Unexpected Exceptions</h2>
+  <p>In the older exception-specification model, if a function threw an exception type not listed in its <code>throw()</code> specification, the special function <code>std::unexpected()</code> was called (which by default also calls <code>terminate()</code>). This mechanism is deprecated in modern C++ along with dynamic exception specifications; <code>noexcept</code> functions that throw now call <code>std::terminate()</code> directly.</p>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. What is exception handling? Explain <code>try</code>, <code>catch</code>, and <code>throw</code> with a program. <span class="marks">6 marks</span></div>
+    <div class="a">Exception handling manages run-time errors gracefully instead of crashing the program abruptly. <code>try</code> wraps risky code, <code>throw</code> signals an error, <code>catch</code> handles it. See the division-by-zero example in section 9.1.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. What are the advantages of exception handling over traditional error handling (return codes)? <span class="marks">4 marks</span></div>
+    <div class="a">See section 9.2: separates error-handling logic from normal logic, cannot be silently ignored, a single handler can cover many statements, errors can carry structured data, and errors automatically propagate up the call stack (stack unwinding) until handled.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Write a program demonstrating multiple catch blocks for different exception types. <span class="marks">6 marks</span></div>
+    <div class="a">
+      <pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    try {
+        int choice = 2;
+        if (choice == 1) throw 10;
+        else if (choice == 2) throw 3.14;
+        else throw string("error");
+    } catch (int e) {
+        cout &lt;&lt; "Integer exception: " &lt;&lt; e;
+    } catch (double e) {
+        cout &lt;&lt; "Double exception: " &lt;&lt; e;
+    } catch (string &amp;e) {
+        cout &lt;&lt; "String exception: " &lt;&lt; e;
+    }
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. What is stack unwinding? Explain with reference to exception handling. <span class="marks">4 marks</span></div>
+    <div class="a">Stack unwinding is the process that occurs after a <code>throw</code>: the runtime walks back up the function call stack looking for a matching <code>catch</code> block, and along the way properly calls the destructors of all local (automatic) objects in each function frame it passes through, ensuring resources are released even though the functions exit abnormally. See section 9.3.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. What is rethrowing an exception? Why is it useful? <span class="marks">4 marks</span></div>
+    <div class="a">Rethrowing (using a bare <code>throw;</code> inside a <code>catch</code> block) passes the same exception on to an outer handler after some local handling (e.g., logging or partial cleanup). It is useful when a function can only partially handle an error and wants a caller further up the stack to also be aware of and respond to it. See section 9.6.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Can constructors and destructors throw exceptions? Explain the precautions needed. <span class="marks">5 marks</span></div>
+    <div class="a">Constructors can safely throw (e.g., to signal that initialization failed); the object's own destructor is not called, but already-constructed base/member sub-objects are properly destroyed during unwinding. Destructors should avoid throwing — if a destructor throws while another exception is already propagating, <code>std::terminate()</code> is called immediately and the program aborts, since C++ cannot manage two simultaneous exceptions. See section 9.9.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. What is the purpose of <code>catch(...)</code>? <span class="marks">3 marks</span></div>
+    <div class="a"><code>catch(...)</code> is a catch-all handler that matches any exception type, regardless of what was thrown. It is used, typically as the last handler, to guard against unexpected/unknown exceptions so the program can fail gracefully (e.g., log an error and exit cleanly) instead of crashing via <code>terminate()</code>. See section 9.5.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Write a program that defines a custom exception class carrying an error code and message. <span class="marks">6 marks</span></div>
+    <div class="a">See the <code>MyException</code> example in section 9.7 — define a class with the needed fields and a constructor, throw an object of it, and catch it by reference to access its fields without slicing/copying overhead.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q9. What happens if an exception is thrown but not caught anywhere in the program? <span class="marks">3 marks</span></div>
+    <div class="a"><code>std::terminate()</code> is automatically invoked, which by default calls <code>std::abort()</code>, ending the program immediately; destructors of objects still on the stack above the throw point are not guaranteed to be called. See section 9.10.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter8.html">← Chapter 8</a>
+    <a href="index.html">Back to Index →</a>
+  </div>
+</div>
+</body>
+</html>

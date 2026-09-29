@@ -2,12 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0; url=2nd%20Sem/DL/Index.html">
-  <link rel="canonical" href="2nd%20Sem/DL/Index.html">
-  <title>Study — Digital Logic</title>
-  <script>location.replace("2nd%20Sem/DL/Index.html");</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Study — 2nd Sem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --ink:#0c1f2e; --teal:#0d6b5c; --amber:#c46b1a; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh; font-family: "Source Sans 3", system-ui, sans-serif; color: var(--ink);
+      background:
+        radial-gradient(ellipse 70% 50% at 10% 0%, #b8ddd2 0%, transparent 55%),
+        radial-gradient(ellipse 60% 45% at 100% 10%, #f0d4b0 0%, transparent 50%),
+        #eef5f1;
+      display: grid; place-items: center; padding: 28px 18px;
+    }
+    .box { max-width: 640px; width: 100%; }
+    .eyebrow { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: #456; margin-bottom: 8px; }
+    h1 { font-family: Fraunces, Georgia, serif; font-size: clamp(2rem, 6vw, 2.8rem); line-height: 1.05; margin-bottom: 10px; }
+    p { color: #3d5560; margin-bottom: 22px; }
+    .grid { display: grid; gap: 12px; }
+    a.card {
+      display: block; text-decoration: none; color: inherit;
+      background: rgba(255,255,255,0.82); border: 1px solid rgba(12,31,46,0.12);
+      border-radius: 18px; padding: 18px 20px; transition: transform .15s ease, box-shadow .15s ease;
+    }
+    a.card:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(8,40,35,0.12); }
+    a.card strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 1.25rem; color: var(--teal); margin-bottom: 4px; }
+    a.card span { font-size: 0.92rem; color: #456; }
+    footer { margin-top: 22px; font-size: 0.85rem; color: #567; }
+    footer a { color: var(--teal); }
+  </style>
 </head>
 <body>
-  <p>Opening <a href="2nd%20Sem/DL/Index.html">Digital Logic study hub</a>…</p>
+  <div class="box">
+    <div class="eyebrow">IOE · BE · Year I / Part II</div>
+    <h1>Study</h1>
+    <p>Pick a 2nd semester subject. Materials are hosted on GitHub Pages from the Study repo.</p>
+    <div class="grid">
+      <a class="card" href="2nd%20Sem/DL/Index.html">
+        <strong>Digital Logic</strong>
+        <span>ENEX / EX 152 — syllabus, notes, solved past papers</span>
+      </a>
+      <a class="card" href="2nd%20Sem/OOP/index.html">
+        <strong>Object Oriented Programming</strong>
+        <span>ENCT / CT 151 — chapters, syntax reference, solved papers</span>
+      </a>
+    </div>
+    <footer>
+      Repo: <a href="https://github.com/YourZara/Study">github.com/YourZara/Study</a>
+      · Live: <a href="https://yourzara.github.io/Study/">yourzara.github.io/Study</a>
+    </footer>
+  </div>
 </body>
 </html>

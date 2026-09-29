@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 8: Templates</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">OOP · ENCT 151</a>
+  <div class="nav">
+    <a href="OOP (ENCT_CT 151) — Solved Question Papers.html">Past Papers</a>
+    <a href="C++ OOP — Syntax Reference.html">Syntax</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html" class="current">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 8.</span> Templates</h1>
+  <p class="subtitle">6 hours · 8 marks</p>
+
+  <p>Templates allow writing <strong>generic</strong> functions and classes that work with any data type, without duplicating code for each type — the compiler generates the type-specific version when the template is used.</p>
+
+  <h2>8.1 Function Template</h2>
+  <pre><code>template &lt;class T&gt;              // or 'typename T'
+T maxVal(T a, T b) {
+    return (a &gt; b) ? a : b;
+}
+int main() {
+    cout &lt;&lt; maxVal(3, 7);          // T = int
+    cout &lt;&lt; maxVal(3.5, 2.1);      // T = double
+    cout &lt;&lt; maxVal('a', 'z');       // T = char
+}</code></pre>
+  <p>The compiler deduces <code>T</code> from the arguments and generates a separate function for each distinct type actually used (a process called <strong>template instantiation</strong>).</p>
+
+  <h2>8.2 Overloading Function Template</h2>
+  <p>A function template can be overloaded with another template (different parameter pattern) or with an ordinary (non-template) function of the same name; the compiler prefers the best/most specific match.</p>
+  <pre><code>template &lt;class T&gt;
+T maxVal(T a, T b) { return (a &gt; b) ? a : b; }
+
+template &lt;class T&gt;
+T maxVal(T a, T b, T c) { return maxVal(maxVal(a,b), c); }   // overloaded template, 3 args
+
+int maxVal(int a, int b) { cout &lt;&lt; "(non-template) "; return (a&gt;b)?a:b; } // ordinary overload</code></pre>
+
+  <h2>8.3 Class Template</h2>
+  <pre><code>template &lt;class T&gt;
+class Box {
+    T value;
+public:
+    Box(T v): value(v) {}
+    T getValue() { return value; }
+};
+int main() {
+    Box&lt;int&gt; b1(10);
+    Box&lt;string&gt; b2("hello");
+    cout &lt;&lt; b1.getValue() &lt;&lt; " " &lt;&lt; b2.getValue();
+}</code></pre>
+  <p>A class template lets an entire class (with any number of members) be generic over one or more types, specified in angle brackets <code>&lt;&gt;</code> when the object is declared.</p>
+
+  <h2>8.4 Derived Class Template</h2>
+  <p>A template class can be used as a base class, and the derived class can itself be a template or an ordinary class instantiating the base with a specific type.</p>
+  <pre><code>template &lt;class T&gt;
+class Base {
+protected:
+    T data;
+public:
+    Base(T d): data(d) {}
+};
+template &lt;class T&gt;
+class Derived : public Base&lt;T&gt; {           // derived class template
+public:
+    Derived(T d): Base&lt;T&gt;(d) {}
+    void show() { cout &lt;&lt; this-&gt;data; }
+};
+// or a non-template derived class fixing the type:
+class IntDerived : public Base&lt;int&gt; {
+public:
+    IntDerived(int d): Base&lt;int&gt;(d) {}
+};</code></pre>
+
+  <h2>8.5 Introduction to Standard Template Library (STL)</h2>
+  <p>The STL is a library of generic, reusable, template-based data structures and algorithms bundled with C++. It dramatically reduces the need to write common data-structure code from scratch.</p>
+
+  <h3>8.5.1 Components of STL</h3>
+  <ul>
+    <li><strong>Containers</strong> — store collections of objects (e.g., <code>vector</code>, <code>list</code>, <code>map</code>).</li>
+    <li><strong>Iterators</strong> — objects that point to elements within a container and allow traversal, generalizing pointer-like access.</li>
+    <li><strong>Algorithms</strong> — generic functions (sort, search, etc.) that operate on containers via iterators.</li>
+    <li><strong>Functors (function objects)</strong> — objects that behave like functions (overload <code>operator()</code>), often used to customize algorithm behaviour.</li>
+  </ul>
+
+  <h3>8.5.2 Containers</h3>
+  <table>
+    <tr><th>Container</th><th>Description</th></tr>
+    <tr><td><code>vector</code></td><td>Dynamic array, fast random access, efficient insertion/removal at the end.</td></tr>
+    <tr><td><code>list</code></td><td>Doubly linked list, efficient insertion/removal anywhere, no random access.</td></tr>
+    <tr><td><code>deque</code></td><td>Double-ended queue, fast insertion/removal at both ends.</td></tr>
+    <tr><td><code>set</code> / <code>multiset</code></td><td>Sorted collection of unique / non-unique elements.</td></tr>
+    <tr><td><code>map</code> / <code>multimap</code></td><td>Sorted collection of key-value pairs, unique / non-unique keys.</td></tr>
+    <tr><td><code>stack</code>, <code>queue</code>, <code>priority_queue</code></td><td>Container adapters restricting access patterns (LIFO, FIFO, priority order).</td></tr>
+  </table>
+  <pre><code>#include &lt;vector&gt;
+vector&lt;int&gt; v;
+v.push_back(10);
+v.push_back(20);
+for (int x : v) cout &lt;&lt; x &lt;&lt; " ";</code></pre>
+
+  <h3>8.5.3 Iterators</h3>
+  <p>Iterators provide a uniform way to traverse different containers, mimicking pointer syntax (<code>*it</code>, <code>++it</code>).</p>
+  <pre><code>vector&lt;int&gt; v = {1, 2, 3};
+for (vector&lt;int&gt;::iterator it = v.begin(); it != v.end(); ++it)
+    cout &lt;&lt; *it &lt;&lt; " ";</code></pre>
+  <p>Types include: input, output, forward, bidirectional, and random-access iterators, offering progressively more capability.</p>
+
+  <h3>8.5.4 Algorithms</h3>
+  <p>The <code>&lt;algorithm&gt;</code> header provides generic functions that work with any container via iterators: <code>sort()</code>, <code>find()</code>, <code>reverse()</code>, <code>max_element()</code>, <code>count()</code>, <code>accumulate()</code> (in <code>&lt;numeric&gt;</code>), etc.</p>
+  <pre><code>#include &lt;algorithm&gt;
+vector&lt;int&gt; v = {5, 2, 8, 1};
+sort(v.begin(), v.end());               // ascending sort
+auto it = find(v.begin(), v.end(), 8);   // search for value 8</code></pre>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. What is a template? Write a function template to find the maximum of two values of any type. <span class="marks">6 marks</span></div>
+    <div class="a">A template lets a single function/class definition work generically with multiple data types, with the compiler generating type-specific code as needed (instantiation). See the <code>maxVal</code> example in section 8.1.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Write a class template <code>Stack</code> with <code>push()</code> and <code>pop()</code> operations. <span class="marks">7 marks</span></div>
+    <div class="a">
+      <pre><code>template &lt;class T&gt;
+class Stack {
+    T arr[100];
+    int top = -1;
+public:
+    void push(T val) { arr[++top] = val; }
+    T pop() { return arr[top--]; }
+    bool isEmpty() { return top == -1; }
+};
+int main() {
+    Stack&lt;int&gt; s;
+    s.push(10); s.push(20);
+    cout &lt;&lt; s.pop();   // 20
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. What is the difference between a function template and a class template? <span class="marks">4 marks</span></div>
+    <div class="a">A function template generates a generic version of a single function for various types, with type deduced automatically from arguments in most cases. A class template generates a generic version of an entire class (all its members), and the type must be explicitly specified in angle brackets when an object is declared (e.g., <code>Box&lt;int&gt;</code>).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. What is STL? Explain its main components. <span class="marks">6 marks</span></div>
+    <div class="a">STL (Standard Template Library) is a collection of generic template-based containers, iterators, and algorithms in the C++ standard library. Components: containers (vector, list, map, etc. — store data), iterators (generalize pointer-based traversal across containers), algorithms (sort, search, etc. — operate on containers via iterators), and functors (function-like objects used to customize algorithms). See section 8.5.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Differentiate between <code>vector</code> and <code>list</code> containers in STL. <span class="marks">4 marks</span></div>
+    <div class="a"><code>vector</code> stores elements contiguously (like a dynamic array): fast O(1) random access via index, but insertion/removal in the middle is O(n). <code>list</code> is a doubly linked list: O(1) insertion/removal anywhere given an iterator, but no random access (must traverse, O(n) to reach an element).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. What are iterators in STL? Write a program using an iterator to traverse a vector. <span class="marks">5 marks</span></div>
+    <div class="a">Iterators are objects that behave like pointers and provide a uniform way to move through elements of any STL container. Example code in section 8.5.3, iterating a <code>vector&lt;int&gt;</code> with <code>begin()</code>/<code>end()</code>.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Write a program to sort a vector of integers using the STL <code>sort()</code> algorithm. <span class="marks">4 marks</span></div>
+    <div class="a">
+      <pre><code>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+using namespace std;
+int main() {
+    vector&lt;int&gt; v = {5, 1, 4, 2, 3};
+    sort(v.begin(), v.end());
+    for (int x : v) cout &lt;&lt; x &lt;&lt; " ";  // 1 2 3 4 5
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Can templates be used with inheritance? Explain with an example. <span class="marks">4 marks</span></div>
+    <div class="a">Yes — a template class can serve as a base class for another template or ordinary class. The derived class must specify the base's template parameter, either passing its own template parameter through (<code>Derived&lt;T&gt; : public Base&lt;T&gt;</code>) or fixing a concrete type (<code>IntDerived : public Base&lt;int&gt;</code>). See section 8.4.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter7.html">← Chapter 7</a>
+    <a href="chapter9.html">Next: Chapter 9 — Exception Handling →</a>
+  </div>
+</div>
+</body>
+</html>

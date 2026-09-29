@@ -8,11 +8,11 @@ Personal academic study materials — **IOE / BE**.
 
 | Page | URL |
 |------|-----|
-| Study hub (home) | [yourzara.github.io/Study](https://yourzara.github.io/Study/) |
+| Study home (subject picker) | [yourzara.github.io/Study](https://yourzara.github.io/Study/) |
 | Digital Logic hub | […/2nd Sem/DL/](https://yourzara.github.io/Study/2nd%20Sem/DL/Index.html) |
-| All file links | […/link.html](https://yourzara.github.io/Study/2nd%20Sem/DL/link.html) |
-| Syllabus map | […/syllabus-map.html](https://yourzara.github.io/Study/2nd%20Sem/DL/syllabus-map.html) |
-| Solved past papers | […/PQA Claude/](https://yourzara.github.io/Study/2nd%20Sem/DL/PQA%20Claude/index.html) |
+| OOP hub | […/2nd Sem/OOP/](https://yourzara.github.io/Study/2nd%20Sem/OOP/index.html) |
+| DL all links | […/DL/link.html](https://yourzara.github.io/Study/2nd%20Sem/DL/link.html) |
+| OOP past papers | […/OOP Past Papers](https://yourzara.github.io/Study/2nd%20Sem/OOP/OOP%20(ENCT_CT%20151)%20%E2%80%94%20Solved%20Question%20Papers.html) |
 
 Repo: [github.com/YourZara/Study](https://github.com/YourZara/Study)
 
@@ -20,11 +20,18 @@ Repo: [github.com/YourZara/Study](https://github.com/YourZara/Study)
 
 ```
 2nd Sem/
-└── DL/          Digital Logic (ENEX / EX 152)
+├── DL/          Digital Logic (ENEX / EX 152)
+└── OOP/         Object Oriented Programming (ENCT / CT 151)
 ```
 
 ### Digital Logic (`2nd Sem/DL/`)
 
-Open [`2nd Sem/DL/Index.html`](2nd%20Sem/DL/Index.html) locally, or use the [live GitHub Pages site](https://yourzara.github.io/Study/). Full inventory: [`2nd Sem/DL/readme.md`](2nd%20Sem/DL/readme.md).
+Open [`2nd Sem/DL/Index.html`](2nd%20Sem/DL/Index.html) or the [live hub](https://yourzara.github.io/Study/2nd%20Sem/DL/Index.html). Inventory: [`2nd Sem/DL/readme.md`](2nd%20Sem/DL/readme.md).
 
-Includes syllabus, chapter guides, short theory notes, and solved past papers.
+Syllabus, chapter guides, short theory, and solved past papers.
+
+### Object Oriented Programming (`2nd Sem/OOP/`)
+
+Imported from [Jagdish-Sah/OOP](https://github.com/Jagdish-Sah/OOP). Open [`2nd Sem/OOP/index.html`](2nd%20Sem/OOP/index.html) or the [live hub](https://yourzara.github.io/Study/2nd%20Sem/OOP/index.html). Inventory: [`2nd Sem/OOP/README.md`](2nd%20Sem/OOP/README.md).
+
+Nine chapter notes, C++ syntax reference, and four solved TU papers — all cross-linked from the entry `index.html`.

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 7: Stream Computation</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">OOP · ENCT 151</a>
+  <div class="nav">
+    <a href="OOP (ENCT_CT 151) — Solved Question Papers.html">Past Papers</a>
+    <a href="C++ OOP — Syntax Reference.html">Syntax</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html" class="current">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 7.</span> Stream Computation</h1>
+  <p class="subtitle">6 hours · 8 marks</p>
+
+  <h2>7.1 Input/Output Stream Class Hierarchy</h2>
+  <p>A <strong>stream</strong> is an abstraction representing a flow of data (bytes) between a program and a device (console, file, memory). C++ I/O is built around a class hierarchy in <code>&lt;iostream&gt;</code>:</p>
+  <ul>
+    <li><code>ios</code> — base class holding common stream state/formatting flags.</li>
+    <li><code>istream</code> — handles input (<code>cin</code>, <code>&gt;&gt;</code>, <code>get()</code>, <code>getline()</code>).</li>
+    <li><code>ostream</code> — handles output (<code>cout</code>, <code>&lt;&lt;</code>, <code>put()</code>).</li>
+    <li><code>iostream</code> — inherits both <code>istream</code> and <code>ostream</code> for bidirectional streams.</li>
+    <li><code>ifstream</code>, <code>ofstream</code>, <code>fstream</code> (from <code>&lt;fstream&gt;</code>) — file input, file output, and bidirectional file streams respectively, derived from <code>istream</code>/<code>ostream</code>/<code>iostream</code>.</li>
+  </ul>
+  <p>Predefined objects: <code>cin</code> (standard input), <code>cout</code> (standard output), <code>cerr</code> (unbuffered standard error), <code>clog</code> (buffered standard error).</p>
+
+  <h2>7.2 Testing Stream Errors</h2>
+  <p>Each stream maintains state flags checked via member functions:</p>
+  <table>
+    <tr><th>Function</th><th>Meaning</th></tr>
+    <tr><td><code>good()</code></td><td>No error flags set — stream is usable.</td></tr>
+    <tr><td><code>eof()</code></td><td>End-of-file has been reached.</td></tr>
+    <tr><td><code>fail()</code></td><td>A formatting or extraction error occurred (recoverable).</td></tr>
+    <tr><td><code>bad()</code></td><td>A serious, likely unrecoverable I/O error occurred.</td></tr>
+    <tr><td><code>clear()</code></td><td>Resets all error state flags.</td></tr>
+  </table>
+  <pre><code>int x;
+cin &gt;&gt; x;
+if (cin.fail()) { cout &lt;&lt; "Invalid input"; cin.clear(); }</code></pre>
+
+  <h2>7.3 Unformatted and Formatted I/O</h2>
+  <p><strong>Unformatted I/O</strong> works with raw characters/bytes without interpretation — e.g., <code>get()</code>, <code>put()</code>, <code>getline()</code>, <code>read()</code>, <code>write()</code>.</p>
+  <p><strong>Formatted I/O</strong> interprets data according to type and formatting rules, using <code>&gt;&gt;</code>/<code>&lt;&lt;</code> along with manipulators (<code>setw</code>, <code>setprecision</code>, <code>fixed</code>) to control width, precision, base, and alignment.</p>
+  <pre><code>#include &lt;iomanip&gt;
+cout &lt;&lt; setw(10) &lt;&lt; setfill('*') &lt;&lt; 42 &lt;&lt; endl;    // formatted
+cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; 3.14159 &lt;&lt; endl; // 3.14
+
+char ch;
+cin.get(ch);                 // unformatted single character input
+cout.put('A');                // unformatted single character output</code></pre>
+
+  <h2>7.4 Stream Operator Overloading</h2>
+  <p>The insertion (<code>&lt;&lt;</code>) and extraction (<code>&gt;&gt;</code>) operators can be overloaded for user-defined classes so objects can be directly written to/read from streams. Because the left operand is a stream object (<code>ostream</code>/<code>istream</code>), these MUST be overloaded as non-member (usually friend) functions.</p>
+  <pre><code>class Point {
+    int x, y;
+public:
+    Point(int a=0, int b=0): x(a), y(b) {}
+    friend ostream &amp;operator&lt;&lt;(ostream &amp;out, const Point &amp;p) {
+        out &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")";
+        return out;                 // returning ostream& allows chaining: cout &lt;&lt; p1 &lt;&lt; p2;
+    }
+    friend istream &amp;operator&gt;&gt;(istream &amp;in, Point &amp;p) {
+        in &gt;&gt; p.x &gt;&gt; p.y;
+        return in;
+    }
+};
+int main() {
+    Point p;
+    cin &gt;&gt; p;
+    cout &lt;&lt; p;
+}</code></pre>
+
+  <h2>7.5 File Input/Output with Streams</h2>
+  <p>File streams (from <code>&lt;fstream&gt;</code>) let a program read from or write to files on disk, using the same <code>&lt;&lt;</code>/<code>&gt;&gt;</code> syntax as console I/O.</p>
+  <pre><code>#include &lt;fstream&gt;
+ofstream fout("data.txt");     // open for writing (creates/truncates file)
+fout &lt;&lt; "Hello File";
+fout.close();
+
+ifstream fin("data.txt");       // open for reading
+string line;
+getline(fin, line);
+fin.close();</code></pre>
+
+  <h2>7.6 File Stream Class Hierarchy</h2>
+  <ul>
+    <li><code>ofstream</code> — derived from <code>ostream</code>, for writing to files.</li>
+    <li><code>ifstream</code> — derived from <code>istream</code>, for reading from files.</li>
+    <li><code>fstream</code> — derived from <code>iostream</code>, for both reading and writing.</li>
+  </ul>
+  <p>All three ultimately derive from the common base <code>ios</code>, inheriting formatting and error-state functionality.</p>
+
+  <h2>7.7 ASCII and Binary Files</h2>
+  <table>
+    <tr><th>ASCII (text) file</th><th>Binary file</th></tr>
+    <tr><td>Data stored as human-readable characters</td><td>Data stored as raw bytes (memory representation)</td></tr>
+    <tr><td>Opened without <code>ios::binary</code> (default text mode)</td><td>Opened with <code>ios::binary</code> flag</td></tr>
+    <tr><td>Larger file size, portable, editable with any text editor</td><td>Compact, faster I/O, but not human-readable</td></tr>
+    <tr><td>Uses <code>&lt;&lt;</code>/<code>&gt;&gt;</code></td><td>Uses <code>read()</code>/<code>write()</code></td></tr>
+  </table>
+  <pre><code>ofstream fout("data.bin", ios::binary);
+fout.write(reinterpret_cast&lt;char*&gt;(&amp;obj), sizeof(obj));</code></pre>
+
+  <h2>7.8 Read/Write from File</h2>
+  <pre><code>struct Record { int id; char name[20]; };
+Record r = {1, "Ram"};
+ofstream fout("rec.dat", ios::binary);
+fout.write((char*)&amp;r, sizeof(r));
+fout.close();
+
+Record r2;
+ifstream fin("rec.dat", ios::binary);
+fin.read((char*)&amp;r2, sizeof(r2));
+fin.close();</code></pre>
+
+  <h2>7.9 Sequential Access to File</h2>
+  <p>Data is read/written in order from beginning to end, one record after another — simplest and most common access mode, suitable when records are always processed in order.</p>
+
+  <h2>7.10 Random Access to File</h2>
+  <p>Allows jumping directly to any position in the file without reading everything before it, using file pointer manipulation functions (<code>seekg</code>/<code>seekp</code>) combined with fixed-size records.</p>
+  <pre><code>fstream file("rec.dat", ios::in | ios::out | ios::binary);
+file.seekg(2 * sizeof(Record));   // jump directly to the 3rd record (index 2)
+file.read((char*)&amp;r, sizeof(r));</code></pre>
+
+  <h2>7.11 File Access Pointers and Their Manipulators</h2>
+  <ul>
+    <li><code>seekg(pos)</code> — moves the <strong>get</strong> (read) pointer to a position.</li>
+    <li><code>seekp(pos)</code> — moves the <strong>put</strong> (write) pointer to a position.</li>
+    <li><code>tellg()</code> — returns the current position of the read pointer.</li>
+    <li><code>tellp()</code> — returns the current position of the write pointer.</li>
+    <li>Seek direction flags: <code>ios::beg</code> (from beginning), <code>ios::cur</code> (from current position), <code>ios::end</code> (from end) — e.g. <code>file.seekg(-10, ios::end);</code></li>
+  </ul>
+
+  <h2>7.12 Testing Errors During File Operations</h2>
+  <pre><code>ifstream fin("nofile.txt");
+if (!fin) { cout &lt;&lt; "File could not be opened"; }   // uses overloaded operator!
+if (fin.is_open()) { ... }
+if (fin.fail()) { ... }</code></pre>
+
+  <h2>7.13 File I/O with Member Functions</h2>
+  <p>Instead of overloaded operators, file streams offer explicit member functions for finer control: <code>open()</code>, <code>close()</code>, <code>is_open()</code>, <code>read()</code>, <code>write()</code>, <code>get()</code>, <code>put()</code>, <code>getline()</code>, <code>eof()</code>.</p>
+  <pre><code>fstream f;
+f.open("data.txt", ios::out);
+if (f.is_open()) { f &lt;&lt; "text"; f.close(); }</code></pre>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Explain the C++ stream class hierarchy with a diagram. <span class="marks">6 marks</span></div>
+    <div class="a">Draw/describe: <code>ios</code> at the top, branching to <code>istream</code> and <code>ostream</code>; <code>iostream</code> inherits both; <code>ifstream</code> derives from <code>istream</code>, <code>ofstream</code> from <code>ostream</code>, <code>fstream</code> from <code>iostream</code> — see section 7.1.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. Write a program to overload the <code>&lt;&lt;</code> and <code>&gt;&gt;</code> operators for a user-defined class <code>Complex</code>. <span class="marks">7 marks</span></div>
+    <div class="a">Explain why these must be non-member/friend functions (left operand is the stream, not the class object), then adapt the pattern in section 7.4 for a <code>Complex</code> class with real and imaginary parts.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Differentiate between sequential access and random access to files. <span class="marks">4 marks</span></div>
+    <div class="a">Sequential access reads/writes records strictly in order from the start; to reach record N you must pass through records 1..N-1. Random access uses <code>seekg</code>/<code>seekp</code> with fixed-size records to jump directly to any record's byte offset, giving direct O(1) access. See sections 7.9–7.11.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Write a program to write a class object to a file and read it back using binary mode. <span class="marks">7 marks</span></div>
+    <div class="a">
+      <pre><code>#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+using namespace std;
+class Student { public: int roll; char name[20]; };
+int main() {
+    Student s1 = {1, "Ram"};
+    ofstream fout("s.dat", ios::binary);
+    fout.write((char*)&amp;s1, sizeof(s1));
+    fout.close();
+
+    Student s2;
+    ifstream fin("s.dat", ios::binary);
+    fin.read((char*)&amp;s2, sizeof(s2));
+    fin.close();
+    cout &lt;&lt; s2.roll &lt;&lt; " " &lt;&lt; s2.name;
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Differentiate between ASCII (text) files and binary files. <span class="marks">4 marks</span></div>
+    <div class="a">See table in section 7.7: text files store human-readable characters and use <code>&lt;&lt;</code>/<code>&gt;&gt;</code>; binary files store raw memory bytes, need the <code>ios::binary</code> flag and <code>read()</code>/<code>write()</code>, and are more compact but not human-readable.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Explain <code>seekg()</code>, <code>seekp()</code>, <code>tellg()</code>, and <code>tellp()</code> with examples. <span class="marks">5 marks</span></div>
+    <div class="a">See section 7.11 — <code>seekg</code>/<code>tellg</code> control/query the read (get) pointer position; <code>seekp</code>/<code>tellp</code> control/query the write (put) pointer position; both accept an optional direction flag (<code>ios::beg</code>, <code>ios::cur</code>, <code>ios::end</code>).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. What is the difference between formatted and unformatted I/O? Give examples of each. <span class="marks">4 marks</span></div>
+    <div class="a">Unformatted I/O transfers raw characters without type interpretation (<code>get()</code>, <code>put()</code>, <code>read()</code>, <code>write()</code>). Formatted I/O interprets data according to its type and applies formatting via manipulators like <code>setw</code>, <code>setprecision</code>, <code>fixed</code>, used with <code>&lt;&lt;</code>/<code>&gt;&gt;</code>. See section 7.3.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. How do you test for errors during file operations in C++? <span class="marks">4 marks</span></div>
+    <div class="a">Check the stream's state after opening/using it: the overloaded <code>!</code> operator or <code>fail()</code> after opening (file may not exist), <code>is_open()</code> to confirm a stream is currently attached to a file, <code>eof()</code> to detect end-of-file, and <code>good()</code>/<code>bad()</code> for overall/serious error checks. See section 7.12.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter6.html">← Chapter 6</a>
+    <a href="chapter8.html">Next: Chapter 8 — Templates →</a>
+  </div>
+</div>
+</body>
+</html>

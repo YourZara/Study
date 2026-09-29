@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 6: Virtual Functions</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">OOP · ENCT 151</a>
+  <div class="nav">
+    <a href="OOP (ENCT_CT 151) — Solved Question Papers.html">Past Papers</a>
+    <a href="C++ OOP — Syntax Reference.html">Syntax</a>
+    <a href="chapter1.html">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html" class="current">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 6.</span> Virtual Functions</h1>
+  <p class="subtitle">4 hours · 5 marks</p>
+
+  <h2>6.1 What is a Virtual Function</h2>
+  <p>A virtual function is a member function declared in a base class using the keyword <code>virtual</code>, which is expected to be redefined in derived classes. When called through a base class pointer/reference, the <strong>actual (derived) object's version</strong> is invoked — this is resolved at run time (late binding), not compile time.</p>
+  <pre><code>class Shape {
+public:
+    virtual void draw() { cout &lt;&lt; "Drawing shape"; }
+};
+class Circle : public Shape {
+public:
+    void draw() override { cout &lt;&lt; "Drawing circle"; }   // overrides base version
+};</code></pre>
+
+  <h2>6.2 Need of Virtual Function</h2>
+  <p>Without <code>virtual</code>, calling a function through a base class pointer always invokes the <strong>base class's</strong> version (early/static binding), regardless of the actual object type — this defeats runtime polymorphism.</p>
+  <pre><code>Shape *s = new Circle();
+s-&gt;draw();   // WITHOUT virtual: calls Shape::draw()
+              // WITH virtual:    calls Circle::draw()  -- correct runtime polymorphism</code></pre>
+  <p>Virtual functions let a single interface (base class pointer) work correctly for objects of many derived types — the foundation of runtime polymorphism.</p>
+
+  <h2>6.3 Pointer to Derived Class</h2>
+  <p>A base class pointer can point to a derived class object (upcasting is implicit and safe), but a derived class pointer cannot directly point to a base object without an explicit (and potentially unsafe) downcast.</p>
+  <pre><code>Shape *sp;
+Circle c;
+sp = &amp;c;        // OK -- base pointer to derived object (upcasting)
+sp-&gt;draw();     // calls Circle::draw() if draw() is virtual
+// Circle *cp = sp;          -> error, needs explicit cast
+Circle *cp = static_cast&lt;Circle*&gt;(sp);  // downcast (use dynamic_cast for safety)</code></pre>
+
+  <h2>6.4 Array of Pointers to Base Class</h2>
+  <p>A common OOP pattern: store an array of base class pointers, each pointing to a different derived object, then call the virtual function uniformly on each — every call automatically dispatches to the correct derived version.</p>
+  <pre><code>Shape *shapes[3];
+shapes[0] = new Circle();
+shapes[1] = new Square();
+shapes[2] = new Triangle();
+for (int i = 0; i &lt; 3; i++)
+    shapes[i]-&gt;draw();     // each call resolves to the correct derived draw()</code></pre>
+
+  <h2>6.5 Pure Virtual Functions and Abstract Class</h2>
+  <p>A <strong>pure virtual function</strong> has no implementation in the base class and is declared with <code>= 0</code>. A class containing at least one pure virtual function becomes an <strong>abstract class</strong> — it cannot be instantiated directly, and serves only as a base for derived classes, which must override the pure virtual function(s) to become concrete (instantiable).</p>
+  <pre><code>class Shape {
+public:
+    virtual void draw() = 0;    // pure virtual function
+};
+// Shape s;  -> ERROR: cannot instantiate abstract class
+class Circle : public Shape {
+public:
+    void draw() override { cout &lt;&lt; "Circle"; }   // must override to be concrete
+};</code></pre>
+
+  <h2>6.6 Virtual Destructors</h2>
+  <p>If a base class is meant to be used polymorphically (deleted through a base pointer), its destructor must be declared <code>virtual</code>. Otherwise, deleting a derived object through a base pointer invokes only the base destructor, causing the derived part's resources to leak (undefined behaviour).</p>
+  <pre><code>class Base {
+public:
+    virtual ~Base() { cout &lt;&lt; "Base dtor"; }   // virtual destructor
+};
+class Derived : public Base {
+public:
+    ~Derived() { cout &lt;&lt; "Derived dtor"; }
+};
+Base *p = new Derived();
+delete p;   // with virtual ~Base(): calls Derived dtor then Base dtor (correct)
+             // without virtual: would call ONLY Base dtor -- leak/bug</code></pre>
+
+  <h2>6.7 Reinterpret Cast Operator</h2>
+  <p><code>reinterpret_cast</code> performs a low-level reinterpretation of the bit pattern of an object — e.g., converting a pointer of one unrelated type to another, or a pointer to an integer. It performs no type checking or conversion logic and should be used sparingly since it can produce unsafe/undefined results if misused.</p>
+  <pre><code>int a = 65;
+int *p = &amp;a;
+char *c = reinterpret_cast&lt;char*&gt;(p);   // reinterprets the pointer's bit pattern</code></pre>
+
+  <h2>6.8 Run-time Type Information (RTTI)</h2>
+  <p>RTTI allows the type of an object to be determined during program execution. C++ provides two RTTI facilities:</p>
+  <ul>
+    <li><code>typeid</code> operator — returns a <code>type_info</code> object identifying an expression's type: <code>cout &lt;&lt; typeid(*ptr).name();</code></li>
+    <li><code>dynamic_cast</code> — safely converts a base class pointer/reference to a derived type, returning <code>nullptr</code> (for pointers) or throwing <code>std::bad_cast</code> (for references) if the conversion is invalid. Requires the base class to be polymorphic (have at least one virtual function).</li>
+  </ul>
+  <pre><code>Shape *s = new Circle();
+Circle *c = dynamic_cast&lt;Circle*&gt;(s);
+if (c) cout &lt;&lt; "Successfully cast to Circle";
+else cout &lt;&lt; "Cast failed";</code></pre>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. What is a virtual function? Explain with a program how it achieves run-time polymorphism. <span class="marks">6 marks</span></div>
+    <div class="a">
+      A virtual function is a base class function marked <code>virtual</code> that is overridden in derived classes; calling it through a base pointer/reference invokes the actual object's version at run time.
+      <pre><code>class Animal {
+public:
+    virtual void sound() { cout &lt;&lt; "Some sound"; }
+};
+class Dog : public Animal {
+public:
+    void sound() override { cout &lt;&lt; "Bark"; }
+};
+class Cat : public Animal {
+public:
+    void sound() override { cout &lt;&lt; "Meow"; }
+};
+int main() {
+    Animal *a;
+    Dog d; Cat c;
+    a = &amp;d; a-&gt;sound();  // Bark
+    a = &amp;c; a-&gt;sound();  // Meow
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. What is a pure virtual function? What is an abstract class? Why can't an abstract class be instantiated? <span class="marks">5 marks</span></div>
+    <div class="a">A pure virtual function is declared with <code>= 0</code> and has no body in the base class. A class with at least one pure virtual function is abstract. It cannot be instantiated because it is logically incomplete — some of its behaviour is undefined until a derived class supplies an implementation; the compiler enforces this to prevent calling an undefined function. See section 6.5.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Why are virtual destructors necessary? Illustrate with an example of what goes wrong without one. <span class="marks">5 marks</span></div>
+    <div class="a">See section 6.6: without a virtual destructor, deleting a derived object through a base class pointer calls only the base class's destructor, skipping the derived class's cleanup — this causes resource/memory leaks and undefined behaviour. Rule of thumb: any base class intended for polymorphic use should have a virtual destructor.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. Explain <code>dynamic_cast</code> and its use in run-time type identification, with an example. <span class="marks">5 marks</span></div>
+    <div class="a"><code>dynamic_cast</code> safely converts a pointer/reference from a base class type to a derived class type at run time, checking the actual object type; it returns <code>nullptr</code> for an invalid pointer conversion (or throws <code>bad_cast</code> for references). It requires the base class to be polymorphic. See code in section 6.8.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. Differentiate between early binding and late binding. <span class="marks">4 marks</span></div>
+    <div class="a"><strong>Early (static) binding:</strong> the function call is resolved at compile time based on the declared (static) type of the pointer/reference — used for normal (non-virtual) function calls, function overloading. <strong>Late (dynamic) binding:</strong> the function call is resolved at run time based on the actual object type — used for virtual function calls, enabling run-time polymorphism.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Write a program using an array of base class pointers to call overridden functions of different derived classes. <span class="marks">6 marks</span></div>
+    <div class="a">See the general pattern in section 6.4 — create an abstract <code>Shape</code> base class with a pure virtual <code>draw()</code>, derive <code>Circle</code>, <code>Square</code>, <code>Triangle</code>, store their pointers in a <code>Shape*</code> array, and loop calling <code>draw()</code> on each; each call correctly dispatches to the matching derived class implementation.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. What is the <code>typeid</code> operator used for? <span class="marks">3 marks</span></div>
+    <div class="a"><code>typeid</code> returns type information about an expression at run time (part of RTTI), commonly used to identify the actual dynamic type of an object accessed through a base class pointer/reference, e.g. <code>typeid(*ptr).name()</code> or to compare types with <code>typeid(a) == typeid(b)</code>.</div>
+  </div>
+
+  <div class="footnav">
+    <a href="chapter5.html">← Chapter 5</a>
+    <a href="chapter7.html">Next: Chapter 7 — Stream Computation →</a>
+  </div>
+</div>
+</body>
+</html>

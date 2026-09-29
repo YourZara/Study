@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1: Introduction to OOP</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <a class="home" href="index.html">OOP · ENCT 151</a>
+  <div class="nav">
+    <a href="OOP (ENCT_CT 151) — Solved Question Papers.html">Past Papers</a>
+    <a href="C++ OOP — Syntax Reference.html">Syntax</a>
+    <a href="chapter1.html" class="current">Ch1</a>
+    <a href="chapter2.html">Ch2</a>
+    <a href="chapter3.html">Ch3</a>
+    <a href="chapter4.html">Ch4</a>
+    <a href="chapter5.html">Ch5</a>
+    <a href="chapter6.html">Ch6</a>
+    <a href="chapter7.html">Ch7</a>
+    <a href="chapter8.html">Ch8</a>
+    <a href="chapter9.html">Ch9</a>
+  </div>
+</div>
+<div class="wrap">
+  <h1><span class="chnum">Ch 1.</span> Introduction to Object Oriented Programming</h1>
+  <p class="subtitle">3 hours · 4 marks</p>
+
+  <h2>1.1 History of Programming Languages</h2>
+  <p>Programming languages evolved through several generations, each solving problems of the previous one:</p>
+  <ul>
+    <li><strong>Machine language (1GL):</strong> raw binary instructions understood directly by hardware. Fast but extremely hard to write and debug.</li>
+    <li><strong>Assembly language (2GL):</strong> mnemonic codes (MOV, ADD, JMP) mapped one-to-one to machine instructions. Easier than binary but still hardware-dependent.</li>
+    <li><strong>Procedural / structured languages (3GL):</strong> FORTRAN (1957), COBOL (1959), C (1972), Pascal — introduced control structures (loops, conditionals) and functions/procedures. Code is organized as a sequence of instructions operating on data.</li>
+    <li><strong>Object oriented languages:</strong> Simula 67 introduced the class concept; Smalltalk (1970s) was the first purely object oriented language; C++ (Bjarne Stroustrup, early 1980s, originally "C with Classes") added OOP to C; Java, C#, Python followed later.</li>
+  </ul>
+  <p>The trend across generations has been increasing abstraction: from raw hardware instructions towards structures that reflect the real-world problem being solved.</p>
+
+  <h2>1.2 Need of Object Oriented Programming (OOP)</h2>
+  <p>As software grew larger in the 1970s–80s, purely procedural code became difficult to manage. Key drivers behind OOP:</p>
+  <ul>
+    <li><strong>Data safety:</strong> in procedural code, data is global and any function can modify it, causing accidental corruption. OOP binds data with the functions that operate on it.</li>
+    <li><strong>Code reusability:</strong> OOP allows classes to be reused and extended (inheritance) instead of rewriting code.</li>
+    <li><strong>Modeling real-world entities:</strong> objects (Car, Employee, BankAccount) map naturally to real-world entities, making design and communication with stakeholders easier.</li>
+    <li><strong>Maintainability and scalability:</strong> encapsulation and modularity make large systems easier to extend and debug.</li>
+    <li><strong>Managing complexity:</strong> breaking a system into interacting objects, each responsible for its own state and behaviour, reduces overall complexity.</li>
+  </ul>
+
+  <h2>1.3 Object Oriented Programming versus Procedure Oriented Programming</h2>
+  <table>
+    <tr><th>Aspect</th><th>Procedure Oriented (POP)</th><th>Object Oriented (OOP)</th></tr>
+    <tr><td>Primary focus</td><td>Functions/procedures</td><td>Objects (data + functions together)</td></tr>
+    <tr><td>Data</td><td>Global, moves freely between functions</td><td>Encapsulated inside objects, access controlled</td></tr>
+    <tr><td>Data security</td><td>Low — any function can change global data</td><td>High — data hidden via access specifiers</td></tr>
+    <tr><td>Program division</td><td>Divided into functions</td><td>Divided into objects/classes</td></tr>
+    <tr><td>Approach</td><td>Top-down</td><td>Bottom-up</td></tr>
+    <tr><td>Reusability</td><td>Limited (function reuse only)</td><td>High (inheritance, polymorphism)</td></tr>
+    <tr><td>Real world mapping</td><td>Poor</td><td>Natural / intuitive</td></tr>
+    <tr><td>Examples</td><td>C, Pascal, FORTRAN</td><td>C++, Java, C#, Python</td></tr>
+  </table>
+
+  <h2>1.4 Concepts of Object Oriented Programming</h2>
+  <h3>Object</h3>
+  <p>A run-time entity that bundles <strong>state</strong> (data/attributes) and <strong>behaviour</strong> (member functions/methods). Example: a <code>Car</code> object has state (color, speed) and behaviour (accelerate(), brake()).</p>
+  <h3>Class</h3>
+  <p>A blueprint/template for creating objects. It defines what data members and member functions objects of that type will have; no memory for data members is allocated until an object is created.</p>
+  <h3>Encapsulation</h3>
+  <p>Wrapping data and the functions that operate on it into a single unit (class), and restricting direct access to internal data using access specifiers (<code>private</code>, <code>protected</code>). This is also called <strong>data hiding</strong>.</p>
+  <h3>Abstraction</h3>
+  <p>Showing only essential features to the user while hiding implementation details. E.g., a driver uses the steering wheel and pedals (interface) without knowing the internal engine mechanics.</p>
+  <h3>Inheritance</h3>
+  <p>A mechanism where a new class (derived/child) acquires properties and behaviour of an existing class (base/parent), enabling code reuse and hierarchical classification (<em>is-a</em> relationship).</p>
+  <h3>Polymorphism</h3>
+  <p>"Many forms" — the ability of a function or operator to behave differently based on context. Two kinds:</p>
+  <ul>
+    <li><strong>Compile-time (static) polymorphism:</strong> function overloading, operator overloading — resolved at compile time.</li>
+    <li><strong>Run-time (dynamic) polymorphism:</strong> achieved through virtual functions — resolved at run time using the actual object type.</li>
+  </ul>
+  <h3>Message passing</h3>
+  <p>Objects communicate by invoking each other's member functions (sending messages), specifying the receiving object, the method name, and any information (arguments) needed.</p>
+
+  <h2>1.5 Popular Object Oriented Languages</h2>
+  <ul>
+    <li><strong>Simula 67</strong> — first language to introduce the class concept (used mainly for simulation).</li>
+    <li><strong>Smalltalk</strong> — first purely object oriented language; everything is an object.</li>
+    <li><strong>C++</strong> — hybrid language: superset of C with OOP features added.</li>
+    <li><strong>Java</strong> — purely object oriented (except primitives), platform independent via JVM.</li>
+    <li><strong>C#</strong> — Microsoft's OOP language for the .NET platform.</li>
+    <li><strong>Python</strong> — multi-paradigm language with strong OOP support.</li>
+  </ul>
+
+  <h2>1.6 Advantages of OOP</h2>
+  <ul>
+    <li>Better data security through encapsulation and access control.</li>
+    <li>Code reusability via inheritance — reduces redundancy and development time.</li>
+    <li>Easier maintenance — changes in one class have limited/controlled effect elsewhere.</li>
+    <li>Real-world problem modeling is more natural and intuitive.</li>
+    <li>Polymorphism allows flexible and extensible code design.</li>
+    <li>Large software systems can be built and managed more easily through modular objects.</li>
+  </ul>
+
+  <h2>1.7 Disadvantages of OOP</h2>
+  <ul>
+    <li>Steeper learning curve compared to procedural programming.</li>
+    <li>Larger program size and can run slower due to abstraction overhead (e.g., virtual function calls).</li>
+    <li>Not suitable for all types of problems — very simple, small, linear programs may be over-engineered as OOP.</li>
+    <li>Requires careful upfront design (class hierarchies); a poor design is hard to refactor later.</li>
+    <li>Programs may consume more memory (objects, vtables, etc.).</li>
+  </ul>
+
+  <h2>Most Probable Questions</h2>
+
+  <div class="qa">
+    <div class="q">Q1. Differentiate between procedure oriented programming and object oriented programming. <span class="marks">4 marks</span></div>
+    <div class="a">Use the comparison table above — cover at least 4 points: focus (function vs object), data security (global/open vs encapsulated), approach (top-down vs bottom-up), and reusability (limited vs high via inheritance).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q2. What is OOP? Explain the need for object oriented programming. <span class="marks">4 marks</span></div>
+    <div class="a">Define OOP as a programming paradigm based on the concept of objects that bundle data and behaviour. Explain the need: managing growing software complexity, protecting data via encapsulation, enabling reusability through inheritance, and modeling real-world entities naturally (see section 1.2).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q3. Explain the basic concepts (pillars) of object oriented programming with examples. <span class="marks">5 marks</span></div>
+    <div class="a">Explain each of: class &amp; object, encapsulation, abstraction, inheritance, polymorphism, message passing — one line definition + one example each (see section 1.4). Diagram: Base class → Derived class via inheritance arrow is a common way to illustrate this.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q4. List the advantages and disadvantages of OOP. <span class="marks">4 marks</span></div>
+    <div class="a">Advantages: reusability, data security, maintainability, real-world modeling, polymorphism. Disadvantages: learning curve, larger/slower programs, not always necessary for small problems (see sections 1.6–1.7).</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q5. What is encapsulation? How is it different from abstraction? <span class="marks">3 marks</span></div>
+    <div class="a"><strong>Encapsulation</strong> is the mechanism (binding data + methods in a class and restricting access via private/protected). <strong>Abstraction</strong> is the concept/goal (hiding unnecessary implementation detail and exposing only what is needed). Encapsulation is often the technique used to achieve abstraction — e.g., a class exposes a <code>public</code> method <code>deposit()</code> while hiding the private balance variable and internal validation logic.</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q6. Differentiate between compile-time and run-time polymorphism. <span class="marks">4 marks</span></div>
+    <div class="a">Compile-time (static) polymorphism is resolved by the compiler before execution — achieved via function overloading and operator overloading; binding is called early/static binding. Run-time (dynamic) polymorphism is resolved during program execution based on the actual object type — achieved via virtual functions; binding is called late/dynamic binding. (Full detail in Chapter 6.)</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q7. Name any four object oriented programming languages and mention one key feature of each. <span class="marks">4 marks</span></div>
+    <div class="a">C++: hybrid language, superset of C. Java: platform independent, purely object oriented (runs on JVM). Python: dynamically typed, multi-paradigm with concise OOP syntax. C#: designed for the .NET framework, similar syntax to Java. (See section 1.5.)</div>
+  </div>
+
+  <div class="qa">
+    <div class="q">Q8. Explain the evolution of programming languages leading to OOP. <span class="marks">4 marks</span></div>
+    <div class="a">Trace: machine language → assembly language → procedural/structured languages (FORTRAN, COBOL, C) → object oriented languages (Simula 67, Smalltalk, C++, Java). Emphasize the driving theme: increasing abstraction and better handling of complexity as software grew larger (see section 1.1).</div>
+  </div>
+
+  <div class="footnav">
+    <span></span>
+    <a href="chapter2.html">Next: Chapter 2 — Basics of C++ Programming →</a>
+  </div>
+</div>
+</body>
+</html>
