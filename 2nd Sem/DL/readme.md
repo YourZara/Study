@@ -2,7 +2,10 @@
 
 Personal revision hub for **Tribhuvan University · IOE · BE (BEI / BCT) · Year I / Part II**.
 
-**Start here:** open [`Index.html`](Index.html) in a browser, or use [`link.html`](link.html) for the full file list.
+**Live site (GitHub Pages):** [yourzara.github.io/Study](https://yourzara.github.io/Study/)  
+**This hub:** […/2nd Sem/DL/Index.html](https://yourzara.github.io/Study/2nd%20Sem/DL/Index.html)
+
+**Start here:** open [`Index.html`](Index.html) locally, or use [`link.html`](link.html) for the full file list.
 
 ---
 
