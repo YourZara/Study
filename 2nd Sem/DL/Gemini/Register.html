@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6: Registers and Counters - IOE BCT Digital Logic</title>
+    <!-- MathJax for TeX rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --primary-dark: #0f172a;
+            --accent: #d97706;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --code-bg: #1e293b;
+            --code-text: #f1f5f9;
+            --success: #16a34a;
+            --warning: #ca8a04;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        #sidebar {
+            width: 280px;
+            background-color: var(--primary-dark);
+            color: #fff;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 1.5rem 1rem;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        #sidebar h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #93c5fd;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        #sidebar ul {
+            list-style: none;
+        }
+
+        #sidebar li {
+            margin-bottom: 0.5rem;
+        }
+
+        #sidebar a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+        }
+
+        #sidebar a:hover, #sidebar a.active {
+            background-color: var(--primary-light);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        #content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 2.5rem 3rem;
+            max-width: 1200px;
+        }
+
+        header.chapter-header {
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        header.chapter-header h1 {
+            font-size: 2.25rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        header.chapter-header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        header.chapter-header .meta-badge {
+            display: inline-block;
+            background-color: #dbeafe;
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+        }
+
+        /* Sections */
+        section {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        section h3 {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Diagrams & SVGs */
+        .diagram-container {
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .diagram-caption {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        svg text {
+            font-family: inherit;
+            font-size: 13px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.925rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Callout Boxes */
+        .note-box {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary-light);
+            padding: 1rem 1.25rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box {
+            background-color: #fefce8;
+            border-left: 4px solid var(--warning);
+            padding: 1rem 1.25rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin: 1.5rem 0;
+        }
+
+        .formula-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin: 1.25rem 0;
+            font-size: 1.1rem;
+        }
+
+        /* Playful / Clear Lists */
+        ul.styled-list, ol.styled-list {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        ul.styled-list li, ol.styled-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            font-family: "Source Code Pro", Consolas, Monaco, monospace;
+            background-color: #f1f5f9;
+            color: #0f172a;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+
+            #sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+
+            #content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar">
+        <h2>IOE BCT Syllabus</h2>
+        <ul>
+            <li><a href="#sec6-1">6.1 Register Fundamentals</a></li>
+            <li><a href="#sec6-2">6.2 Shift Registers (SISO, SIPO, PISO, PIPO)</a></li>
+            <li><a href="#sec6-3">6.3 Data Transfer Timing Diagrams</a></li>
+            <li><a href="#sec6-4">6.4 Asynchronous Counters</a></li>
+            <li><a href="#sec6-5">6.5 Up, Down & Mod-N Asynchronous</a></li>
+            <li><a href="#sec6-6">6.6 Synchronous Counters</a></li>
+            <li><a href="#sec6-7">6.7 Up, Down & Mod-N Synchronous</a></li>
+            <li><a href="#sec6-8">6.8 Register & Counter Applications</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="content">
+        
+        <header class="chapter-header">
+            <h1>Chapter 6: Registers and Counters</h1>
+            <div class="subtitle">Tribhuvan University (TU) - Institute of Engineering (IOE) | BCT 2nd Semester</div>
+            <span class="meta-badge">Teaching Hours: 7 Hours</span>
+        </header>
+
+        <!-- SECTION 6.1 -->
+        <section id="sec6-1">
+            <h2>6.1 Register Fundamentals & Register Types</h2>
+            <p>A <strong>register</strong> is a digital electronic device composed of a group of flip-flops driven by a common clock signal, designed to store and manipulate multi-bit binary data. A single flip-flop can store 1 bit of information. Therefore, an \(N\)-bit register consists of \(N\) flip-flops capable of storing an \(N\)-bit binary word.</p>
+
+            <h3>Basic Operational Characteristics</h3>
+            <p>While basic memory cells hold data statically, registers typically incorporate combinational logic gates to enable operational control such as parallel loading, clear, hold, and bidirectional bit-shifting.</p>
+
+            <div class="formula-box">
+                Storage Capacity of an \(N\)-bit Register = \(N\) bits = \(2^N\) distinct binary states (\(00...0\) to \(11...1\))
+            </div>
+
+            <h3>Classification of Registers</h3>
+            <ul class="styled-list">
+                <li><strong>Storage (Buffer) Registers:</strong> Hold binary data without altering bit positions until overwritten or cleared (e.g., memory buffer registers).</li>
+                <li><strong>Shift Registers:</strong> Possess the ability to move binary data left or right by one bit position per clock edge. Data shift direction depends on control inputs and inter-flip-flop wiring.</li>
+                <li><strong>Universal Shift Registers:</strong> Capable of operating in multiple modes (Parallel Load, Shift Left, Shift Right, Hold) governed by mode-select control lines.</li>
+            </ul>
+
+            <div class="note-box">
+                <strong>Key IOE Exam Concept:</strong> Storage registers accept data simultaneously on all inputs (Parallel Load). Shift registers transfer bits sequentially from one flip-flop to the next adjacent flip-flop upon each active clock pulse transition.
+            </div>
+        </section>
+
+        <!-- SECTION 6.2 -->
+        <section id="sec6-2">
+            <h2>6.2 SISO, SIPO, PISO, and PIPO Registers</h2>
+            <p>Shift registers are classified into four fundamental architectures based on how data is loaded into the register and how data is retrieved from it.</p>
+
+            <!-- 1. SISO -->
+            <h3>1. Serial-In, Serial-Out (SISO) Shift Register</h3>
+            <p>In a SISO shift register, binary data is entered one bit at a time via a single input pin, and extracted one bit at a time from the output pin of the final stage. To shift an \(N\)-bit data word entirely through an \(N\)-bit SISO register, \(N\) clock cycles are required to load, and \(N\) clock cycles are required to read out (Total \(2N - 1\) cycles for full sequence if continuous).</p>
+
+            <div class="diagram-container">
+                <svg width="650" height="150" viewBox="0 0 650 150">
+                    <!-- FF A -->
+                    <rect x="80" y="30" width="70" height="80" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="115" y="50" text-anchor="middle" font-weight="bold">D₀</text>
+                    <text x="115" y="95" text-anchor="middle" font-weight="bold">Q₀</text>
+                    <polygon points="80,95 90,100 80,105" fill="#1e3a8a"/>
+
+                    <!-- FF B -->
+                    <rect x="220" y="30" width="70" height="80" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="255" y="50" text-anchor="middle" font-weight="bold">D₁</text>
+                    <text x="255" y="95" text-anchor="middle" font-weight="bold">Q₁</text>
+                    <polygon points="220,95 230,100 220,105" fill="#1e3a8a"/>
+
+                    <!-- FF C -->
+                    <rect x="360" y="30" width="70" height="80" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="395" y="50" text-anchor="middle" font-weight="bold">D₂</text>
+                    <text x="395" y="95" text-anchor="middle" font-weight="bold">Q₂</text>
+                    <polygon points="360,95 370,100 360,105" fill="#1e3a8a"/>
+
+                    <!-- FF D -->
+                    <rect x="500" y="30" width="70" height="80" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="535" y="50" text-anchor="middle" font-weight="bold">D₃</text>
+                    <text x="535" y="95" text-anchor="middle" font-weight="bold">Q₃</text>
+                    <polygon points="500,95 510,100 500,105" fill="#1e3a8a"/>
+
+                    <!-- Signal Lines -->
+                    <!-- Serial Input -->
+                    <line x1="20" y1="50" x2="80" y2="50" stroke="#3b82f6" stroke-width="2"/>
+                    <polygon points="75,46 83,50 75,54" fill="#3b82f6"/>
+                    <text x="45" y="42" text-anchor="middle" font-weight="bold">Serial In</text>
+
+                    <!-- Inter-stage lines -->
+                    <line x1="150" y1="50" x2="220" y2="50" stroke="#1e3a8a" stroke-width="2"/>
+                    <polygon points="215,46 223,50 215,54" fill="#1e3a8a"/>
+
+                    <line x1="290" y1="50" x2="360" y2="50" stroke="#1e3a8a" stroke-width="2"/>
+                    <polygon points="355,46 363,50 355,54" fill="#1e3a8a"/>
+
+                    <line x1="430" y1="50" x2="500" y2="50" stroke="#1e3a8a" stroke-width="2"/>
+                    <polygon points="495,46 503,50 495,54" fill="#1e3a8a"/>
+
+                    <!-- Serial Output -->
+                    <line x1="570" y1="50" x2="630" y2="50" stroke="#3b82f6" stroke-width="2"/>
+                    <polygon points="625,46 633,50 625,54" fill="#3b82f6"/>
+                    <text x="600" y="42" text-anchor="middle" font-weight="bold">Serial Out</text>
+
+                    <!-- Common CLK Bus -->
+                    <line x1="40" y1="130" x2="520" y2="130" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="80" y1="100" x2="80" y2="130" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="220" y1="100" x2="220" y2="130" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="360" y1="100" x2="360" y2="130" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="500" y1="100" x2="500" y2="130" stroke="#dc2626" stroke-width="2"/>
+                    <text x="20" y="134" font-weight="bold" fill="#dc2626">CLK</text>
+                </svg>
+                <div class="diagram-caption">Figure 6.2a: 4-Bit Serial-In, Serial-Out (SISO) Shift Register Logic Diagram</div>
+            </div>
+
+            <!-- 2. SIPO -->
+            <h3>2. Serial-In, Parallel-Out (SIPO) Shift Register</h3>
+            <p>Data enters serially bit-by-bit just as in SISO. However, all flip-flop outputs (\(Q_0, Q_1, Q_2, Q_3\)) are tapped and made available simultaneously on parallel output lines. Conversion from serial communication to parallel data processing requires \(N\) clock cycles for an \(N\)-bit word.</p>
+
+            <!-- 3. PISO -->
+            <h3>3. Parallel-In, Serial-Out (PISO) Shift Register</h3>
+            <p>Parallel data bits (\(D_0, D_1, D_2, D_3\)) are loaded simultaneously into the flip-flops during a single clock cycle when the \(\text{Shift}/\overline{\text{Load}}\) control signal is LOW. When \(\text{Shift}/\overline{\text{Load}}\) is HIGH, the internal combinational logic connects the output of stage \(n\) to the input of stage \(n+1\), allowing the loaded data to be shifted out serially one bit per clock cycle.</p>
+
+            <div class="diagram-container">
+                <svg width="600" height="180" viewBox="0 0 600 180">
+                    <rect x="50" y="60" width="500" height="70" rx="6" fill="#f8fafc" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="300" y="100" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e3a8a">4-Bit PISO Shift Register Logic Circuit</text>
+                    <!-- Parallel Inputs -->
+                    <line x1="100" y1="10" x2="100" y2="60" stroke="#16a34a" stroke-width="2"/>
+                    <line x1="220" y1="10" x2="220" y2="60" stroke="#16a34a" stroke-width="2"/>
+                    <line x1="340" y1="10" x2="340" y2="60" stroke="#16a34a" stroke-width="2"/>
+                    <line x1="460" y1="10" x2="460" y2="60" stroke="#16a34a" stroke-width="2"/>
+                    <text x="100" y="25" text-anchor="middle" fill="#16a34a" font-weight="bold">D₀</text>
+                    <text x="220" y="25" text-anchor="middle" fill="#16a34a" font-weight="bold">D₁</text>
+                    <text x="340" y="25" text-anchor="middle" fill="#16a34a" font-weight="bold">D₂</text>
+                    <text x="460" y="25" text-anchor="middle" fill="#16a34a" font-weight="bold">D₃</text>
+                    <!-- Control and Output -->
+                    <line x1="10" y1="80" x2="50" y2="80" stroke="#d97706" stroke-width="2"/>
+                    <text x="25" y="75" text-anchor="middle" fill="#d97706" font-size="11" font-weight="bold">Shift/Load</text>
+                    <line x1="550" y1="95" x2="590" y2="95" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="570" y="85" text-anchor="middle" fill="#3b82f6" font-weight="bold">Serial Out</text>
+                </svg>
+                <div class="diagram-caption">Figure 6.2b: Functional Representation of PISO Shift Register with Load/Shift Gating</div>
+            </div>
+
+            <!-- 4. PIPO -->
+            <h3>4. Parallel-In, Parallel-Out (PIPO) Shift Register</h3>
+            <p>Data bits are loaded simultaneously from parallel input lines on an active clock pulse and retrieved immediately on parallel output lines. It operates as a high-speed buffer memory requiring only <strong>1 clock cycle</strong> to store and present data.</p>
+
+            <h3>Comparison Matrix of Register Architectures</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Register Type</th>
+                        <th>Loading Time (Clock Cycles)</th>
+                        <th>Retrieval Time (Clock Cycles)</th>
+                        <th>Primary Application</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SISO</strong></td>
+                        <td>\(N\)</td>
+                        <td>\(N\)</td>
+                        <td>Signal Delay Line, Serial Memory Buffer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SIPO</strong></td>
+                        <td>\(N\)</td>
+                        <td>\(1\)</td>
+                        <td>Serial-to-Parallel Data Conversion (e.g., UART receiver)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PISO</strong></td>
+                        <td>\(1\)</td>
+                        <td>\(N\)</td>
+                        <td>Parallel-to-Serial Data Conversion (e.g., UART transmitter)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PIPO</strong></td>
+                        <td>\(1\)</td>
+                        <td>\(1\)</td>
+                        <td>High-Speed CPU Internal Registers, Data Latches</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SECTION 6.3 -->
+        <section id="sec6-3">
+            <h2>6.3 Data Transfer Timing Diagrams</h2>
+            <p>Timing diagrams illustrate bit shifts across flip-flop stages on successive active clock edges. Consider shifting a 4-bit data stream \(1011_2\) (MSB to LSB order: \(D_3=1, D_2=0, D_1=1, D_0=1\)) into a 4-bit SISO register initially cleared (\(Q_3 Q_2 Q_1 Q_0 = 0000\)).</p>
+
+            <h3>Shift Sequence State Table</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Clock Pulse (CP)</th>
+                        <th>Serial Data In</th>
+                        <th>\(Q_3\) (MSB Stage)</th>
+                        <th>\(Q_2\)</th>
+                        <th>\(Q_1\)</th>
+                        <th>\(Q_0\) (LSB Stage)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Initial State</td>
+                        <td>-</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>CP 1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>CP 2</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>CP 3</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>CP 4</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Waveform Timing Analysis</h3>
+            <div class="diagram-container">
+                <svg width="650" height="260" viewBox="0 0 650 260">
+                    <!-- Grid Lines for Clock Pulses -->
+                    <line x1="120" y1="20" x2="120" y2="230" stroke="#cbd5e1" stroke-dasharray="4"/>
+                    <line x1="220" y1="20" x2="220" y2="230" stroke="#cbd5e1" stroke-dasharray="4"/>
+                    <line x1="320" y1="20" x2="320" y2="230" stroke="#cbd5e1" stroke-dasharray="4"/>
+                    <line x1="420" y1="20" x2="420" y2="230" stroke="#cbd5e1" stroke-dasharray="4"/>
+                    <line x1="520" y1="20" x2="520" y2="230" stroke="#cbd5e1" stroke-dasharray="4"/>
+
+                    <!-- CLK Signal -->
+                    <text x="20" y="45" font-weight="bold">CLK</text>
+                    <path d="M 70,50 L 120,50 L 120,30 L 170,30 L 170,50 L 220,50 L 220,30 L 270,30 L 270,50 L 320,50 L 320,30 L 370,30 L 370,50 L 420,50 L 420,30 L 470,30 L 470,50 L 520,50 L 520,30 L 570,30 L 570,50" fill="none" stroke="#dc2626" stroke-width="2"/>
+
+                    <!-- Serial Data Input -->
+                    <text x="20" y="85" font-weight="bold">Data In</text>
+                    <path d="M 70,90 L 120,90 L 120,70 L 220,70 L 220,70 L 320,90 L 320,90 L 420,70 L 570,70" fill="none" stroke="#16a34a" stroke-width="2"/>
+
+                    <!-- Output Q3 -->
+                    <text x="20" y="125" font-weight="bold">Q₃</text>
+                    <path d="M 70,130 L 120,130 L 120,110 L 320,110 L 320,130 L 420,130 L 420,110 L 570,110" fill="none" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- Output Q2 -->
+                    <text x="20" y="165" font-weight="bold">Q₂</text>
+                    <path d="M 70,170 L 220,170 L 220,150 L 420,150 L 420,170 L 520,170 L 520,150 L 570,150" fill="none" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- Output Q1 -->
+                    <text x="20" y="205" font-weight="bold">Q₁</text>
+                    <path d="M 70,210 L 320,210 L 320,190 L 520,190 L 520,210 L 570,210" fill="none" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- Labels CP -->
+                    <text x="120" y="15" text-anchor="middle" font-size="11" fill="#64748b">CP1</text>
+                    <text x="220" y="15" text-anchor="middle" font-size="11" fill="#64748b">CP2</text>
+                    <text x="320" y="15" text-anchor="middle" font-size="11" fill="#64748b">CP3</text>
+                    <text x="420" y="15" text-anchor="middle" font-size="11" fill="#64748b">CP4</text>
+                </svg>
+                <div class="diagram-caption">Figure 6.3: SISO Timing Diagram Showing Data Propagation Across Stages Q3, Q2, Q1</div>
+            </div>
+        </section>
+
+        <!-- SECTION 6.4 -->
+        <section id="sec6-4">
+            <h2>6.4 Asynchronous (Ripple) Counters</h2>
+            <p>An <strong>asynchronous counter</strong> (commonly called a <em>ripple counter</em>) is a sequential logic circuit where the external clock pulse is directly applied <strong>only to the first (LSB) flip-flop</strong> stage. The output of each flip-flop stage serves as the trigger clock input for the subsequent flip-flop stage.</p>
+
+            <h3>Operating Mechanism and Features</h3>
+            <ul class="styled-list">
+                <li>Flip-flops operate in <strong>toggle mode</strong> (\(T=1\) or \(J=K=1\)).</li>
+                <li>Because clocking propagates like a ripple through a chain of flip-flops, individual stages do not toggle simultaneously.</li>
+                <li><strong>Cumulative Propagation Delay:</strong> If each flip-flop has a propagation delay of \(t_{pd}\), an \(N\)-stage asynchronous counter experiences a total delay of:
+                $$\text{Total Delay } (T_{delay}) = N \times t_{pd}$$
+                </li>
+                <li><strong>Maximum Operating Frequency Limitation:</strong> To avoid counting errors, the input clock period \(T_{clk}\) must satisfy:
+                $$T_{clk} \ge N \times t_{pd} \implies f_{max} = \frac{1}{N \cdot t_{pd}}$$
+                </li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>Glitch Hazard / Spikes:</strong> Due to cumulative propagation delays, temporary invalid decoding states (glitches or decoding spikes) occur during transitions. For example, when transitioning from \(011_2 \to 100_2\), intermediate states such as \(010_2\) or \(000_2\) exist for nanoseconds, which can trigger erroneous logic in external combinational circuits.
+            </div>
+        </section>
+
+        <!-- SECTION 6.5 -->
+        <section id="sec6-5">
+            <h2>6.5 Up, Down, and Mod-N Asynchronous Counters</h2>
+
+            <h3>1. 3-Bit Asynchronous Up Counter</h3>
+            <p>To construct a ripple counter that counts upwards (\(0 \to 1 \to 2 \to \dots \to 2^N-1\)), negative-edge-triggered flip-flops are connected such that the non-inverted output \(Q_n\) of stage \(n\) drives the clock input of stage \(n+1\).</p>
+
+            <div class="diagram-container">
+                <svg width="600" height="150" viewBox="0 0 600 150">
+                    <!-- FF0 -->
+                    <rect x="80" y="30" width="80" height="90" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="120" y="50" text-anchor="middle" font-weight="bold">FF₀ (LSB)</text>
+                    <text x="95" y="75" font-size="11">J=1,K=1</text>
+                    <text x="145" y="75" font-weight="bold">Q₀</text>
+                    <!-- Bubble for Neg Edge -->
+                    <circle cx="80" cy="95" r="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <polygon points="84,92 92,95 84,98" fill="#1e3a8a"/>
+
+                    <!-- FF1 -->
+                    <rect x="250" y="30" width="80" height="90" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="290" y="50" text-anchor="middle" font-weight="bold">FF₁</text>
+                    <text x="265" y="75" font-size="11">J=1,K=1</text>
+                    <text x="315" y="75" font-weight="bold">Q₁</text>
+                    <circle cx="250" cy="95" r="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <polygon points="254,92 262,95 254,98" fill="#1e3a8a"/>
+
+                    <!-- FF2 -->
+                    <rect x="420" y="30" width="80" height="90" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="460" y="50" text-anchor="middle" font-weight="bold">FF₂ (MSB)</text>
+                    <text x="435" y="75" font-size="11">J=1,K=1</text>
+                    <text x="485" y="75" font-weight="bold">Q₂</text>
+                    <circle cx="420" cy="95" r="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <polygon points="424,92 432,95 424,98" fill="#1e3a8a"/>
+
+                    <!-- Connections -->
+                    <line x1="20" y1="95" x2="76" y2="95" stroke="#dc2626" stroke-width="2"/>
+                    <text x="40" y="85" fill="#dc2626" font-weight="bold">CLK</text>
+
+                    <line x1="160" y1="75" x2="200" y2="75" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="200" y1="75" x2="200" y2="95" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="200" y1="95" x2="246" y2="95" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <line x1="330" y1="75" x2="370" y2="75" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="370" y1="75" x2="370" y2="95" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="370" y1="95" x2="416" y2="95" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- Output taps -->
+                    <line x1="160" y1="75" x2="160" y2="20" stroke="#3b82f6" stroke-width="2"/>
+                    <line x1="330" y1="75" x2="330" y2="20" stroke="#3b82f6" stroke-width="2"/>
+                    <line x1="500" y1="75" x2="500" y2="20" stroke="#3b82f6" stroke-width="2"/>
+                    <text x="160" y="15" text-anchor="middle" font-weight="bold" fill="#3b82f6">Q₀</text>
+                    <text x="330" y="15" text-anchor="middle" font-weight="bold" fill="#3b82f6">Q₁</text>
+                    <text x="500" y="15" text-anchor="middle" font-weight="bold" fill="#3b82f6">Q₂</text>
+                </svg>
+                <div class="diagram-caption">Figure 6.5a: 3-Bit Ripple Up Counter using Negative-Edge-Triggered JK Flip-Flops</div>
+            </div>
+
+            <div class="note-box">
+                <strong>Rules for Asynchronous Up/Down Clocking Configuration:</strong>
+                <ul>
+                    <li><strong>Up Counter:</strong> Use Negative Edge Trigger with \(Q\) driving next CLK OR Positive Edge Trigger with \(\overline{Q}\) driving next CLK.</li>
+                    <li><strong>Down Counter:</strong> Use Negative Edge Trigger with \(\overline{Q}\) driving next CLK OR Positive Edge Trigger with \(Q\) driving next CLK.</li>
+                </ul>
+            </div>
+
+            <h3>2. Mod-N Asynchronous Counter (Truncated Sequence)</h3>
+            <p>A Modulo-\(N\) (or Mod-\(N\)) counter resets to 0 after completing \(N\) distinct count states (\(0\) through \(N-1\)). To design a Mod-\(N\) counter from a cascade of flip-flops capable of counting up to \(2^k > N\), active-LOW asynchronous clear (\(\overline{\text{CLR}}\)) inputs are driven by a NAND gate that decodes state \(N\).</p>
+
+            <h4>Example Design: Asynchronous Mod-6 Counter</h4>
+            <p>Count Sequence: \(000_2 (0) \to 001_2 (1) \to 010_2 (2) \to 011_2 (3) \to 100_2 (4) \to 101_2 (5)\). Upon reaching state \(6\) (\(110_2\)), the counter must immediately reset back to \(000_2\).</p>
+
+            <ul class="styled-list">
+                <li>Binary for state 6 (\(N=6\)): \(Q_2 Q_1 Q_0 = 110_2\).</li>
+                <li>NAND Clear Gate Input: Connected to outputs \(Q_2\) and \(Q_1\).</li>
+                <li>Clear Equation: \(\overline{\text{CLR}} = \overline{Q_2 \cdot Q_1}\).</li>
+                <li>When \(Q_2=1\) and \(Q_1=1\), \(\overline{\text{CLR}} = 0\), instantly resetting all flip-flops to \(000\). State 6 exists only momentarily as a narrow transient spike (glitch).</li>
+            </ul>
+
+            <div class="diagram-container">
+                <svg width="550" height="180" viewBox="0 0 550 180">
+                    <!-- FFs -->
+                    <rect x="50" y="30" width="70" height="80" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="85" y="50" text-anchor="middle" font-weight="bold">FF₀</text>
+                    <text x="85" y="100" text-anchor="middle" font-size="10" fill="#dc2626">CLR</text>
+
+                    <rect x="200" y="30" width="70" height="80" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="235" y="50" text-anchor="middle" font-weight="bold">FF₁</text>
+                    <text x="235" y="100" text-anchor="middle" font-size="10" fill="#dc2626">CLR</text>
+
+                    <rect x="350" y="30" width="70" height="80" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="385" y="50" text-anchor="middle" font-weight="bold">FF₂</text>
+                    <text x="385" y="100" text-anchor="middle" font-size="10" fill="#dc2626">CLR</text>
+
+                    <!-- NAND Gate for CLEAR -->
+                    <path d="M 280,140 L 300,140 A 15,15 0 0,0 300,170 L 280,170 Z" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <circle cx="318" cy="155" r="3" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- Wire taps Q1, Q2 to NAND -->
+                    <line x1="250" y1="70" x2="250" y2="145" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="250" y1="145" x2="280" y2="145" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <line x1="400" y1="70" x2="400" y2="165" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="400" y1="165" x2="280" y2="165" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- NAND output to all CLR pins -->
+                    <line x1="321" y1="155" x2="480" y2="155" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="480" y1="155" x2="480" y2="120" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="85" y1="120" x2="480" y2="120" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="85" y1="110" x2="85" y2="120" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="235" y1="110" x2="235" y2="120" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="385" y1="110" x2="385" y2="120" stroke="#dc2626" stroke-width="2"/>
+                </svg>
+                <div class="diagram-caption">Figure 6.5b: Asynchronous Mod-6 Counter with Active-LOW Feedback Clear Logic</div>
+            </div>
+        </section>
+
+        <!-- SECTION 6.6 -->
+        <section id="sec6-6">
+            <h2>6.6 Synchronous Counters</h2>
+            <p>In a <strong>synchronous counter</strong>, all flip-flops are connected to a single common clock signal. Consequently, all flip-flop state changes occur simultaneously at the exact instant of the active clock edge, entirely eliminating the cumulative propagation delays inherent in ripple counters.</p>
+
+            <h3>Comparison: Asynchronous vs. Synchronous Counters</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Asynchronous (Ripple) Counter</th>
+                        <th>Synchronous Counter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Clock Application</strong></td>
+                        <td>Applied only to LSB stage; subsequent stages clocked by prior FF outputs.</td>
+                        <td>Applied simultaneously to all flip-flops.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Propagation Delay</strong></td>
+                        <td>Cumulative (\(T_{delay} = N \cdot t_{pd}\)). Increases linearly with bit count.</td>
+                        <td>Constant (\(T_{delay} = t_{pd} + t_{gate\_delay}\)). Independent of bit length.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maximum Speed</strong></td>
+                        <td>Low operating frequency for high bit widths.</td>
+                        <td>Very high operating frequency capability.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Decoding Glitches</strong></td>
+                        <td>High probability due to intermediate transition delays.</td>
+                        <td>Minimal/Absent; output transitions occur simultaneously.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Design Complexity</strong></td>
+                        <td>Simple wiring, minimal extra combinational logic.</td>
+                        <td>Requires excitation tables, K-maps, and input logic gate arrays.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>General Design Methodology for Synchronous Counters</h3>
+            <ol class="styled-list">
+                <li>Determine the required number of flip-flops \(N\) such that \(2^N \ge \text{Modulo Count}\).</li>
+                <li>Draw the complete <strong>State Transition Diagram</strong> and construct the <strong>State Table</strong> detailing Present States (\(Q_n\)) and Next States (\(Q_{n+1}\)).</li>
+                <li>Utilize the <strong>Excitation Table</strong> of the selected flip-flop (JK, T, or D) to determine required control inputs for every state transition.</li>
+                <li>Construct <strong>Karnaugh Maps (K-maps)</strong> for each flip-flop input variable to simplify logical expressions.</li>
+                <li>Implement the minimized combinational logic functions driving the flip-flop control inputs.</li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6.7 -->
+        <section id="sec6-7">
+            <h2>6.7 Up, Down, and Mod-N Synchronous Counters</h2>
+
+            <h3>Detailed Design Example: 3-Bit Synchronous Up Counter (using JK Flip-Flops)</h3>
+            <p>Count Sequence: \(000_2 \to 001_2 \to 010_2 \to 011_2 \to 100_2 \to 101_2 \to 110_2 \to 111_2 \to 000_2\).</p>
+
+            <h4>Step 1 & 2: State Transition & Excitation Table</h4>
+            <p>Recall JK Flip-Flop Excitation Requirements: \(0\to 0: J=0, K=X\); \(0\to 1: J=1, K=X\); \(1\to 0: J=X, K=1\); \(1\to 1: J=X, K=0\).</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">Present State</th>
+                        <th colspan="3">Next State</th>
+                        <th colspan="2">FF₂ Inputs</th>
+                        <th colspan="2">FF₁ Inputs</th>
+                        <th colspan="2">FF₀ Inputs</th>
+                    </tr>
+                    <tr>
+                        <th>\(Q_2\)</th><th>\(Q_1\)</th><th>\(Q_0\)</th>
+                        <th>\(Q_2^+\)</th><th>\(Q_1^+\)</th><th>\(Q_0^+\)</th>
+                        <th>\(J_2\)</th><th>\(K_2\)</th>
+                        <th>\(J_1\)</th><th>\(K_1\)</th>
+                        <th>\(J_0\)</th><th>\(K_0\)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>X</td><td>0</td><td>X</td><td>1</td><td>X</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>X</td><td>1</td><td>X</td><td>X</td><td>1</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>X</td><td>X</td><td>0</td><td>1</td><td>X</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>X</td><td>X</td><td>1</td><td>X</td><td>1</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>X</td><td>0</td><td>0</td><td>X</td><td>1</td><td>X</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>X</td><td>0</td><td>1</td><td>X</td><td>X</td><td>1</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>X</td><td>0</td><td>X</td><td>0</td><td>1</td><td>X</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>X</td><td>1</td><td>X</td><td>1</td><td>X</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+            <h4>Step 3: K-Map Simplification</h4>
+            <div class="formula-box">
+                $$J_0 = 1, \quad K_0 = 1$$
+                $$J_1 = Q_0, \quad K_1 = Q_0$$
+                $$J_2 = Q_1 \cdot Q_0, \quad K_2 = Q_1 \cdot Q_0$$
+            </div>
+
+            <h4>Step 4: Schematic Circuit Diagram</h4>
+            <div class="diagram-container">
+                <svg width="650" height="200" viewBox="0 0 650 200">
+                    <!-- FF0 -->
+                    <rect x="80" y="40" width="80" height="100" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="120" y="60" text-anchor="middle" font-weight="bold">FF₀</text>
+                    <text x="90" y="85">J₀=1</text>
+                    <text x="90" y="125">K₀=1</text>
+                    <text x="145" y="85" font-weight="bold">Q₀</text>
+
+                    <!-- FF1 -->
+                    <rect x="260" y="40" width="80" height="100" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="300" y="60" text-anchor="middle" font-weight="bold">FF₁</text>
+                    <text x="270" y="85">J₁</text>
+                    <text x="270" y="125">K₁</text>
+                    <text x="325" y="85" font-weight="bold">Q₁</text>
+
+                    <!-- AND Gate for FF2 -->
+                    <path d="M 400,90 L 420,90 A 15,15 0 0,1 420,120 L 400,120 Z" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- FF2 -->
+                    <rect x="480" y="40" width="80" height="100" rx="4" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+                    <text x="520" y="60" text-anchor="middle" font-weight="bold">FF₂</text>
+                    <text x="490" y="85">J₂</text>
+                    <text x="490" y="125">K₂</text>
+                    <text x="545" y="85" font-weight="bold">Q₂</text>
+
+                    <!-- Connections -->
+                    <line x1="160" y1="85" x2="260" y2="85" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="160" y1="85" x2="260" y2="125" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- Connections to AND gate -->
+                    <line x1="200" y1="85" x2="200" y2="95" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="200" y1="95" x2="400" y2="95" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <line x1="340" y1="85" x2="340" y2="115" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="340" y1="115" x2="400" y2="115" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- AND output to J2, K2 -->
+                    <line x1="435" y1="105" x2="480" y2="85" stroke="#1e3a8a" stroke-width="2"/>
+                    <line x1="435" y1="105" x2="480" y2="125" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- Common CLK line -->
+                    <line x1="30" y1="170" x2="520" y2="170" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="120" y1="140" x2="120" y2="170" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="300" y1="140" x2="300" y2="170" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="520" y1="140" x2="520" y2="170" stroke="#dc2626" stroke-width="2"/>
+                    <text x="10" y="174" fill="#dc2626" font-weight="bold">CLK</text>
+                </svg>
+                <div class="diagram-caption">Figure 6.7: 3-Bit Synchronous Up Counter Circuit Schema using Common Clock Line</div>
+            </div>
+
+            <h3>Up/Down Synchronous Counter with Mode Control Lines</h3>
+            <p>An Up/Down counter incorporates a control input \(M\). When \(M=1\), the counter increments; when \(M=0\), it decrements.</p>
+
+            <div class="formula-box">
+                Generalized Excitation Input for Stage \(n\):
+                $$J_n = K_n = (M \cdot Q_{n-1} \cdot \dots \cdot Q_0) + (\overline{M} \cdot \overline{Q_{n-1}} \cdot \dots \cdot \overline{Q_0})$$
+            </div>
+
+            <h3>Lockout Phenomenon and Self-Starting Counters</h3>
+            <p>In Mod-\(N\) synchronous counters where \(N < 2^k\), there exist \(2^k - N\) <strong>unused (unmapped) states</strong>. If noise or power-on transients force the counter into an unused state:</p>
+
+            <ul class="styled-list">
+                <li><strong>Lockout State:</strong> The counter gets trapped in an isolated cycle of unused states and fails to return to the valid counting sequence.</li>
+                <li><strong>Self-Starting Design:</strong> An expertly designed counter guarantees that for every unused state, the next-state logic forces a transition back into a valid state within a finite number of clock cycles.</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 6.8 -->
+        <section id="sec6-8">
+            <h2>6.8 Register and Counter Applications</h2>
+            <p>Shift registers and counters form essential operational building blocks in computer architectures, digital signal processing (DSP), and control units.</p>
+
+            <h3>1. Specialized Shift Register Counters</h3>
+
+            <h4>A. Ring Counter</h4>
+            <p>A circular shift register where the output of the final flip-flop stage (\(Q_N\)) is fed directly back into the input of the first stage (\(D_0\)).</p>
+            <ul class="styled-list">
+                <li>Initial seed value required: \(100...0_2\).</li>
+                <li>Number of valid states for an \(N\)-bit register = \(N\).</li>
+                <li>No external decoding logic required to identify states (directly usable for multi-phase timing clock generation).</li>
+            </ul>
+
+            <h4>B. Johnson (Twisted-Ring) Counter</h4>
+            <p>A modified ring counter where the inverted output of the last stage (\(\overline{Q_N}\)) is connected to the input of the first stage (\(D_0\)).</p>
+            <ul class="styled-list">
+                <li>Number of valid states = \(2N\) for an \(N\)-bit register.</li>
+                <li>Self-cleaning capability can be added with minimal gating. Requires simple 2-input AND gates to decode any individual state.</li>
+            </ul>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric / Property</th>
+                        <th>Standard Ring Counter</th>
+                        <th>Johnson (Twisted Ring) Counter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Feedback Connection</strong></td>
+                        <td>\(D_0 = Q_{N-1}\)</td>
+                        <td>\(D_0 = \overline{Q_{N-1}}\)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Number of States (Modulus)</strong></td>
+                        <td>\(N\)</td>
+                        <td>\(2N\)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Flip-Flop Utilization Efficiency</strong></td>
+                        <td>Low (\(N / 2^N\))</td>
+                        <td>Moderate (\(2N / 2^N\))</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Decoding Gates Needed</strong></td>
+                        <td>None (1-out-of-N decoded outputs)</td>
+                        <td>\(N\) two-input AND gates</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>2. Additional System Applications</h3>
+            <ul class="styled-list">
+                <li><strong>Serial Adder Circuitry:</strong> Employs shift registers to serially feed binary operands into a single 1-bit full adder stage, saving hardware area in resource-constrained systems.</li>
+                <li><strong>Pseudo-Random Binary Sequence (PRBS) Generators:</strong> Utilizes Linear Feedback Shift Registers (LFSRs) with XOR feedback taps to generate white noise and cryptographic keys.</li>
+                <li><strong>Frequency Division:</strong> Mod-\(N\) counters divide input clock frequencies by exactly \(N\), essential for system clock generation and baud rate synthesis.</li>
+                <li><strong>Digital Clocks & Timers:</strong> Cascaded Mod-10 (BCD) and Mod-6 counters format frequency-divided pulses into seconds, minutes, and hours.</li>
+                <li><strong>Analog-to-Digital Conversion (ADC):</strong> Dual-slope and successive-approximation ADCs utilize binary counters to perform voltage-to-time digitization.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <script>
+        // Smooth scrolling active sidebar link highlight
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const link = document.querySelector(`#sidebar a[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('#sidebar a').forEach(a => a.classList.remove('active'));
+                        if (link) link.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>

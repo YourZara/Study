@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Digital Logic Paper 1 – 2083 Baishakh</title><style>:root{color-scheme:light dark;--bg:#fff;--fg:#1b1f23;--mut:#586069;--acc:#0b5cad;--card:#f3f6fa;--bd:#c9d1d9;--ok:#e7f5ea}
+@media(prefers-color-scheme:dark){:root{--bg:#14171a;--fg:#e6e6e6;--mut:#9aa5b1;--acc:#6cb2ff;--card:#1d2227;--bd:#3a424a;--ok:#1b2e21}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Georgia,'Times New Roman',serif}
+main{max-width:940px;margin:auto;padding:14px 14px 40px}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px;font:14px sans-serif}
+nav a{padding:4px 10px;border:1px solid var(--bd);border-radius:14px;color:var(--acc);text-decoration:none}
+header.h{border-bottom:3px double var(--bd);margin-bottom:10px}
+h1{font-size:1.5rem;margin:.2em 0}h2{font-size:1.15rem;margin:0 0 8px;color:var(--acc)}h3{font-size:1rem;margin:14px 0 4px}
+.sub{color:var(--mut);font:14px sans-serif}
+.q{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:16px 0}
+.m{float:right;font:12px sans-serif;background:var(--acc);color:#fff;border-radius:10px;padding:1px 9px;margin-left:8px}
+.ans{background:var(--ok);border-left:4px solid #2e9a4d;padding:6px 12px;margin:8px 0;border-radius:4px}
+.fig{overflow-x:auto;text-align:center;margin:8px 0}.figs{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
+.cap{font:13px sans-serif;color:var(--mut);text-align:center;margin:0 0 8px}
+svg{color:var(--fg);stroke:var(--fg);fill:none;stroke-width:1.4}svg text{fill:var(--fg);stroke:none}svg marker path{fill:var(--fg);stroke:none}
+table.t{border-collapse:collapse;margin:8px auto;font:14px sans-serif;max-width:100%}
+table.t th,table.t td{border:1px solid var(--bd);padding:3px 9px;text-align:center}table.t th{background:var(--bg)}
+table.km{border-collapse:collapse;margin:6px auto;text-align:center;font:14px sans-serif}
+.km td,.km th{border:1px solid var(--bd);width:46px;height:34px;padding:0}.km th{background:var(--bg);font-size:12px}
+.km td{position:relative;font-weight:700}.km sup{position:absolute;left:2px;top:0;font-size:9px;font-weight:400;color:var(--mut)}
+.v1{background:rgba(11,92,173,.2)}.vd{color:var(--mut)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;font:13px sans-serif;margin:8px 0}
+.flow span{border:1.5px solid currentColor;border-radius:6px;padding:6px 9px;text-align:center}.flow i{font-style:normal}
+pre{background:var(--bg);border:1px solid var(--bd);padding:8px;overflow-x:auto;font-size:13px}
+ul,ol{margin:4px 0 4px 20px;padding:0}
+footer{text-align:center;color:var(--mut);font:13px sans-serif;margin-top:24px}
+@media print{nav{display:none}.q{break-inside:avoid;background:none}}
+</style><script>const $=id=>document.getElementById(id);
+const tx=(x,y,t,a)=>`<text x="${x}" y="${y}" text-anchor="${a||'start'}">${t}</text>`;
+const LN=(a,b,c,d)=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`;
+function svg(id,w,h,inner){$(id).innerHTML=`<svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:${w}px;height:auto" font-size="12" font-family="sans-serif"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z"/></marker></defs>${inner}</svg>`}
+const bn=(v,n)=>v.toString(2).padStart(n,'0');
+const mm=(n,ones,dc)=>{dc=dc||[];return Array.from({length:1<<n},(_,i)=>ones.includes(i)?'1':dc.includes(i)?'d':'0').join('')};
+function tbl(id,h,r){$(id).innerHTML='<table class="t"><tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr>'+r.map(x=>'<tr>'+x.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('')+'</table>'}
+function g2b(id,g){let b=g[0];const r=[[1,g[0],'copy MSB',g[0]]];for(let i=1;i<g.length;i++){const v=(+b[i-1])^(+g[i]);r.push([i+1,g[i],`${b[i-1]} ⊕ ${g[i]}`,v]);b+=v}tbl(id,['Bit','Gray','Operation','Binary'],r);return b}
+function b2g(id,b){let g=b[0];const r=[[1,b[0],'copy MSB',b[0]]];for(let i=1;i<b.length;i++){const v=(+b[i-1])^(+b[i]);r.push([i+1,b[i],`${b[i-1]} ⊕ ${b[i]}`,v]);g+=v}tbl(id,['Bit','Binary','Operation','Gray'],r);return g}
+/* K-map: o={rv,cv,m,nr,nc}; m = string of 1/0/d indexed by minterm */
+function kmap(id,o){const g=n=>n==1?['0','1']:['00','01','11','10'],R=g(o.nr||o.rv.length),C=g(o.nc||o.cv.length);
+let h=`<table class="km"><tr><th>${o.rv}\\${o.cv}</th>`+C.map(c=>`<th>${c}</th>`).join('')+'</tr>';
+R.forEach(r=>{h+=`<tr><th>${r}</th>`;C.forEach(c=>{const i=parseInt(r+c,2),v=o.m[i];h+=`<td class="v${v}"><sup>${i}</sup>${v=='d'?'X':v}</td>`});h+='</tr>'});
+$(id).innerHTML=h+'</table>'}
+/* Timing wave: rows [[name,'0101'|'clk']]; index i = value after i-th active edge; neg=true for falling-edge devices */
+function wave(id,rows,neg,pw){pw=pw||34;const n=Math.max(...rows.map(r=>r[1]==='clk'?0:r[1].length)),L=58,rh=36,W=L+n*pw+12,H=rows.length*rh+14,off=neg?-pw/2:0;let s='';
+for(let i=0;i<=n;i++)s+=`<line x1="${L+i*pw}" y1="2" x2="${L+i*pw}" y2="${H-6}" stroke-dasharray="2 4" opacity=".35"/>`;
+rows.forEach(([nm,v],r)=>{const hi=r*rh+8,lo=hi+20;s+=tx(2,hi+15,nm);let d;
+if(v==='clk'){d=`M${L},${lo}`;for(let i=0;i<n;i++){const x=L+i*pw;d+=`V${hi}H${x+pw/2}V${lo}H${x+pw}`}}
+else{const y=i=>v[i]=='1'?hi:lo;d=`M${L},${y(0)}`;for(let i=1;i<v.length;i++)d+=`H${L+i*pw+off}V${y(i)}`;d+=`H${L+n*pw}`}
+s+=`<path d="${d}" stroke-width="1.8"/>`});svg(id,W,H,s)}
+const cnt=(seq,n,names)=>{const r=[['CLK','clk']];for(let b=0;b<n;b++)r.push([names?names[b]:'Q'+b,seq.map(v=>(v>>b)&1).join('')]);return r};
+/* Sum-of-products two-level AND-OR diagram: terms = ["A'C'D","AB'D'"...] */
+function sop(id,o){const t=o.terms.map(a=>typeof a=='string'?a.match(/[A-Za-z][0-9]*'?/g):a),n=t.length;let y=8,G=[],s='';
+t.forEach(a=>{const h=Math.max(30,a.length*15+8);G.push({a,y,h});y+=h+8});
+const H=y,gx=54,gw=36,ox=gx+gw+70,cy=H/2,oh=Math.max(50,Math.min(H-16,n*22)),top=cy-oh/2,bot=cy+oh/2;
+G.forEach(g=>{const k=g.a.length;if(k==1){const yy=g.y+g.h/2;s+=tx(2,yy+4,g.a[0])+LN(28,yy,gx+gw,yy);g.ox=gx+gw;g.oy=yy;return}
+g.a.forEach((l,j)=>{const yy=g.y+(j+1)*g.h/(k+1);s+=tx(2,yy+4,l)+LN(28,yy,gx,yy)});
+s+=`<path d="M${gx},${g.y}H${gx+gw/2}A${gw/2},${g.h/2} 0 0 1 ${gx+gw/2},${g.y+g.h}H${gx}Z"/>`;g.ox=gx+gw;g.oy=g.y+g.h/2});
+if(n==1){s+=LN(G[0].ox,G[0].oy,G[0].ox+40,G[0].oy)+tx(G[0].ox+44,G[0].oy+4,o.out);svg(id,gx+gw+110,H,s);return}
+s+=`<path d="M${ox},${top}Q${ox+16},${cy} ${ox},${bot}Q${ox+44},${bot} ${ox+62},${cy}Q${ox+44},${top} ${ox},${top}Z"/>`;
+G.forEach((g,i)=>{s+=LN(g.ox,g.oy,ox+7,top+(i+1)*oh/(n+1))});
+s+=LN(ox+62,cy,ox+95,cy)+tx(ox+100,cy+4,o.out);svg(id,ox+150,H,s)}
+/* Generic block: o={title,ins,outs,sel,w} */
+function blk(id,o){const I=o.ins||[],O=o.outs||[],Sl=o.sel||[],n=Math.max(I.length,O.length),h=Math.max(n*24+10,64),x=110,w=o.w||90;
+let s=`<rect x="${x}" y="8" width="${w}" height="${h}"/>`+tx(x+w/2,h/2+12,o.title,'middle');
+I.forEach((l,i)=>{const y=8+(i+1)*h/(I.length+1);s+=tx(x-34,y+4,l,'end')+LN(x-30,y,x,y)});
+O.forEach((l,i)=>{const y=8+(i+1)*h/(O.length+1);s+=LN(x+w,y,x+w+30,y)+tx(x+w+34,y+4,l)});
+Sl.forEach((l,i)=>{const xx=x+(i+1)*w/(Sl.length+1);s+=LN(xx,h+8,xx,h+30)+tx(xx,h+44,l,'middle')});
+svg(id,x+w+110,h+52,s)}
+/* Flip-flop chain: o={n,names,pin,in,out,clk:'ext'|'Q'|'Qb',neg,mux,fb,tl:[[lines]..]} */
+function ff(id,o){const n=o.n,nm=o.names,X=i=>(o.mux?150:110)+i*(o.mux?130:115),w=46,h=70,tl=o.tl||[],ml=Math.max(0,...tl.map(a=>a.length)),y=42+ml*14,cy=y+h+24;let s='';
+const ext=o.clk!=='Q'&&o.clk!=='Qb',clkp=(x)=>o.neg?`H${x-7.5}`:`H${x}`;
+for(let i=0;i<n;i++){const x=X(i),px=X(i-1);
+s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}"/>`+tx(x+w/2,y-6,'FF-'+nm[i],'middle')+tx(x+5,y+26,o.pin||'D')+tx(x+w-5,y+26,'Q','end')+tx(x+w-5,y+62,"Q'",'end')+`<path d="M${x},${y+52}l8,6l-8,6"/>`;
+if(o.neg)s+=`<circle cx="${x-4}" cy="${y+58}" r="3.5"/>`;
+(tl[i]||[]).forEach((l,k)=>s+=tx(x+w/2,y-20-k*14,l,'middle'));
+if(o.mux){s+=`<rect x="${x-44}" y="${y+2}" width="24" height="44"/>`+tx(x-32,y+28,'M','middle')+LN(x-20,y+22,x,y+22)+tx(x-52,y-6,'P'+nm[i],'middle')+`<path d="M${x-52},${y-2}V${y+12}H${x-44}"/>`;
+s+=i?`<path d="M${px+w},${y+22}H${x-58}V${y+32}H${x-44}"/>`:LN(x-70,y+32,x-44,y+32)+tx(x-74,y+36,'0','end')}
+else if(i>0&&o.chain!==false)s+=`<path d="M${px+w},${y+22}H${x}" marker-end="url(#ar)"/>`;
+if(i==0&&o.in&&!o.mux)s+=`<path d="M${x-60},${y+22}H${x}" marker-end="url(#ar)"/>`+tx(x-64,y+26,o.in,'end');
+if(ext)s+=`<path d="M${x-12},${cy}V${y+58}${clkp(x)}"/>`;
+else if(i==0)s+=`<path d="M${x-40},${cy}H${x-12}V${y+58}${clkp(x)}"/>`;
+else{const py=o.clk==='Q'?y+22:y+58;s+=`<path d="M${px+w},${py}H${px+w+10}V${cy}H${x-12}V${y+58}${clkp(x)}"/>`}}
+if(ext)s+=LN(X(0)-40,cy,X(n-1)-12,cy);
+s+=tx(X(0)-44,cy+4,'CLK','end');
+const xl=X(n-1);
+if(o.fb)s+=`<path d="M${xl+w},${y+58}H${xl+w+18}V${y-30}H${X(0)-30}V${y+22}H${X(0)}" marker-end="url(#ar)"/>`;
+if(o.out)s+=`<path d="M${xl+w},${y+22}H${xl+w+40}" marker-end="url(#ar)"/>`+tx(xl+w+44,y+26,o.out);
+svg(id,xl+w+(o.out?110:60),cy+14,s)}
+/* State diagram: names, edges [from,to,label] */
+function sd(id,names,E){const N=names.length,X=i=>60+i*150,y=100,r=26;let s='';
+names.forEach((nm,i)=>{s+=`<circle cx="${X(i)}" cy="${y}" r="${r}"/>`+tx(X(i),y+4,nm,'middle')});
+E.forEach(([a,b,l])=>{const xa=X(a),xb=X(b);
+if(a==b){s+=`<path d="M${xa-14},${y-22}C${xa-44},${y-78} ${xa+44},${y-78} ${xa+14},${y-22}" marker-end="url(#ar)"/>`+tx(xa,y-70,l,'middle');return}
+const f=b>a,d=Math.abs(b-a),sg=f?-1:1,h=22+d*22,x1=xa+(f?16:-16),x2=xb+(f?-16:16),y0=y+sg*18;
+s+=`<path d="M${x1},${y0}Q${(x1+x2)/2},${y0+sg*2*h} ${x2},${y0}" marker-end="url(#ar)"/>`+tx((x1+x2)/2,y0+sg*(h+6),l,'middle')});
+svg(id,60+N*150,200,s)}
+/* De Morgan gate figures: t=1 (AB)'=A'+B' ; t=2 (A+B)'=A'B' */
+function dm(id,t){const A=(x,y)=>`<path d="M${x},${y}h16a20,20 0 0 1 0,40h-16z"/>`,O=(x,y)=>`<path d="M${x},${y}q12,20 0,40q28,0 42,-20q-14,-20 -42,-20z"/>`,b=(x,y)=>`<circle cx="${x}" cy="${y}" r="4"/>`;
+const G1=t==1?A:O,G2=t==1?O:A,re=t==1?106:112;let s=tx(64,24,'A','end')+tx(64,44,'B','end')+LN(68,20,70,20)+LN(68,40,70,40);
+s+=G1(70,10)+b(re+4,30)+LN(re+8,30,re+40,30)+tx(re+44,34,'Y');
+s+=tx(190,34,'≡','middle')+tx(226,24,'A','end')+tx(226,44,'B','end')+LN(230,20,262,20)+LN(230,40,262,40)+b(266,20)+b(266,40)+LN(270,20,276,20)+LN(270,40,276,40);
+const re2=276+(t==1?42:36);s+=G2(276,10)+LN(re2,30,re2+40,30)+tx(re2+44,34,'Y');svg(id,re2+80,60,s)}
+/* Universal gate constructions */
+function univ(id,g){const G=(x,y)=>`<rect x="${x}" y="${y}" width="50" height="40"/>`+tx(x+25,y+24,g,'middle'),N=g=='NAND';let s='',y0=0;
+s+=tx(0,y0+34,'NOT')+tx(72,y0+34,'A','end')+LN(76,y0+30,100,y0+30)+LN(100,y0+22,100,y0+38)+LN(100,y0+22,120,y0+22)+LN(100,y0+38,120,y0+38)+G(120,y0+10)+LN(170,y0+30,230,y0+30)+tx(234,y0+34,"A'");
+y0=70;s+=tx(0,y0+34,N?'AND':'OR')+tx(72,y0+26,'A','end')+tx(72,y0+42,'B','end')+LN(76,y0+22,120,y0+22)+LN(76,y0+38,120,y0+38)+G(120,y0+10)+LN(170,y0+30,190,y0+30)+LN(190,y0+22,190,y0+38)+LN(190,y0+22,210,y0+22)+LN(190,y0+38,210,y0+38)+G(210,y0+10)+LN(260,y0+30,320,y0+30)+tx(324,y0+34,N?'AB':'A+B');
+y0=140;s+=tx(0,y0+34,N?'OR':'AND')+tx(72,y0+24,'A','end')+LN(76,y0+20,100,y0+20)+LN(100,y0+12,100,y0+28)+LN(100,y0+12,120,y0+12)+LN(100,y0+28,120,y0+28)+G(120,y0)+tx(72,y0+74,'B','end')+LN(76,y0+70,100,y0+70)+LN(100,y0+62,100,y0+78)+LN(100,y0+62,120,y0+62)+LN(100,y0+78,120,y0+78)+G(120,y0+50)
++LN(170,y0+20,190,y0+20)+LN(190,y0+20,190,y0+37)+LN(190,y0+37,210,y0+37)+LN(170,y0+70,190,y0+70)+LN(190,y0+70,190,y0+53)+LN(190,y0+53,210,y0+53)+G(210,y0+25)+LN(260,y0+45,320,y0+45)+tx(324,y0+49,N?'A+B':'AB')+tx(176,y0+14,"A'")+tx(176,y0+64,"B'");
+svg(id,400,235,s)}
+</script></head><body><main><nav><a href="index.html">Index</a><a href="paper1.html" style="background:var(--acc);color:#fff">Paper 1 · 2083 Baishakh</a><a href="paper2.html">Paper 2 · 2082 Bhadra</a><a href="paper3.html">Paper 3 · 2082 Baishakh</a><a href="paper4.html">Paper 4 · 2081 Ashwin</a></nav><header class="h"><h1>Digital Logic (ENEX 152) – Model Answers · Paper 1</h1><div class="sub">Tribhuvan University, IOE · BE (BEI, BCT) · Year I / Part II · Back (New Course) · 2083 Baishakh · Full Marks 60 · Pass 24 · 3 hrs</div></header><section class="q"><h2>1. Convert Gray codes to binary <span class="m">[2+2]</span></h2>
+<p><b>Rule:</b> MSB of binary = MSB of Gray. Every next binary bit = (previous <i>binary</i> bit) ⊕ (present Gray bit).</p>
+<h3>(a) (10011)<sub>Gray</sub></h3><div id="a1"></div><div class="ans">(10011)<sub>Gray</sub> = (11101)<sub>2</sub></div>
+<h3>(b) (110001)<sub>Gray</sub></h3><div id="a2"></div><div class="ans">(110001)<sub>Gray</sub> = (100001)<sub>2</sub></div>
+<script>g2b('a1','10011');g2b('a2','110001')</script></section>
+
+<section class="q"><h2>2. Analog vs digital signal; 159 → excess-3 <span class="m">[1+2]</span></h2>
+<table class="t"><tr><th>Analog signal</th><th>Digital signal</th></tr>
+<tr><td>Continuous in time and amplitude</td><td>Discrete; only two levels (0 and 1)</td></tr>
+<tr><td>Infinite possible values</td><td>Finite set of values</td></tr>
+<tr><td>Easily affected by noise; accuracy degrades</td><td>Noise-immune; easily regenerated</td></tr>
+<tr><td>Hard to store/process</td><td>Easy to store, process, transmit</td></tr>
+<tr><td>e.g. sine wave, speech from a microphone</td><td>e.g. output of a computer, clock pulses</td></tr></table>
+<p><b>Excess-3 code:</b> add 3 to each decimal digit, then write the 4-bit binary of the result.</p>
+<table class="t"><tr><th>Digit</th><th>+3</th><th>Excess-3</th></tr><tr><td>1</td><td>4</td><td>0100</td></tr><tr><td>5</td><td>8</td><td>1000</td></tr><tr><td>9</td><td>12</td><td>1100</td></tr></table>
+<div class="ans">(159)<sub>10</sub> = (0100 1000 1100)<sub>XS-3</sub></div></section>
+
+<section class="q"><h2>3. NAND and NOR are universal gates <span class="m">[3]</span></h2>
+<p>A gate is universal if NOT, AND and OR (a complete set) can be built from it alone.</p>
+<h3>NAND as universal gate</h3>
+<ul><li>NOT: (A·A)' = A'</li><li>AND: ((A·B)')' = A·B (NAND followed by NAND used as NOT)</li><li>OR: (A'·B')' = A + B (De Morgan)</li></ul>
+<div class="fig" id="u1"></div>
+<h3>NOR as universal gate</h3>
+<ul><li>NOT: (A+A)' = A'</li><li>OR: ((A+B)')' = A+B</li><li>AND: (A'+B')' = A·B (De Morgan)</li></ul>
+<div class="fig" id="u2"></div>
+<p>Hence any Boolean function can be realized with NAND gates only or NOR gates only. ∎</p>
+<script>univ('u1','NAND');univ('u2','NOR')</script></section>
+
+<section class="q"><h2>4. Minimize F(A,B,C,D) = Σm(1,2,4,5,6,8,10,11,13,15) using K-map and realize <span class="m">[5]</span></h2>
+<div id="k4"></div>
+<p>The map has no group of 4 or more (checked all quads), so only pairs are possible. Pairs used:</p>
+<ul><li>m1,m5 → A'C'D (m1 is covered only by this pair → essential)</li><li>m8,m10 → AB'D' (wrap-around; essential)</li><li>m11,m15 → ACD</li><li>m5,m13 → BC'D</li><li>m4,m6 → A'BD' (wrap-around)</li><li>m2,m6 → A'CD'</li></ul>
+<p>Cover check: 1,5 | 8,10 | 11,15 | 5,13 | 4,6 | 2,6 → all ten minterms covered. (m4 has no partner left except m5/m6, so at least 6 terms are needed.)</p>
+<div class="ans">F = A'C'D + AB'D' + ACD + BC'D + A'BD' + A'CD'</div>
+<p><b>Realization (AND–OR, 6 three-input AND gates, one 6-input OR gate, 4 NOT gates for A', C', B', D'):</b></p>
+<div class="fig" id="s4"></div><p class="cap">Fig: two-level AND–OR realization of F (can equally be built with NAND gates only).</p>
+<script>kmap('k4',{rv:'AB',cv:'CD',m:mm(4,[1,2,4,5,6,8,10,11,13,15])});sop('s4',{out:'F',terms:["A'C'D","AB'D'","ACD","BC'D","A'BD'","A'CD'"]})</script></section>
+
+<section class="q"><h2>5. Encoder vs decoder; octal-to-binary encoder <span class="m">[2+4]</span></h2>
+<table class="t"><tr><th></th><th>Encoder</th><th>Decoder</th></tr>
+<tr><td>Function</td><td>Converts an active input line into a binary code</td><td>Converts a binary code into one active output line</td></tr>
+<tr><td>Lines</td><td>2<sup>n</sup> inputs → n outputs</td><td>n inputs → 2<sup>n</sup> outputs</td></tr>
+<tr><td>Built with</td><td>OR gates</td><td>AND (or NAND) gates</td></tr>
+<tr><td>Example</td><td>8:3 encoder</td><td>3:8 decoder</td></tr></table>
+<h3>Octal-to-binary (8:3) encoder</h3>
+<p>Eight inputs D0–D7 (only one high at a time), three outputs Y2 Y1 Y0.</p>
+<div id="e5"></div>
+<p>From the table: <b>Y2 = D4+D5+D6+D7, Y1 = D2+D3+D6+D7, Y0 = D1+D3+D5+D7</b> (D0 needs no gate; all outputs 0 for D0).</p>
+<div class="figs"><div id="e5a"></div><div id="e5b"></div><div id="e5c"></div></div><div id="e5d"></div>
+<p class="cap">Fig: octal-to-binary encoder – three 4-input OR gates.</p>
+<script>tbl('e5',['D7','D6','D5','D4','D3','D2','D1','D0','Y2','Y1','Y0'],[...Array(8)].map((_,i)=>{const r=[];for(let k=7;k>=0;k--)r.push(k==i?1:0);return r.concat(bn(i,3).split(''))}));
+sop('e5a',{out:'Y2',terms:['D4','D5','D6','D7'].map(x=>[x])});sop('e5b',{out:'Y1',terms:['D2','D3','D6','D7'].map(x=>[x])});sop('e5c',{out:'Y0',terms:['D1','D3','D5','D7'].map(x=>[x])});
+blk('e5d',{title:'8:3 Encoder',ins:['D0','D1','D2','D3','D4','D5','D6','D7'],outs:['Y2','Y1','Y0']})</script></section>
+
+<section class="q"><h2>6. Full subtractor using multiplexer <span class="m">[4]</span></h2>
+<p>Inputs A (minuend), B (subtrahend), Bin (borrow in). D = A⊕B⊕Bin, Bout = A'B + A'Bin + B·Bin.</p>
+<div id="s6"></div>
+<p>Use two 4:1 MUX with select lines S1 = A, S0 = B; the data inputs are read off the table for each AB pair (function of Bin):</p>
+<table class="t"><tr><th>AB</th><th>D (MUX-1)</th><th>Bout (MUX-2)</th></tr><tr><td>00 → I0</td><td>Bin</td><td>Bin</td></tr><tr><td>01 → I1</td><td>Bin'</td><td>1</td></tr><tr><td>10 → I2</td><td>Bin'</td><td>0</td></tr><tr><td>11 → I3</td><td>Bin</td><td>Bin</td></tr></table>
+<div class="figs"><div id="s6a"></div><div id="s6b"></div></div><p class="cap">Fig: full subtractor with two 4:1 MUX and one NOT gate (Bin' generated by an inverter).</p>
+<script>tbl('s6',['A','B','Bin','D','Bout'],[...Array(8)].map((_,i)=>{const a=i>>2,b=(i>>1)&1,c=i&1;return [a,b,c,a^b^c,(!a&&b)||(!a&&c)||(b&&c)?1:0]}));
+blk('s6a',{title:'4:1 MUX-1',ins:["I0 = Bin","I1 = Bin'","I2 = Bin'","I3 = Bin"],outs:['D'],sel:['S1=A','S0=B']});
+blk('s6b',{title:'4:1 MUX-2',ins:["I0 = Bin","I1 = 1","I2 = 0","I3 = Bin"],outs:['Bout'],sel:['S1=A','S0=B']})</script></section>
+
+<section class="q"><h2>7. Latch vs flip-flop; convert D flip-flop into JK flip-flop <span class="m">[2+5]</span></h2>
+<table class="t"><tr><th>Latch</th><th>Flip-flop</th></tr><tr><td>Level-sensitive (transparent while enable = 1)</td><td>Edge-triggered (changes only at clock edge)</td></tr><tr><td>Output may change several times during enable</td><td>Output changes once per clock edge</td></tr><tr><td>Single stage, simpler</td><td>Usually two latches (master–slave)</td></tr><tr><td>Race-around problem possible</td><td>Race-around avoided</td></tr></table>
+<h3>D flip-flop → JK flip-flop</h3>
+<p><b>Step 1:</b> D FF: Q<sub>n+1</sub> = D, so the required D = Q<sub>n+1</sub>. <b>Step 2:</b> conversion table (JK is the new input, D is the FF input to be found).</p>
+<div id="d7"></div>
+<p><b>Step 3:</b> K-map for D (variables J, K, Q).</p><div id="k7"></div>
+<div class="ans">D = JQ' + K'Q</div>
+<p><b>Step 4:</b> circuit – two AND gates and one OR gate in front of the D flip-flop, with Q and Q' fed back.</p>
+<div class="figs"><div id="c7"></div><div id="c7b"></div></div><p class="cap">Fig: JK flip-flop built from a D flip-flop (D input generated by the logic on the left).</p>
+<script>tbl('d7',['J','K','Q<sub>n</sub>','Q<sub>n+1</sub>','D'],[...Array(8)].map((_,i)=>{const j=i>>2,k=(i>>1)&1,q=i&1,n=(j&&!q)||(!k&&q)?1:0;return [j,k,q,n,n]}));
+kmap('k7',{rv:'J',cv:'KQ',m:mm(3,[1,4,5,6])});sop('c7',{out:'D',terms:["JQ'","K'Q"]});
+blk('c7b',{title:'D FF',ins:['D','CLK'],outs:['Q',"Q'"]})</script></section>
+
+<section class="q"><h2>8. 4-bit SIPO shift register – data 1010 <span class="m">[5]</span></h2>
+<p><b>Working:</b> four D flip-flops (A, B, C, D) share one clock. Serial data enters FF-A; on every clock edge each FF copies the output of the FF before it (Q<sub>A</sub>→D<sub>B</sub>, Q<sub>B</sub>→D<sub>C</sub>, Q<sub>C</sub>→D<sub>D</sub>). After 4 clock pulses all 4 bits are available together at Q<sub>A</sub>Q<sub>B</sub>Q<sub>C</sub>Q<sub>D</sub> (parallel output). Data is applied MSB first (1,0,1,0) at positive-edge clock; initially all FFs are cleared.</p>
+<div class="fig" id="f8"></div><p class="cap">Fig: 4-bit SIPO shift register. Parallel outputs Q<sub>A</sub>, Q<sub>B</sub>, Q<sub>C</sub>, Q<sub>D</sub>.</p>
+<div id="t8"></div>
+<p>After the 4th pulse Q<sub>D</sub>Q<sub>C</sub>Q<sub>B</sub>Q<sub>A</sub> = 1010 (the first bit entered has travelled to FF-D).</p>
+<div class="fig" id="w8"></div><p class="cap">Fig: timing diagram (outputs change at the rising clock edge).</p>
+<script>ff('f8',{n:4,names:['A','B','C','D'],in:'Din'});
+tbl('t8',['Clock pulse','Din','Q<sub>A</sub>','Q<sub>B</sub>','Q<sub>C</sub>','Q<sub>D</sub>'],[[0,'–',0,0,0,0],[1,1,1,0,0,0],[2,0,0,1,0,0],[3,1,1,0,1,0],[4,0,0,1,0,1]]);
+wave('w8',[['CLK','clk'],['Din','10100'],['Q<sub>A</sub>'.replace(/<\/?sub>/g,''),'01010'],['QB','00101'],['QC','00010'],['QD','00001']])</script></section>
+
+<section class="q"><h2>9. Asynchronous BCD (decade) counter <span class="m">[5]</span></h2>
+<p><b>Principle:</b> a 4-bit ripple (asynchronous) counter counts 0000 to 1111. To make it a decade counter it is forced to clear as soon as it tries to reach 1010 (decimal 10). Four JK flip-flops are used with J = K = 1 (toggle mode), negative-edge triggered. The external clock drives FF-Q0; the output of each FF clocks the next one.</p>
+<p>A 2-input NAND gate takes Q3 and Q1 (the first state in which both are 1 is 1010) and its output is connected to the active-low asynchronous CLEAR of all FFs. When the count reaches 1010 the NAND output goes low, all FFs are cleared instantly to 0000 and the count restarts. State 1010 exists only for a few nanoseconds (a glitch).</p>
+<div class="fig" id="f9"></div><p class="cap">Fig: FF chain, J=K=1, clock of each FF taken from Q of the previous FF; NAND(Q3,Q1) → CLR of all four FFs.</p>
+<div id="t9"></div>
+<div class="fig" id="w9"></div><p class="cap">Fig: timing diagram of the decade counter (count 0 to 9, then reset). Q0 toggles on every falling clock edge, Q1 on the falling edge of Q0, Q2 on that of Q1, Q3 on that of Q2. At the 10th falling edge Q3Q1 = 11 → reset → 0000.</p>
+<p>The counter divides the clock frequency by 10 (mod-10).</p>
+<script>ff('f9',{n:4,names:['0','1','2','3'],pin:'JK',clk:'Q',neg:true});
+tbl('t9',['Clock','Q3','Q2','Q1','Q0'],[...Array(11)].map((_,i)=>{const v=i%10;return [i,...bn(v,4).split('')].map((x,k)=>i==10&&k?'0*':x)}));
+wave('w9',cnt([0,1,2,3,4,5,6,7,8,9,0],4),true)</script><p class="cap">* 1010 appears momentarily and is cleared immediately.</p></section>
+
+<section class="q"><h2>10. Synchronous mod-10 up counter using T flip-flops, with timing diagram <span class="m">[7]</span></h2>
+<p><b>Step 1 – State and excitation table.</b> Four T flip-flops (Q3Q2Q1Q0) count 0000→1001→0000; states 1010–1111 are unused (don't care). For a T FF: T = Q<sub>n</sub> ⊕ Q<sub>n+1</sub> (T = 1 when the bit must change).</p>
+<div id="t10"></div>
+<p><b>Step 2 – K-maps</b> (unused states 10–15 = X).</p>
+<div class="figs"><div><div id="k10a"></div><p class="cap">T1 = Q0·Q3'</p></div><div><div id="k10b"></div><p class="cap">T2 = Q0·Q1</p></div><div><div id="k10c"></div><p class="cap">T3 = Q0Q1Q2 + Q0Q3</p></div></div>
+<div class="ans">T0 = 1, T1 = Q0Q3', T2 = Q0Q1, T3 = Q0Q1Q2 + Q0Q3</div>
+<p><b>Step 3 – Logic diagram.</b> All flip-flops receive the same clock.</p>
+<div class="fig" id="f10"></div>
+<div class="figs"><div id="g10a"></div><div id="g10b"></div><div id="g10c"></div></div><p class="cap">Fig: mod-10 synchronous counter (T inputs from the gate networks shown).</p>
+<div class="fig" id="w10"></div><p class="cap">Fig: timing diagram (positive-edge clock). Q0 has f/2, Q1 ≈ f/4 (except at the end), Q3 goes high at count 8 and returns to 0 at count 10; the cycle repeats every 10 clock pulses.</p>
+<script>const nx=i=>(i+1)%10;const tb=[...Array(10)].map((_,i)=>{const a=i,b=nx(i);return [...bn(a,4).split(''),...bn(b,4).split(''),...bn(a^b,4).split('')]});
+tbl('t10',['Q3','Q2','Q1','Q0','Q3+','Q2+','Q1+','Q0+','T3','T2','T1','T0'],tb);
+const tm=k=>Array.from({length:16},(_,i)=>i>9?'d':(((i^nx(i))>>k)&1)).join('');
+kmap('k10a',{rv:'Q3Q2',cv:'Q1Q0',nr:2,nc:2,m:tm(1)});kmap('k10b',{rv:'Q3Q2',cv:'Q1Q0',nr:2,nc:2,m:tm(2)});kmap('k10c',{rv:'Q3Q2',cv:'Q1Q0',nr:2,nc:2,m:tm(3)});
+ff('f10',{n:4,names:['0','1','2','3'],pin:'T',tl:[['T0=1'],["T1=Q0Q3'"],['T2=Q0Q1'],['T3=Q0Q1Q2+Q0Q3']]});
+sop('g10a',{out:'T1',terms:["Q0Q3'"]});sop('g10b',{out:'T2',terms:['Q0Q1']});sop('g10c',{out:'T3',terms:['Q0Q1Q2','Q0Q3']});
+wave('w10',cnt([0,1,2,3,4,5,6,7,8,9,0],4))</script></section>
+
+<section class="q"><h2>11. Sequence detector for 011 using T flip-flops <span class="m">[7]</span></h2>
+<p><b>Assumptions:</b> Mealy machine, overlapping detection allowed. Z = 1 when the last three inputs are 0,1,1.</p>
+<h3>Step 1 – State diagram</h3>
+<p>S0: nothing useful received (reset). S1: last bit is 0. S2: last two bits are 01.</p>
+<div class="fig" id="sd11"></div><p class="cap">Fig: state diagram (edge label = X/Z).</p>
+<h3>Step 2 – State table and excitation (state code S0 = 00, S1 = 01, S2 = 10; A = MSB; 11 unused)</h3>
+<div id="t11"></div>
+<h3>Step 3 – K-maps (variables A, B, X)</h3>
+<div class="figs"><div><div id="k11a"></div><p class="cap">T<sub>A</sub> = A + BX</p></div><div><div id="k11b"></div><p class="cap">T<sub>B</sub> = B'X' + BX</p></div><div><div id="k11c"></div><p class="cap">Z = AX</p></div></div>
+<div class="ans">T<sub>A</sub> = A + BX, T<sub>B</sub> = B'X' + BX (= (B⊕X)'), Z = AX</div>
+<h3>Step 4 – Circuit</h3>
+<div class="fig" id="f11"></div><div class="figs"><div id="g11a"></div><div id="g11b"></div><div id="g11c"></div></div><p class="cap">Fig: 011 detector – two T flip-flops with common clock; X is the serial input.</p>
+<script>sd('sd11',['S0<tspan x="60" dy="0"></tspan>','S1','S2'].map((s,i)=>'S'+i),[[0,0,'1/0'],[0,1,'0/0'],[1,1,'0/0'],[1,2,'1/0'],[2,1,'0/0'],[2,0,'1/1']]);
+tbl('t11',['Present AB','X','Next A+B+','Z','T<sub>A</sub>','T<sub>B</sub>'],[['00',0,'01',0,0,1],['00',1,'00',0,0,0],['01',0,'01',0,0,0],['01',1,'10',0,1,1],['10',0,'01',0,1,1],['10',1,'00',1,1,0],['11','x','xx','x','x','x']]);
+kmap('k11a',{rv:'A',cv:'BX',m:'000111dd'});kmap('k11b',{rv:'A',cv:'BX',m:'100110dd'});kmap('k11c',{rv:'A',cv:'BX',m:'000001dd'});
+ff('f11',{n:2,names:['A','B'],pin:'T',tl:[['T_A = A+BX'],["T_B = B'X'+BX"]]});
+sop('g11a',{out:'T_A',terms:['A','BX']});sop('g11b',{out:'T_B',terms:["B'X'",'BX']});sop('g11c',{out:'Z',terms:['AX']})</script></section>
+
+<section class="q"><h2>12. Main characteristics of digital logic families <span class="m">[4]</span></h2>
+<ol><li><b>Propagation delay (t<sub>pd</sub>):</b> average time for a change at the input to appear at the output; measures speed.</li>
+<li><b>Power dissipation:</b> power consumed by a gate (static + dynamic); lower is better.</li>
+<li><b>Speed–power product:</b> t<sub>pd</sub> × P; figure of merit (pJ) – smaller is better.</li>
+<li><b>Fan-in:</b> maximum number of inputs a gate can have.</li>
+<li><b>Fan-out:</b> maximum number of similar gate inputs a gate output can drive without leaving the valid logic levels.</li>
+<li><b>Noise margin:</b> maximum noise voltage tolerated without wrong output: NM<sub>H</sub> = V<sub>OH(min)</sub> − V<sub>IH(min)</sub>, NM<sub>L</sub> = V<sub>IL(max)</sub> − V<sub>OL(max)</sub>.</li>
+<li><b>Voltage levels:</b> V<sub>IH</sub>, V<sub>IL</sub>, V<sub>OH</sub>, V<sub>OL</sub> and supply voltage V<sub>CC</sub>/V<sub>DD</sub>.</li>
+<li><b>Current parameters:</b> I<sub>IH</sub>, I<sub>IL</sub>, I<sub>OH</sub>, I<sub>OL</sub>. Others: operating temperature range, cost, and output type (totem-pole, open-collector, tri-state).</li></ol>
+<table class="t"><tr><th>Typical value</th><th>TTL (74)</th><th>CMOS (74HC)</th><th>ECL</th></tr><tr><td>Supply</td><td>5 V</td><td>2–6 V</td><td>−5.2 V</td></tr><tr><td>t<sub>pd</sub></td><td>10 ns</td><td>8 ns</td><td>1–2 ns</td></tr><tr><td>Power / gate</td><td>10 mW</td><td>≈ µW (static)</td><td>25 mW</td></tr><tr><td>Fan-out</td><td>10</td><td>&gt; 50</td><td>25</td></tr><tr><td>Noise margin</td><td>0.4 V</td><td>≈ 30–45 % V<sub>DD</sub></td><td>0.25 V</td></tr></table></section>
+<footer>Attempt all questions · figures in the margin indicate full marks · answers written for full-mark presentation</footer></main></body></html>

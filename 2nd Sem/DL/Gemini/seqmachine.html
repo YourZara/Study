@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 7: Sequential Machine Designs - Digital Logic</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --accent-blue: #38bdf8;
+            --accent-purple: #c084fc;
+            --accent-green: #4ade80;
+            --accent-amber: #fbbf24;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --code-bg: #090d16;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            border: 1px solid #4338ca;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #a5b4fc;
+            font-size: 1.1rem;
+        }
+
+        .meta-info {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 6px 14px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #c7d2fe;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+        }
+
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .toc h3 {
+            color: var(--accent-blue);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+        }
+
+        .toc a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--accent-blue);
+        }
+
+        section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--accent-blue);
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent-purple);
+            font-size: 1.25rem;
+            margin: 20px 0 10px 0;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .highlight-box {
+            background: rgba(56, 189, 248, 0.08);
+            border-left: 4px solid var(--accent-blue);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+
+        .warn-box {
+            background: rgba(251, 191, 36, 0.08);
+            border-left: 4px solid var(--accent-amber);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #1e1b4b;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        td {
+            color: #e2e8f0;
+        }
+
+        .stable {
+            background-color: rgba(74, 222, 128, 0.15);
+            color: var(--accent-green);
+            font-weight: bold;
+            border-radius: 50%;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+        }
+
+        .svg-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .math {
+            font-family: "Courier New", Courier, monospace;
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent-amber);
+        }
+
+        .sub-badge {
+            background: var(--accent-purple);
+            color: #fff;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Chapter 7: Sequential Machine Designs</h1>
+        <p>Comprehensive Syllabus Notes for BCT 2nd Semester — Digital Logic</p>
+        <span class="meta-info">Course Duration: 8 Hours | IOE Syllabus Aligned</span>
+    </header>
+
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li><a href="#sec71">7.1 Machine Design Procedures</a></li>
+            <li><a href="#sec72">7.2 Primitive State Diagrams</a></li>
+            <li><a href="#sec73">7.3 Transition/Flow Tables</a></li>
+            <li><a href="#sec74">7.4 Redundant States</a></li>
+            <li><a href="#sec75">7.5 Pure Binary Assignment Tables</a></li>
+            <li><a href="#sec76">7.6 Excitation Maps</a></li>
+            <li><a href="#sec77">7.7 Realization of the Models</a></li>
+            <li><a href="#sec78">7.8 Circuit Diagram of Synchronous Machine</a></li>
+            <li><a href="#sec79">7.9 1-bit and 2-bit Input Sequence Detectors</a></li>
+        </ul>
+    </div>
+
+    <!-- 7.1 Machine Design Procedures -->
+    <section id="sec71">
+        <h2>7.1 Machine Design Procedures <span class="sub-badge">Theory & Concepts</span></h2>
+        <p>Designing a sequential machine involves translating a verbal specification into a hardware circuit comprising flip-flops and combinational logic gates. Sequential machines are classified into two models:</p>
+        
+        <ul>
+            <li><strong>Mealy Machine:</strong> Output depends on both the <em>current state</em> and the <em>current input</em>. <span class="math">Z = &lambda;(S, X)</span></li>
+            <li><strong>Moore Machine:</strong> Output depends <em>only</em> on the <em>current state</em>. <span class="math">Z = &lambda;(S)</span></li>
+        </ul>
+
+        <div class="highlight-box">
+            <h4>Standard 7-Step Machine Design Algorithm:</h4>
+            <ol>
+                <li><strong>Specification & Formulation:</strong> Derive the state representation from verbal descriptions or timing requirements.</li>
+                <li><strong>Primitive State Diagram / Table Construction:</strong> Map every possible transition sequence into initial states.</li>
+                <li><strong>State Reduction:</strong> Eliminate redundant (equivalent) states to minimize required memory elements (flip-flops).</li>
+                <li><strong>State Assignment:</strong> Assign unique binary codes to the reduced states (Pure Binary, Gray, or One-Hot coding).</li>
+                <li><strong>Transition & Excitation Table Derivation:</strong> Substitute assigned state codes and derive required input conditions for chosen flip-flops (SR, JK, D, T).</li>
+                <li><strong>Combinational Optimization:</strong> Derive simplified Boolean expressions for flip-flop inputs and outputs using Karnaugh Maps (K-Maps).</li>
+                <li><strong>Hardware Realization:</strong> Draw the logic circuit diagram using gates and flip-flops.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 7.2 Primitive State Diagrams -->
+    <section id="sec72">
+        <h2>7.2 Primitive State Diagrams</h2>
+        <p>A <strong>Primitive State Diagram / Table</strong> is a special representation used primarily in asynchronous and complex synchronous machine designs. It is defined as a state table where <em>exactly one stable total state exists in each row</em>.</p>
+
+        <div class="highlight-box">
+            <h4>Key Characteristics:</h4>
+            <ul>
+                <li>Every distinct input sequence produces a new state row initially.</li>
+                <li>In Fundamental Mode operation, input variables change one at a time (<span class="math">&Delta;x = 1</span>) only after the circuit reaches a stable internal state.</li>
+                <li>Outputs are specified only for stable states; unstable state outputs are treated as <em>Don't Cares (&Chi;)</em>.</li>
+            </ul>
+        </div>
+
+        <p><strong>Example Primitive State Table Structure:</strong></p>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Present State</th>
+                    <th colspan="4">Next State / Output (X<sub>1</sub>X<sub>0</sub>)</th>
+                </tr>
+                <tr>
+                    <th>00</th>
+                    <th>01</th>
+                    <th>11</th>
+                    <th>10</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A</td>
+                    <td><span class="stable">A</span> / 0</td>
+                    <td>B / &Chi;</td>
+                    <td>—</td>
+                    <td>C / &Chi;</td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td>A / &Chi;</td>
+                    <td><span class="stable">B</span> / 1</td>
+                    <td>D / &Chi;</td>
+                    <td>—</td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td>A / &Chi;</td>
+                    <td>—</td>
+                    <td>D / &Chi;</td>
+                    <td><span class="stable">C</span> / 0</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 7.3 Transition/Flow Tables -->
+    <section id="sec73">
+        <h2>7.3 Transition/Flow Tables</h2>
+        <p>A <strong>Flow Table</strong> represents state transitions using letter symbols for states, while a <strong>Transition Table</strong> replaces state symbols with explicit binary bit vectors (<span class="math">Y<sub>1</sub>Y<sub>0</sub></span>).</p>
+
+        <h3>Flow Table vs. Transition Table</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flow Table (Symbolic)</th>
+                    <th>Transition Table (Binary Assignment)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Uses state labels: A, B, C, D</td>
+                    <td>Uses state variable values: 00, 01, 11, 10</td>
+                </tr>
+                <tr>
+                    <td>Shows stable states as circled symbols: (A)</td>
+                    <td>Shows stable states matching present state variable code</td>
+                </tr>
+                <tr>
+                    <td>High-level abstraction for state reduction</td>
+                    <td>Directly maps to logic gates and flip-flop inputs</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="svg-container">
+            <svg width="600" height="160" viewBox="0 0 600 160">
+                <rect x="20" y="50" width="140" height="60" rx="8" fill="#1e1b4b" stroke="#38bdf8" stroke-width="2"/>
+                <text x="90" y="85" fill="#f8fafc" text-anchor="middle" font-size="14">Flow Table</text>
+                
+                <path d="M 160 80 L 230 80" stroke="#c084fc" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="195" y="70" fill="#c084fc" text-anchor="middle" font-size="12">State Assignment</text>
+                
+                <rect x="240" y="50" width="160" height="60" rx="8" fill="#1e1b4b" stroke="#4ade80" stroke-width="2"/>
+                <text x="320" y="85" fill="#f8fafc" text-anchor="middle" font-size="14">Transition Table</text>
+                
+                <path d="M 400 80 L 470 80" stroke="#c084fc" stroke-width="2"/>
+                <text x="435" y="70" fill="#c084fc" text-anchor="middle" font-size="12">K-Maps</text>
+                
+                <rect x="480" y="50" width="100" height="60" rx="8" fill="#1e1b4b" stroke="#fbbf24" stroke-width="2"/>
+                <text x="530" y="85" fill="#f8fafc" text-anchor="middle" font-size="14">Logic Circuit</text>
+
+                <defs>
+                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#c084fc"/>
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 7.4 Redundant States -->
+    <section id="sec74">
+        <h2>7.4 Redundant States <span class="sub-badge">Reduction Methods</span></h2>
+        <p>Two states <span class="math">S<sub>i</sub></span> and <span class="math">S<sub>j</sub></span> are defined as <strong>Equivalent (<span class="math">S<sub>i</sub> &equiv; S<sub>j</sub></span>)</strong> if and only if for every possible input sequence, the machine generates identical output sequences and transitions to equivalent next states.</p>
+
+        <h3>State Reduction Techniques:</h3>
+        <ol>
+            <li><strong>Equivalence Partitioning Method:</strong> Group states into output-equivalent blocks, then repeatedly refine partitions based on next-state equivalence until stability is reached.</li>
+            <li><strong>Implication Table Method:</strong> Systematic triangular grid method used to analyze pairwise compatibility.</li>
+        </ol>
+
+        <div class="highlight-box">
+            <h4>Implication Table Procedure:</h4>
+            <ol>
+                <li>Construct a grid comparing every pair of states <span class="math">(S<sub>i</sub>, S<sub>j</sub>)</span>.</li>
+                <li>Cross out (<span class="math">&times;</span>) pairs that produce different outputs for identical inputs.</li>
+                <li>In remaining squares, write the implied next-state pairs required for equivalence.</li>
+                <li>Pass through the table recursively: cross out square <span class="math">(A, B)</span> if any of its implied pairs are already crossed out.</li>
+                <li>Uncrossed squares represent equivalent state pairs that can be merged.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 7.5 Pure Binary Assignment Tables -->
+    <section id="sec75">
+        <h2>7.5 Pure Binary Assignment Tables</h2>
+        <p>State assignment assigns binary vectors of length <span class="math">m</span> to represent <span class="math">N</span> states, where <span class="math">2<sup>m-1</sup> &lt; N &le; 2<sup>m</sup></span>.</p>
+
+        <h3>Races and Hazards in Asynchronous Machines:</h3>
+        <ul>
+            <li><strong>Race Condition:</strong> Occurs when two or more state variables change simultaneously (e.g., <span class="math">00 &rarr; 11</span>).</li>
+            <li><strong>Non-Critical Race:</strong> Final stable state reached is identical regardless of state change ordering.</li>
+            <li><strong>Critical Race:</strong> Circuit reaches different stable states depending on gate delays. <em>Must be eliminated!</em></li>
+        </ul>
+
+        <div class="warn-box">
+            <h4>Rules for Race-Free State Assignment (Adjacent Assignment Rules):</h4>
+            <ul>
+                <li><strong>Rule 1:</strong> States that have the same next state for a given input should be assigned adjacent binary codes (differing by 1 bit).</li>
+                <li><strong>Rule 2:</strong> States that are next states of a single state for adjacent inputs should be assigned adjacent binary codes.</li>
+                <li><strong>Rule 3:</strong> States that share identical output vectors should be assigned adjacent codes to simplify output combinational logic.</li>
+            </ul>
+        </div>
+
+        <p><strong>Pure Binary Assignment Example (4 States):</strong></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>State Symbol</th>
+                    <th>Pure Binary (<span class="math">y<sub>1</sub>y<sub>0</sub></span>)</th>
+                    <th>Gray Code (<span class="math">y<sub>1</sub>y<sub>0</sub></span>)</th>
+                    <th>One-Hot Encoding (<span class="math">y<sub>3</sub>y<sub>2</sub>y<sub>1</sub>y<sub>0</sub></span>)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>S<sub>0</sub></td><td>00</td><td>00</td><td>0001</td></tr>
+                <tr><td>S<sub>1</sub></td><td>01</td><td>01</td><td>0010</td></tr>
+                <tr><td>S<sub>2</sub></td><td>10</td><td>11</td><td>0100</td></tr>
+                <tr><td>S<sub>3</sub></td><td>11</td><td>10</td><td>1000</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 7.6 Excitation Maps -->
+    <section id="sec76">
+        <h2>7.6 Excitation Maps</h2>
+        <p>An <strong>Excitation Map</strong> maps present states and external inputs to required flip-flop control inputs derived from flip-flop excitation tables.</p>
+
+        <h3>Standard Flip-Flop Excitation Characteristics</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Present State (Q<sub>t</sub>)</th>
+                    <th>Next State (Q<sub>t+1</sub>)</th>
+                    <th>S-R FF (S, R)</th>
+                    <th>J-K FF (J, K)</th>
+                    <th>D FF (D)</th>
+                    <th>T FF (T)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>0</td><td>0</td><td>0, &Chi;</td><td>0, &Chi;</td><td>0</td><td>0</td></tr>
+                <tr><td>0</td><td>1</td><td>1, 0</td><td>1, &Chi;</td><td>1</td><td>1</td></tr>
+                <tr><td>1</td><td>0</td><td>0, 1</td><td>&Chi;, 1</td><td>0</td><td>1</td></tr>
+                <tr><td>1</td><td>1</td><td>&Chi;, 0</td><td>&Chi;, 0</td><td>1</td><td>0</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 7.7 Realization of the Models -->
+    <section id="sec77">
+        <h2>7.7 Realization of the Models</h2>
+        <p>Realization refers to deriving minimized Boolean expressions from excitation K-maps and translating them into physical logic circuits.</p>
+
+        <div class="highlight-box">
+            <h4>Steps for Circuit Realization:</h4>
+            <ol>
+                <li>Construct K-maps for each flip-flop input variable (<span class="math">J<sub>A</sub>, K<sub>A</sub>, D<sub>B</sub></span>, etc.) and system output (<span class="math">Z</span>).</li>
+                <li>Group adjacent ones and don't-cares (<span class="math">&Chi;</span>) to find minimal Sum-of-Products (SOP) forms.</li>
+                <li>Verify logic against setup and hold time constraints.</li>
+                <li>Draw gate schematics using Universal Gates (NAND/NOR) or standard AND-OR-INVERT logic.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- 7.8 Circuit Diagram of Synchronous Machine -->
+    <section id="sec78">
+        <h2>7.8 Circuit Diagram of Synchronous Machine</h2>
+        <p>A general synchronous sequential machine layout consists of a state memory block synchronized by a common system clock signal alongside combinational next-state and output logic.</p>
+
+        <div class="svg-container">
+            <svg width="650" height="260" viewBox="0 0 650 260">
+                <!-- Clock line -->
+                <path d="M 50 230 L 450 230" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5,5"/>
+                <text x="10" y="235" fill="#fbbf24" font-size="12">CLOCK</text>
+
+                <!-- Input arrow -->
+                <path d="M 20 80 L 120 80" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="40" y="70" fill="#38bdf8" font-size="12">Input (X)</text>
+
+                <!-- Next State Logic Block -->
+                <rect x="120" y="40" width="140" height="120" rx="8" fill="#1e1b4b" stroke="#38bdf8" stroke-width="2"/>
+                <text x="190" y="95" fill="#f8fafc" text-anchor="middle" font-size="13" font-weight="bold">Next-State Logic</text>
+                <text x="190" y="115" fill="#94a3b8" text-anchor="middle" font-size="11">(Combinational)</text>
+
+                <!-- Excitation lines -->
+                <path d="M 260 80 L 330 80" stroke="#c084fc" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="295" y="70" fill="#c084fc" text-anchor="middle" font-size="11">Excitation</text>
+
+                <!-- Memory Block (Flip-flops) -->
+                <rect x="330" y="40" width="120" height="120" rx="8" fill="#1e1b4b" stroke="#4ade80" stroke-width="2"/>
+                <text x="390" y="95" fill="#f8fafc" text-anchor="middle" font-size="13" font-weight="bold">State Memory</text>
+                <text x="390" y="115" fill="#4ade80" text-anchor="middle" font-size="11">(Flip-Flops)</text>
+
+                <!-- Clock to FF -->
+                <path d="M 390 230 L 390 160" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrow)"/>
+
+                <!-- Present State Feedback -->
+                <path d="M 450 80 L 500 80 L 500 200 L 70 200 L 70 120 L 120 120" stroke="#4ade80" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+                <text x="270" y="190" fill="#4ade80" font-size="11">Present State Feedback (Q)</text>
+
+                <!-- Output Logic Block (Mealy/Moore) -->
+                <path d="M 500 80 L 530 80" stroke="#f8fafc" stroke-width="2"/>
+                <rect x="530" y="55" width="90" height="50" rx="6" fill="#1e1b4b" stroke="#fbbf24" stroke-width="2"/>
+                <text x="575" y="85" fill="#f8fafc" text-anchor="middle" font-size="11">Output Logic</text>
+                
+                <path d="M 620 80 L 640 80" stroke="#fbbf24" stroke-width="2"/>
+                <text x="630" y="70" fill="#fbbf24" font-size="11">Output (Z)</text>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 7.9 Sequence Detectors -->
+    <section id="sec79">
+        <h2>7.9 One-bit and Two-bit Input Sequence Detectors</h2>
+        <p>A <strong>Sequence Detector</strong> is a sequential state machine designed to produce an output signal (<span class="math">Z = 1</span>) upon detecting a specific sequence of binary inputs.</p>
+
+        <h3>Sequence Classification:</h3>
+        <ul>
+            <li><strong>Overlapping:</strong> The final bit(s) of a detected sequence can act as the prefix for the subsequent sequence attempt (e.g., detecting <code>101</code> in <code>10101</code> produces output at index 3 and index 5).</li>
+            <li><strong>Non-Overlapping:</strong> After a sequence detection, the machine resets completely to its initial state.</li>
+        </ul>
+
+        <hr style="border:0; border-top:1px solid var(--border-color); margin: 25px 0;">
+
+        <h3>Case Study A: 1-Bit Input Sequence Detector (Pattern: <code>1011</code>, Overlapping, Mealy Model)</h3>
+        
+        <p><strong>State Specifications:</strong></p>
+        <ul>
+            <li><strong>S<sub>0</sub> (Reset):</strong> No correct bits detected yet.</li>
+            <li><strong>S<sub>1</sub>:</strong> Detected <code>1</code>.</li>
+            <li><strong>S<sub>2</sub>:</strong> Detected <code>10</code>.</li>
+            <li><strong>S<sub>3</sub>:</strong> Detected <code>101</code>.</li>
+        </ul>
+
+        <div class="svg-container">
+            <svg width="600" height="180" viewBox="0 0 600 180">
+                <!-- State S0 -->
+                <circle cx="80" cy="90" r="30" fill="#1e1b4b" stroke="#38bdf8" stroke-width="2"/>
+                <text x="80" y="95" fill="#f8fafc" text-anchor="middle" font-size="14">S0</text>
+                
+                <!-- State S1 -->
+                <circle cx="220" cy="90" r="30" fill="#1e1b4b" stroke="#38bdf8" stroke-width="2"/>
+                <text x="220" y="95" fill="#f8fafc" text-anchor="middle" font-size="14">S1</text>
+                
+                <!-- State S2 -->
+                <circle cx="360" cy="90" r="30" fill="#1e1b4b" stroke="#38bdf8" stroke-width="2"/>
+                <text x="360" y="95" fill="#f8fafc" text-anchor="middle" font-size="14">S2</text>
+                
+                <!-- State S3 -->
+                <circle cx="500" cy="90" r="30" fill="#1e1b4b" stroke="#38bdf8" stroke-width="2"/>
+                <text x="500" y="95" fill="#f8fafc" text-anchor="middle" font-size="14">S3</text>
+
+                <!-- Transitions -->
+                <!-- S0 -> S1 -->
+                <path d="M 110 90 L 190 90" stroke="#4ade80" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="150" y="80" fill="#4ade80" text-anchor="middle" font-size="12">1/0</text>
+
+                <!-- S1 -> S2 -->
+                <path d="M 250 90 L 330 90" stroke="#4ade80" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="290" y="80" fill="#4ade80" text-anchor="middle" font-size="12">0/0</text>
+
+                <!-- S2 -> S3 -->
+                <path d="M 390 90 L 470 90" stroke="#4ade80" stroke-width="2" marker-end="url(#arrow)"/>
+                <text x="430" y="80" fill="#4ade80" text-anchor="middle" font-size="12">1/0</text>
+
+                <!-- S3 -> S1 (Detection & Overlap on 1) -->
+                <path d="M 480 112 C 400 180, 260 180, 230 118" stroke="#fbbf24" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+                <text x="360" y="170" fill="#fbbf24" text-anchor="middle" font-size="12">1/1 (Detected! Loop to S1)</text>
+
+                <!-- Self Loops -->
+                <path d="M 70 62 C 50 20, 110 20, 90 62" stroke="#ef4444" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+                <text x="80" y="20" fill="#ef4444" text-anchor="middle" font-size="11">0/0</text>
+            </svg>
+        </div>
+
+        <p><strong>State Table for <code>1011</code> Detector:</strong></p>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Present State</th>
+                    <th colspan="2">Next State / Output (Z)</th>
+                </tr>
+                <tr>
+                    <th>X = 0</th>
+                    <th>X = 1</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>S<sub>0</sub> (00)</td><td>S<sub>0</sub> / 0</td><td>S<sub>1</sub> / 0</td></tr>
+                <tr><td>S<sub>1</sub> (01)</td><td>S<sub>2</sub> / 0</td><td>S<sub>1</sub> / 0</td></tr>
+                <tr><td>S<sub>2</sub> (10)</td><td>S<sub>0</sub> / 0</td><td>S<sub>3</sub> / 0</td></tr>
+                <tr><td>S<sub>3</sub> (11)</td><td>S<sub>2</sub> / 0</td><td>S<sub>1</sub> / 1</td></tr>
+            </tbody>
+        </table>
+
+        <hr style="border:0; border-top:1px solid var(--border-color); margin: 25px 0;">
+
+        <h3>Case Study B: 2-Bit Input Sequence Detector</h3>
+        <p>A 2-bit input sequence detector monitors two parallel input channels (<span class="math">X<sub>1</sub>X<sub>0</sub></span>) and detects a multi-symbol temporal sequence (e.g., detecting the symbol pair sequence: <span class="math">01 &rarr; 11 &rarr; 10</span>).</p>
+
+        <div class="highlight-box">
+            <h4>Design Steps for 2-Bit Input Machines:</h4>
+            <ul>
+                <li>Input variables: <span class="math">X<sub>1</sub>, X<sub>0</sub></span> (4 total input conditions per state: <code>00, 01, 11, 10</code>).</li>
+                <li>Each state expands into 4 transition branches in state tables and K-maps.</li>
+                <li>Minimal excitation equations involve 3-variable or 4-variable K-map optimizations.</li>
+            </ul>
+        </div>
+
+        <p><strong>State Transition Matrix for Symbol Sequence <span class="math">(01 &rarr; 11 &rarr; 10)</span>:</strong></p>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Present State (y<sub>1</sub>y<sub>0</sub>)</th>
+                    <th colspan="4">Next State, Output Z (X<sub>1</sub>X<sub>0</sub>)</th>
+                </tr>
+                <tr>
+                    <th>00</th>
+                    <th>01</th>
+                    <th>11</th>
+                    <th>10</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A (Reset: 00)</td>
+                    <td>A, 0</td>
+                    <td>B, 0</td>
+                    <td>A, 0</td>
+                    <td>A, 0</td>
+                </tr>
+                <tr>
+                    <td>B (Matched 01: 01)</td>
+                    <td>A, 0</td>
+                    <td>B, 0</td>
+                    <td>C, 0</td>
+                    <td>A, 0</td>
+                </tr>
+                <tr>
+                    <td>C (Matched 01&rarr;11: 11)</td>
+                    <td>A, 0</td>
+                    <td>B, 0</td>
+                    <td>A, 0</td>
+                    <td>A, 1</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+
+</body>
+</html>

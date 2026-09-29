@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Digital Logic Paper 4 – 2081 Ashwin</title><style>:root{color-scheme:light dark;--bg:#fff;--fg:#1b1f23;--mut:#586069;--acc:#0b5cad;--card:#f3f6fa;--bd:#c9d1d9;--ok:#e7f5ea}
+@media(prefers-color-scheme:dark){:root{--bg:#14171a;--fg:#e6e6e6;--mut:#9aa5b1;--acc:#6cb2ff;--card:#1d2227;--bd:#3a424a;--ok:#1b2e21}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Georgia,'Times New Roman',serif}
+main{max-width:940px;margin:auto;padding:14px 14px 40px}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px;font:14px sans-serif}
+nav a{padding:4px 10px;border:1px solid var(--bd);border-radius:14px;color:var(--acc);text-decoration:none}
+header.h{border-bottom:3px double var(--bd);margin-bottom:10px}
+h1{font-size:1.5rem;margin:.2em 0}h2{font-size:1.15rem;margin:0 0 8px;color:var(--acc)}h3{font-size:1rem;margin:14px 0 4px}
+.sub{color:var(--mut);font:14px sans-serif}
+.q{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:16px 0}
+.m{float:right;font:12px sans-serif;background:var(--acc);color:#fff;border-radius:10px;padding:1px 9px;margin-left:8px}
+.ans{background:var(--ok);border-left:4px solid #2e9a4d;padding:6px 12px;margin:8px 0;border-radius:4px}
+.fig{overflow-x:auto;text-align:center;margin:8px 0}.figs{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
+.cap{font:13px sans-serif;color:var(--mut);text-align:center;margin:0 0 8px}
+svg{color:var(--fg);stroke:var(--fg);fill:none;stroke-width:1.4}svg text{fill:var(--fg);stroke:none}svg marker path{fill:var(--fg);stroke:none}
+table.t{border-collapse:collapse;margin:8px auto;font:14px sans-serif;max-width:100%}
+table.t th,table.t td{border:1px solid var(--bd);padding:3px 9px;text-align:center}table.t th{background:var(--bg)}
+table.km{border-collapse:collapse;margin:6px auto;text-align:center;font:14px sans-serif}
+.km td,.km th{border:1px solid var(--bd);width:46px;height:34px;padding:0}.km th{background:var(--bg);font-size:12px}
+.km td{position:relative;font-weight:700}.km sup{position:absolute;left:2px;top:0;font-size:9px;font-weight:400;color:var(--mut)}
+.v1{background:rgba(11,92,173,.2)}.vd{color:var(--mut)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;font:13px sans-serif;margin:8px 0}
+.flow span{border:1.5px solid currentColor;border-radius:6px;padding:6px 9px;text-align:center}.flow i{font-style:normal}
+pre{background:var(--bg);border:1px solid var(--bd);padding:8px;overflow-x:auto;font-size:13px}
+ul,ol{margin:4px 0 4px 20px;padding:0}
+footer{text-align:center;color:var(--mut);font:13px sans-serif;margin-top:24px}
+@media print{nav{display:none}.q{break-inside:avoid;background:none}}
+</style><script>const $=id=>document.getElementById(id);
+const tx=(x,y,t,a)=>`<text x="${x}" y="${y}" text-anchor="${a||'start'}">${t}</text>`;
+const LN=(a,b,c,d)=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`;
+function svg(id,w,h,inner){$(id).innerHTML=`<svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:${w}px;height:auto" font-size="12" font-family="sans-serif"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z"/></marker></defs>${inner}</svg>`}
+const bn=(v,n)=>v.toString(2).padStart(n,'0');
+const mm=(n,ones,dc)=>{dc=dc||[];return Array.from({length:1<<n},(_,i)=>ones.includes(i)?'1':dc.includes(i)?'d':'0').join('')};
+function tbl(id,h,r){$(id).innerHTML='<table class="t"><tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr>'+r.map(x=>'<tr>'+x.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('')+'</table>'}
+function g2b(id,g){let b=g[0];const r=[[1,g[0],'copy MSB',g[0]]];for(let i=1;i<g.length;i++){const v=(+b[i-1])^(+g[i]);r.push([i+1,g[i],`${b[i-1]} ⊕ ${g[i]}`,v]);b+=v}tbl(id,['Bit','Gray','Operation','Binary'],r);return b}
+function b2g(id,b){let g=b[0];const r=[[1,b[0],'copy MSB',b[0]]];for(let i=1;i<b.length;i++){const v=(+b[i-1])^(+b[i]);r.push([i+1,b[i],`${b[i-1]} ⊕ ${b[i]}`,v]);g+=v}tbl(id,['Bit','Binary','Operation','Gray'],r);return g}
+/* K-map: o={rv,cv,m,nr,nc}; m = string of 1/0/d indexed by minterm */
+function kmap(id,o){const g=n=>n==1?['0','1']:['00','01','11','10'],R=g(o.nr||o.rv.length),C=g(o.nc||o.cv.length);
+let h=`<table class="km"><tr><th>${o.rv}\\${o.cv}</th>`+C.map(c=>`<th>${c}</th>`).join('')+'</tr>';
+R.forEach(r=>{h+=`<tr><th>${r}</th>`;C.forEach(c=>{const i=parseInt(r+c,2),v=o.m[i];h+=`<td class="v${v}"><sup>${i}</sup>${v=='d'?'X':v}</td>`});h+='</tr>'});
+$(id).innerHTML=h+'</table>'}
+/* Timing wave: rows [[name,'0101'|'clk']]; index i = value after i-th active edge; neg=true for falling-edge devices */
+function wave(id,rows,neg,pw){pw=pw||34;const n=Math.max(...rows.map(r=>r[1]==='clk'?0:r[1].length)),L=58,rh=36,W=L+n*pw+12,H=rows.length*rh+14,off=neg?-pw/2:0;let s='';
+for(let i=0;i<=n;i++)s+=`<line x1="${L+i*pw}" y1="2" x2="${L+i*pw}" y2="${H-6}" stroke-dasharray="2 4" opacity=".35"/>`;
+rows.forEach(([nm,v],r)=>{const hi=r*rh+8,lo=hi+20;s+=tx(2,hi+15,nm);let d;
+if(v==='clk'){d=`M${L},${lo}`;for(let i=0;i<n;i++){const x=L+i*pw;d+=`V${hi}H${x+pw/2}V${lo}H${x+pw}`}}
+else{const y=i=>v[i]=='1'?hi:lo;d=`M${L},${y(0)}`;for(let i=1;i<v.length;i++)d+=`H${L+i*pw+off}V${y(i)}`;d+=`H${L+n*pw}`}
+s+=`<path d="${d}" stroke-width="1.8"/>`});svg(id,W,H,s)}
+const cnt=(seq,n,names)=>{const r=[['CLK','clk']];for(let b=0;b<n;b++)r.push([names?names[b]:'Q'+b,seq.map(v=>(v>>b)&1).join('')]);return r};
+/* Sum-of-products two-level AND-OR diagram: terms = ["A'C'D","AB'D'"...] */
+function sop(id,o){const t=o.terms.map(a=>typeof a=='string'?a.match(/[A-Za-z][0-9]*'?/g):a),n=t.length;let y=8,G=[],s='';
+t.forEach(a=>{const h=Math.max(30,a.length*15+8);G.push({a,y,h});y+=h+8});
+const H=y,gx=54,gw=36,ox=gx+gw+70,cy=H/2,oh=Math.max(50,Math.min(H-16,n*22)),top=cy-oh/2,bot=cy+oh/2;
+G.forEach(g=>{const k=g.a.length;if(k==1){const yy=g.y+g.h/2;s+=tx(2,yy+4,g.a[0])+LN(28,yy,gx+gw,yy);g.ox=gx+gw;g.oy=yy;return}
+g.a.forEach((l,j)=>{const yy=g.y+(j+1)*g.h/(k+1);s+=tx(2,yy+4,l)+LN(28,yy,gx,yy)});
+s+=`<path d="M${gx},${g.y}H${gx+gw/2}A${gw/2},${g.h/2} 0 0 1 ${gx+gw/2},${g.y+g.h}H${gx}Z"/>`;g.ox=gx+gw;g.oy=g.y+g.h/2});
+if(n==1){s+=LN(G[0].ox,G[0].oy,G[0].ox+40,G[0].oy)+tx(G[0].ox+44,G[0].oy+4,o.out);svg(id,gx+gw+110,H,s);return}
+s+=`<path d="M${ox},${top}Q${ox+16},${cy} ${ox},${bot}Q${ox+44},${bot} ${ox+62},${cy}Q${ox+44},${top} ${ox},${top}Z"/>`;
+G.forEach((g,i)=>{s+=LN(g.ox,g.oy,ox+7,top+(i+1)*oh/(n+1))});
+s+=LN(ox+62,cy,ox+95,cy)+tx(ox+100,cy+4,o.out);svg(id,ox+150,H,s)}
+/* Generic block: o={title,ins,outs,sel,w} */
+function blk(id,o){const I=o.ins||[],O=o.outs||[],Sl=o.sel||[],n=Math.max(I.length,O.length),h=Math.max(n*24+10,64),x=110,w=o.w||90;
+let s=`<rect x="${x}" y="8" width="${w}" height="${h}"/>`+tx(x+w/2,h/2+12,o.title,'middle');
+I.forEach((l,i)=>{const y=8+(i+1)*h/(I.length+1);s+=tx(x-34,y+4,l,'end')+LN(x-30,y,x,y)});
+O.forEach((l,i)=>{const y=8+(i+1)*h/(O.length+1);s+=LN(x+w,y,x+w+30,y)+tx(x+w+34,y+4,l)});
+Sl.forEach((l,i)=>{const xx=x+(i+1)*w/(Sl.length+1);s+=LN(xx,h+8,xx,h+30)+tx(xx,h+44,l,'middle')});
+svg(id,x+w+110,h+52,s)}
+/* Flip-flop chain: o={n,names,pin,in,out,clk:'ext'|'Q'|'Qb',neg,mux,fb,tl:[[lines]..]} */
+function ff(id,o){const n=o.n,nm=o.names,X=i=>(o.mux?150:110)+i*(o.mux?130:115),w=46,h=70,tl=o.tl||[],ml=Math.max(0,...tl.map(a=>a.length)),y=42+ml*14,cy=y+h+24;let s='';
+const ext=o.clk!=='Q'&&o.clk!=='Qb',clkp=(x)=>o.neg?`H${x-7.5}`:`H${x}`;
+for(let i=0;i<n;i++){const x=X(i),px=X(i-1);
+s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}"/>`+tx(x+w/2,y-6,'FF-'+nm[i],'middle')+tx(x+5,y+26,o.pin||'D')+tx(x+w-5,y+26,'Q','end')+tx(x+w-5,y+62,"Q'",'end')+`<path d="M${x},${y+52}l8,6l-8,6"/>`;
+if(o.neg)s+=`<circle cx="${x-4}" cy="${y+58}" r="3.5"/>`;
+(tl[i]||[]).forEach((l,k)=>s+=tx(x+w/2,y-20-k*14,l,'middle'));
+if(o.mux){s+=`<rect x="${x-44}" y="${y+2}" width="24" height="44"/>`+tx(x-32,y+28,'M','middle')+LN(x-20,y+22,x,y+22)+tx(x-52,y-6,'P'+nm[i],'middle')+`<path d="M${x-52},${y-2}V${y+12}H${x-44}"/>`;
+s+=i?`<path d="M${px+w},${y+22}H${x-58}V${y+32}H${x-44}"/>`:LN(x-70,y+32,x-44,y+32)+tx(x-74,y+36,'0','end')}
+else if(i>0&&o.chain!==false)s+=`<path d="M${px+w},${y+22}H${x}" marker-end="url(#ar)"/>`;
+if(i==0&&o.in&&!o.mux)s+=`<path d="M${x-60},${y+22}H${x}" marker-end="url(#ar)"/>`+tx(x-64,y+26,o.in,'end');
+if(ext)s+=`<path d="M${x-12},${cy}V${y+58}${clkp(x)}"/>`;
+else if(i==0)s+=`<path d="M${x-40},${cy}H${x-12}V${y+58}${clkp(x)}"/>`;
+else{const py=o.clk==='Q'?y+22:y+58;s+=`<path d="M${px+w},${py}H${px+w+10}V${cy}H${x-12}V${y+58}${clkp(x)}"/>`}}
+if(ext)s+=LN(X(0)-40,cy,X(n-1)-12,cy);
+s+=tx(X(0)-44,cy+4,'CLK','end');
+const xl=X(n-1);
+if(o.fb)s+=`<path d="M${xl+w},${y+58}H${xl+w+18}V${y-30}H${X(0)-30}V${y+22}H${X(0)}" marker-end="url(#ar)"/>`;
+if(o.out)s+=`<path d="M${xl+w},${y+22}H${xl+w+40}" marker-end="url(#ar)"/>`+tx(xl+w+44,y+26,o.out);
+svg(id,xl+w+(o.out?110:60),cy+14,s)}
+/* State diagram: names, edges [from,to,label] */
+function sd(id,names,E){const N=names.length,X=i=>60+i*150,y=100,r=26;let s='';
+names.forEach((nm,i)=>{s+=`<circle cx="${X(i)}" cy="${y}" r="${r}"/>`+tx(X(i),y+4,nm,'middle')});
+E.forEach(([a,b,l])=>{const xa=X(a),xb=X(b);
+if(a==b){s+=`<path d="M${xa-14},${y-22}C${xa-44},${y-78} ${xa+44},${y-78} ${xa+14},${y-22}" marker-end="url(#ar)"/>`+tx(xa,y-70,l,'middle');return}
+const f=b>a,d=Math.abs(b-a),sg=f?-1:1,h=22+d*22,x1=xa+(f?16:-16),x2=xb+(f?-16:16),y0=y+sg*18;
+s+=`<path d="M${x1},${y0}Q${(x1+x2)/2},${y0+sg*2*h} ${x2},${y0}" marker-end="url(#ar)"/>`+tx((x1+x2)/2,y0+sg*(h+6),l,'middle')});
+svg(id,60+N*150,200,s)}
+/* De Morgan gate figures: t=1 (AB)'=A'+B' ; t=2 (A+B)'=A'B' */
+function dm(id,t){const A=(x,y)=>`<path d="M${x},${y}h16a20,20 0 0 1 0,40h-16z"/>`,O=(x,y)=>`<path d="M${x},${y}q12,20 0,40q28,0 42,-20q-14,-20 -42,-20z"/>`,b=(x,y)=>`<circle cx="${x}" cy="${y}" r="4"/>`;
+const G1=t==1?A:O,G2=t==1?O:A,re=t==1?106:112;let s=tx(64,24,'A','end')+tx(64,44,'B','end')+LN(68,20,70,20)+LN(68,40,70,40);
+s+=G1(70,10)+b(re+4,30)+LN(re+8,30,re+40,30)+tx(re+44,34,'Y');
+s+=tx(190,34,'≡','middle')+tx(226,24,'A','end')+tx(226,44,'B','end')+LN(230,20,262,20)+LN(230,40,262,40)+b(266,20)+b(266,40)+LN(270,20,276,20)+LN(270,40,276,40);
+const re2=276+(t==1?42:36);s+=G2(276,10)+LN(re2,30,re2+40,30)+tx(re2+44,34,'Y');svg(id,re2+80,60,s)}
+/* Universal gate constructions */
+function univ(id,g){const G=(x,y)=>`<rect x="${x}" y="${y}" width="50" height="40"/>`+tx(x+25,y+24,g,'middle'),N=g=='NAND';let s='',y0=0;
+s+=tx(0,y0+34,'NOT')+tx(72,y0+34,'A','end')+LN(76,y0+30,100,y0+30)+LN(100,y0+22,100,y0+38)+LN(100,y0+22,120,y0+22)+LN(100,y0+38,120,y0+38)+G(120,y0+10)+LN(170,y0+30,230,y0+30)+tx(234,y0+34,"A'");
+y0=70;s+=tx(0,y0+34,N?'AND':'OR')+tx(72,y0+26,'A','end')+tx(72,y0+42,'B','end')+LN(76,y0+22,120,y0+22)+LN(76,y0+38,120,y0+38)+G(120,y0+10)+LN(170,y0+30,190,y0+30)+LN(190,y0+22,190,y0+38)+LN(190,y0+22,210,y0+22)+LN(190,y0+38,210,y0+38)+G(210,y0+10)+LN(260,y0+30,320,y0+30)+tx(324,y0+34,N?'AB':'A+B');
+y0=140;s+=tx(0,y0+34,N?'OR':'AND')+tx(72,y0+24,'A','end')+LN(76,y0+20,100,y0+20)+LN(100,y0+12,100,y0+28)+LN(100,y0+12,120,y0+12)+LN(100,y0+28,120,y0+28)+G(120,y0)+tx(72,y0+74,'B','end')+LN(76,y0+70,100,y0+70)+LN(100,y0+62,100,y0+78)+LN(100,y0+62,120,y0+62)+LN(100,y0+78,120,y0+78)+G(120,y0+50)
++LN(170,y0+20,190,y0+20)+LN(190,y0+20,190,y0+37)+LN(190,y0+37,210,y0+37)+LN(170,y0+70,190,y0+70)+LN(190,y0+70,190,y0+53)+LN(190,y0+53,210,y0+53)+G(210,y0+25)+LN(260,y0+45,320,y0+45)+tx(324,y0+49,N?'A+B':'AB')+tx(176,y0+14,"A'")+tx(176,y0+64,"B'");
+svg(id,400,235,s)}
+</script></head><body><main><nav><a href="index.html">Index</a><a href="paper1.html">Paper 1 · 2083 Baishakh</a><a href="paper2.html">Paper 2 · 2082 Bhadra</a><a href="paper3.html">Paper 3 · 2082 Baishakh</a><a href="paper4.html" style="background:var(--acc);color:#fff">Paper 4 · 2081 Ashwin</a></nav><header class="h"><h1>Digital Logic (EX 152) – Model Answers · Paper 4</h1><div class="sub">Tribhuvan University, IOE · BE (BEI, BCT) · Year I / Part II · Regular (New Course – 2080 Batch) · 2081 Ashwin · Full Marks 60 · Pass 24 · 3 hrs</div></header><section class="q"><h2>1. Merits and demerits of digital signal over analog signal <span class="m">[2]</span></h2>
+<table class="t"><tr><th>Merits of digital signals</th><th>Demerits of digital signals</th></tr>
+<tr><td>Immune to noise; signal can be regenerated without loss</td><td>Needs A/D and D/C conversion for real-world (analog) signals</td></tr>
+<tr><td>Easy to store, copy and process (memory, computers)</td><td>Quantization error; information lost between sample instants</td></tr>
+<tr><td>Accuracy can be increased by adding bits</td><td>Needs larger bandwidth for the same information</td></tr>
+<tr><td>Error detection/correction and encryption are possible</td><td>Sampling/conversion circuits add cost and delay</td></tr>
+<tr><td>ICs are cheap, small, low power and easily reproducible</td><td>Cannot represent a continuous signal exactly</td></tr></table></section>
+
+<section class="q"><h2>2. Conversions <span class="m">[2×1.5]</span></h2>
+<h3>(a) (6E.2C)<sub>16</sub> = (?)<sub>8</sub></h3>
+<p>Hex → binary (4 bits per digit): 6 = 0110, E = 1110, 2 = 0010, C = 1100 → 0110 1110 . 0010 1100.<br>Regroup in 3 bits: integer part (from the point to the left) 01 101 110 → 001 101 110 = 1 5 6; fraction part (from the point to the right) 001 011 00 → 001 011 000 = 1 3 0.</p>
+<div class="ans">(6E.2C)<sub>16</sub> = (156.13)<sub>8</sub> &nbsp; (check: 6E = 110 = 156<sub>8</sub>; 0.2C = 44/256 = 0.171875 = 0.13<sub>8</sub>)</div>
+<h3>(b) (10110110)<sub>Gray</sub> = (?)<sub>2</sub></h3><div id="a2"></div>
+<div class="ans">(10110110)<sub>Gray</sub> = (11011011)<sub>2</sub></div>
+<script>g2b('a2','10110110')</script></section>
+
+<section class="q"><h2>3. Simplest logic circuit for segment 'f' of BCD-to-seven-segment decoder <span class="m">[4]</span></h2>
+<p>Inputs: BCD digit ABCD (A = MSB). Segment f (upper-left bar) is ON for the digits 0, 4, 5, 6, 8, 9. Codes 10–15 never occur → don't care (X).</p>
+<div class="fig" id="seg"></div><p class="cap">Fig: seven-segment display (a–g); segment f is the upper-left bar.</p>
+<div id="t3"></div>
+<div id="k3"></div>
+<ul><li>Octet A: m8,9,10,11,12,13,14,15 (using X) → <b>A</b></li><li>Quad m0,4,12,8 (column CD = 00) → <b>C'D'</b></li><li>Quad m4,5,12,13 → <b>BC'</b></li><li>Quad m4,6,12,14 → <b>BD'</b></li></ul>
+<div class="ans">f = A + BC' + BD' + C'D'</div>
+<div class="fig" id="s3"></div><p class="cap">Fig: logic circuit for segment f (NOT gates for C', D'; three 2-input ANDs; one 4-input OR).</p>
+<script>svg('seg',120,150,`<path d="M30,15H90" opacity=".5"/><path d="M95,20V70" opacity=".5"/><path d="M95,80V130" opacity=".5"/><path d="M30,135H90" opacity=".5"/><path d="M25,80V130" opacity=".5"/><path d="M25,20V70" stroke-width="5"/><path d="M30,75H90" opacity=".5"/>`+tx(60,10,'a','middle')+tx(106,48,'b')+tx(106,108,'c')+tx(60,150,'d','middle')+tx(8,108,'e')+tx(8,48,'f')+tx(60,70,'g','middle'));
+tbl('t3',['Digit','A','B','C','D','f'],[...Array(10)].map((_,i)=>[i,...bn(i,4).split(''),[0,4,5,6,8,9].includes(i)?1:0]).concat([['10–15','X','X','X','X','X']]));
+kmap('k3',{rv:'AB',cv:'CD',m:mm(4,[0,4,5,6,8,9],[10,11,12,13,14,15])});sop('s3',{out:'f',terms:['A',"BC'","BD'","C'D'"]})</script></section>
+
+<section class="q"><h2>4. Y(A,B,C) = Σm(0,2,3,5,7) with a single 4:1 MUX; combined half adder / half subtractor <span class="m">[4+3]</span></h2>
+<h3>(i) Y using a 4:1 MUX</h3>
+<p>Use A and B as select lines (S1 = A, S0 = B); the data inputs are functions of C.</p>
+<div id="t4"></div>
+<div class="fig" id="m4"></div><p class="cap">Fig: Y = Σm(0,2,3,5,7) with one 4:1 MUX; C' from a NOT gate; I1 tied to logic 1.</p>
+<h3>(ii) Half adder and half subtractor in one circuit</h3>
+<p>Half adder: Sum = A⊕B, Carry = AB. Half subtractor: Diff = A⊕B, Borrow = A'B. Sum and Diff are identical. Introduce a mode input M (M = 0 → adder, M = 1 → subtractor):</p>
+<div class="ans">S/D = A ⊕ B &nbsp;,&nbsp; C/Bo = (A ⊕ M)·B</div>
+<div id="t4b"></div>
+<p>For M = 0: A⊕0 = A → carry = AB. For M = 1: A⊕1 = A' → borrow = A'B.</p>
+<div class="fig" id="hh"></div><p class="cap">Fig: combined half adder/subtractor – two XOR gates and one AND gate.</p>
+<script>tbl('t4',['A B','Minterms (ABC)','Y','MUX input'],[['00','m0=1, m1=0',"C'","I0 = C'"],['01','m2=1, m3=1','1','I1 = 1'],['10','m4=0, m5=1','C','I2 = C'],['11','m6=0, m7=1','C','I3 = C']]);
+blk('m4',{title:'4:1 MUX',ins:["I0 = C'",'I1 = 1','I2 = C','I3 = C'],outs:['Y'],sel:['S1=A','S0=B']});
+tbl('t4b',['M','A','B','S/D','C/Bo'],[...Array(8)].map((_,i)=>{const m=i>>2,a=(i>>1)&1,b=i&1;return [m,a,b,a^b,(a^m)&b]}));
+const bx=(x,y,t)=>`<rect x="${x}" y="${y}" width="56" height="34"/>`+tx(x+28,y+21,t,'middle');
+svg('hh',360,150,tx(20,30,'A','end')+tx(20,60,'B','end')+tx(20,110,'M','end')+LN(26,26,60,26)+LN(26,56,60,56)+bx(60,16,'XOR')+LN(116,33,200,33)+tx(206,37,'S / D')+LN(40,26,40,105)+LN(40,105,60,105)+LN(26,106,40,106)+bx(60,88,'XOR')+LN(26,110,60,110)+LN(60,105,60,105)+LN(116,105,180,105)+LN(180,105,180,120)+LN(180,120,200,120)+bx(200,100,'AND')+LN(256,117,320,117)+tx(326,121,'C / Bo')+LN(30,56,30,135)+LN(30,135,200,135)+LN(200,135,200,125))</script></section>
+
+<section class="q"><h2>5. Synchronous mod-6 down counter using JK flip-flops <span class="m">[7]</span></h2>
+<p>Sequence (Q<sub>C</sub>Q<sub>B</sub>Q<sub>A</sub>): 101 → 100 → 011 → 010 → 001 → 000 → 101 (5 down to 0, then back to 5). States 110, 111 unused (don't care). JK excitation: 0→0 (0,X); 0→1 (1,X); 1→0 (X,1); 1→1 (X,0).</p>
+<div id="t5"></div>
+<p><b>K-maps</b> (variables C, B, A):</p>
+<div class="figs"><div><div id="v1"></div><p class="cap">J<sub>B</sub> = CA'</p></div><div><div id="v2"></div><p class="cap">K<sub>B</sub> = A'</p></div><div><div id="v3"></div><p class="cap">J<sub>C</sub> = B'A'</p></div><div><div id="v4"></div><p class="cap">K<sub>C</sub> = A'</p></div></div>
+<p>For FF-A: J<sub>A</sub> = 1 in all even states and K<sub>A</sub> = 1 in all odd states, the rest being don't care → J<sub>A</sub> = K<sub>A</sub> = 1 (toggles every clock).</p>
+<div class="ans">J<sub>A</sub> = K<sub>A</sub> = 1; &nbsp;J<sub>B</sub> = CA', K<sub>B</sub> = A'; &nbsp;J<sub>C</sub> = B'A', K<sub>C</sub> = A'</div>
+<div class="fig" id="f5"></div><div class="figs"><div id="g1"></div><div id="g2"></div></div><p class="cap">Fig: mod-6 synchronous down counter; NOT gate gives A' (used by all gates); common clock for all JK flip-flops.</p>
+<div class="fig" id="w5"></div><p class="cap">Fig: timing diagram (positive-edge clock, count 5→4→3→2→1→0→5). The unused states 110 and 111 lead to valid states (110→001, 111→110→001), so the counter is self-correcting.</p>
+<script>const seq=[5,4,3,2,1,0,5],cur=s=>[(s>>2)&1,(s>>1)&1,s&1];
+const jk=(a,b)=>a==0&&b==0?['0','X']:a==0&&b==1?['1','X']:a==1&&b==0?['X','1']:['X','0'];
+tbl('t5',['C','B','A','C+','B+','A+','J<sub>C</sub>','K<sub>C</sub>','J<sub>B</sub>','K<sub>B</sub>','J<sub>A</sub>','K<sub>A</sub>'],[...Array(6)].map((_,i)=>{const c=cur(seq[i]),n=cur(seq[i+1]);return [...c,...n,...jk(c[0],n[0]),...jk(c[1],n[1]),...jk(c[2],n[2])]}));
+const km=(k,w)=>Array.from({length:8},(_,s)=>{const i=seq.indexOf(s);if(i<0||i>5)return 'd';const e=jk(cur(s)[k],cur(seq[i+1])[k])[w];return e=='X'?'d':e}).join('');
+kmap('v1',{rv:'C',cv:'BA',m:km(1,0)});kmap('v2',{rv:'C',cv:'BA',m:km(1,1)});kmap('v3',{rv:'C',cv:'BA',m:km(0,0)});kmap('v4',{rv:'C',cv:'BA',m:km(0,1)});
+ff('f5',{n:3,names:['A','B','C'],pin:'JK',tl:[['J=K=1'],["J=CA'  K=A'"],["J=B'A'  K=A'"]]});sop('g1',{out:'J_B',terms:["CA'"]});sop('g2',{out:'J_C',terms:["B'A'"]});
+wave('w5',cnt([5,4,3,2,1,0,5],3,['QA','QB','QC']))</script></section>
+
+<section class="q"><h2>6. 4-bit SIPO shift register – input data 1011 <span class="m">[3+7]</span></h2>
+<p><b>Working:</b> four D flip-flops (A, B, C, D) are connected in cascade (Q<sub>A</sub>→D<sub>B</sub>, Q<sub>B</sub>→D<sub>C</sub>, Q<sub>C</sub>→D<sub>D</sub>) with a common clock. Serial data is applied to D<sub>A</sub>, one bit per clock pulse (MSB first: 1,0,1,1). On every positive clock edge each FF takes the value of the FF on its left, so data moves one position to the right. After four clock pulses the four bits are present simultaneously at the parallel outputs Q<sub>A</sub>Q<sub>B</sub>Q<sub>C</sub>Q<sub>D</sub> – serial-to-parallel conversion. All FFs are cleared before the first pulse.</p>
+<div class="fig" id="f6"></div><p class="cap">Fig: 4-bit SIPO shift register (parallel outputs Q<sub>A</sub>, Q<sub>B</sub>, Q<sub>C</sub>, Q<sub>D</sub>).</p>
+<div id="t6"></div>
+<p>After the 4th pulse: Q<sub>D</sub>Q<sub>C</sub>Q<sub>B</sub>Q<sub>A</sub> = 1011 – the first bit entered is at Q<sub>D</sub>, the last at Q<sub>A</sub>.</p>
+<div class="fig" id="w6"></div><p class="cap">Fig: timing diagram for input 1011 (outputs change at the rising clock edge).</p>
+<script>ff('f6',{n:4,names:['A','B','C','D'],in:'Din'});
+tbl('t6',['Clock pulse','Din','Q<sub>A</sub>','Q<sub>B</sub>','Q<sub>C</sub>','Q<sub>D</sub>'],[[0,'–',0,0,0,0],[1,1,1,0,0,0],[2,0,0,1,0,0],[3,1,1,0,1,0],[4,1,1,1,0,1]]);
+wave('w6',[['CLK','clk'],['Din','10110'],['QA','01011'],['QB','00101'],['QC','00010'],['QD','00001']])</script></section>
+
+<section class="q"><h2>7. 3-bit up/down asynchronous counter, negative-edge triggered clock <span class="m">[3+3]</span></h2>
+<p><b>Principle:</b> three JK (or T) flip-flops in toggle mode (J = K = 1) with negative-edge triggering. FF-A (LSB) receives the external clock. A flip-flop toggles when the previous stage output makes a <b>1 → 0</b> transition. Therefore:</p>
+<ul><li><b>Up counting:</b> clock of the next FF is taken from Q of the previous FF (falling edge of Q = 1→0 carry).</li><li><b>Down counting:</b> clock of the next FF is taken from Q' of the previous FF.</li></ul>
+<p>A control input M (M = 1 → up, M = 0 → down) selects the source using AND–OR gates: <b>CLK<sub>B</sub> = M·Q<sub>A</sub> + M'·Q<sub>A</sub>', CLK<sub>C</sub> = M·Q<sub>B</sub> + M'·Q<sub>B</sub>'</b>.</p>
+<div class="fig" id="f7"></div><div class="figs"><div id="g7a"></div><div id="g7b"></div></div><p class="cap">Fig: 3-bit up/down ripple counter (FF clock inputs shown for the up mode, i.e. from Q; the two gate networks above select Q or Q' with M).</p>
+<div id="t7"></div>
+<div class="fig" id="w7a"></div><p class="cap">Fig: timing diagram – UP counting (M = 1): 000 → 111 → 000. Each output changes at the falling edge of the clock/previous output.</p>
+<div class="fig" id="w7b"></div><p class="cap">Fig: timing diagram – DOWN counting (M = 0): 000 → 111 → 110 → … → 000 (borrow from the 000 state sets the counter to 111).</p>
+<script>ff('f7',{n:3,names:['A','B','C'],pin:'JK',clk:'Q',neg:true});
+sop('g7a',{out:'CLK_B',terms:["MA","M'A'"]});sop('g7b',{out:'CLK_C',terms:["MB","M'B'"]});
+tbl('t7',['Clock','Up: Q<sub>C</sub>Q<sub>B</sub>Q<sub>A</sub>','Down: Q<sub>C</sub>Q<sub>B</sub>Q<sub>A</sub>'],[...Array(9)].map((_,i)=>[i,bn(i%8,3),bn((8-i)%8,3)]));
+wave('w7a',cnt([0,1,2,3,4,5,6,7,0],3,['QA','QB','QC']),true);wave('w7b',cnt([0,7,6,5,4,3,2,1,0],3,['QA','QB','QC']),true)</script></section>
+
+<section class="q"><h2>8. Sequence detector for 101 using SR flip-flops (output Y = 1) <span class="m">[10]</span></h2>
+<p><b>Assumptions:</b> Mealy machine with input X and output Y (called Z in the question), overlapping allowed (10101 gives two detections).</p>
+<h3>Step 1 – State diagram</h3>
+<p>S0: no progress. S1: last bit is 1. S2: last two bits are 10.</p>
+<div class="fig" id="sd8"></div><p class="cap">Fig: state diagram, edge label = X/Y. From S2, X = 1 completes 101 (Y = 1) and this last 1 starts a new sequence → S1.</p>
+<h3>Step 2 – State table (S0 = 00, S1 = 01, S2 = 10; A = MSB; 11 unused) with SR excitation</h3>
+<p>SR excitation: 0→0 (0,X); 0→1 (1,0); 1→0 (0,1); 1→1 (X,0).</p>
+<div id="t8"></div>
+<h3>Step 3 – K-maps (variables A, B, X)</h3>
+<div class="figs"><div><div id="k8a"></div><p class="cap">S<sub>A</sub> = BX'</p></div><div><div id="k8b"></div><p class="cap">R<sub>A</sub> = A</p></div><div><div id="k8c"></div><p class="cap">S<sub>B</sub> = X</p></div><div><div id="k8d"></div><p class="cap">R<sub>B</sub> = BX'</p></div><div><div id="k8e"></div><p class="cap">Y = AX</p></div></div>
+<div class="ans">S<sub>A</sub> = BX', R<sub>A</sub> = A, S<sub>B</sub> = X, R<sub>B</sub> = BX', Y = AX</div>
+<p>Check: S<sub>A</sub>R<sub>A</sub> = BX'A = 0 (state 11 unused) and S<sub>B</sub>R<sub>B</sub> = XBX' = 0 → the forbidden S=R=1 never occurs.</p>
+<h3>Step 4 – Circuit</h3>
+<div class="fig" id="f8"></div><div class="figs"><div id="h1"></div><div id="h2"></div></div><p class="cap">Fig: 101 detector using two SR flip-flops (common clock); S<sub>B</sub> = X is connected directly; Y = AX from one AND gate.</p>
+<p><b>Verification:</b> input 1 0 1 from S0: X=1 → S1 (01); X=0 → S<sub>A</sub> = BX' = 1, R<sub>B</sub> = 1 → 10 (S2); X=1 → Y = AX = 1, R<sub>A</sub> = 1, S<sub>B</sub> = 1 → 01 (S1). ✓</p>
+<script>sd('sd8',['S0','S1','S2'],[[0,0,'0/0'],[0,1,'1/0'],[1,1,'1/0'],[1,2,'0/0'],[2,0,'0/0'],[2,1,'1/1']]);
+tbl('t8',['Present AB','X','Next A+B+','Y','S<sub>A</sub>','R<sub>A</sub>','S<sub>B</sub>','R<sub>B</sub>'],[['00',0,'00',0,0,'X',0,'X'],['00',1,'01',0,0,'X',1,0],['01',0,'10',0,1,0,0,1],['01',1,'01',0,0,'X',1,0],['10',0,'00',0,0,1,0,'X'],['10',1,'01',1,0,1,1,0],['11','x','xx','x','x','x','x','x']]);
+kmap('k8a',{rv:'A',cv:'BX',m:'001000dd'});kmap('k8b',{rv:'A',cv:'BX',m:'dd0d11dd'});kmap('k8c',{rv:'A',cv:'BX',m:'010d01dd'});kmap('k8d',{rv:'A',cv:'BX',m:'d010d0dd'});kmap('k8e',{rv:'A',cv:'BX',m:'000001dd'});
+ff('f8',{n:2,names:['A','B'],pin:'SR',tl:[["S=BX'  R=A"],["S=X  R=BX'"]]});sop('h1',{out:'S_A = R_B',terms:["BX'"]});sop('h2',{out:'Y',terms:['AX']})</script></section>
+
+<section class="q"><h2>9. Two-input TTL NOR gate; characteristics of CMOS family <span class="m">[5+2]</span></h2>
+<div class="fig" id="nor"></div><p class="cap">Fig: simplified 2-input TTL NOR gate. Q1A, Q1B: input transistors (inputs A, B); Q2A, Q2B: phase-splitter transistors connected in parallel (common collector and common emitter); Q3–D–Q4: totem-pole output; R1–R4: resistors; V<sub>CC</sub> = +5 V.</p>
+<h3>Operation</h3>
+<ul><li><b>A = B = 0:</b> both input transistors conduct and take the base current away from Q2A, Q2B → both OFF. Q4 gets no base current (through R3 → 0) → OFF; Q3 is driven ON through R2 → output = V<sub>CC</sub> − V<sub>BE</sub> − V<sub>D</sub> ≈ 3.4 V = <b>logic 1</b>.</li>
+<li><b>A = 1, B = 0 (or A = 0, B = 1):</b> the transistor with input 1 (say Q1A) is reverse-biased, so its collector current drives Q2A ON. Q2A (a parallel path) supplies the base of Q4 and lowers the base of Q3 → Q4 saturates, Q3 is OFF → output ≈ 0.2 V = <b>logic 0</b>.</li>
+<li><b>A = B = 1:</b> both Q2 transistors ON → Q4 ON, Q3 OFF → output = <b>0</b>.</li></ul>
+<div id="t9"></div>
+<p>Because the Q2 transistors are in parallel, one input at 1 is enough to make the output 0: <b>Y = (A + B)'</b> (NOR).</p>
+<h3>Characteristics of CMOS family</h3>
+<ul><li>Built from complementary n-MOS and p-MOS transistors; very low static power (≈ nW–µW), power rises with frequency (P ∝ C·V<sup>2</sup>·f).</li><li>Wide supply range (3–15 V for 4000B, 2–6 V for 74HC); logic levels ≈ 0 V and V<sub>DD</sub>.</li><li>Very high noise margin (≈ 30–45 % of V<sub>DD</sub>) and rail-to-rail output swing.</li><li>Very high input impedance → very large fan-out (&gt; 50 gates, limited by capacitance).</li><li>Propagation delay ≈ 8–10 ns (HC), slower in the 4000 series; high packing density; needs protection against static discharge; unused inputs must not be left floating.</li></ul>
+<script>svg('nor',420,280,tx(20,20,'+VCC')+LN(60,16,400,16)
++LN(70,16,70,34)+`<rect x="62" y="34" width="16" height="24"/>`+tx(86,50,'R1')+LN(70,58,70,72)+`<circle cx="70" cy="86" r="14"/>`+tx(70,90,'Q1A','middle')+LN(30,86,56,86)+tx(24,90,'A','end')+LN(70,100,70,136)
++LN(190,16,190,34)+`<rect x="182" y="34" width="16" height="24"/>`+tx(206,50,'R1')+LN(190,58,190,72)+`<circle cx="190" cy="86" r="14"/>`+tx(190,90,'Q1B','middle')+LN(150,86,176,86)+tx(144,90,'B','end')+LN(190,100,190,136)
++`<circle cx="70" cy="150" r="14"/>`+tx(70,154,'Q2A','middle')+`<circle cx="190" cy="150" r="14"/>`+tx(190,154,'Q2B','middle')
++LN(84,150,130,150)+LN(176,150,130,150)+LN(130,16,130,34)+`<rect x="122" y="34" width="16" height="24"/>`+tx(142,50,'R2')+LN(130,58,130,150)
++LN(70,164,70,180)+LN(190,164,190,180)+LN(70,180,190,180)+LN(130,180,130,204)+`<rect x="122" y="204" width="16" height="24"/>`+tx(142,220,'R3')+LN(130,228,130,246)
++LN(130,90,246,90)+LN(130,200,246,200)
++LN(260,16,260,34)+`<rect x="252" y="34" width="16" height="24"/>`+tx(276,50,'R4')+LN(260,58,260,76)+`<circle cx="260" cy="90" r="14"/>`+tx(260,94,'Q3','middle')+LN(260,104,260,130)+`<rect x="252" y="130" width="16" height="20"/>`+tx(276,144,'D')+LN(260,150,260,170)+LN(260,170,360,170)+tx(366,174,'Y')+LN(260,170,260,186)+`<circle cx="260" cy="200" r="14"/>`+tx(260,204,'Q4','middle')+LN(260,214,260,246)
++LN(130,246,272,246)+LN(190,246,190,246)+tx(200,264,'GND'));
+tbl('t9',['A','B','Q2A/Q2B','Q3','Q4','Y'],[[0,0,'OFF','ON','OFF',1],[0,1,'Q2B ON','OFF','ON',0],[1,0,'Q2A ON','OFF','ON',0],[1,1,'both ON','OFF','ON',0]])</script></section>
+
+<section class="q"><h2>10. Frequency measurement – functional diagram and operation <span class="m">[4]</span></h2>
+<p>The frequency of a periodic signal is the number of cycles per second. A digital frequency meter counts the input cycles N during an accurately known gate time T: <b>f = N / T</b>.</p>
+<div class="flow"><span>Unknown signal f<sub>x</sub></span><i>→</i><span>Schmitt trigger<br>(pulse shaper)</span><i>→</i><span>AND (gate)</span><i>→</i><span>Decade counters</span><i>→</i><span>Latch</span><i>→</i><span>BCD-to-7-segment decoder → Display</span></div>
+<div class="flow"><span>Crystal oscillator (e.g. 1 MHz)</span><i>→</i><span>Decade dividers</span><i>→</i><span>Gate control FF (T-FF) – gate time 1 s / 0.1 s / 10 ms</span><i>→ gate signal to AND; strobe to latch; then reset to counters</i></div>
+<p><b>Operation:</b> (1) The input is squared by the Schmitt trigger, giving one clean pulse per cycle. (2) The crystal oscillator is divided down by decade dividers to obtain a stable pulse of, say, 1 s, which a flip-flop turns into the gate signal (T = 1 s). (3) While the gate is high, the AND gate passes the input pulses and the counter counts them. (4) When the gate goes low the counting stops, the count N is transferred to the latch (strobe pulse) and displayed; then a reset pulse clears the counter for the next measurement. (5) <b>Example:</b> N = 3250 pulses in T = 1 s → f = 3.25 kHz; with T = 0.1 s the count 325 represents 3.25 kHz (decimal point shifted). Accuracy is decided by the crystal stability and the ±1 count error, so longer gate times give higher resolution.</p></section>
+<footer>Attempt all questions · figures in the margin indicate full marks · answers written for full-mark presentation</footer></main></body></html>

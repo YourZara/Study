@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Logic ENEX 152 — Study Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0c1f2e;
+      --paper: #f4f7f5;
+      --mist: #d8e4dc;
+      --teal: #0d6b5c;
+      --teal-deep: #084c42;
+      --amber: #c46b1a;
+      --card: rgba(255, 255, 255, 0.78);
+      --line: rgba(12, 31, 46, 0.12);
+      --shadow: 0 18px 40px rgba(8, 40, 35, 0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 55% at 12% -10%, #b8ddd2 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 100% 0%, #f0d4b0 0%, transparent 50%),
+        linear-gradient(165deg, #eef5f1 0%, #e3ebe6 45%, #d9e8e2 100%);
+      min-height: 100vh;
+      line-height: 1.55;
+    }
+    a { color: var(--teal-deep); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--amber); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 20px 64px; }
+
+    .topbar {
+      display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center;
+      justify-content: space-between; margin-bottom: 28px;
+      font-size: 0.92rem; font-weight: 600;
+    }
+    .topbar nav { display: flex; flex-wrap: wrap; gap: 8px; }
+    .topbar a {
+      text-decoration: none; padding: 7px 14px; border-radius: 999px;
+      background: rgba(255,255,255,0.55); border: 1px solid var(--line); color: var(--ink);
+    }
+    .topbar a:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+    .hero {
+      position: relative; overflow: hidden;
+      border-radius: 28px; padding: clamp(28px, 5vw, 52px);
+      background:
+        linear-gradient(135deg, rgba(8, 76, 66, 0.94) 0%, rgba(13, 107, 92, 0.88) 48%, rgba(196, 107, 26, 0.72) 100%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      color: #f7fffb; box-shadow: var(--shadow);
+      animation: rise 0.7s ease both;
+    }
+    .hero::after {
+      content: ""; position: absolute; right: -40px; bottom: -50px;
+      width: 220px; height: 220px; border-radius: 50%;
+      border: 28px solid rgba(255,255,255,0.08); pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-block; font-size: 0.78rem; letter-spacing: 0.14em;
+      text-transform: uppercase; opacity: 0.85; margin-bottom: 10px;
+    }
+    .brand {
+      font-family: Fraunces, Georgia, serif; font-weight: 700;
+      font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.05;
+      letter-spacing: -0.02em; margin-bottom: 12px;
+    }
+    .hero p { max-width: 38rem; font-size: 1.08rem; opacity: 0.92; margin-bottom: 22px; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 18px; border-radius: 999px; font-weight: 700;
+      text-decoration: none; border: 2px solid transparent; transition: transform .15s ease, background .15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: #fff; color: var(--teal-deep); }
+    .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.45); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    .marks {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      margin: 28px 0 8px;
+    }
+    .marks div {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 14px 12px; text-align: center; backdrop-filter: blur(8px);
+      animation: rise 0.7s ease both;
+    }
+    .marks strong {
+      display: block; font-family: Fraunces, Georgia, serif;
+      font-size: 1.45rem; color: var(--teal-deep);
+    }
+    .marks span { font-size: 0.82rem; color: #456; }
+
+    h2 {
+      font-family: Fraunces, Georgia, serif; font-size: 1.55rem;
+      margin: 36px 0 14px; letter-spacing: -0.01em;
+    }
+    .lead { color: #3d5560; margin-bottom: 16px; max-width: 46rem; }
+
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+      padding: 18px 18px 16px; box-shadow: 0 8px 24px rgba(8,40,35,0.06);
+      transition: transform .18s ease, box-shadow .18s ease;
+      animation: rise 0.75s ease both;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .card .tag {
+      display: inline-block; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 8px;
+    }
+    .card h3 {
+      font-family: Fraunces, Georgia, serif; font-size: 1.2rem;
+      margin-bottom: 8px; line-height: 1.25;
+    }
+    .card h3 a { text-decoration: none; color: inherit; }
+    .card h3 a:hover { color: var(--teal); }
+    .card p { font-size: 0.95rem; color: #3d5560; margin-bottom: 12px; }
+    .card .links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      text-decoration: none; font-size: 0.82rem; font-weight: 600;
+      padding: 5px 10px; border-radius: 999px;
+      background: #e7f2ee; color: var(--teal-deep); border: 1px solid #c5ddd4;
+    }
+    .chip:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+    .path {
+      background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+      padding: 18px 20px; margin-top: 8px;
+    }
+    .path ol { margin-left: 1.2rem; }
+    .path li { margin: 8px 0; }
+    .path li strong { color: var(--teal-deep); }
+
+    .chapter-map {
+      display: grid; gap: 8px;
+    }
+    .ch {
+      display: grid; grid-template-columns: 52px 1fr auto; gap: 12px; align-items: center;
+      background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+      padding: 12px 14px;
+    }
+    .ch .n {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: grid; place-items: center; font-weight: 700;
+      background: #e7f2ee; color: var(--teal-deep);
+    }
+    .ch .meta { font-size: 0.85rem; color: #567; }
+    .ch .mk {
+      font-size: 0.8rem; font-weight: 700; white-space: nowrap;
+      color: var(--amber); background: #fff4e8; padding: 4px 10px; border-radius: 999px;
+    }
+    .ch a { text-decoration: none; color: inherit; font-weight: 700; }
+    .ch a:hover { color: var(--teal); }
+
+    footer {
+      margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
+      color: #567; font-size: 0.9rem; display: flex; flex-wrap: wrap;
+      justify-content: space-between; gap: 10px;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: none; }
+    }
+    .marks div:nth-child(1) { animation-delay: .05s; }
+    .marks div:nth-child(2) { animation-delay: .1s; }
+    .marks div:nth-child(3) { animation-delay: .15s; }
+    .marks div:nth-child(4) { animation-delay: .2s; }
+    .grid .card:nth-child(1) { animation-delay: .08s; }
+    .grid .card:nth-child(2) { animation-delay: .14s; }
+    .grid .card:nth-child(3) { animation-delay: .2s; }
+    .grid .card:nth-child(4) { animation-delay: .26s; }
+
+    @media (max-width: 720px) {
+      .marks { grid-template-columns: repeat(2, 1fr); }
+      .ch { grid-template-columns: 42px 1fr; }
+      .ch .mk { grid-column: 2; justify-self: start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <span>IOE · BE Year I / Part II</span>
+      <nav>
+        <a href="link.html">All Links</a>
+        <a href="Syllabus.pdf" target="_blank" rel="noopener">Syllabus</a>
+        <a href="PQA%20Claude/index.html">Past Papers</a>
+        <a href="Theory%20Short/index.html">Quick Theory</a>
+      </nav>
+    </div>
+
+    <header class="hero">
+      <div class="eyebrow">Personal study hub</div>
+      <h1 class="brand">Digital Logic</h1>
+      <p>ENEX / EX 152 — every note, guide, and solved past paper in one place. Start from theory, drill the high-mark designs, then practise the four TU papers.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="link.html">Open full link map →</a>
+        <a class="btn btn-ghost" href="Theory%20Short/chapters.html">Exam theory (short)</a>
+        <a class="btn btn-ghost" href="PQA%20Claude/index.html">Solved PQAs</a>
+      </div>
+    </header>
+
+    <div class="marks">
+      <div><strong>8</strong><span>Syllabus chapters</span></div>
+      <div><strong>60</strong><span>Final exam marks</span></div>
+      <div><strong>4</strong><span>Past papers solved</span></div>
+      <div><strong>~35</strong><span>Design-heavy marks</span></div>
+    </div>
+
+    <h2>Study collections</h2>
+    <p class="lead">Your materials came from different folders. Use these cards to jump into each collection, or open <a href="link.html">link.html</a> for every single file.</p>
+
+    <div class="grid">
+      <article class="card">
+        <div class="tag">Official</div>
+        <h3><a href="Syllabus.pdf" target="_blank" rel="noopener">Syllabus.pdf</a></h3>
+        <p>ENEX 152 outline: 8 units, tutorial list, practicals, and marks distribution (Ch 4, 6, 7 worth 10 each).</p>
+        <div class="links">
+          <a class="chip" href="Syllabus.pdf" target="_blank" rel="noopener">Open PDF</a>
+          <a class="chip" href="syllabus-map.html">Chapter map</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="tag">Past questions</div>
+        <h3><a href="PQA%20pic.jpg" target="_blank" rel="noopener">PQA pic.jpg</a></h3>
+        <p>Scanned originals of 4 TU papers (2083 Baishakh → 2081 Ashwin). File is a PDF despite the .jpg name.</p>
+        <div class="links">
+          <a class="chip" href="PQA%20pic.jpg" target="_blank" rel="noopener">Scans</a>
+          <a class="chip" href="PQA%20Claude/index.html">Solved answers</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="tag">Claude · solved</div>
+        <h3><a href="PQA%20Claude/index.html">PQA Claude</a></h3>
+        <p>Full model answers for all four papers — K-maps, timing diagrams, sequence detectors, counters.</p>
+        <div class="links">
+          <a class="chip" href="PQA%20Claude/paper1.html">2083</a>
+          <a class="chip" href="PQA%20Claude/paper2.html">2082 Bhadra</a>
+          <a class="chip" href="PQA%20Claude/paper3.html">2082 Baishakh</a>
+          <a class="chip" href="PQA%20Claude/paper4.html">2081</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="tag">Revision</div>
+        <h3><a href="Theory%20Short/index.html">Theory Short</a></h3>
+        <p>Compact exam guide: marks map, must-do list, and chapter theory with worked TU-style examples.</p>
+        <div class="links">
+          <a class="chip" href="Theory%20Short/index.html">Home</a>
+          <a class="chip" href="Theory%20Short/chapters.html">All chapters</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="tag">Gemini · deep notes</div>
+        <h3><a href="Gemini/Logic.html">Gemini guides</a></h3>
+        <p>Long-form HTML modules for gates through digital ICs, plus Module 1 PDF for introduction &amp; codes.</p>
+        <div class="links">
+          <a class="chip" href="Gemini/Bool.html">Boolean</a>
+          <a class="chip" href="Gemini/Combinational.html">Combinational</a>
+          <a class="chip" href="Gemini/Register.html">Counters</a>
+          <a class="chip" href="Gemini/seqmachine.html">Machines</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="tag">ChatGPT · printable</div>
+        <h3><a href="ChatGPT/Digital_Logic_ENEX_152_Master_Guide_ChatGPT.pdf" target="_blank" rel="noopener">Master Guide PDF</a></h3>
+        <p>14-page printable revision book covering the full syllabus path from foundations to TTL/CMOS.</p>
+        <div class="links">
+          <a class="chip" href="ChatGPT/Digital_Logic_ENEX_152_Master_Guide_ChatGPT.pdf" target="_blank" rel="noopener">Open PDF</a>
+        </div>
+      </article>
+    </div>
+
+    <h2>Suggested study path</h2>
+    <div class="path">
+      <ol>
+        <li><strong>Skim the syllabus</strong> — know which chapters carry 10 marks (Combinational, Registers/Counters, Sequential Machines).</li>
+        <li><strong>Read Theory Short chapters</strong> for fast coverage + solved mini-examples.</li>
+        <li><strong>Deep-dive weak chapters</strong> in Gemini HTML (or ChatGPT PDF for print).</li>
+        <li><strong>Drill repeated designs</strong>: sequence detectors, sync/async counters, SIPO/PISO, K-map, MUX adder/subtractor.</li>
+        <li><strong>Solve all 4 PQAs</strong> with the Claude answers — then redo without looking.</li>
+      </ol>
+    </div>
+
+    <h2>Syllabus → best file</h2>
+    <p class="lead">Quick jump from each official chapter to the strongest local note.</p>
+    <div class="chapter-map">
+      <div class="ch"><div class="n">1</div><div><a href="Gemini/Digital%20Electronics%20Reference%20Guide%20-%20Module%201Gemini.pdf" target="_blank" rel="noopener">Introduction &amp; codes</a><div class="meta">Also: Theory Short · ChatGPT PDF</div></div><div class="mk">7 marks</div></div>
+      <div class="ch"><div class="n">2</div><div><a href="Gemini/Logic.html">Logic gates</a><div class="meta">Universal gates · De Morgan</div></div><div class="mk">4 marks</div></div>
+      <div class="ch"><div class="n">3</div><div><a href="Gemini/Bool.html">Boolean algebra &amp; K-maps</a><div class="meta">4-var K-map · don't cares</div></div><div class="mk">5 marks</div></div>
+      <div class="ch"><div class="n">4</div><div><a href="Gemini/Combinational.html">Combinational circuits</a><div class="meta">Adders · MUX · encoders · 7-seg</div></div><div class="mk">10 marks</div></div>
+      <div class="ch"><div class="n">5</div><div><a href="Gemini/sequential_logic_circuits_master_guide.html">Sequential logic / flip-flops</a><div class="meta">Conversions · excitation tables</div></div><div class="mk">7 marks</div></div>
+      <div class="ch"><div class="n">6</div><div><a href="Gemini/Register.html">Registers &amp; counters</a><div class="meta">SIPO/PISO · sync &amp; async</div></div><div class="mk">10 marks</div></div>
+      <div class="ch"><div class="n">7</div><div><a href="Gemini/seqmachine.html">Sequential machine design</a><div class="meta">Sequence detectors (every paper)</div></div><div class="mk">10 marks</div></div>
+      <div class="ch"><div class="n">8</div><div><a href="Gemini/BJT.html">Digital integrated circuits</a><div class="meta">TTL / CMOS · applications</div></div><div class="mk">7 marks</div></div>
+    </div>
+
+    <footer>
+      <span>Built for personal ENEX 152 revision · open <a href="link.html">link.html</a> for the complete file list</span>
+      <span>TU · IOE · BEI / BCT</span>
+    </footer>
+  </div>
+</body>
+</html>

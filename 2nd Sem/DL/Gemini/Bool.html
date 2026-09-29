@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolean Algebra & Karnaugh Maps: Ultimate Engineering Guide</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --border-color: #475569;
+            --code-bg: #090d16;
+            --kmap-cell-bg: #1e293b;
+            --kmap-header-bg: #0f172a;
+            --group-color1: rgba(56, 189, 248, 0.25);
+            --group-color2: rgba(74, 222, 128, 0.25);
+            --group-color3: rgba(251, 191, 36, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Toc Navigation */
+        aside {
+            width: 300px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 20px 15px;
+        }
+
+        aside h2 {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        aside ul {
+            list-style: none;
+        }
+
+        aside li {
+            margin-bottom: 8px;
+        }
+
+        aside a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.88rem;
+            display: block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        aside a:hover {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            padding-left: 14px;
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 300px;
+            flex: 1;
+            padding: 40px 50px;
+            max-width: 1200px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        section {
+            margin-bottom: 55px;
+            scroll-margin-top: 20px;
+        }
+
+        h2.section-title {
+            font-size: 1.75rem;
+            color: var(--accent-green);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 22px;
+        }
+
+        h3.subsection-title {
+            font-size: 1.3rem;
+            color: var(--accent-purple);
+            margin: 28px 0 14px 0;
+        }
+
+        h4.subsubsection-title {
+            font-size: 1.1rem;
+            color: var(--accent-amber);
+            margin: 18px 0 10px 0;
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            color: #cbd5e1;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 16px;
+        }
+
+        /* Math and Expression Formatting */
+        .expr {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--code-bg);
+            padding: 2px 7px;
+            border-radius: 4px;
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 0.98rem;
+        }
+
+        /* Data Tables */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background-color: var(--code-bg);
+            font-size: 0.95rem;
+            text-align: left;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        table.data-table th, table.data-table td {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        table.data-table th {
+            background-color: var(--bg-card);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        /* K-Map Tables */
+        .kmap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 25px 0;
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .kmap-title {
+            font-weight: bold;
+            color: var(--accent-amber);
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        table.kmap {
+            border-collapse: collapse;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--code-bg);
+            border: 2px solid var(--accent-blue);
+        }
+
+        table.kmap td, table.kmap th {
+            width: 65px;
+            height: 55px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        table.kmap th {
+            background-color: var(--kmap-header-bg);
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        table.kmap td.cell {
+            background-color: var(--kmap-cell-bg);
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        table.kmap td .minterm-idx {
+            position: absolute;
+            bottom: 3px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        table.kmap td.grouped-1 {
+            background-color: var(--group-color1);
+            color: var(--accent-green);
+            border: 2px solid var(--accent-blue);
+        }
+
+        table.kmap td.grouped-2 {
+            background-color: var(--group-color2);
+            color: var(--accent-green);
+            border: 2px solid var(--accent-green);
+        }
+
+        table.kmap td.dont-care {
+            color: var(--accent-amber);
+        }
+
+        .kmap-diag-header {
+            background: linear-gradient(to top right, var(--kmap-header-bg) 49%, var(--accent-blue) 50%, var(--kmap-header-bg) 51%);
+            font-size: 0.8rem !important;
+            padding: 2px !important;
+        }
+
+        /* Derivation & Example Cards */
+        .derivation {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+
+        .derivation-step {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .derivation-step .eq {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .derivation-step .reason {
+            color: var(--text-muted);
+            font-family: system-ui, sans-serif;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            background-color: rgba(56, 189, 248, 0.08);
+            border-left: 4px solid var(--accent-blue);
+            padding: 16px 20px;
+            border-radius: 0 6px 6px 0;
+            margin: 22px 0;
+        }
+
+        .callout-warning {
+            background-color: rgba(251, 191, 36, 0.08);
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        .callout-title {
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+
+        .callout-warning .callout-title {
+            color: var(--accent-amber);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+            main {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside>
+        <h2>Module 3 Syllabus</h2>
+        <ul>
+            <li><a href="#sec3-1">3.1 Laws of Boolean Algebra</a></li>
+            <li><a href="#sec3-2">3.2 Boolean Simplification</a></li>
+            <li><a href="#sec3-3">3.3 Minterms & Maxterms</a></li>
+            <li><a href="#sec3-4">3.4 SOP & POS Canonical Forms</a></li>
+            <li><a href="#sec3-5">3.5 Truth Tables & K-Map Fundamentals</a></li>
+            <li><a href="#sec3-6">3.6 Four-Variable K-Maps</a></li>
+            <li><a href="#sec3-7">3.7 Cells, Pairs, Quads & Octets</a></li>
+            <li><a href="#sec3-8">3.8 Rolling, Wrap-around & Redundant Groups</a></li>
+            <li><a href="#sec3-9">3.9 Don't Care Conditions</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <header>
+            <h1>Module 3: Boolean Algebra & Karnaugh Maps</h1>
+            <p>Comprehensive Academic Reference Guide for Computer Engineering (TU / IOE Syllabus)</p>
+        </header>
+
+        <!-- Section 3.1 -->
+        <section id="sec3-1">
+            <h2 class="section-title">3.1 Boolean Algebra and Its Laws</h2>
+            <p><strong>Boolean Algebra</strong> is the mathematical system used to analyze and simplify digital logic circuits. Formulated by George Boole in 1854, it operates on binary variables that can assume only two discrete logic values: <strong>0 (False)</strong> and <strong>1 (True)</strong>.</p>
+
+            <h3 class="subsection-title">3.1.1 Fundamental Postulates and Axioms</h3>
+            <p>Boolean algebra is formally defined on a set $B = \{0, 1\}$ with two primary binary operations: <strong>AND ($\cdot$)</strong>, <strong>OR ($+$)</strong>, and one unary operation: <strong>NOT ($\bar{A}$ or $A'$)</strong>.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Law / Principle</th>
+                        <th>AND Form ($\cdot$)</th>
+                        <th>OR Form ($+$)</th>
+                        <th>Engineering Explanation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Identity Law</strong></td>
+                        <td>$A \cdot 1 = A$</td>
+                        <td>$A + 0 = A$</td>
+                        <td>Operating with identity element leaves variable unchanged.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Null (Annihilation) Law</strong></td>
+                        <td>$A \cdot 0 = 0$</td>
+                        <td>$A + 1 = 1$</td>
+                        <td>Dominant element forces output regardless of variable $A$.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Idempotent Law</strong></td>
+                        <td>$A \cdot A = A$</td>
+                        <td>$A + A = A$</td>
+                        <td>Combining a variable with itself yields the same variable.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complement Law</strong></td>
+                        <td>$A \cdot \bar{A} = 0$</td>
+                        <td>$A + \bar{A} = 1$</td>
+                        <td>A variable ANDed with its inverse is always 0; ORed is always 1.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Commutative Law</strong></td>
+                        <td>$A \cdot B = B \cdot A$</td>
+                        <td>$A + B = B + A$</td>
+                        <td>Order of variables does not affect the logical result.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Associative Law</strong></td>
+                        <td>$(A \cdot B) \cdot C = A \cdot (B \cdot C)$</td>
+                        <td>$(A + B) + C = A + (B + C)$</td>
+                        <td>Grouping of variables does not alter the output.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Distributive Law</strong></td>
+                        <td>$A + (B \cdot C) = (A + B)(A + C)$</td>
+                        <td>$A \cdot (B + C) = A B + A C$</td>
+                        <td>OR distributes over AND; AND distributes over OR.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Absorption Law</strong></td>
+                        <td>$A \cdot (A + B) = A$</td>
+                        <td>$A + (A \cdot B) = A$</td>
+                        <td>Redundant term $(A \cdot B)$ or factor $(A + B)$ is absorbed.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Redundant Literal Law</strong></td>
+                        <td>$A \cdot (\bar{A} + B) = A B$</td>
+                        <td>$A + \bar{A} B = A + B$</td>
+                        <td>Complement of $A$ inside the group is absorbed.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Involution (Double Negation)</strong></td>
+                        <td colspan="2" style="text-align: center;">$\overline{\overline{A}} = A$</td>
+                        <td>Double complementing a variable restores its original state.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>De Morgan's Laws</strong></td>
+                        <td>$\overline{A \cdot B} = \bar{A} + \bar{B}$</td>
+                        <td>$\overline{A + B} = \bar{A} \cdot \bar{B}$</td>
+                        <td>Complement of a product is sum of complements; complement of sum is product of complements.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Consensus Theorem</strong></td>
+                        <td>$AB + \bar{A}C + BC = AB + \bar{A}C$</td>
+                        <td>$(A+B)(\bar{A}+C)(B+C) = (A+B)(\bar{A}+C)$</td>
+                        <td>Third term $BC$ (the consensus) is completely redundant.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">3.1.2 The Principle of Duality</h3>
+            <p>The <strong>Duality Principle</strong> states that any valid Boolean identity or algebraic expression remains valid if:</p>
+            <ol>
+                <li>Every <strong>AND ($\cdot$)</strong> operator is replaced with an <strong>OR ($+$)</strong> operator, and vice-versa.</li>
+                <li>Every identity constant <strong>0</strong> is replaced with <strong>1</strong>, and vice-versa.</li>
+                <li>The variable states ($A, B, C$) are kept unchanged (do <em>not</em> complement variables).</li>
+            </ol>
+            <div class="callout">
+                <div class="callout-title">Example of Duality</div>
+                <p>Original Identity: <span class="expr">A + A·B = A</span> (Absorption Law)<br>
+                Dual Identity: <span class="expr">A · (A + B) = A</span></p>
+            </div>
+        </section>
+
+        <!-- Section 3.2 -->
+        <section id="sec3-2">
+            <h2 class="section-title">3.2 Simplification of Boolean Expressions</h2>
+            <p>Simplifying Boolean equations minimizes the number of physical logic gates and gate inputs (literals) required to build a circuit, reducing manufacturing cost, propagation delay, power dissipation, and chip area.</p>
+
+            <h3 class="subsection-title">Worked Proof 1: Prove the Consensus Theorem Algebraic Reduction</h3>
+            <p>Minimize $F = A B + \bar{A} C + B C$ to two terms algebraically:</p>
+
+            <div class="derivation">
+                <div class="derivation-step">
+                    <span class="eq">F = AB + ĀC + BC(1)</span>
+                    <span class="reason">Identity Law: BC · 1 = BC</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">F = AB + ĀC + BC(A + Ā)</span>
+                    <span class="reason">Complement Law: A + Ā = 1</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">F = AB + ĀC + ABC + ĀBC</span>
+                    <span class="reason">Distributive Law</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">F = (AB + ABC) + (ĀC + ĀBC)</span>
+                    <span class="reason">Commutative & Associative Laws</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">F = AB(1 + C) + ĀC(1 + B)</span>
+                    <span class="reason">Distributive Law</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">F = AB(1) + ĀC(1)</span>
+                    <span class="reason">Null/Dominance Law: 1 + X = 1</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">F = AB + ĀC</span>
+                    <span class="reason">Identity Law (Q.E.D.)</span>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">Worked Proof 2: Simplification using De Morgan's Laws</h3>
+            <p>Simplify $Y = \overline{\bar{A} B + A \bar{B}}$ (Invert the XOR expression):</p>
+
+            <div class="derivation">
+                <div class="derivation-step">
+                    <span class="eq">Y = (Ā B)̅ · (A B̄)̅</span>
+                    <span class="reason">De Morgan's Law: (X + Y)̅ = X̄ · Ȳ</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">Y = (Ā̅ + B̄) · (Ā + B̄̅)</span>
+                    <span class="reason">De Morgan's Law: (X · Y)̅ = X̄ + Ȳ</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">Y = (A + B̄) · (Ā + B)</span>
+                    <span class="reason">Involution Law: Ā̅ = A</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">Y = A Ā + A B + Ā B̄ + B̄ B</span>
+                    <span class="reason">Distributive Expansion</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">Y = 0 + A B + Ā B̄ + 0</span>
+                    <span class="reason">Complement Law: A Ā = 0</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">Y = A B + Ā B̄</span>
+                    <span class="reason">Equivalence (XNOR) Function</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3.3 -->
+        <section id="sec3-3">
+            <h2 class="section-title">3.3 Minterms and Maxterms</h2>
+            <p>Any arbitrary Boolean function can be expressed systematically using combinations of standard product terms (minterms) or standard sum terms (maxterms).</p>
+
+            <h3 class="subsection-title">3.3.1 Minterms ($m_i$)</h3>
+            <p>A <strong>Minterm</strong> is a product (AND) of all $N$ variables in a function, where each variable appears exactly once either in its uncomplemented form (if variable $= 1$) or complemented form (if variable $= 0$).</p>
+            <ul>
+                <li>A minterm evaluates to <strong>1</strong> for exactly one specific combination of input variables.</li>
+                <li>For $N$ variables, there are $2^N$ possible minterms denoted by $m_0, m_1, \dots, m_{2^N-1}$.</li>
+            </ul>
+
+            <h3 class="subsection-title">3.3.2 Maxterms ($M_i$)</h3>
+            <p>A <strong>Maxterm</strong> is a sum (OR) of all $N$ variables in a function, where each variable appears exactly once either in its complemented form (if variable $= 1$) or uncomplemented form (if variable $= 0$).</p>
+            <ul>
+                <li>A maxterm evaluates to <strong>0</strong> for exactly one specific combination of input variables.</li>
+                <li>For $N$ variables, there are $2^N$ possible maxterms denoted by $M_0, M_1, \dots, M_{2^N-1}$.</li>
+            </ul>
+
+            <h3 class="subsection-title">3.3.3 Comprehensive 3-Variable Minterm & Maxterm Table</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Decimal Index ($i$)</th>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>C</th>
+                        <th>Minterm Term</th>
+                        <th>Minterm Designation</th>
+                        <th>Maxterm Term</th>
+                        <th>Maxterm Designation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>$\bar{A}\bar{B}\bar{C}$</td><td class="expr">m₀</td><td>$A+B+C$</td><td class="expr">M₀</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>$\bar{A}\bar{B}C$</td><td class="expr">m₁</td><td>$A+B+\bar{C}$</td><td class="expr">M₁</td></tr>
+                    <tr><td>2</td><td>0</td><td>1</td><td>0</td><td>$\bar{A}B\bar{C}$</td><td class="expr">m₂</td><td>$A+\bar{B}+C$</td><td class="expr">M₂</td></tr>
+                    <tr><td>3</td><td>0</td><td>1</td><td>1</td><td>$\bar{A}BC$</td><td class="expr">m₃</td><td>$A+\bar{B}+\bar{C}$</td><td class="expr">M₃</td></tr>
+                    <tr><td>4</td><td>1</td><td>0</td><td>0</td><td>$A\bar{B}\bar{C}$</td><td class="expr">m₄</td><td>$\bar{A}+B+C$</td><td class="expr">M₄</td></tr>
+                    <tr><td>5</td><td>1</td><td>0</td><td>1</td><td>$A\bar{B}C$</td><td class="expr">m₅</td><td>$\bar{A}+B+\bar{C}$</td><td class="expr">M₅</td></tr>
+                    <tr><td>6</td><td>1</td><td>1</td><td>0</td><td>$AB\bar{C}$</td><td class="expr">m₆</td><td>$\bar{A}+\bar{B}+C$</td><td class="expr">M₆</td></tr>
+                    <tr><td>7</td><td>1</td><td>1</td><td>1</td><td>$ABC$</td><td class="expr">m₇</td><td>$\bar{A}+\bar{B}+\bar{C}$</td><td class="expr">M₇</td></tr>
+                </tbody>
+            </table>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">Key Complementary Relationship</div>
+                <p>A maxterm $M_i$ is the exact complement of its corresponding minterm $m_i$ for the same index $i$:</p>
+                <p style="text-align: center; font-size: 1.1rem; font-weight: bold;">$M_i = \overline{m_i} \quad \text{and} \quad m_i = \overline{M_i}$</p>
+            </div>
+        </section>
+
+        <!-- Section 3.4 -->
+        <section id="sec3-4">
+            <h2 class="section-title">3.4 Sum-of-Product (SOP) and Product-of-Sum (POS) Methods</h2>
+
+            <h3 class="subsection-title">3.4.1 Canonical vs. Standard Forms</h3>
+            <ul>
+                <li><strong>Canonical SOP (Sum-of-Minterms):</strong> A Boolean expression written strictly as a sum of product terms where <em>every single variable</em> appears in every term.
+                    <br>Example: $F(A, B, C) = \bar{A}\bar{B}C + \bar{A}BC + A B C = \sum m(1, 3, 7)$</li>
+                <li><strong>Non-Canonical / Standard SOP:</strong> Contains product terms that do not necessarily include all variables.
+                    <br>Example: $F = \bar{A}C + AB$</li>
+                <li><strong>Canonical POS (Product-of-Maxterms):</strong> A Boolean expression written strictly as a product of sum terms where <em>every single variable</em> appears in every term.
+                    <br>Example: $F(A, B, C) = (A+B+C)(A+\bar{B}+C)(\bar{A}+B+\bar{C}) = \prod M(0, 2, 5)$</li>
+                <li><strong>Non-Canonical / Standard POS:</strong> Contains sum terms that do not include all variables.
+                    <br>Example: $F = (A+C)(B+\bar{C})$</li>
+            </ul>
+
+            <h3 class="subsection-title">3.4.2 Inter-Conversion Between Canonical SOP and POS Forms</h3>
+            <p>To convert between canonical SOP and POS forms for a given function, simply list the index numbers missing from the original set:</p>
+            <div class="callout">
+                <p>If $F(A, B, C) = \sum m(1, 4, 5, 6, 7)$, then its canonical POS form is the product of remaining maxterm indices:</p>
+                <p style="text-align: center; font-size: 1.1rem;" class="expr">F(A, B, C) = ∏ M(0, 2, 3)</p>
+            </div>
+        </section>
+
+        <!-- Section 3.5 -->
+        <section id="sec3-5">
+            <h2 class="section-title">3.5 Truth Tables and Karnaugh Maps</h2>
+            <p>Invented by Maurice Karnaugh at Bell Labs in 1953, a <strong>Karnaugh Map (K-Map)</strong> is a graphical representation of a truth table that allows for rapid, error-free Boolean simplification without algebraic manipulation.</p>
+
+            <h3 class="subsection-title">3.5.1 The Gray Code Adjacency Principle</h3>
+            <p>Cells in a K-Map are arranged such that adjacent cells differ by <strong>exactly one binary bit</strong>. This arrangement relies on **Gray Code ordering** ($00, 01, 11, 10$ instead of binary $00, 01, 10, 11$).</p>
+
+            <div class="callout">
+                <div class="callout-title">Why Single-Bit Change Matters</div>
+                <p>Because adjacent cells differ by only one bit, two adjacent 1s represent an expression $X \cdot Y + X \cdot \bar{Y}$, which simplifies directly to $X(Y + \bar{Y}) = X \cdot 1 = X$. The physical adjacency eliminates the changing variable.</p>
+            </div>
+
+            <h3 class="subsection-title">3.5.2 Two-Variable and Three-Variable K-Map Structures</h3>
+
+            <div style="display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;">
+                <!-- 2-Var K-Map -->
+                <div class="kmap-container">
+                    <div class="kmap-title">2-Variable K-Map ($A, B$)</div>
+                    <table class="kmap">
+                        <tr>
+                            <th class="kmap-diag-header">A\B</th>
+                            <th>0</th>
+                            <th>1</th>
+                        </tr>
+                        <tr>
+                            <th>0</th>
+                            <td class="cell"><span class="minterm-idx">m₀</span>0</td>
+                            <td class="cell"><span class="minterm-idx">m₁</span>1</td>
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <td class="cell"><span class="minterm-idx">m₂</span>2</td>
+                            <td class="cell"><span class="minterm-idx">m₃</span>3</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- 3-Var K-Map -->
+                <div class="kmap-container">
+                    <div class="kmap-title">3-Variable K-Map ($A, BC$) — Gray Code Order on Columns</div>
+                    <table class="kmap">
+                        <tr>
+                            <th class="kmap-diag-header">A\BC</th>
+                            <th>00</th>
+                            <th>01</th>
+                            <th>11</th>
+                            <th>10</th>
+                        </tr>
+                        <tr>
+                            <th>0</th>
+                            <td class="cell"><span class="minterm-idx">m₀</span></td>
+                            <td class="cell"><span class="minterm-idx">m₁</span></td>
+                            <td class="cell"><span class="minterm-idx">m₃</span></td>
+                            <td class="cell"><span class="minterm-idx">m₂</span></td>
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <td class="cell"><span class="minterm-idx">m₄</span></td>
+                            <td class="cell"><span class="minterm-idx">m₅</span></td>
+                            <td class="cell"><span class="minterm-idx">m⇁</span></td>
+                            <td class="cell"><span class="minterm-idx">m₆</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3.6 -->
+        <section id="sec3-6">
+            <h2 class="section-title">3.6 Four-Variable K-Maps</h2>
+            <p>A 4-variable K-map accommodates $2^4 = 16$ minterms ($m_0$ to $m_{15}$). Both row and column coordinates follow 2-bit Gray Code sequences ($00, 01, 11, 10$).</p>
+
+            <div class="kmap-container">
+                <div class="kmap-title">Standard 4-Variable K-Map Grid ($AB$ vs $CD$)</div>
+                <table class="kmap">
+                    <tr>
+                        <th class="kmap-diag-header">AB\CD</th>
+                        <th>00 (&bar;C&bar;D)</th>
+                        <th>01 (&bar;CD)</th>
+                        <th>11 (CD)</th>
+                        <th>10 (C&bar;D)</th>
+                    </tr>
+                    <tr>
+                        <th>00 (&bar;A&bar;B)</th>
+                        <td class="cell"><span class="minterm-idx">m₀</span>m₀</td>
+                        <td class="cell"><span class="minterm-idx">m₁</span>m₁</td>
+                        <td class="cell"><span class="minterm-idx">m₃</span>m₃</td>
+                        <td class="cell"><span class="minterm-idx">m₂</span>m₂</td>
+                    </tr>
+                    <tr>
+                        <th>01 (&bar;AB)</th>
+                        <td class="cell"><span class="minterm-idx">m₄</span>m₄</td>
+                        <td class="cell"><span class="minterm-idx">m₅</span>m₅</td>
+                        <td class="cell"><span class="minterm-idx">m₇</span>m₇</td>
+                        <td class="cell"><span class="minterm-idx">m₆</span>m₆</td>
+                    </tr>
+                    <tr>
+                        <th>11 (AB)</th>
+                        <td class="cell"><span class="minterm-idx">m₁₂</span>m₁₂</td>
+                        <td class="cell"><span class="minterm-idx">m₁₃</span>m₁₃</td>
+                        <td class="cell"><span class="minterm-idx">m₁₅</span>m₁₅</td>
+                        <td class="cell"><span class="minterm-idx">m₁₄</span>m₁₄</td>
+                    </tr>
+                    <tr>
+                        <th>10 (A&bar;B)</th>
+                        <td class="cell"><span class="minterm-idx">m₈</span>m₈</td>
+                        <td class="cell"><span class="minterm-idx">m₉</span>m₉</td>
+                        <td class="cell"><span class="minterm-idx">m₁₁</span>m₁₁</td>
+                        <td class="cell"><span class="minterm-idx">m₁₀</span>m₁₀</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="callout-warning callout">
+                <div class="callout-title">Common Student Traps in 4-Variable K-Maps</div>
+                <p>Note the swap in sequence! Rows jump from $01 \to 11 \to 10$ (Row 3 is $AB=11$, Row 4 is $AB=10$). Similarly, columns jump from $01 \to 11 \to 10$. Always verify minterm index positions ($m_2, m_6, m_{14}, m_{10}$ are on the far right column; $m_8, m_9, m_{11}, m_{10}$ are on the bottom row!).</p>
+            </div>
+        </section>
+
+        <!-- Section 3.7 -->
+        <section id="sec3-7">
+            <h2 class="section-title">3.7 Grouping Structures: Cells, Pairs, Quads, and Octets</h2>
+            <p>Simplification is achieved by combining adjacent cells containing 1s into groups. All group sizes must be exact powers of 2 ($2^k \in \{1, 2, 4, 8, 16\}$).</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Group Name</th>
+                        <th>Group Size ($2^k$)</th>
+                        <th>Variables Eliminated</th>
+                        <th>Resulting Term Structure (4-Var System)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Single Cell</strong></td>
+                        <td>$2^0 = 1$ cell</td>
+                        <td>0 variables eliminated</td>
+                        <td>4-literal Product Term (Full Minterm)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pair</strong></td>
+                        <td>$2^1 = 2$ cells</td>
+                        <td>1 variable eliminated</td>
+                        <td>3-literal Product Term</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quad</strong></td>
+                        <td>$2^2 = 4$ cells</td>
+                        <td>2 variables eliminated</td>
+                        <td>2-literal Product Term</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Octet</strong></td>
+                        <td>$2^3 = 8$ cells</td>
+                        <td>3 variables eliminated</td>
+                        <td>1-literal Product Term</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Entire Map</strong></td>
+                        <td>$2^4 = 16$ cells</td>
+                        <td>4 variables eliminated</td>
+                        <td>Constant Output $F = 1$</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">Mandatory Grouping Rules</h3>
+            <ol>
+                <li>Groups must contain only <strong>1</strong>s (and optional 'Don't Cares'). Never include 0s.</li>
+                <li>Group dimensions must be rectangular or square (e.g., $1\times 2, 2\times 1, 2\times 2, 1\times 4, 2\times 4, 4\times 4$). Diagonal grouping is <strong>strictly prohibited</strong>.</li>
+                <li>Groups should be made **as large as possible** to eliminate the maximum number of variables.</li>
+                <li>Groups may overlap if overlapping helps enlarge another group.</li>
+            </ol>
+        </section>
+
+        <!-- Section 3.8 -->
+        <section id="sec3-8">
+            <h2 class="section-title">3.8 Rolling, Envelope Effects, and Redundant Groups</h2>
+
+            <h3 class="subsection-title">3.8.1 Rolling / Wrap-Around (Envelope) Effect</h3>
+            <p>The K-map is not a flat planar grid—it is a continuous <strong>torus (donut topology)</strong>:</p>
+            <ul>
+                <li><strong>Top and Bottom Edge Adjacency:</strong> Row 0 ($00$) is physically adjacent to Row 3 ($10$).</li>
+                <li><strong>Left and Right Edge Adjacency:</strong> Column 0 ($00$) is physically adjacent to Column 3 ($10$).</li>
+                <li><strong>The Four Corners Quad:</strong> Minterms $m_0, m_2, m_8, m_{10}$ form a valid Quad group!
+                    <br>Elimination analysis for $\{m_0, m_2, m_8, m_{10}\}$:
+                    <br>$AB$ changes between $00$ and $10$ $\implies$ $A$ drops out, leaving $\bar{B}$.
+                    <br>$CD$ changes between $00$ and $10$ $\implies$ $C$ drops out, leaving $\bar{D}$.
+                    <br><strong>Simplified Product Term $= \bar{B}\bar{D}$</strong>.
+                </li>
+            </ul>
+
+            <div class="kmap-container">
+                <div class="kmap-title">Visualizing the Corner Quad Roll Wrap-Around Group ($m_0, m_2, m_8, m_{10}$)</div>
+                <table class="kmap">
+                    <tr>
+                        <th class="kmap-diag-header">AB\CD</th>
+                        <th>00</th><th>01</th><th>11</th><th>10</th>
+                    </tr>
+                    <tr>
+                        <th>00</th>
+                        <td class="cell grouped-1">1<span class="minterm-idx">m₀</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₁</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₃</span></td>
+                        <td class="cell grouped-1">1<span class="minterm-idx">m₂</span></td>
+                    </tr>
+                    <tr>
+                        <th>01</th>
+                        <td class="cell">0<span class="minterm-idx">m₄</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₅</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₇</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₆</span></td>
+                    </tr>
+                    <tr>
+                        <th>11</th>
+                        <td class="cell">0<span class="minterm-idx">m₁₂</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₁₃</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₁₅</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₁₄</span></td>
+                    </tr>
+                    <tr>
+                        <th>10</th>
+                        <td class="cell grouped-1">1<span class="minterm-idx">m₈</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₉</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₁₁</span></td>
+                        <td class="cell grouped-1">1<span class="minterm-idx">m₁₀</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3 class="subsection-title">3.8.2 Prime Implicants vs. Redundant Groups</h3>
+            <ul>
+                <li><strong>Implicant:</strong> Any single minterm or group of minterms covered by a product term.</li>
+                <li><strong>Prime Implicant (PI):</strong> A rectangle of adjacent 1s that cannot be merged into a larger group.</li>
+                <li><strong>Essential Prime Implicant (EPI):</strong> A Prime Implicant that contains **at least one '1'** that is NOT covered by any other Prime Implicant. EPIs MUST be included in the final function.</li>
+                <li><strong>Redundant Group:</strong> A group whose 1s are <strong>completely covered</strong> by other Essential Prime Implicants. Redundant groups MUST be omitted to maintain a minimal SOP expression.</li>
+            </ul>
+        </section>
+
+        <!-- Section 3.9 -->
+        <section id="sec3-9">
+            <h2 class="section-title">3.9 Don't Care Conditions ($d$ or $X$)</h2>
+            <p>In certain digital systems, specific input combinations **never occur** during normal operation, or their output state has no impact on system functionality. These states are called <strong>Don't Care Conditions</strong>, denoted as $d(m_i)$ or $X$.</p>
+
+            <h3 class="subsection-title">3.9.1 Leveraging Don't Cares in K-Maps</h3>
+            <ul>
+                <li>You may treat $X$ as a <strong>1</strong> if it enables you to form a significantly larger group (e.g., expanding a Pair into a Quad).</li>
+                <li>You may treat $X$ as a <strong>0</strong> if it does not help enlarge any group.</li>
+                <li>You are **NEVER obligated** to group isolated $X$ cells.</li>
+            </ul>
+
+            <h3 class="subsection-title">3.9.2 Worked Master Problem: Minimization with Don't Cares</h3>
+            <p><strong>Problem Statement:</strong> Minimize the Boolean function $F(A, B, C, D) = \sum m(1, 3, 7, 11, 15) + d(0, 2, 5)$</p>
+
+            <div class="kmap-container">
+                <div class="kmap-title">K-Map Minimization for $F(A,B,C,D) = \sum m(1,3,7,11,15) + d(0,2,5)$</div>
+                <table class="kmap">
+                    <tr>
+                        <th class="kmap-diag-header">AB\CD</th>
+                        <th>00</th><th>01</th><th>11</th><th>10</th>
+                    </tr>
+                    <tr>
+                        <th>00</th>
+                        <td class="cell dont-care grouped-2">X<span class="minterm-idx">m₀</span></td>
+                        <td class="cell grouped-2">1<span class="minterm-idx">m₁</span></td>
+                        <td class="cell grouped-2">1<span class="minterm-idx">m₃</span></td>
+                        <td class="cell dont-care grouped-2">X<span class="minterm-idx">m₂</span></td>
+                    </tr>
+                    <tr>
+                        <th>01</th>
+                        <td class="cell">0<span class="minterm-idx">m₄</span></td>
+                        <td class="cell dont-care">X<span class="minterm-idx">m₅</span></td>
+                        <td class="cell grouped-1">1<span class="minterm-idx">m₇</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₆</span></td>
+                    </tr>
+                    <tr>
+                        <th>11</th>
+                        <td class="cell">0<span class="minterm-idx">m₁₂</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₁₃</span></td>
+                        <td class="cell grouped-1">1<span class="minterm-idx">m₁₅</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₁₄</span></td>
+                    </tr>
+                    <tr>
+                        <th>10</th>
+                        <td class="cell">0<span class="minterm-idx">m₈</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₉</span></td>
+                        <td class="cell grouped-1">1<span class="minterm-idx">m₁₁</span></td>
+                        <td class="cell">0<span class="minterm-idx">m₁₀</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4 class="subsubsection-title">Step-by-Step Grouping Analysis:</h4>
+            <ol>
+                <li><strong>Group 1 (Vertical Quad - Column CD=11):</strong> Minterms $\{m_3, m_7, m_{15}, m_{11}\}$ form a vertical Quad in column $CD=11$.
+                    <br>Variables $A$ and $B$ vary across all four rows and eliminate completely.
+                    <br><strong>Term 1 = $C D$</strong></li>
+                <li><strong>Group 2 (Top Row Quad using Don't Cares):</strong> Row 0 contains $\{m_0(X), m_1(1), m_3(1), m_2(X)\}$. By treating $m_0$ and $m_2$ as 1s, we form a 4-cell Quad across Row 0 ($AB=00$).
+                    <br>Variables $C$ and $D$ change across columns and cancel out.
+                    <br><strong>Term 2 = $\bar{A}\bar{B}$</strong></li>
+                <li><strong>Don't Care $m_5(X)$:</strong> Left isolated as 0 because all 1s are already covered by optimal groups.</li>
+            </ol>
+
+            <div class="callout">
+                <div class="callout-title">Final Minimal Expression</div>
+                <p style="text-align: center; font-size: 1.3rem;" class="expr">F(A, B, C, D) = C D + Ā B̄</p>
+                <p>This reduces an 8-gate logic circuit to just two 2-input logic gates!</p>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

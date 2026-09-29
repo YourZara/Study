@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Digital Logic – Chapters</title><link rel="stylesheet" href="style.css"></head><body>
+<header><nav><a href="index.html">Home</a><a href="chapters.html">Chapters &amp; Theory</a></nav><h1>Chapters, Theory &amp; Solved Questions</h1></header><main>
+
+<details open><summary>1. Introduction, codes &amp; number systems (7 marks)</summary><div>
+<h3>1.1 Digital vs analog</h3><p>Analog signals vary continuously; digital signals have discrete levels (0/1). <b>Merits of digital:</b> easier design, noise immunity, accurate storage, easy IC integration, error detection/correction, programmable, lower power. <b>Demerits:</b> needs A/D and D/A conversion, needs more bandwidth, real world is analog.</p>
+<h3>1.2 Logic levels, ICs, clock</h3><p>Positive logic: HIGH=1, LOW=0. TTL: LOW 0–0.8 V, HIGH 2–5 V. ICs by size: SSI (&lt;12 gates), MSI (12–99), LSI (100–9999), VLSI (10⁴+), ULSI. Clock triggering: level (high/low) or edge (positive/negative). Flip-flops use edge triggering. Applications: computers, communication, control, instrumentation, consumer electronics.</p>
+<h3>1.3 Number systems</h3><p>Decimal→binary: repeated ÷2 (integer), ×2 (fraction). Binary↔octal: groups of 3 bits; binary↔hex: groups of 4 bits.</p>
+<div class="q"><b>(6E.2C)₁₆ → octal:</b> 0110 1110.0010 1100 → 01 101 110 . 001 011 000 = <code>156.130</code>₈</div>
+<h3>1.4 Codes</h3><p><b>BCD:</b> each decimal digit as 4 bits. BCD addition: if a nibble sum &gt;9 or carry occurs, add 0110.</p>
+<div class="q"><b>23+48 in BCD:</b> 0010 0011 + 0100 1000 = 0110 1011; low nibble &gt;9, add 0110 → 0111 0001 = <code>71</code></div>
+<p><b>Excess-3:</b> BCD + 0011 (self-complementing). <div class="q">159 → 0001 0101 1001 + 0011 each → <code>0100 1000 1100</code></div></p>
+<p><b>Gray:</b> only one bit changes between successive codes. Binary→Gray: MSB same, then g<sub>i</sub>=b<sub>i</sub>⊕b<sub>i−1</sub>. Gray→binary: MSB same, then b<sub>i</sub>=b<sub>i−1</sub>⊕g<sub>i</sub>.</p>
+<div class="q">10011→<code>11101</code>; 110001→<code>100001</code>; 10110110→<code>11011011</code>; binary 101101→Gray <code>111011</code></div>
+<h3>1.5 Alphanumeric codes</h3><p><b>ASCII:</b> 7-bit (128 characters; 'A'=65=1000001, 'a'=97, '0'=48), 8-bit extended. <b>EBCDIC:</b> IBM 8-bit code, 256 characters, used in mainframes.</p>
+<h3>1.6 Complements &amp; signed numbers</h3><p>1's complement: invert bits. 2's complement: 1's complement + 1. Signed magnitude: MSB=sign. Range of n-bit 2's complement: −2ⁿ⁻¹ to +2ⁿ⁻¹−1. Subtraction A−B = A + 2's complement of B; carry out is discarded when the result is positive; overflow when two operands of the same sign give a different sign.</p>
+<div class="q"><b>(−28)+12, 8-bit:</b> +28=00011100 → −28=11100100; +12=00001100; sum=11110000 = <code>−16</code></div></div></details>
+
+<details><summary>2. Logic gates (4 marks)</summary><div>
+<p><b>Basic:</b> AND (AB), OR (A+B), NOT (A'). <b>Universal:</b> NAND, NOR. <b>Exclusive:</b> XOR (A⊕B=A'B+AB', odd number of 1s), XNOR (A⊙B=AB+A'B', equality).</p>
+<h3>Universal gates</h3><p><b>NAND:</b> NOT = (A·A)'; AND = ((AB)')' i.e. NAND followed by NAND-as-NOT; OR = (A'·B')' = A+B using inverted inputs. <b>NOR:</b> NOT = (A+A)'; OR = ((A+B)')'; AND = (A'+B')' = AB. Because NOT, AND and OR can be built from either gate alone, both are universal.</p>
+<p>XOR from 4 NANDs: X=(AB)', Y=(A·X)', Z=(B·X)', out=(YZ)'.</p>
+<h3>De Morgan's laws</h3><p>(A+B)' = A'·B'  and  (AB)' = A'+B'. Truth table proof: for AB=00,01,10,11 both (AB)' and A'+B' give 1,1,1,0; (A+B)' and A'B' give 1,0,0,0. NAND = bubbled OR; NOR = bubbled AND.</p>
+<h3>Positive/negative logic</h3><p>Positive logic: HIGH=1. Negative logic: LOW=1. A positive AND gate acts as a negative OR gate, and NAND↔NOR.</p></div></details>
+
+<details><summary>3. Boolean algebra &amp; K-maps (5 marks)</summary><div>
+<p><b>Laws:</b> A+0=A, A·1=A, A+1=1, A·0=0, A+A=A, A+A'=1, A·A'=0, (A')'=A; commutative, associative, distributive (A+BC=(A+B)(A+C)); absorption A+AB=A; A+A'B=A+B; consensus AB+A'C+BC=AB+A'C; duality.</p>
+<div class="q"><b>Prove AB+A'C+BC=AB+A'C:</b> BC=BC(A+A')=ABC+A'BC. Then AB+ABC=AB and A'C+A'BC=A'C. ∎<br><b>Prove AB+C(A⊕B)=BC+A(B+C)</b>: expand both sides in minterms; LHS=AB+A'BC+AB'C, RHS=BC+AB+AC=AB+BC+AC, which has the same minterms 3,5,6,7. ∎</div>
+<p><b>Minterm:</b> product of all variables (m); <b>maxterm:</b> sum of all variables (M). SOP=ΣM minterms; POS=ΠM maxterms. K-map uses Gray order (00,01,11,10). Groups of 1, 2 (pairs), 4 (quads), 8 (octets); groups may roll over edges and corners (rolling), overlapping is allowed, don't-cares (X) are used only if they enlarge a group. Redundant groups are ones whose cells are all covered by other groups.</p>
+<div class="q"><b>F=Σm(1,2,4,5,6,8,10,11,13,15):</b> one minimal form = A'C'D + AB'D' + A'BD' + B'CD' + ACD + BC'D (realize with AND-OR or NAND-NAND).</div>
+<p>Steps: truth table → K-map → group largest first, essential prime implicants first → write SOP → draw gates.</p></div></details>
+
+<details><summary>4. Combinational circuits (10 marks)</summary><div>
+<p><b>Design steps:</b> problem → inputs/outputs → truth table → K-map → simplified equations → logic diagram.</p>
+<table><tr><th>Circuit</th><th>Equations</th></tr>
+<tr><td>Half adder</td><td>S=A⊕B, C=AB</td></tr><tr><td>Full adder</td><td>S=A⊕B⊕Cin, Cout=AB+Cin(A⊕B)</td></tr>
+<tr><td>Half subtractor</td><td>D=A⊕B, Bo=A'B</td></tr><tr><td>Full subtractor</td><td>D=A⊕B⊕Bin, Bo=A'B+(A⊕B)'Bin</td></tr></table>
+<p><b>Ripple-carry adder:</b> n full adders chained; carry ripples, so delay grows with n. <b>Fast (look-ahead):</b> G=AB, P=A⊕B, C<sub>i+1</sub>=G<sub>i</sub>+P<sub>i</sub>C<sub>i</sub> computed in parallel.</p>
+<h3>Multiplexer (MUX) &amp; demultiplexer</h3><p>MUX: 2ⁿ inputs, n selects, 1 output; Y=Σ m<sub>i</sub>D<sub>i</sub>. A 4:1 MUX: Y=S1'S0'D0+S1'S0D1+S1S0'D2+S1S0D3. Larger MUX from smaller ones (MUX tree; 16:1 = four 4:1 + one 4:1). DEMUX: one input routed to one of 2ⁿ outputs (1:4: Y0=D·S1'S0' …); acts as decoder if D=1.</p>
+<div class="q"><b>Full adder using 4:1 MUX (selects A,B):</b> Sum inputs for AB=00,01,10,11 = Cin, Cin', Cin', Cin; Carry inputs = 0, Cin, Cin, 1.<br><b>Full subtractor using 4:1 MUX (selects A,B):</b> Difference inputs = Bin, Bin', Bin', Bin; Borrow inputs = Bin, 1, 0, Bin.<br><b>Half+full adder in one circuit, Y=Σm(0,2,3,5,7) with 1:4 MUX:</b> use the same method, with select lines as two variables and data inputs from the third (0,1,X,X').</div>
+<h3>Encoders &amp; decoders</h3><p>Encoder: 2ⁿ inputs → n-bit code. <b>Octal-to-binary:</b> A2=D4+D5+D6+D7, A1=D2+D3+D6+D7, A0=D1+D3+D5+D7 (OR gates). Priority encoder outputs code of the highest-priority active input (X=don't care for lower ones) and a valid bit V. 16-to-4 line uses 15 lines' OR gates (each output OR of 8 inputs). Decimal-to-BCD: A=D8+D9, B=D4+D5+D6+D7, C=D2+D3+D6+D7, D=D1+D3+D5+D7+D9.</p>
+<p>Decoder: n inputs → 2ⁿ outputs (each output one minterm). 3×8 decoder + OR gates realizes any function of 3 variables (OR the required minterm outputs; use NAND if outputs are active low). 4×16 from two 3×8 with enable, or 5 of 2×4. <b>BCD-to-decimal:</b> 4→10 decoder, outputs Y0–Y9, invalid codes 1010–1111 give none.</p>
+<h3>Seven-segment decoder (common cathode: 1 lights)</h3><p>Segment f is ON for 0,4,5,6,8,9; don't cares 10–15 → <code>f = A + BC' + BD' + C'D'</code>. Draw each segment by K-map similarly.</p>
+<h3>Magnitude comparator</h3><p>1-bit: A&gt;B=AB', A=B=A⊙B, A&lt;B=A'B. n-bit: compare MSB first; equality x<sub>i</sub>=A<sub>i</sub>⊙B<sub>i</sub>. For 3-bit: (A=B)=x2x1x0; (A&gt;B)=A2B2'+x2A1B1'+x2x1A0B0'; (A&lt;B)=A2'B2+x2A1'B1+x2x1A0'B0.</p></div></details>
+
+<details><summary>5. Sequential logic &amp; flip-flops (7 marks)</summary><div>
+<p><b>Combinational vs sequential:</b> combinational output depends only on present inputs (no memory, no clock); sequential also depends on past state (has memory, uses feedback and clock). <b>Latch vs flip-flop:</b> a latch is level-sensitive (transparent while enable is active); a flip-flop is edge-triggered and changes state only at the clock edge. Race-around in JK (J=K=1, level clock) is removed by master-slave or edge triggering.</p>
+<table><tr><th>FF</th><th>Characteristic eq.</th><th>Excitation (Q→Q⁺)</th></tr>
+<tr><td>SR</td><td>Q⁺=S+R'Q (SR=0)</td><td>0→0: S=0,R=X; 0→1: 1,0; 1→0: 0,1; 1→1: X,0</td></tr>
+<tr><td>JK</td><td>Q⁺=JQ'+K'Q</td><td>0→0: 0,X; 0→1: 1,X; 1→0: X,1; 1→1: X,0</td></tr>
+<tr><td>D</td><td>Q⁺=D</td><td>D=Q⁺</td></tr><tr><td>T</td><td>Q⁺=T⊕Q</td><td>T=Q⊕Q⁺</td></tr></table>
+<p>SR: 00 hold, 01 reset, 10 set, 11 invalid. JK: 00 hold, 01 reset, 10 set, 11 toggle. Master-slave: master follows input while clock HIGH, slave copies at clock falling edge.</p>
+<h3>Conversions</h3><p>Method: write the required FF's characteristic table, then the given FF's excitation table, and derive its inputs by K-map. <b>SR→JK:</b> S=JQ', R=KQ. <b>D→JK:</b> D=JQ'+K'Q. <b>JK→T:</b> J=K=T. <b>JK→D:</b> J=D, K=D'. <b>SR→D:</b> S=D, R=D'. <b>SR→T:</b> S=TQ', R=TQ. <b>D→T:</b> D=T⊕Q. To make a D flip-flop function as JK, feed D=JQ'+K'Q (AND/OR/NOT logic in front). Applications: registers, counters, frequency dividers, switch debouncing, data storage, state machines.</p></div></details>
+
+<details><summary>6. Registers &amp; counters (10 marks)</summary><div>
+<h3>Registers</h3><p>A register is a group of flip-flops storing n bits. Types: SISO, SIPO, PISO, PIPO (serial/parallel in and out). A 4-bit shift register uses 4 D flip-flops with common clock; data moves one position per clock. Serial-in loading takes 4 clocks; SISO output after 4 more.</p>
+<div class="q"><b>4-bit SIPO, input 1011 (LSB… first bit first):</b> Q0 (first FF) starts 0000. After clocks the FFs hold 1000→? Shifting in bits 1,0,1,1 in that order gives Q3Q2Q1Q0 = 0001→0010→0101→1011. Parallel outputs read after 4 clocks; timing diagram shows each Q delayed by one clock.<br><b>PISO (1101):</b> a SHIFT/LOAD line: LOAD=1 with clock loads 1101 via AND-OR gates; SHIFT then outputs 1,0,1,1 serially in 4 clocks.</div>
+<p><b>Johnson (twisted-ring) counter:</b> Q̄ of last FF fed back to first; 4 FFs → 8 states (0000,1000,1100,1110,1111,0111,0011,0001), mod 2n. <b>Ring counter:</b> Q of last to first; n states (one hot).</p>
+<h3>Asynchronous (ripple) counters</h3><p>Flip-flop outputs clock the next FF (JK with J=K=1 or T). Simple, but delay accumulates. Up counter with negative-edge FFs: clock next FF from Q; down counter: from Q'. n FFs → mod 2ⁿ; frequency divided by 2ⁿ. <b>Mod-N:</b> use n such that 2ⁿ≥N and a NAND on FFs' outputs at count N to clear all (CLR active low).</p>
+<div class="q"><b>BCD/decade (mod-10):</b> 4 JK FFs, J=K=1, ripple clock; NAND of Q3 and Q1 (1010) → CLR of all FFs, giving 0000–1001.<br><b>Mod-12:</b> 4 FFs, NAND of Q3 and Q2 (1100) resets.<br><b>Mod-6:</b> 3 FFs, NAND of Q2, Q1 (110) resets.<br><b>3-bit up/down:</b> clock of next FF = Q (up) or Q' (down), selected by an up/down control using AND-OR gates.</div>
+<h3>Synchronous counters</h3><p>Common clock, all FFs change together; no ripple delay. <b>Design steps:</b> state diagram → state table → excitation table → K-map for each input → circuit + timing.</p>
+<table><tr><th>Counter (T FF)</th><th>Inputs</th></tr>
+<tr><td>3-bit up</td><td>T0=1, T1=Q0, T2=Q1Q0</td></tr><tr><td>2-bit up/down (M=1 up)</td><td>T0=1, T1=M·Q0+M'·Q0'</td></tr>
+<tr><td>Mod-10 (BCD) up</td><td>T0=1, T1=Q3'Q0, T2=Q1Q0, T3=Q2Q1Q0+Q3Q0</td></tr></table>
+<div class="q"><b>Mod-6 with T FFs (states 000→101→000):</b> T0=1 except from state 101→000 (T0=1), T1: toggles when Q0=1 and Q2=0 → T1=Q2'Q0; T2: toggles at 011→100 and 101→000 → T2=Q1Q0+Q2Q0 (states 110,111 are don't cares). Draw the state diagram, table and timing (count 0–5 then reset).<br>For <b>SR/JK</b> versions use the same table with the SR/JK excitation table.</div>
+<p>Applications: frequency division, digital clocks, event counting, timers, memory address, sequencing.</p></div></details>
+
+<details><summary>7. Sequential machine design (10 marks)</summary><div>
+<p><b>Design steps (always write all):</b> 1) state diagram (Moore/Mealy) 2) state table 3) remove redundant states 4) state assignment (S0=00, S1=01, S2=10) 5) transition table 6) excitation table for chosen FF 7) K-maps for FF inputs and output 8) circuit diagram (+timing). Mealy: output depends on state and input; Moore: on state only. Redundant states: two states with the same next states and outputs merge.</p>
+<div class="q"><b>Example: detect 011 (Mealy, overlapping), T flip-flops.</b><br>S0: initial/none; S1: last bit 0; S2: last bits 01.<br>S0: X=0→S1 (Z=0), X=1→S0 (0). S1: 0→S1 (0), 1→S2 (0). S2: 0→S1 (0), <b>1→S0 (Z=1)</b>.<br>Assignment S0=00, S1=01, S2=10, 11 unused (don't care). Using T=Q⊕Q⁺: <code>T1 = Q1 + Q0X</code>, <code>T0 = Q0⊙X (XNOR)</code>, <code>Z = Q1X</code>.</div>
+<p><b>Other sequences (110, 010, 101):</b> same steps. 110: S0 (none), S1 (1), S2 (11); Z=1 when in S2 and X=0. 010: S0, S1 (0), S2 (01); Z=1 when S2 and X=0. 101: S0, S1 (1), S2 (10); Z=1 when S2 and X=1. With SR: S=Q⁺·Q', R=Q⁺'·Q (0→1: S=1,R=0; 1→0: S=0,R=1; hold: S=0/X,R=X/0). With D: D=Q⁺. With JK: use JK excitation table.</p></div></details>
+
+<details><summary>8. Digital ICs (7 marks)</summary><div>
+<p><b>BJT/MOSFET as switch:</b> BJT: cutoff (OFF), saturation (ON, V<sub>CE(sat)</sub>≈0.2 V). NMOS ON when V<sub>GS</sub>&gt;V<sub>T</sub>; PMOS ON when V<sub>GS</sub>&lt;−|V<sub>T</sub>|.</p>
+<h3>Logic-family characteristics (asked as a 4-mark answer)</h3><table><tr><th>Parameter</th><th>TTL</th><th>CMOS</th></tr>
+<tr><td>Supply</td><td>5 V ±5%</td><td>3–18 V</td></tr><tr><td>V<sub>IH(min)</sub>/V<sub>IL(max)</sub></td><td>2 V/0.8 V</td><td>0.7/0.3 V<sub>DD</sub></td></tr>
+<tr><td>V<sub>OH(min)</sub>/V<sub>OL(max)</sub></td><td>2.4 V/0.4 V</td><td>≈V<sub>DD</sub>/≈0</td></tr><tr><td>Noise margin</td><td>0.4 V</td><td>≈30–45% of V<sub>DD</sub></td></tr>
+<tr><td>Propagation delay</td><td>≈10 ns</td><td>≈50–100 ns (older)</td></tr><tr><td>Power/gate</td><td>≈10 mW</td><td>≈nW static</td></tr>
+<tr><td>Fan-out</td><td>≈10</td><td>≈50</td></tr></table>
+<p>Others: speed–power product, noise immunity, packing density (CMOS higher), static sensitivity (CMOS needs care).</p>
+<p><b>TTL NAND:</b> multi-emitter input transistor Q1, phase splitter Q2, totem-pole output (Q3, Q4, diode). Any input LOW → Q1 conducts, Q2 off, Q4 on → output HIGH. All inputs HIGH → Q2 and Q3 on, output LOW. <b>TTL NOT/NOR:</b> single-emitter input; NOR uses parallel phase-splitter transistors so either input HIGH gives LOW.</p>
+<p><b>CMOS NAND (2 inputs):</b> 2 PMOS in parallel from V<sub>DD</sub> to output, 2 NMOS in series to ground. Only A=B=1 turns both NMOS on and both PMOS off → Y=0; otherwise a PMOS conducts → Y=1. <b>CMOS NOR:</b> PMOS in series, NMOS in parallel. <b>NOT:</b> one PMOS + one NMOS.</p>
+<p><b>Three-state (tri-state) TTL:</b> outputs HIGH, LOW, or high-impedance (Hi-Z) when disabled; allows many devices on one bus.</p>
+<h3>Applications</h3><p><b>Multiplexed display:</b> several 7-segment digits share segment lines (one decoder); a counter and digit-select decoder enable one digit at a time at high speed, so persistence of vision shows all digits and reduces components/current.<br><b>Frequency counter:</b> input → Schmitt trigger → AND gate with a precise gate pulse (time base from crystal oscillator + divider, e.g., 1 s). Counter counts pulses while gate is open; the latch/decoder/display shows the count = frequency; control logic resets before the next gate.<br><b>Time measurement:</b> the unknown interval opens the gate; a known-frequency clock pulses (f) pass through and are counted (N). Time T = N/f. Counter cleared before each measurement, result latched and displayed.</p></div></details>
+
+<h2>Exam checklist</h2><ul><li>Draw neat diagrams and timing diagrams for every counter, register and machine.</li><li>Show the state table, excitation table, K-maps and equations for all design questions.</li><li>Practise the past-paper questions in the Home page list until you can do them within the time.</li></ul>
+</main></body></html>

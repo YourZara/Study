@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Syllabus Map — ENEX 152 Digital Logic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12202b; --teal: #0d6b5c; --teal-deep: #084c42;
+      --amber: #c46b1a; --line: rgba(18,32,43,.12); --card: rgba(255,255,255,.85);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Source Sans 3", system-ui, sans-serif; color: var(--ink);
+      background: linear-gradient(180deg, #eef5f1, #dde8e2); min-height: 100vh; line-height: 1.55;
+    }
+    a { color: var(--teal-deep); }
+    a:hover { color: var(--amber); }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 24px 18px 56px; }
+    .nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .nav a {
+      text-decoration: none; font-weight: 700; font-size: 0.88rem;
+      padding: 7px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); color: var(--ink);
+    }
+    .nav a:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+    h1 {
+      font-family: Fraunces, Georgia, serif; font-size: clamp(1.7rem, 4vw, 2.3rem);
+      margin-bottom: 8px; letter-spacing: -0.02em;
+    }
+    .lead { color: #456; margin-bottom: 22px; max-width: 40rem; }
+    .bar {
+      display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin: 18px 0 28px;
+      height: 28px;
+    }
+    .bar span {
+      border-radius: 6px; display: grid; place-items: center;
+      font-size: 0.7rem; font-weight: 700; color: #fff;
+    }
+    .bar .m7 { background: #3d8b7a; } .bar .m4 { background: #5a9e70; }
+    .bar .m5 { background: #7aa84a; } .bar .m10 { background: #c46b1a; }
+    details {
+      background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+      margin: 10px 0; padding: 4px 14px 10px;
+    }
+    summary {
+      cursor: pointer; font-family: Fraunces, Georgia, serif; font-size: 1.08rem;
+      padding: 12px 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: "▸"; color: var(--teal); margin-right: 4px; }
+    details[open] summary::before { content: "▾"; }
+    .mk {
+      font-family: "Source Sans 3", sans-serif; font-size: 0.78rem; font-weight: 700;
+      background: #fff4e8; color: var(--amber); padding: 3px 9px; border-radius: 999px;
+    }
+    .hrs { font-family: "Source Sans 3", sans-serif; font-size: 0.82rem; color: #567; font-weight: 600; }
+    ul { margin: 4px 0 8px 1.15rem; color: #345; font-size: 0.95rem; }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .chip {
+      text-decoration: none; font-size: 0.82rem; font-weight: 700;
+      padding: 5px 11px; border-radius: 999px; background: #e7f2ee; color: var(--teal-deep); border: 1px solid #c5ddd4;
+    }
+    .chip:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+    .tip {
+      margin-top: 28px; padding: 16px 18px; border-radius: 16px;
+      background: linear-gradient(120deg, #084c42, #0d6b5c); color: #f4fffb;
+    }
+    .tip h2 { font-family: Fraunces, Georgia, serif; font-size: 1.15rem; margin-bottom: 8px; }
+    .tip a { color: #ffe0b8; }
+    @media (max-width: 640px) { .bar { grid-template-columns: repeat(4, 1fr); height: auto; } .bar span { padding: 8px 0; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <a href="Index.html">Home</a>
+      <a href="link.html">All links</a>
+      <a href="Syllabus.pdf" target="_blank" rel="noopener">Syllabus PDF</a>
+      <a href="PQA%20Claude/index.html">PQAs</a>
+    </nav>
+
+    <h1>Syllabus map</h1>
+    <p class="lead">From <strong>Syllabus.pdf</strong> (ENEX 152): 45 lecture hours → 60 exam marks. Orange bars are the 10-mark chapters — prioritise these.</p>
+
+    <div class="bar" title="Relative exam marks" aria-label="Marks distribution">
+      <span class="m7" style="grid-column: span 1">Ch1·7</span>
+      <span class="m4" style="grid-column: span 1">Ch2·4</span>
+      <span class="m5" style="grid-column: span 1">Ch3·5</span>
+      <span class="m10" style="grid-column: span 2">Ch4·10</span>
+      <span class="m7" style="grid-column: span 1">Ch5·7</span>
+      <span class="m10" style="grid-column: span 2">Ch6·10</span>
+      <span class="m10" style="grid-column: span 2">Ch7·10</span>
+      <span class="m7" style="grid-column: span 1">Ch8·7</span>
+    </div>
+
+    <details open>
+      <summary>1. Introduction <span class="hrs">5 hrs</span> <span class="mk">7 marks</span></summary>
+      <ul>
+        <li>Digital vs analog · logic levels · ICs · clock triggering · applications</li>
+        <li>Codes: binary/octal/hex, BCD, Excess-3, Gray, ASCII/EBCDIC</li>
+        <li>1’s / 2’s complement · signed numbers</li>
+      </ul>
+      <div class="links">
+        <a class="chip" href="Gemini/Digital%20Electronics%20Reference%20Guide%20-%20Module%201Gemini.pdf" target="_blank" rel="noopener">Gemini Module 1 PDF</a>
+        <a class="chip" href="Theory%20Short/chapters.html">Theory Short §1</a>
+        <a class="chip" href="ChatGPT/Digital_Logic_ENEX_152_Master_Guide_ChatGPT.pdf" target="_blank" rel="noopener">ChatGPT PDF</a>
+      </div>
+    </details>
+
+    <details>
+      <summary>2. Logic Gates <span class="hrs">3 hrs</span> <span class="mk">4 marks</span></summary>
+      <ul>
+        <li>Basic / universal / exclusive gates · positive &amp; negative logic</li>
+        <li>De Morgan’s laws · applications</li>
+      </ul>
+      <div class="links">
+        <a class="chip" href="Gemini/Logic.html">Gemini Logic.html</a>
+        <a class="chip" href="Theory%20Short/chapters.html">Theory Short §2</a>
+        <a class="chip" href="PQA%20Claude/paper1.html">PQA: universal gates</a>
+      </div>
+    </details>
+
+    <details>
+      <summary>3. Boolean Algebra &amp; K-Maps <span class="hrs">4 hrs</span> <span class="mk">5 marks</span></summary>
+      <ul>
+        <li>Laws · SOP/POS · minterms/maxterms</li>
+        <li>4-variable K-map · pairs/quads/octets · don’t cares · redundant groups</li>
+      </ul>
+      <div class="links">
+        <a class="chip" href="Gemini/Bool.html">Gemini Bool.html</a>
+        <a class="chip" href="Theory%20Short/chapters.html">Theory Short §3</a>
+        <a class="chip" href="PQA%20Claude/index.html">K-map in every PQA</a>
+      </div>
+    </details>
+
+    <details open>
+      <summary>4. Combinational Logic Circuits <span class="hrs">8 hrs</span> <span class="mk">10 marks</span></summary>
+      <ul>
+        <li>Adders / subtractors · ripple &amp; fast adders</li>
+        <li>MUX · DEMUX · encoders · priority encoders · decoders · 7-seg · comparators</li>
+      </ul>
+      <div class="links">
+        <a class="chip" href="Gemini/Combinational.html">Gemini Combinational</a>
+        <a class="chip" href="Theory%20Short/chapters.html">Theory Short §4</a>
+        <a class="chip" href="PQA%20Claude/paper2.html">MUX full adder (P2)</a>
+        <a class="chip" href="PQA%20Claude/paper1.html">MUX full subtractor (P1)</a>
+      </div>
+    </details>
+
+    <details>
+      <summary>5. Sequential Logic Circuits <span class="hrs">5 hrs</span> <span class="mk">7 marks</span></summary>
+      <ul>
+        <li>Latches &amp; FF: SR, D, T, JK · excitation · master-slave · timing</li>
+        <li>FF conversions · applications</li>
+      </ul>
+      <div class="links">
+        <a class="chip" href="Gemini/sequential_logic_circuits_master_guide.html">Gemini Sequential</a>
+        <a class="chip" href="Theory%20Short/chapters.html">Theory Short §5</a>
+        <a class="chip" href="PQA%20Claude/paper1.html">D→JK (P1)</a>
+        <a class="chip" href="PQA%20Claude/paper2.html">SR→JK (P2)</a>
+      </div>
+    </details>
+
+    <details open>
+      <summary>6. Registers and Counters <span class="hrs">7 hrs</span> <span class="mk">10 marks</span></summary>
+      <ul>
+        <li>SISO / SIPO / PISO / PIPO · timing diagrams</li>
+        <li>Async &amp; sync counters · up/down · mod-n · applications</li>
+      </ul>
+      <div class="links">
+        <a class="chip" href="Gemini/Register.html">Gemini Register.html</a>
+        <a class="chip" href="Theory%20Short/chapters.html">Theory Short §6</a>
+        <a class="chip" href="PQA%20Claude/index.html">All 4 papers</a>
+      </div>
+    </details>
+
+    <details open>
+      <summary>7. Sequential Machine Designs <span class="hrs">8 hrs</span> <span class="mk">10 marks</span></summary>
+      <ul>
+        <li>State diagrams · flow tables · reduction · assignment · excitation maps</li>
+        <li>Sequence detectors (1-bit / 2-bit) — <em>asked in every past paper</em></li>
+      </ul>
+      <div class="links">
+        <a class="chip" href="Gemini/seqmachine.html">Gemini seqmachine.html</a>
+        <a class="chip" href="Theory%20Short/chapters.html">Theory Short §7</a>
+        <a class="chip" href="PQA%20Claude/paper1.html">011 (T)</a>
+        <a class="chip" href="PQA%20Claude/paper2.html">110 (SR)</a>
+        <a class="chip" href="PQA%20Claude/paper3.html">010 (D)</a>
+        <a class="chip" href="PQA%20Claude/paper4.html">101 (SR)</a>
+      </div>
+    </details>
+
+    <details>
+      <summary>8. Digital Integrated Circuits <span class="hrs">5 hrs</span> <span class="mk">7 marks</span></summary>
+      <ul>
+        <li>BJT / MOSFET switching · TTL &amp; CMOS parameters &amp; gates</li>
+        <li>Three-state · displays · frequency counters · time measurement</li>
+      </ul>
+      <div class="links">
+        <a class="chip" href="Gemini/BJT.html">Gemini BJT.html</a>
+        <a class="chip" href="Theory%20Short/chapters.html">Theory Short §8</a>
+        <a class="chip" href="PQA%20Claude/paper3.html">CMOS NAND (P3)</a>
+        <a class="chip" href="PQA%20Claude/paper4.html">TTL NOR (P4)</a>
+      </div>
+    </details>
+
+    <div class="tip">
+      <h2>From the past papers (PQA pic.jpg)</h2>
+      <p>Scanned originals of four TU finals. Always-asked: <strong>sequence detector</strong>, <strong>sync counter</strong>, <strong>async/ripple counter</strong>, <strong>shift register + timing</strong>, <strong>K-map</strong>, <strong>MUX/encoder/decoder</strong>. Open <a href="PQA%20pic.jpg" target="_blank" rel="noopener">scans</a> beside <a href="PQA%20Claude/index.html">solved answers</a>.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combinational Logic Circuits: Master Engineering Guide</title>
+    <!-- MathJax for rendering crisp mathematical formulas -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --border-color: #475569;
+            --code-bg: #090d16;
+            --kmap-cell-bg: #1e293b;
+            --kmap-header-bg: #0f172a;
+            --group-color1: rgba(56, 189, 248, 0.25);
+            --group-color2: rgba(74, 222, 128, 0.25);
+            --group-color3: rgba(251, 191, 36, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 320px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 20px 15px;
+        }
+
+        aside h2 {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        aside ul {
+            list-style: none;
+        }
+
+        aside li {
+            margin-bottom: 6px;
+        }
+
+        aside a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        aside a:hover {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            padding-left: 14px;
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 320px;
+            flex: 1;
+            padding: 40px 50px;
+            max-width: 1250px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 20px;
+        }
+
+        h2.section-title {
+            font-size: 1.75rem;
+            color: var(--accent-green);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 22px;
+        }
+
+        h3.subsection-title {
+            font-size: 1.3rem;
+            color: var(--accent-purple);
+            margin: 28px 0 14px 0;
+        }
+
+        h4.subsubsection-title {
+            font-size: 1.1rem;
+            color: var(--accent-amber);
+            margin: 18px 0 10px 0;
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            color: #cbd5e1;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 16px;
+        }
+
+        /* Math and Expression Formatting */
+        .expr {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--code-bg);
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 0.98rem;
+        }
+
+        /* Data Tables */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background-color: var(--code-bg);
+            font-size: 0.92rem;
+            text-align: center;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        table.data-table th, table.data-table td {
+            padding: 9px 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        table.data-table th {
+            background-color: var(--bg-card);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        table.data-table td.left-align {
+            text-align: left;
+        }
+
+        /* K-Map Tables */
+        .kmap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            background-color: var(--bg-secondary);
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .kmap-title {
+            font-weight: bold;
+            color: var(--accent-amber);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        table.kmap {
+            border-collapse: collapse;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--code-bg);
+            border: 2px solid var(--accent-blue);
+        }
+
+        table.kmap td, table.kmap th {
+            width: 60px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        table.kmap th {
+            background-color: var(--kmap-header-bg);
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        table.kmap td.cell {
+            background-color: var(--kmap-cell-bg);
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        table.kmap td .minterm-idx {
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .kmap-diag-header {
+            background: linear-gradient(to top right, var(--kmap-header-bg) 49%, var(--accent-blue) 50%, var(--kmap-header-bg) 51%);
+            font-size: 0.75rem !important;
+            padding: 2px !important;
+        }
+
+        /* Diagram / Structural Schematic Blocks */
+        .schematic-box {
+            background-color: var(--code-bg);
+            border: 2px dashed var(--accent-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-family: monospace;
+            overflow-x: auto;
+            text-align: center;
+        }
+
+        .schematic-title {
+            color: var(--accent-green);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Derivation Step Cards */
+        .derivation {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+
+        .derivation-step {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .derivation-step .eq {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .derivation-step .reason {
+            color: var(--text-muted);
+            font-family: system-ui, sans-serif;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            background-color: rgba(56, 189, 248, 0.08);
+            border-left: 4px solid var(--accent-blue);
+            padding: 16px 20px;
+            border-radius: 0 6px 6px 0;
+            margin: 22px 0;
+        }
+
+        .callout-warning {
+            background-color: rgba(251, 191, 36, 0.08);
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        .callout-tip {
+            background-color: rgba(74, 222, 128, 0.08);
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .callout-title {
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+
+        .callout-warning .callout-title {
+            color: var(--accent-amber);
+        }
+
+        .callout-tip .callout-title {
+            color: var(--accent-green);
+        }
+
+        /* Segment Display Visualization */
+        .seven-seg-demo {
+            display: inline-block;
+            width: 70px;
+            height: 120px;
+            position: relative;
+            margin: 15px auto;
+        }
+
+        .seg {
+            background-color: #334155;
+            position: absolute;
+            border-radius: 3px;
+        }
+
+        .seg.active {
+            background-color: var(--accent-red);
+            box-shadow: 0 0 8px var(--accent-red);
+        }
+
+        .seg-a { top: 0; left: 10px; width: 50px; height: 10px; }
+        .seg-b { top: 10px; right: 0; width: 10px; height: 45px; }
+        .seg-c { bottom: 10px; right: 0; width: 10px; height: 45px; }
+        .seg-d { bottom: 0; left: 10px; width: 50px; height: 10px; }
+        .seg-e { bottom: 10px; left: 0; width: 10px; height: 45px; }
+        .seg-f { top: 10px; left: 0; width: 10px; height: 45px; }
+        .seg-g { top: 52px; left: 10px; width: 50px; height: 10px; }
+
+        @media (max-width: 950px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+            main {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside>
+        <h2>Module 4 Syllabus</h2>
+        <ul>
+            <li><a href="#sec4-1">4.1 Design Procedures</a></li>
+            <li><a href="#sec4-2">4.2 Half-Adder & Full-Adder</a></li>
+            <li><a href="#sec4-3">4.3 Half-Subtractor & Full-Subtractor</a></li>
+            <li><a href="#sec4-4">4.4 Ripple Carry & Fast Adders (CLA)</a></li>
+            <li><a href="#sec4-5">4.5 Multiplexers (MUX) Design</a></li>
+            <li><a href="#sec4-6">4.6 Demultiplexers (DEMUX) Design</a></li>
+            <li><a href="#sec4-7">4.7 Basic Encoders</a></li>
+            <li><a href="#sec4-8">4.8 Priority Encoders</a></li>
+            <li><a href="#sec4-9">4.9 Encoder Designs (Decimal to BCD)</a></li>
+            <li><a href="#sec4-10">4.10 Decoder Designs & Expansion</a></li>
+            <li><a href="#sec4-11">4.11 BCD-to-Decimal Decoder</a></li>
+            <li><a href="#sec4-12">4.12 Seven-Segment Decoder</a></li>
+            <li><a href="#sec4-13">4.13 Magnitude Comparators</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <header>
+            <h1>Module 4: Combinational Logic Circuits</h1>
+            <p>Comprehensive Academic Reference Guide for Computer Engineering (TU / IOE Syllabus)</p>
+        </header>
+
+        <!-- Section 4.1 -->
+        <section id="sec4-1">
+            <h2 class="section-title">4.1 Design Procedures for Combinational Logic Circuits</h2>
+            <p>A <strong>Combinational Logic Circuit</strong> is a type of digital circuit whose output at any given instant depends <strong>strictly and solely on the present combination of inputs</strong>. Unlike sequential circuits, combinational circuits contain no memory elements (flip-flops), no internal state storage, and no feedback loops.</p>
+
+            <div class="callout">
+                <div class="callout-title">Fundamental Characteristic</div>
+                <p>For $N$ input variables, there are $2^N$ possible binary input combinations. For each combination, there is exactly one possible output state defined by the logic equations: $Y_j = f_j(X_0, X_1, \dots, X_{N-1})$.</p>
+            </div>
+
+            <h3 class="subsection-title">4.1.1 Standard 5-Step Design Methodology</h3>
+            <ol>
+                <li><strong>Problem Specification:</strong> Clearly state the real-world operational requirements, identify all input variables, and define required output signals.</li>
+                <li><strong>Variable Assignment & Input/Output Mapping:</strong> Assign distinct algebraic letter symbols (e.g., $A, B, C$ for inputs; $S, C, Y$ for outputs) to all input and output lines.</li>
+                <li><strong>Truth Table Construction:</strong> Construct a complete truth table listing all $2^N$ input combinations alongside their required output logic states ($0, 1,$ or Don't Care $X$).</li>
+                <li><strong>Boolean Function Simplification:</strong> Derive algebraic expressions for each output using Karnaugh Maps (K-Maps), Quine-McCluskey, or Boolean postulates to achieve minimal Sum-of-Products (SOP) or Product-of-Sums (POS).</li>
+                <li><strong>Logic Circuit Realization & Verification:</strong> Draw the final gate-level schematic diagram using target logic gates (AND/OR/NOT, XOR, or Universal NAND/NOR gates) and verify correct logical functionality.</li>
+            </ol>
+        </section>
+
+        <!-- Section 4.2 -->
+        <section id="sec4-2">
+            <h2 class="section-title">4.2 Half-Adder and Full-Adder</h2>
+
+            <h3 class="subsection-title">4.2.1 Half-Adder (HA)</h3>
+            <p>A <strong>Half-Adder</strong> is a combinational circuit that performs the arithmetic addition of two single binary bits ($A$ and $B$). It generates two outputs: <strong>Sum ($S$)</strong> and <strong>Carry ($C$)</strong>.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="2">Inputs</th><th colspan="2">Outputs</th><th rowspan="2">Arithmetic Operation ($A + B$)</th></tr>
+                    <tr><th>A</th><th>B</th><th>Carry (C)</th><th>Sum (S)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>$0 + 0 = 0_10$ (Carry 0, Sum 0)</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>$0 + 1 = 1_10$ (Carry 0, Sum 1)</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>$1 + 0 = 1_10$ (Carry 0, Sum 1)</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>$1 + 1 = 2_10 = 10_2$ (Carry 1, Sum 0)</td></tr>
+                </tbody>
+            </table>
+
+            <h4 class="subsubsection-title">Derived Equations:</h4>
+            <ul>
+                <li><strong>Sum ($S$):</strong> $\bar{A}B + A\bar{B} = A \oplus B$ (XOR Gate)</li>
+                <li><strong>Carry ($C$):</strong> $A B$ (AND Gate)</li>
+            </ul>
+
+            <div class="schematic-box">
+                <div class="schematic-title">Half-Adder Gate Level Schematic</div>
+                <pre style="color: var(--accent-blue);">
+   A ────┬───────────────[ XOR ]─────── Sum (S = A ⊕ B)
+         │              /
+   B ────┼──────┬──────/
+         │      │
+         └──────┼────────[ AND ]─────── Carry (C = A · B)
+                └───────/
+                </pre>
+            </div>
+
+            <h3 class="subsection-title">4.2.2 Full-Adder (FA)</h3>
+            <p>A <strong>Full-Adder</strong> performs arithmetic addition of three single binary bits: two input bits ($A, B$) and an incoming carry bit ($C_{in}$) from a previous lower-significant bit stage.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="3">Inputs</th><th colspan="2">Outputs</th><th rowspan="2">Decimal Sum ($A + B + C_{in}$)</th></tr>
+                    <tr><th>A</th><th>B</th><th>C<sub>in</sub></th><th>C<sub>out</sub></th><th>Sum (S)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>2 ($10_2$)</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>2 ($10_2$)</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>2 ($10_2$)</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>3 ($11_2$)</td></tr>
+                </tbody>
+            </table>
+
+            <h4 class="subsubsection-title">K-Map Minimization for Full Adder</h4>
+            <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+                <div class="kmap-container">
+                    <div class="kmap-title">K-Map for Sum ($S = \sum m(1,2,4,7)$)</div>
+                    <table class="kmap">
+                        <tr><th class="kmap-diag-header">A\BC<sub>in</sub></th><th>00</th><th>01</th><th>11</th><th>10</th></tr>
+                        <tr><th>0</th><td class="cell">0</td><td class="cell grouped-1">1</td><td class="cell">0</td><td class="cell grouped-1">1</td></tr>
+                        <tr><th>1</th><td class="cell grouped-1">1</td><td class="cell">0</td><td class="cell grouped-1">1</td><td class="cell">0</td></tr>
+                    </table>
+                    <p style="font-size:0.85rem; margin-top:8px;">Checkerboard pattern $\implies S = A \oplus B \oplus C_{in}$</p>
+                </div>
+
+                <div class="kmap-container">
+                    <div class="kmap-title">K-Map for Carry Out ($C_{out} = \sum m(3,5,6,7)$)</div>
+                    <table class="kmap">
+                        <tr><th class="kmap-diag-header">A\BC<sub>in</sub></th><th>00</th><th>01</th><th>11</th><th>10</th></tr>
+                        <tr><th>0</th><td class="cell">0</td><td class="cell">0</td><td class="cell grouped-2">1</td><td class="cell">0</td></tr>
+                        <tr><th>1</th><td class="cell">0</td><td class="cell grouped-2">1</td><td class="cell grouped-2">1</td><td class="cell grouped-2">1</td></tr>
+                    </table>
+                    <p style="font-size:0.85rem; margin-top:8px;">Three Quads/Pairs $\implies C_{out} = A B + B C_{in} + A C_{in}$</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">4.2.3 Implementation of Full-Adder using Two Half-Adders and an OR Gate</h3>
+            <p>We can factor the Carry expression into: $C_{out} = A B + C_{in}(A \oplus B)$. This allows direct modular cascade implementation:</p>
+
+            <div class="derivation">
+                <div class="derivation-step">
+                    <span class="eq">HA₁ Outputs: S₁ = A ⊕ B ,  C₁ = A · B</span>
+                    <span class="reason">First Half-Adder</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">HA₂ Inputs: S₁ and C_in</span>
+                    <span class="reason">Feeding intermediate sum to HA₂</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">HA₂ Outputs: S = S₁ ⊕ C_in = A ⊕ B ⊕ C_in</span>
+                    <span class="reason">Final Full-Adder Sum Output</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">HA₂ Carry: C₂ = S₁ · C_in = (A ⊕ B) C_in</span>
+                    <span class="reason">Second Half-Adder Carry</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">Final C_out = C₁ + C₂ = A B + C_in(A ⊕ B)</span>
+                    <span class="reason">OR Gate combining carries</span>
+                </div>
+            </div>
+
+            <div class="schematic-box">
+                <div class="schematic-title">Full-Adder using 2 Half-Adders & 1 OR Gate</div>
+                <pre style="color: var(--accent-green);">
+  A ───┬─────────┐
+       │   HA1   │─── S1 (A⊕B) ──────┬─────────┐
+  B ───┴─────────┘                   │   HA2   │────── Sum (S = A ⊕ B ⊕ Cin)
+               │ C1 (AB)             │         │
+               │                     └─────────┘
+  Cin ─────────┼──────────────────────────┘  │ C2 = Cin(A⊕B)
+               │                             │
+               └───────────────[ OR ]────────┴──────── Carry Out (Cout)
+                              /
+                </pre>
+            </div>
+        </section>
+
+        <!-- Section 4.3 -->
+        <section id="sec4-3">
+            <h2 class="section-title">4.3 Half-Subtractor and Full-Subtractor</h2>
+
+            <h3 class="subsection-title">4.3.1 Half-Subtractor (HS)</h3>
+            <p>A <strong>Half-Subtractor</strong> subtracts bit $B$ from bit $A$ ($A - B$) and yields two outputs: <strong>Difference ($D$)</strong> and <strong>Borrow ($B_{out}$)</strong>.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="2">Inputs</th><th colspan="2">Outputs</th><th rowspan="2">Subraction Operation ($A - B$)</th></tr>
+                    <tr><th>A</th><th>B</th><th>Borrow (B<sub>out</sub>)</th><th>Difference (D)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>$0 - 0 = 0$</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>$0 - 1 = -1 \implies 2 - 1 = 1$ (Borrow 1)</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>$1 - 0 = 1$</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>$1 - 1 = 0$</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Equations:</strong> Difference $D = A \oplus B$, Borrow $B_{out} = \bar{A} B$.</p>
+
+            <h3 class="subsection-title">4.3.2 Full-Subtractor (FS)</h3>
+            <p>A <strong>Full-Subtractor</strong> calculates $A - B - B_{in}$, incorporating an incoming borrow $B_{in}$.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="3">Inputs</th><th colspan="2">Outputs</th><th rowspan="2">Operation Logic</th></tr>
+                    <tr><th>A</th><th>B</th><th>B<sub>in</sub></th><th>B<sub>out</sub></th><th>Difference (D)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>$0 - 0 - 0 = 0$</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>$0 - 0 - 1 = -1 \implies D=1, B_{out}=1$</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>$0 - 1 - 0 = -1 \implies D=1, B_{out}=1$</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>$0 - 1 - 1 = -2 \implies D=0, B_{out}=1$</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>$1 - 0 - 0 = 1 \implies D=1, B_{out}=0$</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>$1 - 0 - 1 = 0 \implies D=0, B_{out}=0$</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>$1 - 1 - 0 = 0 \implies D=0, B_{out}=0$</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>$1 - 1 - 1 = -1 \implies D=1, B_{out}=1$</td></tr>
+                </tbody>
+            </table>
+
+            <h4 class="subsubsection-title">Full Subtractor Derived Equations:</h4>
+            <ul>
+                <li><strong>Difference ($D$):</strong> $A \oplus B \oplus B_{in}$</li>
+                <li><strong>Borrow Out ($B_{out}$):</strong> $\bar{A}B + \bar{A}B_{in} + BB_{in} = \bar{A}B + B_{in}(\overline{A \oplus B})$</li>
+            </ul>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">Full Subtractor using 2 Half-Subtractors & 1 OR Gate</div>
+                <p>HS₁ produces $D_1 = A \oplus B$ and $B_1 = \bar{A}B$.<br>
+                HS₂ takes $D_1$ and $B_{in}$ to produce $D = D_1 \oplus B_{in} = A \oplus B \oplus B_{in}$ and $B_2 = \bar{D_1} B_{in} = (\overline{A \oplus B}) B_{in}$.<br>
+                Combining borrows through an OR gate yields: $B_{out} = B_1 + B_2 = \bar{A}B + B_{in}(\overline{A \oplus B})$.</p>
+            </div>
+
+            <h3 class="subsection-title">4.3.3 Unified 4-Bit Adder-Subtractor Circuit</h3>
+            <p>By connecting an XOR gate to each $B$ input bit with a control line $M$ (Mode), a single circuit acts as an Adder when $M=0$ and a Subtractor when $M=1$ (leveraging 2's complement $A - B = A + \bar{B} + 1$).</p>
+
+            <div class="schematic-box">
+                <div class="schematic-title">4-Bit Parallel Adder / Subtractor Unit</div>
+                <pre style="color: var(--accent-purple);">
+Mode Control (M) ────┬────────────────────────────────────────── C0 (Injected Carry)
+                     │
+         ┌───────────┼───────────┬───────────┐
+         │           │           │           │
+       [XOR]       [XOR]       [XOR]       [XOR]
+         │ B0        │ B1        │ B2        │ B3
+         ▼           ▼           ▼           ▼
+       ┌───┐ C1    ┌───┐ C2    ┌───┐ C3    ┌───┐ C4 (Overflow/Carry)
+ A0 ──►│FA0│──────►│FA1│──────►│FA2│──────►│FA3│──────► Cout
+       └───┘       └───┘       └───┘       └───┘
+         │ S0        │ S1        │ S2        │ S3
+                 Outputs (S = A + B if M=0; S = A - B if M=1)
+                </pre>
+            </div>
+        </section>
+
+        <!-- Section 4.4 -->
+        <section id="sec4-4">
+            <h2 class="section-title">4.4 Ripple Carry Adders and Fast Adders</h2>
+
+            <h3 class="subsection-title">4.4.1 N-Bit Ripple Carry Adder (RCA)</h3>
+            <p>A <strong>Ripple Carry Adder</strong> is constructed by cascading $N$ Full Adders in series. The carry output $C_{i+1}$ from stage $i$ is connected directly to the carry input $C_i$ of stage $i+1$.</p>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">The Ripple Propagation Delay Bottleneck</div>
+                <p>In an $N$-bit Ripple Carry Adder, bit $N-1$ cannot calculate its correct sum until the carry ripples through all preceding $N-1$ stages. If each Full-Adder stage has propagation delay $T_{FA}$ (typically 2 gate delays), the total delay for an $N$-bit addition is:</p>
+                <p style="text-align: center; font-weight: bold; font-size: 1.1rem;" class="expr">T_total = N × T_FA = 2N Gate Delays</p>
+                <p>For 32-bit or 64-bit ALUs, this propagation delay causes significant performance penalties.</p>
+            </div>
+
+            <h3 class="subsection-title">4.4.2 Fast Adder: Carry Lookahead Adder (CLA)</h3>
+            <p>To eliminate ripple delays, a <strong>Carry Lookahead Adder (CLA)</strong> generates all carry signals simultaneously in parallel using high-speed lookahead logic gates.</p>
+
+            <h4 class="subsubsection-title">Derivation of CLA Equations:</h4>
+            <p>For any stage $i$ of an adder, define two signals:</p>
+            <ul>
+                <li><strong>Carry Generate ($G_i$):</strong> $G_i = A_i \cdot B_i$ (Stage generates a carry regardless of incoming carry)</li>
+                <li><strong>Carry Propagate ($P_i$):</strong> $P_i = A_i \oplus B_i$ (Stage propagates incoming carry to next stage)</li>
+            </ul>
+
+            <p>The Sum output is $S_i = P_i \oplus C_i$, and the Carry output is $C_{i+1} = G_i + P_i C_i$.</p>
+
+            <p>By recursively expanding $C_{i+1}$, we write all carry equations purely in terms of initial inputs $A_i, B_i$ and initial carry $C_0$:</p>
+
+            <div class="derivation">
+                <div class="derivation-step">
+                    <span class="eq">C₁ = G₀ + P₀ C₀</span>
+                    <span class="reason">Carry for Bit 1 (2 gate delays)</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">C₂ = G₁ + P₁ C₁ = G₁ + P₁ (G₀ + P₀ C₀) = G₁ + P₁ G₀ + P₁ P₀ C₀</span>
+                    <span class="reason">Carry for Bit 2 (2 gate delays)</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">C₃ = G₂ + P₂ C₂ = G₂ + P₂ G₁ + P₂ P₁ G₀ + P₂ P₁ P₀ C₀</span>
+                    <span class="reason">Carry for Bit 3 (2 gate delays)</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">C₄ = G₃ + P₃ C₃ = G₃ + P₃ G₂ + P₃ P₂ G₁ + P₃ P₂ P₁ G₀ + P₃ P₂ P₁ P₀ C₀</span>
+                    <span class="reason">Carry for Bit 4 (2 gate delays)</span>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">Why CLA is Fast</div>
+                <p>Every carry $C_1, C_2, C_3, C_4$ is generated in **exactly 2 gate delays** (one AND layer for products, one OR layer for sum) regardless of bit width $N$. Thus, total addition time drops from $O(N)$ to $O(1)$ constant time (typically 4 gate delays total: 1 for $P_i/G_i$, 2 for Lookahead Carry Generator, 1 for final Sum XOR).</p>
+            </div>
+        </section>
+
+        <!-- Section 4.5 -->
+        <section id="sec4-5">
+            <h2 class="section-title">4.5 Multiplexers (MUX) Design</h2>
+            <p>A <strong>Multiplexer (MUX)</strong>, or "Data Selector", is a combinational circuit that selects binary information from one of $2^n$ input lines and directs it to a single output line based on $n$ select lines.</p>
+
+            <h3 class="subsection-title">4.5.1 4-to-1 Multiplexer (4:1 MUX)</h3>
+            <p>Contains 4 data inputs ($I_0, I_1, I_2, I_3$), 2 selection inputs ($S_1, S_0$), an Enable input ($\bar{E}$), and 1 output ($Y$).</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Enable (Ē)</th><th>S<sub>1</sub></th><th>S<sub>0</sub></th><th>Selected Output (Y)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>X</td><td>X</td><td>0 (Disabled)</td></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td><strong>I₀</strong></td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td><strong>I₁</strong></td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td><strong>I₂</strong></td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td><strong>I₃</strong></td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Boolean Equation for 4:1 MUX:</strong></p>
+            <p style="text-align: center; font-size: 1.1rem;" class="expr">Y = Ē · [ S̄₁ S̄₀ I₀ + S̄₁ S₀ I₁ + S₁ S̄₀ I₂ + S₁ S₀ I₃ ]</p>
+
+            <h3 class="subsection-title">4.5.2 Implementing Arbitrary Boolean Functions using MUX</h3>
+            <p>An $n$-variable Boolean function can be implemented using a $2^{n-1}$-to-1 MUX (with $n-1$ selection lines connected to $n-1$ variables, and the remaining variable connected to the data inputs).</p>
+
+            <div class="callout">
+                <div class="callout-title">Worked Example: Implement $F(A, B, C) = \sum m(1, 3, 5, 6)$ using a 4:1 MUX</div>
+                <p>1. Use variables $A$ and $B$ as select lines ($S_1 = A, S_0 = B$).<br>
+                2. Variable $C$ will be applied to data lines $I_0, I_1, I_2, I_3$.<br>
+                3. Construct the <strong>Implementation Table</strong>:</p>
+
+                <table class="data-table" style="max-width: 500px; margin: 15px auto;">
+                    <thead>
+                        <tr><th>Input Line</th><th>I₀</th><th>I₁</th><th>I₂</th><th>I₃</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>C̄ (C=0)</td><td>m₀</td><td><span style="color:var(--accent-green); font-weight:bold;">m₁</span></td><td>m₄</td><td><span style="color:var(--accent-green); font-weight:bold;">m₆</span></td></tr>
+                        <tr><td>C (C=1)</td><td>m₂</td><td><span style="color:var(--accent-green); font-weight:bold;">m₃</span></td><td><span style="color:var(--accent-green); font-weight:bold;">m₅</span></td><td>m⇁</td></tr>
+                        <tr><td><strong>Data Input Value</strong></td><td><strong>0</strong></td><td><strong>1</strong></td><td><strong>C</strong></td><td><strong>C̄</strong></td></tr>
+                    </tbody>
+                </table>
+
+                <p><strong>Conclusion:</strong> Connect $I_0 = 0$, $I_1 = 1$, $I_2 = C$, and $I_3 = \bar{C}$. Connect $A \to S_1$ and $B \to S_0$.</p>
+            </div>
+        </section>
+
+        <!-- Section 4.6 -->
+        <section id="sec4-6">
+            <h2 class="section-title">4.6 Demultiplexers (DEMUX) Design</h2>
+            <p>A <strong>Demultiplexer (DEMUX)</strong>, or "Data Distributor", takes a single input data line $D$ and routes it to one of $2^n$ possible output lines based on $n$ selection lines.</p>
+
+            <h3 class="subsection-title">4.6.1 1-to-4 Demultiplexer (1:4 DEMUX)</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="2">Select Lines</th><th colspan="4">Outputs</th></tr>
+                    <tr><th>S<sub>1</sub></th><th>S<sub>0</sub></th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td><strong>D</strong></td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td><strong>D</strong></td><td>0</td><td>0</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>D</strong></td><td>0</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>D</strong></td></tr>
+                </tbody>
+            </table>
+
+            <h4 class="subsubsection-title">Logic Equations:</h4>
+            <p style="text-align: center; font-size: 1.05rem;" class="expr">Y₀ = S̄₁ S̄₀ D ,  Y₁ = S̄₁ S₀ D ,  Y₂ = S₁ S̄₀ D ,  Y₃ = S₁ S₀ D</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">Decoder vs Demultiplexer Equivalence</div>
+                <p>A decoder with an Enable input line ($\bar{E}$ or $E$) functions identically to a Demultiplexer where the Enable signal is treated as Data Input $D$.</p>
+            </div>
+        </section>
+
+        <!-- Section 4.7 -->
+        <section id="sec4-7">
+            <h2 class="section-title">4.7 Basic Encoders</h2>
+            <p>An <strong>Encoder</strong> performs the inverse operation of a decoder. It accepts $2^N$ (or fewer) input lines and compresses them into an $N$-bit binary output code.</p>
+
+            <h3 class="subsection-title">4.7.1 Octal-to-Binary Encoder (8-to-3 Encoder)</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="8">Inputs (Only one active high at a time)</th><th colspan="3">Outputs</th></tr>
+                    <tr><th>D<sub>0</sub></th><th>D<sub>1</sub></th><th>D<sub>2</sub></th><th>D<sub>3</sub></th><th>D<sub>4</sub></th><th>D<sub>5</sub></th><th>D<sub>6</sub></th><th>D<sub>7</sub></th><th>Y<sub>2</sub></th><th>Y<sub>1</sub></th><th>Y<sub>0</sub></th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+            <h4 class="subsubsection-title">Derived Logic Equations:</h4>
+            <ul>
+                <li>$Y_2 = D_4 + D_5 + D_6 + D_7$</li>
+                <li>$Y_1 = D_2 + D_3 + D_6 + D_7$</li>
+                <li>$Y_0 = D_1 + D_3 + D_5 + D_7$</li>
+            </ul>
+
+            <div class="callout callout-warning">
+                <div class="callout-title">Severe Limitations of Basic Encoders</div>
+                <ol>
+                    <li><strong>Multiple Active Inputs Malfunction:</strong> If $D_3$ and $D_6$ are both 1 simultaneously, output becomes $111_2 = 7_{10}$, which is completely invalid.</li>
+                    <li><strong>Ambiguity with Input $D_0$:</strong> When all inputs $D_0 \dots D_7$ are 0, output is $000$, making it indistinguishable from active $D_0 = 1$.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Section 4.8 -->
+        <section id="sec4-8">
+            <h2 class="section-title">4.8 Priority Encoders</h2>
+            <p>A <strong>Priority Encoder</strong> solves basic encoder defects by enforcing a strict priority hierarchy among inputs. If two or more inputs are active concurrently, the input with the highest priority index is encoded, and lower priority active inputs are ignored.</p>
+
+            <h3 class="subsection-title">4.8.1 4-to-2 Priority Encoder ($D_3$ Highest Priority)</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="4">Inputs</th><th colspan="3">Outputs</th></tr>
+                    <tr><th>D<sub>3</sub></th><th>D<sub>2</sub></th><th>D<sub>1</sub></th><th>D<sub>0</sub></th><th>x (Y<sub>1</sub>)</th><th>y (Y<sub>0</sub>)</th><th>Valid Bit (V)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>X</td><td>X</td><td><strong>0</strong></td></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>X</td><td>0</td><td>1</td><td><strong>1</strong></td></tr>
+                    <tr><td>0</td><td>1</td><td>X</td><td>X</td><td>1</td><td>0</td><td><strong>1</strong></td></tr>
+                    <tr><td>1</td><td>X</td><td>X</td><td>X</td><td>1</td><td>1</td><td><strong>1</strong></td></tr>
+                </tbody>
+            </table>
+
+            <h4 class="subsubsection-title">K-Map Derivation for Priority Encoder:</h4>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                <div class="kmap-container">
+                    <div class="kmap-title">K-Map for x ($Y_1$)</div>
+                    <p style="text-align: center; font-size: 1rem;" class="expr">x = D₂ + D₃</p>
+                </div>
+                <div class="kmap-container">
+                    <div class="kmap-title">K-Map for y ($Y_0$)</div>
+                    <p style="text-align: center; font-size: 1rem;" class="expr">y = D₃ + D₁ D̄₂</p>
+                </div>
+                <div class="kmap-container">
+                    <div class="kmap-title">Valid Output Bit (V)</div>
+                    <p style="text-align: center; font-size: 1rem;" class="expr">V = D₀ + D₁ + D₂ + D₃</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4.9 -->
+        <section id="sec4-9">
+            <h2 class="section-title">4.9 Encoder Designs: Decimal-to-BCD Encoder</h2>
+            <p>A <strong>Decimal-to-BCD Encoder</strong> (10-to-4 line encoder) converts 10 decimal digits ($0$ through $9$) represented on distinct push-buttons or keypad lines into a 4-bit Binary-Coded Decimal (BCD) number ($Y_3 Y_2 Y_1 Y_0$).</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Decimal Input Key</th><th>Y<sub>3</sub> (8)</th><th>Y<sub>2</sub> (4)</th><th>Y<sub>1</sub> (2)</th><th>Y<sub>0</sub> (1)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>D₀</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>D₁</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+                    <tr><td>D₂</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                    <tr><td>D₃</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                    <tr><td>D₄</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+                    <tr><td>D₅</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+                    <tr><td>D₆</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                    <tr><td>D₇</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+                    <tr><td>D₈</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>D₉</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">Derived Logic Equations for OR-gate Array:</h3>
+            <ul>
+                <li><strong>$Y_3$ (MSB):</strong> $D_8 + D_9$</li>
+                <li><strong>$Y_2$:</strong> $D_4 + D_5 + D_6 + D_7$</li>
+                <li><strong>$Y_1$:</strong> $D_2 + D_3 + D_6 + D_7$</li>
+                <li><strong>$Y_0$ (LSB):</strong> $D_1 + D_3 + D_5 + D_7 + D_9$</li>
+            </ul>
+        </section>
+
+        <!-- Section 4.10 -->
+        <section id="sec4-10">
+            <h2 class="section-title">4.10 Decoder Designs and Tree Expansion</h2>
+            <p>A <strong>Decoder</strong> decodes an $N$-bit binary input into up to $2^N$ unique individual minterm output lines.</p>
+
+            <h3 class="subsection-title">4.10.1 2-to-4 Line Decoder with Enable Line ($E$)</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Enable (E)</th><th>A</th><th>B</th><th>Y<sub>0</sub> (m₀)</th><th>Y<sub>1</sub> (m₁)</th><th>Y<sub>2</sub> (m₂)</th><th>Y<sub>3</sub> (m₃)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>X</td><td>X</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td><strong>1</strong></td><td>0</td><td>0</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td><td>0</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td></tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">4.10.2 Tree Expansion: Building a 3-to-8 Decoder using Two 2-to-4 Decoders</h3>
+            <p>We use the most significant input bit ($A$) to enable either the upper or lower 2-to-4 decoders through an inverter:</p>
+
+            <div class="schematic-box">
+                <div class="schematic-title">3-to-8 Decoder Tree Architecture</div>
+                <pre style="color: var(--accent-blue);">
+                          ┌───────────────────────────┐
+                          │     2-to-4 Decoder 1      │
+                  ┌───────│ Enable (E = Ā)            │─── Y0..Y3 (m0..m3)
+                  │       │ Inputs: B, C              │
+Input A ───[NOT]──┴─┐     └───────────────────────────┘
+                    │
+                    │     ┌───────────────────────────┐
+                    │     │     2-to-4 Decoder 2      │
+                    └─────│ Enable (E = A)            │─── Y4..Y7 (m4..m7)
+                          │ Inputs: B, C              │
+                          └───────────────────────────┘
+                </pre>
+            </div>
+        </section>
+
+        <!-- Section 4.11 -->
+        <section id="sec4-11">
+            <h2 class="section-title">4.11 BCD-to-Decimal Decoder</h2>
+            <p>A <strong>BCD-to-Decimal Decoder</strong> (7442 IC) converts a 4-bit BCD code ($A, B, C, D$) into one of 10 active-low or active-high decimal outputs ($Y_0 \dots Y_9$). Input combinations from $1010_2$ to $1111_2$ ($10$ to $15$) are invalid BCD states and are treated as <strong>Don't Cares ($X$)</strong>.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="4">BCD Inputs</th><th colspan="10">Active-High Outputs</th></tr>
+                    <tr><th>A (8)</th><th>B (4)</th><th>C (2)</th><th>D (1)</th><th>Y<sub>0</sub></th><th>Y<sub>1</sub></th><th>Y<sub>2</sub></th><th>Y<sub>3</sub></th><th>Y<sub>4</sub></th><th>Y<sub>5</sub></th><th>Y<sub>6</sub></th><th>Y<sub>7</sub></th><th>Y<sub>8</sub></th><th>Y<sub>9</sub></th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Simplified Logic Equations (taking advantage of Don't Cares $10-15$):</strong></p>
+            <p style="text-align: center;" class="expr">Y₀ = ĀB̄C̄D̄ ,  Y₁ = ĀB̄C̄D ,  Y₈ = A D̄ ,  Y₉ = A D</p>
+        </section>
+
+        <!-- Section 4.12 -->
+        <section id="sec4-12">
+            <h2 class="section-title">4.12 Seven-Segment Decoder</h2>
+            <p>A <strong>Seven-Segment Decoder</strong> converts a 4-bit BCD input ($W, X, Y, Z$) into activation signals for 7 display LEDs labeled $a, b, c, d, e, f, g$.</p>
+
+            <div style="text-align: center;">
+                <div class="seven-seg-demo">
+                    <div class="seg seg-a active"></div>
+                    <div class="seg seg-b active"></div>
+                    <div class="seg seg-c active"></div>
+                    <div class="seg seg-d active"></div>
+                    <div class="seg seg-e active"></div>
+                    <div class="seg seg-f active"></div>
+                    <div class="seg seg-g"></div>
+                </div>
+                <p style="font-size:0.85rem; color:var(--text-muted);">Standard 7-Segment Digit Layout (Displaying Digit 0: Segments a-f ON, g OFF)</p>
+            </div>
+
+            <h3 class="subsection-title">4.12.1 Common Cathode vs. Common Anode Configurations</h3>
+            <ul>
+                <li><strong>Common Cathode (CC):</strong> All LED cathodes are tied to GND. A logic <strong>1 (High)</strong> turns a segment ON.</li>
+                <li><strong>Common Anode (CA):</strong> All LED anodes are tied to $V_{CC}$. A logic <strong>0 (Low)</strong> turns a segment ON.</li>
+            </ul>
+
+            <h3 class="subsection-title">4.12.2 Truth Table for BCD to Seven-Segment Decoder (Common Cathode)</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Digit</th><th colspan="4">BCD Inputs (W X Y Z)</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th>f</th><th>g</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+                    <tr><td>3</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                    <tr><td>4</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                    <tr><td>5</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+                    <tr><td>6</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                    <tr><td>7</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>8</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                    <tr><td>9</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">4.12.3 K-Map Simplification for Segment 'a'</h3>
+
+            <div class="kmap-container">
+                <div class="kmap-title">K-Map for Segment a (Inputs W, X, Y, Z with Don't Cares for 10-15)</div>
+                <table class="kmap">
+                    <tr><th class="kmap-diag-header">WX\YZ</th><th>00</th><th>01</th><th>11</th><th>10</th></tr>
+                    <tr><th>00</th><td class="cell">1</td><td class="cell">0</td><td class="cell">1</td><td class="cell">1</td></tr>
+                    <tr><th>01</th><td class="cell">0</td><td class="cell">1</td><td class="cell">1</td><td class="cell">1</td></tr>
+                    <tr><th>11</th><td class="cell">X</td><td class="cell">X</td><td class="cell">X</td><td class="cell">X</td></tr>
+                    <tr><th>10</th><td class="cell">1</td><td class="cell">1</td><td class="cell">X</td><td class="cell">X</td></tr>
+                </table>
+            </div>
+
+            <p><strong>Derived Minimal Equation for Segment 'a':</strong></p>
+            <p style="text-align: center; font-size: 1.1rem;" class="expr">a = W + Y + X Z + X̄ Z̄</p>
+        </section>
+
+        <!-- Section 4.13 -->
+        <section id="sec4-13">
+            <h2 class="section-title">4.13 Magnitude Comparators</h2>
+            <p>A <strong>Magnitude Comparator</strong> is a combinational circuit that compares two binary numbers $A$ and $B$ and determines their relative magnitudes, producing three output flags: $A > B$, $A = B$, and $A < B$.</p>
+
+            <h3 class="subsection-title">4.13.1 1-Bit Magnitude Comparator</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>A</th><th>B</th><th>A &gt; B</th><th>A = B</th><th>A &lt; B</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td><strong>1</strong></td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>0</td><td><strong>1</strong></td></tr>
+                    <tr><td>1</td><td>0</td><td><strong>1</strong></td><td>0</td><td>0</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td><strong>1</strong></td><td>0</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Equations:</strong> $(A > B) = A \bar{B} \quad, \quad (A < B) = \bar{A} B \quad, \quad (A = B) = A \odot B = \overline{A \oplus B}$.</p>
+
+            <h3 class="subsection-title">4.13.2 4-Bit Magnitude Comparator (7485 IC Architecture)</h3>
+            <p>To compare two 4-bit numbers $A = A_3 A_2 A_1 A_0$ and $B = B_3 B_2 B_1 B_0$, define bit-wise equality variables $x_i = A_i \odot B_i$ for $i \in \{0, 1, 2, 3\}$.</p>
+
+            <h4 class="subsubsection-title">Full 4-Bit Comparison Equations:</h4>
+
+            <div class="derivation">
+                <div class="derivation-step">
+                    <span class="eq">(A = B) = x₃ · x₂ · x₁ · x₀</span>
+                    <span class="reason">All bits must match exactly</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">(A &gt; B) = A₃ B̄₃ + x₃ A₂ B̄₂ + x₃ x₂ A₁ B̄₁ + x₃ x₂ x₁ A₀ B̄₀</span>
+                    <span class="reason">Cascade checking from MSB to LSB</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">(A &lt; B) = Ā₃ B₃ + x₃ Ā₂ B₂ + x₃ x₂ Ā₁ B₁ + x₃ x₂ x₁ Ā₀ B₀</span>
+                    <span class="reason">Cascade checking from MSB to LSB</span>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">Cascading Comparators for Larger Bit Widths (e.g. 8-Bit)</div>
+                <p>Commercial ICs like the 74LS85 feature cascading inputs ($I_{A>B}, I_{A<B}, I_{A=B}$). Lower-significant 4-bit comparators feed their output flags into the cascade inputs of the higher-significant 4-bit comparator stage to achieve 8-bit, 16-bit, or 32-bit magnitude comparison.</p>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>

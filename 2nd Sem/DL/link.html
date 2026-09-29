@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All Links — Digital Logic ENEX 152</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12202b;
+      --teal: #0d6b5c;
+      --teal-deep: #084c42;
+      --amber: #c46b1a;
+      --line: rgba(18, 32, 43, 0.12);
+      --card: rgba(255,255,255,0.82);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 60% 40% at 90% -5%, #f0d4b0 0%, transparent 55%),
+        linear-gradient(180deg, #eef5f1 0%, #dde8e2 100%);
+      min-height: 100vh; line-height: 1.5;
+    }
+    a { color: var(--teal-deep); }
+    a:hover { color: var(--amber); }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 24px 18px 56px; }
+
+    header {
+      margin-bottom: 28px; padding: 26px 24px; border-radius: 22px;
+      background: linear-gradient(125deg, #084c42, #0d6b5c 60%, #9a5a18);
+      color: #f7fffb; box-shadow: 0 16px 36px rgba(8,40,35,0.14);
+    }
+    header .back {
+      display: inline-block; color: #dff5ef; text-decoration: none;
+      font-size: 0.88rem; font-weight: 600; margin-bottom: 10px; opacity: 0.9;
+    }
+    header .back:hover { opacity: 1; color: #fff; }
+    h1 {
+      font-family: Fraunces, Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.4rem);
+      line-height: 1.1; margin-bottom: 8px;
+    }
+    header p { opacity: 0.9; max-width: 36rem; }
+
+    .toc {
+      display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px;
+    }
+    .toc a {
+      text-decoration: none; font-size: 0.84rem; font-weight: 700;
+      padding: 6px 12px; border-radius: 999px;
+      background: var(--card); border: 1px solid var(--line); color: var(--ink);
+    }
+    .toc a:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+    section {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 18px; padding: 18px 18px 10px; margin: 16px 0;
+      backdrop-filter: blur(6px);
+    }
+    h2 {
+      font-family: Fraunces, Georgia, serif; font-size: 1.25rem;
+      margin-bottom: 4px; color: var(--teal-deep);
+    }
+    .note { font-size: 0.9rem; color: #4a6070; margin-bottom: 12px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #5a7180; }
+    tr:last-child td { border-bottom: none; }
+    .file a { font-weight: 700; text-decoration: none; }
+    .file a:hover { text-decoration: underline; }
+    .type {
+      display: inline-block; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 999px; background: #e7f2ee; color: var(--teal-deep);
+      white-space: nowrap;
+    }
+    .type.pdf { background: #fff0e4; color: #9a4e10; }
+    .type.scan { background: #eee8ff; color: #4b3d8a; }
+
+    footer {
+      margin-top: 28px; color: #567; font-size: 0.88rem;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .hide-sm { display: none; }
+      th:nth-child(3), td:nth-child(3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="back" href="Index.html">← Study hub home</a>
+      <h1>link.html — everything linked</h1>
+      <p>Complete directory of your Digital Logic (ENEX / EX 152) study files. Open any row to jump straight in.</p>
+    </header>
+
+    <nav class="toc" aria-label="Sections">
+      <a href="#root">Root</a>
+      <a href="#hub">Hub pages</a>
+      <a href="#theory">Theory Short</a>
+      <a href="#pqa">PQA Claude</a>
+      <a href="#gemini">Gemini</a>
+      <a href="#chatgpt">ChatGPT</a>
+      <a href="#by-chapter">By chapter</a>
+    </nav>
+
+    <section id="root">
+      <h2>Root folder</h2>
+      <p class="note">Official documents sitting next to this page.</p>
+      <table>
+        <thead><tr><th>File</th><th>Type</th><th class="hide-sm">What it is</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="file"><a href="Index.html">Index.html</a></td>
+            <td><span class="type">HTML</span></td>
+            <td class="hide-sm">Main study hub / landing page</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="link.html">link.html</a></td>
+            <td><span class="type">HTML</span></td>
+            <td class="hide-sm">This complete link map</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="syllabus-map.html">syllabus-map.html</a></td>
+            <td><span class="type">HTML</span></td>
+            <td class="hide-sm">Chapter ↔ resource map + exam weightage</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Syllabus.pdf" target="_blank" rel="noopener">Syllabus.pdf</a></td>
+            <td><span class="type pdf">PDF</span></td>
+            <td class="hide-sm">Official ENEX 152 syllabus (lecture / tutorial / practical)</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="PQA%20pic.jpg" target="_blank" rel="noopener">PQA pic.jpg</a></td>
+            <td><span class="type scan">PDF scan</span></td>
+            <td class="hide-sm">4 scanned past papers (named .jpg but is a PDF). Papers: 2083 Baishakh, 2082 Bhadra, 2082 Baishakh, 2081 Ashwin</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="hub">
+      <h2>Recommended start order</h2>
+      <p class="note">Short path when you only have limited time.</p>
+      <table>
+        <thead><tr><th>#</th><th>Open</th><th class="hide-sm">Why</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td class="file"><a href="Syllabus.pdf" target="_blank" rel="noopener">Syllabus.pdf</a></td><td class="hide-sm">Know the 8 units &amp; mark weights</td></tr>
+          <tr><td>2</td><td class="file"><a href="Theory%20Short/index.html">Theory Short / index.html</a></td><td class="hide-sm">Marks map + “must-do” list</td></tr>
+          <tr><td>3</td><td class="file"><a href="Theory%20Short/chapters.html">Theory Short / chapters.html</a></td><td class="hide-sm">Full compact theory + solved snippets</td></tr>
+          <tr><td>4</td><td class="file"><a href="PQA%20Claude/index.html">PQA Claude / index.html</a></td><td class="hide-sm">Solved answers for all 4 papers</td></tr>
+          <tr><td>5</td><td class="file"><a href="PQA%20pic.jpg" target="_blank" rel="noopener">PQA pic.jpg</a></td><td class="hide-sm">Compare with original question wording</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="theory">
+      <h2>Theory Short/</h2>
+      <p class="note">Fast exam-oriented theory covering the whole syllabus.</p>
+      <table>
+        <thead><tr><th>File</th><th>Type</th><th class="hide-sm">Contents</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="file"><a href="Theory%20Short/index.html">index.html</a></td>
+            <td><span class="type">HTML</span></td>
+            <td class="hide-sm">ENEX 152 exam guide · marks map · how to score 80%+</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Theory%20Short/chapters.html">chapters.html</a></td>
+            <td><span class="type">HTML</span></td>
+            <td class="hide-sm">Chapters 1–8 theory + worked questions (codes, K-map, counters, detectors…)</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Theory%20Short/style.css">style.css</a></td>
+            <td><span class="type">CSS</span></td>
+            <td class="hide-sm">Shared stylesheet for Theory Short pages</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="pqa">
+      <h2>PQA Claude/</h2>
+      <p class="note">Independent full model answers matching the papers in <a href="PQA%20pic.jpg" target="_blank" rel="noopener">PQA pic.jpg</a>.</p>
+      <table>
+        <thead><tr><th>File</th><th>Paper</th><th class="hide-sm">Highlights</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="file"><a href="PQA%20Claude/index.html">index.html</a></td>
+            <td>Hub</td>
+            <td class="hide-sm">Index of all papers + repeated-topic table</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="PQA%20Claude/paper1.html">paper1.html</a></td>
+            <td>2083 Baishakh (Back)</td>
+            <td class="hide-sm">Gray · excess-3 · K-map · MUX full subtractor · SIPO · mod-10 (T) · 011 detector</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="PQA%20Claude/paper2.html">paper2.html</a></td>
+            <td>2082 Bhadra (Regular)</td>
+            <td class="hide-sm">Binary→Gray · BCD add · comparator · MUX FA · Johnson · mod-6 (SR) · 110 detector</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="PQA%20Claude/paper3.html">paper3.html</a></td>
+            <td>2082 Baishakh (Back)</td>
+            <td class="hide-sm">ASCII · signed add · priority encoder · PISO · mod-12 · 010 detector · CMOS NAND</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="PQA%20Claude/paper4.html">paper4.html</a></td>
+            <td>2081 Ashwin (Regular)</td>
+            <td class="hide-sm">7-seg f · 1:4 MUX · HA/HS · mod-6 down · SIPO · 101 detector · TTL NOR</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="gemini">
+      <h2>Gemini/</h2>
+      <p class="note">Deep chapter guides (HTML) plus Module 1 reference PDF.</p>
+      <table>
+        <thead><tr><th>File</th><th>Syllabus Ch</th><th class="hide-sm">Topic</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="file"><a href="Gemini/Digital%20Electronics%20Reference%20Guide%20-%20Module%201Gemini.pdf" target="_blank" rel="noopener">Digital Electronics Reference Guide – Module 1Gemini.pdf</a></td>
+            <td>1</td>
+            <td class="hide-sm">Signals, logic levels, ICs, codes</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Gemini/Logic.html">Logic.html</a></td>
+            <td>2</td>
+            <td class="hide-sm">Logic gates · universal · De Morgan</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Gemini/Bool.html">Bool.html</a></td>
+            <td>3</td>
+            <td class="hide-sm">Boolean algebra &amp; Karnaugh maps</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Gemini/Combinational.html">Combinational.html</a></td>
+            <td>4</td>
+            <td class="hide-sm">Adders, MUX/DEMUX, encoders, decoders, comparators</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Gemini/sequential_logic_circuits_master_guide.html">sequential_logic_circuits_master_guide.html</a></td>
+            <td>5</td>
+            <td class="hide-sm">Latches &amp; flip-flops · excitation · conversions</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Gemini/Register.html">Register.html</a></td>
+            <td>6</td>
+            <td class="hide-sm">Registers &amp; counters (async / sync)</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Gemini/seqmachine.html">seqmachine.html</a></td>
+            <td>7</td>
+            <td class="hide-sm">Sequential machine / sequence detector design</td>
+          </tr>
+          <tr>
+            <td class="file"><a href="Gemini/BJT.html">BJT.html</a></td>
+            <td>8</td>
+            <td class="hide-sm">Digital ICs · TTL / CMOS · applications</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="chatgpt">
+      <h2>ChatGPT/</h2>
+      <p class="note">Printable master revision PDF for the whole course.</p>
+      <table>
+        <thead><tr><th>File</th><th>Type</th><th class="hide-sm">Contents</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="file"><a href="ChatGPT/Digital_Logic_ENEX_152_Master_Guide_ChatGPT.pdf" target="_blank" rel="noopener">Digital_Logic_ENEX_152_Master_Guide_ChatGPT.pdf</a></td>
+            <td><span class="type pdf">PDF · 14 pages</span></td>
+            <td class="hide-sm">Full-syllabus study &amp; revision guide (concept → table → design → practice)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="by-chapter">
+      <h2>Study by syllabus chapter</h2>
+      <p class="note">Same chapter, multiple sources — pick short notes or deep dive. Full detail on <a href="syllabus-map.html">syllabus-map.html</a>.</p>
+      <table>
+        <thead><tr><th>Ch</th><th>Topic · Marks</th><th class="hide-sm">Best links</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Introduction &amp; codes · 7</td>
+            <td class="hide-sm">
+              <a href="Gemini/Digital%20Electronics%20Reference%20Guide%20-%20Module%201Gemini.pdf" target="_blank" rel="noopener">Gemini PDF</a> ·
+              <a href="Theory%20Short/chapters.html">Theory Short</a> ·
+              <a href="ChatGPT/Digital_Logic_ENEX_152_Master_Guide_ChatGPT.pdf" target="_blank" rel="noopener">ChatGPT</a>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Logic gates · 4</td>
+            <td class="hide-sm"><a href="Gemini/Logic.html">Gemini</a> · <a href="Theory%20Short/chapters.html">Theory Short</a></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Boolean &amp; K-map · 5</td>
+            <td class="hide-sm"><a href="Gemini/Bool.html">Gemini</a> · <a href="Theory%20Short/chapters.html">Theory Short</a> · practise in all PQAs</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Combinational · 10</td>
+            <td class="hide-sm"><a href="Gemini/Combinational.html">Gemini</a> · <a href="Theory%20Short/chapters.html">Theory Short</a></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Flip-flops · 7</td>
+            <td class="hide-sm"><a href="Gemini/sequential_logic_circuits_master_guide.html">Gemini</a> · <a href="Theory%20Short/chapters.html">Theory Short</a></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Registers / counters · 10</td>
+            <td class="hide-sm"><a href="Gemini/Register.html">Gemini</a> · every <a href="PQA%20Claude/index.html">PQA paper</a></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Sequential machines · 10</td>
+            <td class="hide-sm"><a href="Gemini/seqmachine.html">Gemini</a> · detectors in <a href="PQA%20Claude/paper1.html">P1</a>/<a href="PQA%20Claude/paper2.html">P2</a>/<a href="PQA%20Claude/paper3.html">P3</a>/<a href="PQA%20Claude/paper4.html">P4</a></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Digital ICs · 7</td>
+            <td class="hide-sm"><a href="Gemini/BJT.html">Gemini</a> · <a href="Theory%20Short/chapters.html">Theory Short</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      <span><a href="Index.html">← Back to Index.html</a></span>
+      <span>ENEX / EX 152 · personal study links</span>
+    </footer>
+  </div>
+</body>
+</html>

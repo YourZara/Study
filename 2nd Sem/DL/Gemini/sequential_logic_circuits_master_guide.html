@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sequential Logic Circuits: Master Engineering Guide</title>
+    <!-- MathJax for rendering crisp mathematical formulas -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --border-color: #475569;
+            --code-bg: #090d16;
+            --kmap-cell-bg: #1e293b;
+            --kmap-header-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            width: 320px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 20px 15px;
+        }
+
+        aside h2 {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        aside ul {
+            list-style: none;
+        }
+
+        aside li {
+            margin-bottom: 6px;
+        }
+
+        aside a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        aside a:hover {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            padding-left: 14px;
+        }
+
+        /* Main Content Container */
+        main {
+            margin-left: 320px;
+            flex: 1;
+            padding: 40px 50px;
+            max-width: 1250px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 2.4rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 20px;
+        }
+
+        h2.section-title {
+            font-size: 1.75rem;
+            color: var(--accent-green);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 22px;
+        }
+
+        h3.subsection-title {
+            font-size: 1.3rem;
+            color: var(--accent-purple);
+            margin: 28px 0 14px 0;
+        }
+
+        h4.subsubsection-title {
+            font-size: 1.1rem;
+            color: var(--accent-amber);
+            margin: 18px 0 10px 0;
+        }
+
+        p, li {
+            margin-bottom: 12px;
+            color: #cbd5e1;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 16px;
+        }
+
+        /* Math and Expression Formatting */
+        .expr {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--code-bg);
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 0.98rem;
+        }
+
+        /* Data Tables */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background-color: var(--code-bg);
+            font-size: 0.92rem;
+            text-align: center;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        table.data-table th, table.data-table td {
+            padding: 9px 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        table.data-table th {
+            background-color: var(--bg-card);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        /* K-Map Tables */
+        .kmap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            background-color: var(--bg-secondary);
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .kmap-title {
+            font-weight: bold;
+            color: var(--accent-amber);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        table.kmap {
+            border-collapse: collapse;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--code-bg);
+            border: 2px solid var(--accent-blue);
+        }
+
+        table.kmap td, table.kmap th {
+            width: 60px;
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        table.kmap th {
+            background-color: var(--kmap-header-bg);
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        table.kmap td.cell {
+            background-color: var(--kmap-cell-bg);
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .kmap-diag-header {
+            background: linear-gradient(to top right, var(--kmap-header-bg) 49%, var(--accent-blue) 50%, var(--kmap-header-bg) 51%);
+            font-size: 0.75rem !important;
+            padding: 2px !important;
+        }
+
+        /* Diagram / Structural Schematic Blocks */
+        .schematic-box {
+            background-color: var(--code-bg);
+            border: 2px dashed var(--accent-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            overflow-x: auto;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .schematic-title {
+            color: var(--accent-green);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Derivation Step Cards */
+        .derivation {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+
+        .derivation-step {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .derivation-step .eq {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .derivation-step .reason {
+            color: var(--text-muted);
+            font-family: system-ui, sans-serif;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* Callout Boxes */
+        .callout {
+            background-color: rgba(56, 189, 248, 0.08);
+            border-left: 4px solid var(--accent-blue);
+            padding: 16px 20px;
+            border-radius: 0 6px 6px 0;
+            margin: 22px 0;
+        }
+
+        .callout-warning {
+            background-color: rgba(251, 191, 36, 0.08);
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        .callout-tip {
+            background-color: rgba(74, 222, 128, 0.08);
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .callout-title {
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+
+        .callout-warning .callout-title {
+            color: var(--accent-amber);
+        }
+
+        .callout-tip .callout-title {
+            color: var(--accent-green);
+        }
+
+        @media (max-width: 950px) {
+            body {
+                flex-direction: column;
+            }
+            aside {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+            main {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside>
+        <h2>Module 5 Syllabus</h2>
+        <ul>
+            <li><a href="#sec5-1">5.1 Latches & Flip-Flops (SR, D, T, JK)</a></li>
+            <li><a href="#sec5-2">5.2 Excitation Tables & Characteristic Equations</a></li>
+            <li><a href="#sec5-3">5.3 Master-Slave Flip-Flops</a></li>
+            <li><a href="#sec5-4">5.4 Flip-Flop Timing Diagrams</a></li>
+            <li><a href="#sec5-5">5.5 Flip-Flops as State Machines</a></li>
+            <li><a href="#sec5-6">5.6 Flip-Flop Conversions</a></li>
+            <li><a href="#sec5-7">5.7 Flip-Flop Applications</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <header>
+            <h1>Module 5: Sequential Logic Circuits</h1>
+            <p>Comprehensive Academic Reference Guide for Computer Engineering (TU / IOE Syllabus)</p>
+        </header>
+
+        <!-- Section 5.1 -->
+        <section id="sec5-1">
+            <h2 class="section-title">5.1 Latches and Flip-Flops: SR, D, T, and JK</h2>
+            <p>A <strong>Sequential Logic Circuit</strong> is a circuit whose present output depends not only on the present input combinations, but also on the <strong>past history of inputs (internal memory state)</strong>. The memory element forms a feedback loop in the circuit.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">Fundamental Distinction: Latch vs. Flip-Flop</div>
+                <ul>
+                    <li><strong>Latch:</strong> An asynchronous, <strong>level-triggered</strong> storage element. It continuously samples inputs and updates outputs whenever the enable signal ($EN$) is active (High or Low).</li>
+                    <li><strong>Flip-Flop:</strong> A synchronous, <strong>edge-triggered</strong> storage element. It changes state only at specific clock transitions (Positive Rising Edge $\uparrow$ or Negative Falling Edge $\downarrow$).</li>
+                </ul>
+            </div>
+
+            <h3 class="subsection-title">5.1.1 SR Latch (Set-Reset)</h3>
+            <p>The SR Latch can be built using cross-coupled NOR or NAND gates. It maintains a binary state until inputs signal a change.</p>
+
+            <h4 class="subsubsection-title">NOR-Based Active-HIGH SR Latch</h4>
+            <div class="schematic-box">
+                <div class="schematic-title">Cross-Coupled NOR SR Latch</div>
+                <pre style="color: var(--accent-blue);">
+R ────►[ NOR1 ]───────────► Q
+          ▲         │
+          │         ▼
+          │      [ Feedback Cross-Coupling ]
+          ▼         │
+S ────►[ NOR2 ]─────┴─────► Q'
+                </pre>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>S</th><th>R</th><th>Q<sub>n+1</sub> (Next State)</th><th>Q'<sub>n+1</sub></th><th>Action / Operating Mode</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>Q<sub>n</sub></td><td>Q'<sub>n</sub></td><td><strong>No Change (Hold State)</strong></td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td><strong>Reset State</strong> (Q cleared to 0)</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td><strong>Set State</strong> (Q set to 1)</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td><strong>Invalid / Forbidden State</strong> (Violates $Q = \overline{Q'}$)</td></tr>
+                </tbody>
+            </table>
+
+            <h4 class="subsubsection-title">NAND-Based Active-LOW S'R' Latch</h4>
+            <p>Constructed with cross-coupled NAND gates. Operating modes are activated by driving inputs Low ($0$). Setting $\bar{S}=0, \bar{R}=0$ leads to the invalid state $Q = Q' = 1$.</p>
+
+            <h3 class="subsection-title">5.1.2 Clocked / Gated D Latch (Data or Delay)</h3>
+            <p>The D latch eliminates the invalid state of the SR latch by driving $S$ with $D$ and $R$ with $\bar{D}$ through an inverter. It transfers input $D$ directly to output $Q$ when Enable $EN=1$.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>EN</th><th>D</th><th>Q<sub>n+1</sub></th><th>Operating Condition</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>X</td><td>Q<sub>n</sub></td><td>Disabled / Hold State</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>Reset State</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>Set State</td></tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">5.1.3 JK Flip-Flop</h3>
+            <p>The JK Flip-Flop resolves the forbidden condition of the SR flip-flop. When both $J=1$ and $K=1$, the flip-flop <strong>toggles</strong> its current output state ($Q_{n+1} = \bar{Q}_n$).</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>CLK</th><th>J</th><th>K</th><th>Q<sub>n+1</sub></th><th>State Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0 or ↓</td><td>X</td><td>X</td><td>Q<sub>n</sub></td><td>No Change (Clock Inactive)</td></tr>
+                    <tr><td>↑</td><td>0</td><td>0</td><td>Q<sub>n</sub></td><td>Hold / No Change</td></tr>
+                    <tr><td>↑</td><td>0</td><td>1</td><td>0</td><td>Reset State</td></tr>
+                    <tr><td>↑</td><td>1</td><td>0</td><td>1</td><td>Set State</td></tr>
+                    <tr><td>↑</td><td>1</td><td>1</td><td>Q̄<sub>n</sub></td><td><strong>Toggle State</strong></td></tr>
+                </tbody>
+            </table>
+
+            <h3 class="subsection-title">5.1.4 T Flip-Flop (Toggle)</h3>
+            <p>The T Flip-Flop is created by shorting inputs $J$ and $K$ together on a JK Flip-Flop ($J = K = T$). If $T=0$, state is held; if $T=1$, output toggles on every active clock edge.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>CLK</th><th>T</th><th>Q<sub>n+1</sub></th><th>Functional Action</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>↑</td><td>0</td><td>Q<sub>n</sub></td><td>Hold / No Change</td></tr>
+                    <tr><td>↑</td><td>1</td><td>Q̄<sub>n</sub></td><td>Toggle Output State</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 5.2 -->
+        <section id="sec5-2">
+            <h2 class="section-title">5.2 Excitation Tables and Characteristic Equations</h2>
+            <p>Flip-flops are defined analytically by two representations:</p>
+            <ul>
+                <li><strong>Characteristic Table / Equation:</strong> Defines the <em>Next State ($Q_{n+1}$)</em> as a function of the <em>Present State ($Q_n$)</em> and <em>Inputs</em>.</li>
+                <li><strong>Excitation Table:</strong> Defines the <em>Required Inputs</em> needed to force a state transition from <em>Present State ($Q_n$)</em> to <em>Next State ($Q_{n+1}$)</em>. Used during circuit synthesis and conversions.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.2.1 Characteristic Tables & Derivations</h3>
+
+            <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                <!-- SR FF -->
+                <div style="flex:1; min-width:280px;">
+                    <h4 class="subsubsection-title">SR Flip-Flop</h4>
+                    <table class="data-table">
+                        <thead><tr><th>Q<sub>n</sub></th><th>S</th><th>R</th><th>Q<sub>n+1</sub></th></tr></thead>
+                        <tbody>
+                            <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                            <tr><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+                            <tr><td>0</td><td>1</td><td>1</td><td>X</td></tr>
+                            <tr><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                            <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+                            <tr><td>1</td><td>1</td><td>1</td><td>X</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- JK FF -->
+                <div style="flex:1; min-width:280px;">
+                    <h4 class="subsubsection-title">JK Flip-Flop</h4>
+                    <table class="data-table">
+                        <thead><tr><th>Q<sub>n</sub></th><th>J</th><th>K</th><th>Q<sub>n+1</sub></th></tr></thead>
+                        <tbody>
+                            <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                            <tr><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+                            <tr><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+                            <tr><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                            <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+                            <tr><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">5.2.2 K-Map Simplification for Characteristic Equations</h3>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                <div class="kmap-container">
+                    <div class="kmap-title">JK Flip-Flop Next State $Q_{n+1}$</div>
+                    <table class="kmap">
+                        <tr><th class="kmap-diag-header">Q<sub>n</sub>\JK</th><th>00</th><th>01</th><th>11</th><th>10</th></tr>
+                        <tr><th>0</th><td class="cell">0</td><td class="cell">0</td><td class="cell">1</td><td class="cell">1</td></tr>
+                        <tr><th>1</th><td class="cell">1</td><td class="cell">0</td><td class="cell">0</td><td class="cell">1</td></tr>
+                    </table>
+                    <p style="font-size:0.85rem; margin-top:8px;" class="expr">Q_{n+1} = J Q̄_n + K̄ Q_n</p>
+                </div>
+
+                <div class="kmap-container">
+                    <div class="kmap-title">T Flip-Flop Next State $Q_{n+1}$</div>
+                    <table class="kmap">
+                        <tr><th class="kmap-diag-header">Q<sub>n</sub>\T</th><th>0</th><th>1</th></tr>
+                        <tr><th>0</th><td class="cell">0</td><td class="cell">1</td></tr>
+                        <tr><th>1</th><td class="cell">1</td><td class="cell">0</td></tr>
+                    </table>
+                    <p style="font-size:0.85rem; margin-top:8px;" class="expr">Q_{n+1} = T ⊕ Q_n = T Q̄_n + T̄ Q_n</p>
+                </div>
+            </div>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">Summary of All Flip-Flop Characteristic Equations</div>
+                <ul style="list-style-type:none; margin-left:0;">
+                    <li><strong>SR Flip-Flop:</strong> $Q_{n+1} = S + \bar{R}Q_n \quad \text{Constraint: } S \cdot R = 0$</li>
+                    <li><strong>D Flip-Flop:</strong> $Q_{n+1} = D$</li>
+                    <li><strong>JK Flip-Flop:</strong> $Q_{n+1} = J\bar{Q}_n + \bar{K}Q_n$</li>
+                    <li><strong>T Flip-Flop:</strong> $Q_{n+1} = T \oplus Q_n = T\bar{Q}_n + \bar{T}Q_n$</li>
+                </ul>
+            </div>
+
+            <h3 class="subsection-title">5.2.3 Master Excitation Matrix for All Flip-Flops</h3>
+            <p>This table compares the required inputs for each flip-flop type to execute a given state transition ($Q_n \to Q_{n+1}$):</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="2">State Transition</th><th colspan="2">SR Inputs</th><th>D Input</th><th colspan="2">JK Inputs</th><th>T Input</th></tr>
+                    <tr><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>S</th><th>R</th><th>D</th><th>J</th><th>K</th><th>T</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>X</td><td>0</td><td>0</td><td>X</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>X</td><td>1</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>X</td><td>1</td><td>1</td></tr>
+                    <tr><td>1</td><td>1</td><td>X</td><td>0</td><td>1</td><td>X</td><td>0</td><td>0</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 5.3 -->
+        <section id="sec5-3">
+            <h2 class="section-title">5.3 Master-Slave Flip-Flops</h2>
+
+            <h3 class="subsection-title">5.3.1 The Race-Around Condition in Level-Triggered JK Flip-Flops</h3>
+            <p>In a level-triggered JK flip-flop, if $J = 1$ and $K = 1$ while the clock pulse remains High ($CLK=1$) for a time duration $t_p$ that exceeds the propagation delay $\Delta t$ of the flip-flop logic gates ($t_p > \Delta t$):</p>
+
+            <div class="derivation">
+                <div class="derivation-step">
+                    <span class="eq">1. Output Q changes from 0 to 1 after Δt</span>
+                    <span class="reason">Toggle condition J=1, K=1</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">2. Since CLK is still High, new state Q=1 feeds back to gates</span>
+                    <span class="reason">Feedback loop remains active</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">3. Output toggles again from 1 to 0 after another Δt</span>
+                    <span class="reason">Continuous oscillations during tp</span>
+                </div>
+                <div class="derivation-step">
+                    <span class="eq">4. Final output Q at clock edge becomes unstable & unpredictable</span>
+                    <span class="reason">Race-Around Condition</span>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">5.3.2 Master-Slave JK Flip-Flop Architecture</h3>
+            <p>A <strong>Master-Slave Flip-Flop</strong> resolves the race-around condition by cascading two clocked SR/JK latches in series with complementary clock signals.</p>
+
+            <div class="schematic-box">
+                <div class="schematic-title">Master-Slave JK Flip-Flop Circuit Diagram</div>
+                <pre style="color: var(--accent-green);">
+         ┌─────────────────────────┐               ┌─────────────────────────┐
+J ──────►│  MASTER JK LATCH        │─── Y (Qm) ───►│  SLAVE SR LATCH         │──────► Q
+         │ Active when CLK = 1     │               │ Active when CLK = 0     │
+K ──────►│                         │─── Y' (Qm')──►│                         │──────► Q'
+         └────────────┬────────────┘               └────────────┬────────────┘
+                      │                                         │
+CLK ──────────────────┴───────────────[ NOT ]───────────────────┘
+                </pre>
+            </div>
+
+            <h4 class="subsubsection-title">Operation Mechanics:</h4>
+            <ol>
+                <li><strong>When Clock $CLK = 1$:</strong> The Master latch is enabled ($CLK=1$), while the Slave latch is isolated ($CLK'=0$). The Master samples inputs $J$ and $K$ and sets its intermediate state $Y$. The main output $Q$ remains unchanged.</li>
+                <li><strong>When Clock $CLK$ transitions from $1 \to 0$:</strong> The Master latch turns OFF, locking its output state $Y$. Simultaneously, the inverted clock turns the Slave latch ON. The Slave reads $Y$ and updates the main outputs $Q$ and $Q'$.</li>
+            </ol>
+            <p>Because the main output $Q$ changes state only when the master input stage is disabled, feedback cannot re-enter the master stage during the same clock pulse, <strong>eliminating the race-around condition</strong>.</p>
+        </section>
+
+        <!-- Section 5.4 -->
+        <section id="sec5-4">
+            <h2 class="section-title">5.4 Flip-Flop Timing Diagrams</h2>
+
+            <h3 class="subsection-title">5.4.1 Critical Timing Parameters</h3>
+            <ul>
+                <li><strong>Setup Time ($t_{su}$):</strong> The minimum duration of time that data inputs ($D, J, K, S, R$) must remain stable <strong>before</strong> the arrival of the active clock edge.</li>
+                <li><strong>Hold Time ($t_h$):</strong> The minimum duration of time that data inputs must remain constant <strong>after</strong> the active clock edge.</li>
+                <li><strong>Propagation Delay ($t_{pd}$):</strong> The time delay between the active clock edge trigger and the corresponding output state change at $Q$.</li>
+            </ul>
+
+            <div class="schematic-box">
+                <div class="schematic-title">Timing Waveforms & Constraints</div>
+                <pre style="color: var(--accent-amber);">
+CLK    : ───────┐               ┌───────┐               ┌───────
+                │               │       │               │
+                └───────────────┘       └───────────────┘
+                                ▲
+                                │ Active Rising Edge
+D      : ─────────────[ Valid Data ]─────────────────────────────
+                      ◄── t_su ─►◄─ t_h ─►
+
+Q      : ─────────────────────────┐──────────────────────────────
+                                  │◄─ t_pd ─►
+                                  └──────────────────────────────
+                </pre>
+            </div>
+        </section>
+
+        <!-- Section 5.5 -->
+        <section id="sec5-5">
+            <h2 class="section-title">5.5 Flip-Flops as Finite State Machines (FSMs)</h2>
+            <p>Any sequential circuit containing flip-flops and combinational logic can be modeled as a <strong>Finite State Machine (FSM)</strong>. The circuit moves through a discrete set of states based on clock cycles and external inputs.</p>
+
+            <h3 class="subsection-title">5.5.1 Classification: Mealy vs. Moore FSM Models</h3>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Feature</th><th>Moore Machine</th><th>Mealy Machine</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Output Dependence</strong></td><td>Output depends <strong>only on Present State</strong> ($Y = f(Q_n)$)</td><td>Output depends on <strong>Present State AND Inputs</strong> ($Y = f(Q_n, X)$)</td></tr>
+                    <tr><td><strong>State Diagram Representation</strong></td><td>Outputs are written inside state nodes (State / Output)</td><td>Outputs are written on transition arrows (Input / Output)</td></tr>
+                    <tr><td><strong>Hardware Complexity</strong></td><td>Generally requires more states to implement a given function</td><td>Requires fewer states than a Moore machine</td></tr>
+                    <tr><td><strong>Response to Inputs</strong></td><td>Outputs change synchronously with clock edge</td><td>Outputs can change asynchronously when inputs change</td></tr>
+                </tbody>
+            </table>
+
+            <div class="schematic-box">
+                <div class="schematic-title">Structural Block Diagram of an FSM</div>
+                <pre style="color: var(--accent-purple);">
+              ┌───────────────────────────┐
+Inputs (X) ──►│ Next State Logic          │──► Next State (Qn+1) ──►┌────────────┐
+              │ (Combinational Circuit)   │                       │ State      │──► Present State (Qn)
+              └─────────────┬─────────────┘                       │ Memory     │      │
+                            ▲                                     │ Flip-Flops │      │
+                            └─────────────────────────────────────└────────────┘      │
+                                                                                      │
+Outputs (Y) ◄───[ Output Logic Circuit ]◄──────────────────────────────────────────────┘
+               (Also takes Inputs X in Mealy Model)
+                </pre>
+            </div>
+        </section>
+
+        <!-- Section 5.6 -->
+        <section id="sec5-6">
+            <h2 class="section-title">5.6 Flip-Flop Conversions</h2>
+            <p>Any source flip-flop type can be converted into a target flip-flop type by connecting an appropriate combinational logic circuit to the inputs of the source flip-flop.</p>
+
+            <div class="callout callout-tip">
+                <div class="callout-title">Standard Conversion Methodology</div>
+                <ol>
+                    <li>Identify the <strong>Target FF</strong> (desired behavior) and the <strong>Source FF</strong> (available component).</li>
+                    <li>Construct a composite truth table listing: <strong>Target Inputs | Present State ($Q_n$) | Next State ($Q_{n+1}$) | Source Inputs</strong>.</li>
+                    <li>Fill in $Q_{n+1}$ using the Target FF's characteristic behavior.</li>
+                    <li>Use the <strong>Excitation Table of the Source FF</strong> to determine the required Source Inputs for every transition from $Q_n \to Q_{n+1}$.</li>
+                    <li>Minimize expressions for the Source Inputs using K-Maps and draw the logic circuit.</li>
+                </ol>
+            </div>
+
+            <h3 class="subsection-title">5.6.1 Example 1: Convert SR Flip-Flop to JK Flip-Flop</h3>
+            <p><strong>Target:</strong> JK Flip-Flop | <strong>Source:</strong> SR Flip-Flop</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th colspan="2">Target Inputs</th><th>Present State</th><th>Next State</th><th colspan="2">Source SR Inputs</th></tr>
+                    <tr><th>J</th><th>K</th><th>Q<sub>n</sub></th><th>Q<sub>n+1</sub></th><th>S</th><th>R</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>X</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>X</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>X</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>X</td><td>0</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                </tbody>
+            </table>
+
+            <h4 class="subsubsection-title">K-Map Minimization for S and R Inputs:</h4>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                <div class="kmap-container">
+                    <div class="kmap-title">K-Map for Input S</div>
+                    <p style="text-align: center; font-size: 1.1rem;" class="expr">S = J Q̄_n</p>
+                </div>
+                <div class="kmap-container">
+                    <div class="kmap-title">K-Map for Input R</div>
+                    <p style="text-align: center; font-size: 1.1rem;" class="expr">R = K Q_n</p>
+                </div>
+            </div>
+
+            <div class="schematic-box">
+                <div class="schematic-title">Converted JK Flip-Flop Circuit</div>
+                <pre style="color: var(--accent-blue);">
+J ───[ AND1 ]──────► S ┌──────────┐
+       ▲               │ SR FF    │───► Q
+Q' ────┼───────────────┤          │
+       │               └──────────┘
+K ───[ AND2 ]──────► R │
+       ▲               │
+Q ─────┘               └──────────┘
+                </pre>
+            </div>
+
+            <h3 class="subsection-title">5.6.2 Example 2: Convert JK Flip-Flop to D Flip-Flop</h3>
+            <p><strong>Target:</strong> D Flip-Flop | <strong>Source:</strong> JK Flip-Flop</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr><th>Target D</th><th>Present Q<sub>n</sub></th><th>Next Q<sub>n+1</sub></th><th>Source J</th><th>Source K</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>X</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>X</td><td>1</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>1</td><td>X</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>X</td><td>0</td></tr>
+                </tbody>
+            </table>
+
+            <p><strong>Derived Equations:</strong> $J = D$ and $K = \bar{D}$. Connecting $D$ to $J$ and $\bar{D}$ to $K$ converts a JK FF into a D FF.</p>
+        </section>
+
+        <!-- Section 5.7 -->
+        <section id="sec5-7">
+            <h2 class="section-title">5.7 Flip-Flop Applications</h2>
+
+            <h3 class="subsection-title">5.7.1 Registers and Shift Registers</h3>
+            <p>A register is a group of flip-flops used to store binary data. Shift registers move stored data bits laterally across stages on every clock pulse.</p>
+            <ul>
+                <li><strong>Serial-In, Serial-Out (SISO):</strong> Data is loaded and retrieved sequentially, bit-by-bit.</li>
+                <li><strong>Serial-In, Parallel-Out (SIPO):</strong> Data enters serially and is read concurrently across all bit positions.</li>
+                <li><strong>Parallel-In, Serial-Out (PISO):</strong> Bits are loaded simultaneously via control lines and shifted out bit-by-bit.</li>
+                <li><strong>Parallel-In, Parallel-Out (PIPO):</strong> Data is loaded and retrieved simultaneously in a single clock cycle.</li>
+            </ul>
+
+            <h4 class="subsubsection-title">Specialized Shift Register Counters:</h4>
+            <ul>
+                <li><strong>Ring Counter:</strong> An $N$-bit shift register with inverted output $Q_N$ connected back to input $D_1$. Requires initial seeding with $100\dots 0$. Total unique states = $N$.</li>
+                <li><strong>Johnson Counter (Twisted Ring Counter):</strong> Output $Q_N'$ is fed back to $D_1$. Total unique states = $2N$. Eliminates self-starting issues.</li>
+            </ul>
+
+            <h3 class="subsection-title">5.7.2 Synchronous and Asynchronous Binary Counters</h3>
+
+            <h4 class="subsubsection-title">Asynchronous (Ripple) Counters</h4>
+            <p>The output $Q$ of stage $i$ serves as the clock input for stage $i+1$. Flip-flops switch sequentially, causing accumulated ripple propagation delays.</p>
+
+            <h4 class="subsubsection-title">Synchronous Counters</h4>
+            <p>All flip-flops receive the clock signal simultaneously. Next states are determined concurrently using combinational logic, eliminating ripple delays.</p>
+
+            <h3 class="subsection-title">5.7.3 Frequency Division Circuits</h3>
+            <p>A single T Flip-Flop configured with $T=1$ (or D FF with $Q'$ connected back to $D$) toggles state every clock pulse, producing an output square wave with exactly half the clock frequency ($f_{out} = f_{clk} / 2$). Cascading $N$ stages divides clock frequency by $2^N$.</p>
+
+            <h3 class="subsection-title">5.7.4 Mechanical Switch Debouncing Circuit</h3>
+            <p>Mechanical switches create contact bounce noises when toggled. An SR Latch filters out voltage spikes during contact bouncing, ensuring clean digital transition pulses.</p>
+        </section>
+    </main>
+
+</body>
+</html>
+```
+
+### Summary of Module 5 Reference Guide:
+* **Section 5.1:** Latches vs. Flip-Flops, active-high and active-low SR latches, D Latch, JK Flip-Flop, T Flip-Flop.
+* **Section 5.2:** Characteristic tables, K-map derivations for $Q_{n+1}$, and the unified excitation matrix for all four flip-flop types.
+* **Section 5.3:** Step-by-step breakdown of the Race-Around Condition ($J=1, K=1, t_p > \Delta t$) and its elimination via the Master-Slave JK architecture.
+* **Section 5.4:** Timing parameters ($t_{su}, t_h, t_{pd}$) with waveform illustrations.
+* **Section 5.5:** Finite State Machine (FSM) models comparing Mealy vs. Moore machines.
+* **Section 5.6:** General conversion methodology and detailed examples (SR to JK, JK to D) complete with K-maps and schematics.
+* **Section 5.7:** Shift registers (SISO, SIPO, PISO, PIPO, Ring, Johnson), counters, clock frequency dividers, and switch debouncing circuits.
+
+Would you like to move on to Module 6 (Registers and Counters) or refine any specific section in this guide?

@@ -1,0 +1,119 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Digital Logic – BCT Model Answers</title><style>:root{color-scheme:light dark;--bg:#fff;--fg:#1b1f23;--mut:#586069;--acc:#0b5cad;--card:#f3f6fa;--bd:#c9d1d9;--ok:#e7f5ea}
+@media(prefers-color-scheme:dark){:root{--bg:#14171a;--fg:#e6e6e6;--mut:#9aa5b1;--acc:#6cb2ff;--card:#1d2227;--bd:#3a424a;--ok:#1b2e21}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Georgia,'Times New Roman',serif}
+main{max-width:940px;margin:auto;padding:14px 14px 40px}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px;font:14px sans-serif}
+nav a{padding:4px 10px;border:1px solid var(--bd);border-radius:14px;color:var(--acc);text-decoration:none}
+header.h{border-bottom:3px double var(--bd);margin-bottom:10px}
+h1{font-size:1.5rem;margin:.2em 0}h2{font-size:1.15rem;margin:0 0 8px;color:var(--acc)}h3{font-size:1rem;margin:14px 0 4px}
+.sub{color:var(--mut);font:14px sans-serif}
+.q{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 16px;margin:16px 0}
+.m{float:right;font:12px sans-serif;background:var(--acc);color:#fff;border-radius:10px;padding:1px 9px;margin-left:8px}
+.ans{background:var(--ok);border-left:4px solid #2e9a4d;padding:6px 12px;margin:8px 0;border-radius:4px}
+.fig{overflow-x:auto;text-align:center;margin:8px 0}.figs{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center}
+.cap{font:13px sans-serif;color:var(--mut);text-align:center;margin:0 0 8px}
+svg{color:var(--fg);stroke:var(--fg);fill:none;stroke-width:1.4}svg text{fill:var(--fg);stroke:none}svg marker path{fill:var(--fg);stroke:none}
+table.t{border-collapse:collapse;margin:8px auto;font:14px sans-serif;max-width:100%}
+table.t th,table.t td{border:1px solid var(--bd);padding:3px 9px;text-align:center}table.t th{background:var(--bg)}
+table.km{border-collapse:collapse;margin:6px auto;text-align:center;font:14px sans-serif}
+.km td,.km th{border:1px solid var(--bd);width:46px;height:34px;padding:0}.km th{background:var(--bg);font-size:12px}
+.km td{position:relative;font-weight:700}.km sup{position:absolute;left:2px;top:0;font-size:9px;font-weight:400;color:var(--mut)}
+.v1{background:rgba(11,92,173,.2)}.vd{color:var(--mut)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;font:13px sans-serif;margin:8px 0}
+.flow span{border:1.5px solid currentColor;border-radius:6px;padding:6px 9px;text-align:center}.flow i{font-style:normal}
+pre{background:var(--bg);border:1px solid var(--bd);padding:8px;overflow-x:auto;font-size:13px}
+ul,ol{margin:4px 0 4px 20px;padding:0}
+footer{text-align:center;color:var(--mut);font:13px sans-serif;margin-top:24px}
+@media print{nav{display:none}.q{break-inside:avoid;background:none}}
+</style><script>const $=id=>document.getElementById(id);
+const tx=(x,y,t,a)=>`<text x="${x}" y="${y}" text-anchor="${a||'start'}">${t}</text>`;
+const LN=(a,b,c,d)=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`;
+function svg(id,w,h,inner){$(id).innerHTML=`<svg viewBox="0 0 ${w} ${h}" style="width:100%;max-width:${w}px;height:auto" font-size="12" font-family="sans-serif"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z"/></marker></defs>${inner}</svg>`}
+const bn=(v,n)=>v.toString(2).padStart(n,'0');
+const mm=(n,ones,dc)=>{dc=dc||[];return Array.from({length:1<<n},(_,i)=>ones.includes(i)?'1':dc.includes(i)?'d':'0').join('')};
+function tbl(id,h,r){$(id).innerHTML='<table class="t"><tr>'+h.map(x=>`<th>${x}</th>`).join('')+'</tr>'+r.map(x=>'<tr>'+x.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('')+'</table>'}
+function g2b(id,g){let b=g[0];const r=[[1,g[0],'copy MSB',g[0]]];for(let i=1;i<g.length;i++){const v=(+b[i-1])^(+g[i]);r.push([i+1,g[i],`${b[i-1]} ⊕ ${g[i]}`,v]);b+=v}tbl(id,['Bit','Gray','Operation','Binary'],r);return b}
+function b2g(id,b){let g=b[0];const r=[[1,b[0],'copy MSB',b[0]]];for(let i=1;i<b.length;i++){const v=(+b[i-1])^(+b[i]);r.push([i+1,b[i],`${b[i-1]} ⊕ ${b[i]}`,v]);g+=v}tbl(id,['Bit','Binary','Operation','Gray'],r);return g}
+/* K-map: o={rv,cv,m,nr,nc}; m = string of 1/0/d indexed by minterm */
+function kmap(id,o){const g=n=>n==1?['0','1']:['00','01','11','10'],R=g(o.nr||o.rv.length),C=g(o.nc||o.cv.length);
+let h=`<table class="km"><tr><th>${o.rv}\\${o.cv}</th>`+C.map(c=>`<th>${c}</th>`).join('')+'</tr>';
+R.forEach(r=>{h+=`<tr><th>${r}</th>`;C.forEach(c=>{const i=parseInt(r+c,2),v=o.m[i];h+=`<td class="v${v}"><sup>${i}</sup>${v=='d'?'X':v}</td>`});h+='</tr>'});
+$(id).innerHTML=h+'</table>'}
+/* Timing wave: rows [[name,'0101'|'clk']]; index i = value after i-th active edge; neg=true for falling-edge devices */
+function wave(id,rows,neg,pw){pw=pw||34;const n=Math.max(...rows.map(r=>r[1]==='clk'?0:r[1].length)),L=58,rh=36,W=L+n*pw+12,H=rows.length*rh+14,off=neg?-pw/2:0;let s='';
+for(let i=0;i<=n;i++)s+=`<line x1="${L+i*pw}" y1="2" x2="${L+i*pw}" y2="${H-6}" stroke-dasharray="2 4" opacity=".35"/>`;
+rows.forEach(([nm,v],r)=>{const hi=r*rh+8,lo=hi+20;s+=tx(2,hi+15,nm);let d;
+if(v==='clk'){d=`M${L},${lo}`;for(let i=0;i<n;i++){const x=L+i*pw;d+=`V${hi}H${x+pw/2}V${lo}H${x+pw}`}}
+else{const y=i=>v[i]=='1'?hi:lo;d=`M${L},${y(0)}`;for(let i=1;i<v.length;i++)d+=`H${L+i*pw+off}V${y(i)}`;d+=`H${L+n*pw}`}
+s+=`<path d="${d}" stroke-width="1.8"/>`});svg(id,W,H,s)}
+const cnt=(seq,n,names)=>{const r=[['CLK','clk']];for(let b=0;b<n;b++)r.push([names?names[b]:'Q'+b,seq.map(v=>(v>>b)&1).join('')]);return r};
+/* Sum-of-products two-level AND-OR diagram: terms = ["A'C'D","AB'D'"...] */
+function sop(id,o){const t=o.terms.map(a=>typeof a=='string'?a.match(/[A-Za-z][0-9]*'?/g):a),n=t.length;let y=8,G=[],s='';
+t.forEach(a=>{const h=Math.max(30,a.length*15+8);G.push({a,y,h});y+=h+8});
+const H=y,gx=54,gw=36,ox=gx+gw+70,cy=H/2,oh=Math.max(50,Math.min(H-16,n*22)),top=cy-oh/2,bot=cy+oh/2;
+G.forEach(g=>{const k=g.a.length;if(k==1){const yy=g.y+g.h/2;s+=tx(2,yy+4,g.a[0])+LN(28,yy,gx+gw,yy);g.ox=gx+gw;g.oy=yy;return}
+g.a.forEach((l,j)=>{const yy=g.y+(j+1)*g.h/(k+1);s+=tx(2,yy+4,l)+LN(28,yy,gx,yy)});
+s+=`<path d="M${gx},${g.y}H${gx+gw/2}A${gw/2},${g.h/2} 0 0 1 ${gx+gw/2},${g.y+g.h}H${gx}Z"/>`;g.ox=gx+gw;g.oy=g.y+g.h/2});
+if(n==1){s+=LN(G[0].ox,G[0].oy,G[0].ox+40,G[0].oy)+tx(G[0].ox+44,G[0].oy+4,o.out);svg(id,gx+gw+110,H,s);return}
+s+=`<path d="M${ox},${top}Q${ox+16},${cy} ${ox},${bot}Q${ox+44},${bot} ${ox+62},${cy}Q${ox+44},${top} ${ox},${top}Z"/>`;
+G.forEach((g,i)=>{s+=LN(g.ox,g.oy,ox+7,top+(i+1)*oh/(n+1))});
+s+=LN(ox+62,cy,ox+95,cy)+tx(ox+100,cy+4,o.out);svg(id,ox+150,H,s)}
+/* Generic block: o={title,ins,outs,sel,w} */
+function blk(id,o){const I=o.ins||[],O=o.outs||[],Sl=o.sel||[],n=Math.max(I.length,O.length),h=Math.max(n*24+10,64),x=110,w=o.w||90;
+let s=`<rect x="${x}" y="8" width="${w}" height="${h}"/>`+tx(x+w/2,h/2+12,o.title,'middle');
+I.forEach((l,i)=>{const y=8+(i+1)*h/(I.length+1);s+=tx(x-34,y+4,l,'end')+LN(x-30,y,x,y)});
+O.forEach((l,i)=>{const y=8+(i+1)*h/(O.length+1);s+=LN(x+w,y,x+w+30,y)+tx(x+w+34,y+4,l)});
+Sl.forEach((l,i)=>{const xx=x+(i+1)*w/(Sl.length+1);s+=LN(xx,h+8,xx,h+30)+tx(xx,h+44,l,'middle')});
+svg(id,x+w+110,h+52,s)}
+/* Flip-flop chain: o={n,names,pin,in,out,clk:'ext'|'Q'|'Qb',neg,mux,fb,tl:[[lines]..]} */
+function ff(id,o){const n=o.n,nm=o.names,X=i=>(o.mux?150:110)+i*(o.mux?130:115),w=46,h=70,tl=o.tl||[],ml=Math.max(0,...tl.map(a=>a.length)),y=42+ml*14,cy=y+h+24;let s='';
+const ext=o.clk!=='Q'&&o.clk!=='Qb',clkp=(x)=>o.neg?`H${x-7.5}`:`H${x}`;
+for(let i=0;i<n;i++){const x=X(i),px=X(i-1);
+s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}"/>`+tx(x+w/2,y-6,'FF-'+nm[i],'middle')+tx(x+5,y+26,o.pin||'D')+tx(x+w-5,y+26,'Q','end')+tx(x+w-5,y+62,"Q'",'end')+`<path d="M${x},${y+52}l8,6l-8,6"/>`;
+if(o.neg)s+=`<circle cx="${x-4}" cy="${y+58}" r="3.5"/>`;
+(tl[i]||[]).forEach((l,k)=>s+=tx(x+w/2,y-20-k*14,l,'middle'));
+if(o.mux){s+=`<rect x="${x-44}" y="${y+2}" width="24" height="44"/>`+tx(x-32,y+28,'M','middle')+LN(x-20,y+22,x,y+22)+tx(x-52,y-6,'P'+nm[i],'middle')+`<path d="M${x-52},${y-2}V${y+12}H${x-44}"/>`;
+s+=i?`<path d="M${px+w},${y+22}H${x-58}V${y+32}H${x-44}"/>`:LN(x-70,y+32,x-44,y+32)+tx(x-74,y+36,'0','end')}
+else if(i>0&&o.chain!==false)s+=`<path d="M${px+w},${y+22}H${x}" marker-end="url(#ar)"/>`;
+if(i==0&&o.in&&!o.mux)s+=`<path d="M${x-60},${y+22}H${x}" marker-end="url(#ar)"/>`+tx(x-64,y+26,o.in,'end');
+if(ext)s+=`<path d="M${x-12},${cy}V${y+58}${clkp(x)}"/>`;
+else if(i==0)s+=`<path d="M${x-40},${cy}H${x-12}V${y+58}${clkp(x)}"/>`;
+else{const py=o.clk==='Q'?y+22:y+58;s+=`<path d="M${px+w},${py}H${px+w+10}V${cy}H${x-12}V${y+58}${clkp(x)}"/>`}}
+if(ext)s+=LN(X(0)-40,cy,X(n-1)-12,cy);
+s+=tx(X(0)-44,cy+4,'CLK','end');
+const xl=X(n-1);
+if(o.fb)s+=`<path d="M${xl+w},${y+58}H${xl+w+18}V${y-30}H${X(0)-30}V${y+22}H${X(0)}" marker-end="url(#ar)"/>`;
+if(o.out)s+=`<path d="M${xl+w},${y+22}H${xl+w+40}" marker-end="url(#ar)"/>`+tx(xl+w+44,y+26,o.out);
+svg(id,xl+w+(o.out?110:60),cy+14,s)}
+/* State diagram: names, edges [from,to,label] */
+function sd(id,names,E){const N=names.length,X=i=>60+i*150,y=100,r=26;let s='';
+names.forEach((nm,i)=>{s+=`<circle cx="${X(i)}" cy="${y}" r="${r}"/>`+tx(X(i),y+4,nm,'middle')});
+E.forEach(([a,b,l])=>{const xa=X(a),xb=X(b);
+if(a==b){s+=`<path d="M${xa-14},${y-22}C${xa-44},${y-78} ${xa+44},${y-78} ${xa+14},${y-22}" marker-end="url(#ar)"/>`+tx(xa,y-70,l,'middle');return}
+const f=b>a,d=Math.abs(b-a),sg=f?-1:1,h=22+d*22,x1=xa+(f?16:-16),x2=xb+(f?-16:16),y0=y+sg*18;
+s+=`<path d="M${x1},${y0}Q${(x1+x2)/2},${y0+sg*2*h} ${x2},${y0}" marker-end="url(#ar)"/>`+tx((x1+x2)/2,y0+sg*(h+6),l,'middle')});
+svg(id,60+N*150,200,s)}
+/* De Morgan gate figures: t=1 (AB)'=A'+B' ; t=2 (A+B)'=A'B' */
+function dm(id,t){const A=(x,y)=>`<path d="M${x},${y}h16a20,20 0 0 1 0,40h-16z"/>`,O=(x,y)=>`<path d="M${x},${y}q12,20 0,40q28,0 42,-20q-14,-20 -42,-20z"/>`,b=(x,y)=>`<circle cx="${x}" cy="${y}" r="4"/>`;
+const G1=t==1?A:O,G2=t==1?O:A,re=t==1?106:112;let s=tx(64,24,'A','end')+tx(64,44,'B','end')+LN(68,20,70,20)+LN(68,40,70,40);
+s+=G1(70,10)+b(re+4,30)+LN(re+8,30,re+40,30)+tx(re+44,34,'Y');
+s+=tx(190,34,'≡','middle')+tx(226,24,'A','end')+tx(226,44,'B','end')+LN(230,20,262,20)+LN(230,40,262,40)+b(266,20)+b(266,40)+LN(270,20,276,20)+LN(270,40,276,40);
+const re2=276+(t==1?42:36);s+=G2(276,10)+LN(re2,30,re2+40,30)+tx(re2+44,34,'Y');svg(id,re2+80,60,s)}
+/* Universal gate constructions */
+function univ(id,g){const G=(x,y)=>`<rect x="${x}" y="${y}" width="50" height="40"/>`+tx(x+25,y+24,g,'middle'),N=g=='NAND';let s='',y0=0;
+s+=tx(0,y0+34,'NOT')+tx(72,y0+34,'A','end')+LN(76,y0+30,100,y0+30)+LN(100,y0+22,100,y0+38)+LN(100,y0+22,120,y0+22)+LN(100,y0+38,120,y0+38)+G(120,y0+10)+LN(170,y0+30,230,y0+30)+tx(234,y0+34,"A'");
+y0=70;s+=tx(0,y0+34,N?'AND':'OR')+tx(72,y0+26,'A','end')+tx(72,y0+42,'B','end')+LN(76,y0+22,120,y0+22)+LN(76,y0+38,120,y0+38)+G(120,y0+10)+LN(170,y0+30,190,y0+30)+LN(190,y0+22,190,y0+38)+LN(190,y0+22,210,y0+22)+LN(190,y0+38,210,y0+38)+G(210,y0+10)+LN(260,y0+30,320,y0+30)+tx(324,y0+34,N?'AB':'A+B');
+y0=140;s+=tx(0,y0+34,N?'OR':'AND')+tx(72,y0+24,'A','end')+LN(76,y0+20,100,y0+20)+LN(100,y0+12,100,y0+28)+LN(100,y0+12,120,y0+12)+LN(100,y0+28,120,y0+28)+G(120,y0)+tx(72,y0+74,'B','end')+LN(76,y0+70,100,y0+70)+LN(100,y0+62,100,y0+78)+LN(100,y0+62,120,y0+62)+LN(100,y0+78,120,y0+78)+G(120,y0+50)
++LN(170,y0+20,190,y0+20)+LN(190,y0+20,190,y0+37)+LN(190,y0+37,210,y0+37)+LN(170,y0+70,190,y0+70)+LN(190,y0+70,190,y0+53)+LN(190,y0+53,210,y0+53)+G(210,y0+25)+LN(260,y0+45,320,y0+45)+tx(324,y0+49,N?'A+B':'AB')+tx(176,y0+14,"A'")+tx(176,y0+64,"B'");
+svg(id,400,235,s)}
+</script></head><body><main><header class="h"><h1>Digital Logic (ENEX/EX 152) – BCT Model Answers</h1><div class="sub">Tribhuvan University · IOE · BE (BEI, BCT) · Year I / Part II · 4 past papers solved independently</div></header>
+<p>Each paper is answered as a stand-alone exam script: full working, truth/state tables, K-maps, circuit diagrams and timing diagrams. Repeated topics (SIPO, sequence detectors, ripple counters, MUX design…) are written out in full every time so every paper can be read on its own.</p>
+<div class="q"><h2><a href="paper1.html">Paper 1 – 2083 Baishakh (Back)</a></h2>Gray code · excess-3 · universal gates · K-map · encoder · MUX full subtractor · D→JK · SIPO · async BCD counter · sync mod-10 (T) · 011 detector (T) · logic families</div>
+<div class="q"><h2><a href="paper2.html">Paper 2 – 2082 Bhadra (Regular)</a></h2>Binary→Gray · 2's complement & BCD add · De Morgan · K-map with don't cares · 3-bit comparator · MUX full adder · SR→JK · shift registers & Johnson counter · ripple counter · sync mod-6 (SR) · 110 detector (SR) · frequency counter</div>
+<div class="q"><h2><a href="paper3.html">Paper 3 – 2082 Baishakh (Back)</a></h2>ASCII & signed addition · Boolean proofs · priority encoder · 3×8 decoder realization · up/down counter (T) · PISO · mod-12 async counter · 010 detector (D) · CMOS NAND & TTL · time measurement</div>
+<div class="q"><h2><a href="paper4.html">Paper 4 – 2081 Ashwin (Regular, 2080 batch)</a></h2>Digital vs analog · hex→octal, Gray→binary · BCD-to-7-segment (f) · 4:1 MUX · half adder/subtractor · mod-6 down counter (JK) · SIPO · up/down async counter · 101 detector (SR) · TTL NOR & CMOS · frequency measurement</div>
+<h3>Most repeated topics across the 4 papers</h3>
+<table class="t"><tr><th>Topic</th><th>Papers</th></tr><tr><td>Sequence detector (Mealy, overlapping)</td><td>1, 2, 3, 4</td></tr><tr><td>Synchronous counter design</td><td>1, 2, 3, 4</td></tr><tr><td>Asynchronous / ripple counter with timing diagram</td><td>1, 2, 3, 4</td></tr><tr><td>Shift register (SIPO/PISO) with timing diagram</td><td>1, 2, 3, 4</td></tr><tr><td>K-map minimisation + realization</td><td>1, 2, 3, 4</td></tr><tr><td>MUX / decoder / encoder implementation</td><td>1, 2, 3, 4</td></tr><tr><td>Logic families (TTL / CMOS)</td><td>1, 3, 4</td></tr><tr><td>Frequency / time measurement</td><td>2, 3, 4</td></tr></table>
+<h3>Exam tips</h3><ul><li>Always state the assumption (Mealy, overlapping, MSB first, active-high…).</li><li>Draw the state diagram → state table → excitation table → K-maps → equations → circuit, in that order.</li><li>Label timing diagrams with the clock edge used.</li></ul>
+</main></body></html>

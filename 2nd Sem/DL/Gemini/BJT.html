@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 8: Digital Integrated Circuits Study Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #16a085;
+        }
+        .concept-box {
+            background-color: #fff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        .warning {
+            background-color: #ffeaa7;
+            border-left: 4px solid #d63031;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>8. Digital Integrated Circuits</h1>
+    <p>This chapter bridges the gap between basic electronics and digital logic. You are learning how physical electronic components (transistors) are wired together to create the 1s and 0s (logic gates) you studied earlier.</p>
+
+    <div class="concept-box">
+        <h2>8.1 BJT and MOSFET Switching Circuits</h2>
+        <p>Transistors can act as amplifiers or switches. In digital logic, we <strong>only</strong> care about them acting as switches (On/Off = 1/0).</p>
+        <ul>
+            <li><strong>BJT (Bipolar Junction Transistor):</strong> Current-controlled device. To use it as a switch, it is operated in two regions: <em>Cut-off</em> (Open switch, Logic 1 output if pulled up) and <em>Saturation</em> (Closed switch, Logic 0 output).</li>
+            <li><strong>MOSFET (Metal-Oxide-Semiconductor Field-Effect Transistor):</strong> Voltage-controlled device. It consumes much less power than a BJT and is the standard for modern processors. It switches between <em>Cut-off</em> (Off) and <em>Ohmic/Linear</em> (On) regions.</li>
+        </ul>
+    </div>
+
+    <div class="concept-box">
+        <h2>8.2 TTL Parameters (Transistor-Transistor Logic)</h2>
+        <p>TTL is an older logic family built using BJTs. You must memorize these standard definitions, as they are guaranteed exam questions.</p>
+        <ul>
+            <li><strong>Voltage Levels:</strong> Logic 0 is typically 0V to 0.8V. Logic 1 is 2.0V to 5V.</li>
+            <li><strong>Propagation Delay:</strong> The time it takes for a change at the input to produce a change at the output (typically 10ns for standard TTL).</li>
+            <li><strong>Power Dissipation:</strong> The amount of power a gate draws (typically 10mW per gate for standard TTL).</li>
+            <li><strong>Fan-in:</strong> The number of inputs a gate has.</li>
+            <li><strong>Fan-out:</strong> The maximum number of standard inputs that the output of a single gate can drive without dropping the voltage below logic thresholds (typically 10 for TTL).</li>
+            <li><strong>Noise Margin:</strong> The maximum noise voltage added to an input signal that does not cause an unwanted change in the output state.</li>
+        </ul>
+    </div>
+
+    <div class="concept-box">
+        <h2>8.3 TTL Circuits: NAND, NOT, NOR</h2>
+        <p>TTL gates are built using multiple emitter BJTs at the input and a "Totem-Pole" output stage.</p>
+        <ul>
+            <li><strong>Input Stage:</strong> A multi-emitter transistor acts like an AND gate for the inputs.</li>
+            <li><strong>Phase Splitter:</strong> The middle transistor controls which output transistor turns on.</li>
+            <li><strong>Totem-Pole Output:</strong> Consists of two transistors stacked on top of each other. Only one is ON at a time. The top one pulls the output HIGH (Logic 1), the bottom one pulls the output LOW (Logic 0). <em>Note: Never connect two Totem-Pole outputs together, or it will cause a short circuit.</em></li>
+        </ul>
+    </div>
+
+    <div class="concept-box">
+        <h2>8.4 CMOS Parameters (Complementary Metal-Oxide-Semiconductor)</h2>
+        <p>CMOS is the modern standard. It uses both p-channel (PMOS) and n-channel (NMOS) MOSFETs.</p>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>TTL</th>
+                <th>CMOS</th>
+            </tr>
+            <tr>
+                <td><strong>Power Consumption</strong></td>
+                <td>High (Static power draw)</td>
+                <td>Very Low (Only draws power during switching)</td>
+            </tr>
+            <tr>
+                <td><strong>Speed</strong></td>
+                <td>Fast</td>
+                <td>Slower than TTL (but modern CMOS is incredibly fast)</td>
+            </tr>
+            <tr>
+                <td><strong>Noise Margin</strong></td>
+                <td>Lower</td>
+                <td>Higher (Better immunity to electrical noise)</td>
+            </tr>
+            <tr>
+                <td><strong>Fan-out</strong></td>
+                <td>Low (~10)</td>
+                <td>Very High (Virtually limited only by capacitance, ~50+)</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="concept-box">
+        <h2>8.5 CMOS Logic Circuits: NAND, NOR, NOT</h2>
+        <p>Every CMOS gate requires a Pull-up Network (PUN) using PMOS, and a Pull-down Network (PDN) using NMOS.</p>
+        <ul>
+            <li><strong>NOT Gate (Inverter):</strong> One PMOS on top (pull-up to Vdd), one NMOS on bottom (pull-down to Ground). Gates tied together as input.</li>
+            <li><strong>NAND Gate:</strong> PMOS transistors in <em>parallel</em> (top), NMOS transistors in <em>series</em> (bottom). If any input is 0, a PMOS turns on (output = 1). If both inputs are 1, both NMOS turn on (output = 0).</li>
+            <li><strong>NOR Gate:</strong> PMOS transistors in <em>series</em> (top), NMOS transistors in <em>parallel</em> (bottom).</li>
+        </ul>
+        <div class="warning">Exam Tip: If you are asked to draw a CMOS circuit, remember the duality rule. If NMOS is in series, PMOS must be in parallel, and vice versa.</div>
+    </div>
+
+    <div class="concept-box">
+        <h2>8.6 Three-State TTL Devices</h2>
+        <p>Standard logic has two states: 1 (High) and 0 (Low). Three-state (Tri-state) logic introduces a third state: <strong>High-Impedance (High-Z)</strong>.</p>
+        <ul>
+            <li><strong>High-Z State:</strong> The output is effectively disconnected from the rest of the circuit. Neither pulling High nor Low.</li>
+            <li><strong>Application:</strong> Crucial for bus architectures in computers. If multiple devices share a single data bus, only one device is allowed to output data (0 or 1) at a time. All other devices must be set to High-Z to prevent short circuits and data collision.</li>
+        </ul>
+    </div>
+
+    <div class="concept-box">
+        <h2>8.7 Digital Devices Applications</h2>
+        
+        <h3>8.7.1 Multiplexing Displays</h3>
+        <p>If you have four 7-segment displays, controlling them directly requires 28 pins (4 x 7). Multiplexing solves this by tying all the segments (A-G) of the displays together, requiring only 7 data pins plus 4 control pins (to turn on one specific display at a time).</p>
+        <p><strong>How it works:</strong> The microcontroller rapidly flashes each display one by one (e.g., 50 times a second). Human persistence of vision makes it look like all four displays are turned on continuously.</p>
+
+        <h3>8.7.2 Frequency Counters</h3>
+        <p>A frequency counter measures the frequency of an unknown input signal. It uses a known time base (a highly accurate oscillator) to open a "gate" for exactly 1 second. While the gate is open, a digital counter counts the number of pulses of the unknown signal. The final count represents the frequency in Hertz ($Hz$).</p>
+
+        <h3>8.7.3 Time Measurements</h3>
+        <p>This is the inverse of the frequency counter. To measure the time width of an unknown pulse, the unknown pulse is used to open the "gate". While the gate is open, the counter counts pulses from a high-frequency, highly accurate internal clock. By knowing the period of the internal clock and the total count, the exact time width of the unknown signal is calculated.</p>
+    </div>
+
+</body>
+</html>
