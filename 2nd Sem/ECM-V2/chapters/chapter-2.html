@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 2: Classical Transient Analysis | ENEE 154</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="../index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="../syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="../formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="../derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="../pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="../revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Chapter 2 Outline</div>
+      <ul class="sidebar-nav">
+        <li><a href="#sec-2-1" class="sidebar-link"><span>2.1 First-Order Differential Equations</span></a></li>
+        <li><a href="#sec-2-2" class="sidebar-link"><span>2.2 Method of Undetermined Coefficients</span></a></li>
+        <li><a href="#sec-2-3" class="sidebar-link"><span>2.3 RL and RC Circuits (DC, Exp, AC)</span></a></li>
+        <li><a href="#sec-2-4" class="sidebar-link"><span>2.4 Series RLC Step Response</span></a></li>
+        <li><a href="#sec-2-5" class="sidebar-link"><span>2.5 Series RLC with Exp & AC Sources</span></a></li>
+        <li><a href="#sec-2-6" class="sidebar-link"><span>2.6 Parallel RLC Circuit Response</span></a></li>
+        <li><a href="#sec-2-7" class="sidebar-link"><span>2.7 Series vs Parallel Comparison</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Chapter 2 • 10 Hours • Expected Marks: 10M</span>
+        <span class="badge badge-pyq">Heaviest Syllabus Weightage • Tested in Q3 of All Exams</span>
+        <h1>Transient Analysis of R-L-C Circuits by Classical Method</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Time-domain differential equations, complementary functions, particular integrals, and complete dynamic solutions for first-order and second-order linear circuits.
+        </p>
+      </div>
+
+      <!-- Section 2.1 & 2.2 -->
+      <section id="sec-2-1" style="margin-bottom: 3rem;">
+        <h2>2.1 & 2.2 First-Order Differential Equations & General Solution Structure</h2>
+        
+        <h3>The Classical Complete Solution Principle</h3>
+        <p>
+          In the classical time-domain method, any linear circuit subjected to excitation is modeled by a non-homogeneous differential equation with constant coefficients:
+          \[a_n \frac{d^n x}{dt^n} + \dots + a_1 \frac{dx}{dt} + a_0 x = f(t)\]
+          The complete response \(x(t)\) is strictly the superposition of two components:
+          \[x(t) = x_c(t) + x_p(t)\]
+        </p>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Mathematical Name</th>
+                <th>Physical Engineering Meaning</th>
+                <th>Key Characteristic</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>\(x_c(t)\)</td>
+                <td><strong>Complementary Function</strong></td>
+                <td><strong>Transient / Natural Response:</strong> Energy exchange between circuit elements decaying to zero due to resistance.</td>
+                <td>Depends strictly on internal network structure (\(R, L, C\)), independent of source waveform.</td>
+              </tr>
+              <tr>
+                <td>\(x_p(t)\)</td>
+                <td><strong>Particular Integral</strong></td>
+                <td><strong>Forced / Steady-State Response:</strong> Sustained output dictated by the external excitation as \(t \to \infty\).</td>
+                <td>Takes the same mathematical functional form as the forcing function \(f(t)\).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Method of Undetermined Coefficients (PI Selection Rules)</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Excitation Type \(f(t)\)</th>
+                <th>Assumed Form of Particular Integral \(x_p(t)\)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Constant DC: \(V_0\) or \(I_0\)</td>
+                <td>\(K\) (constant)</td>
+              </tr>
+              <tr>
+                <td>Exponential: \(V_0 e^{-at}\) (where \(-a\) is not a natural root)</td>
+                <td>\(K e^{-at}\)</td>
+              </tr>
+              <tr>
+                <td>Exponential: \(V_0 e^{-at}\) (where \(-a\) is a simple natural root)</td>
+                <td>\(K t e^{-at}\)</td>
+              </tr>
+              <tr>
+                <td>Sinusoidal: \(V_m \cos(\omega t + \theta)\) or \(\sin(\omega t)\)</td>
+                <td>\(A \cos(\omega t) + B \sin(\omega t)\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 2.3 -->
+      <section id="sec-2-3" style="margin-bottom: 3rem;">
+        <h2>2.3 Response of R-L and R-C Circuits (DC, Exponential, Sinusoidal)</h2>
+
+        <h3>1. DC Step Excitation</h3>
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Series RL: } i(t) = \frac{V}{R}\left(1 - e^{-t/\tau}\right), \quad \tau = \frac{L}{R}\]
+            \[\text{Series RC: } v_C(t) = V\left(1 - e^{-t/\tau}\right), \quad i(t) = \frac{V}{R} e^{-t/\tau}, \quad \tau = RC\]
+          </div>
+          <div class="formula-meta">
+            <strong>Time Constant Physical Significance:</strong> In one time constant (\(t = \tau\)), the response reaches \(1 - e^{-1} \approx 63.2\%\) of its final steady-state value. The transient effectively dies out after \(5\tau\) (\(99.3\%\) settled).
+          </div>
+        </div>
+
+        <h3>2. Exponential Excitation</h3>
+        <p>
+          For a series RC circuit excited by \(v(t) = V_0 e^{-at}\), the complete solution derived via classical ODE is:
+          \[i(t) = \frac{V_0}{R(1 - a RC)} \left[ e^{-t/RC} - a RC \, e^{-at} \right]\]
+          <em>(See full derivation in <a href="../derivations.html#d-rc-exp">Derivation Sheet Section 5</a>).</em>
+        </p>
+
+        <h3>3. Sinusoidal AC Excitation</h3>
+        <p>
+          When series RL is excited by \(v(t) = V_m \sin(\omega t + \theta)\) switched on at \(t = 0\):
+          \[L \frac{di}{dt} + R i = V_m \sin(\omega t + \theta)\]
+          Particular integral:
+          \[i_p(t) = \frac{V_m}{Z} \sin(\omega t + \theta - \phi), \quad \text{where } Z = \sqrt{R^2 + (\omega L)^2}, \quad \phi = \tan^{-1}\left(\frac{\omega L}{R}\right)\]
+          Complementary function: \(i_c(t) = A e^{-Rt/L}\).
+          Using initial condition \(i(0^+) = 0\):
+          \[i(0^+) = A + \frac{V_m}{Z} \sin(\theta - \phi) = 0 \implies A = -\frac{V_m}{Z} \sin(\theta - \phi)\]
+          \[i(t) = -\frac{V_m}{Z} \sin(\theta - \phi) e^{-Rt/L} + \frac{V_m}{Z} \sin(\omega t + \theta - \phi)\]
+          <div class="callout callout-info">
+            <strong>DC Offset Transient:</strong> If the switch is closed at \(\theta - \phi = \pm 90^\circ\), the initial DC transient term is at its maximum (\(V_m/Z\)), causing the peak instantaneous current to reach nearly <strong>twice the normal peak</strong> (the doubling effect)!
+          </div>
+        </p>
+      </section>
+
+      <!-- Section 2.4 -->
+      <section id="sec-2-4" style="margin-bottom: 3rem;">
+        <h2>2.4 Response of Series R-L-C Circuits (DC Excitation)</h2>
+
+        <p>
+          Applying KVL to a series RLC circuit excited by a constant voltage \(V\):
+          \[L \frac{d^2 i}{dt^2} + R \frac{di}{dt} + \frac{1}{C} i = 0\]
+          Characteristic equation:
+          \[s^2 + \frac{R}{L} s + \frac{1}{LC} = 0 \iff s^2 + 2\alpha s + \omega_0^2 = 0\]
+          Roots:
+          \[s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2}, \quad \alpha = \frac{R}{2L}, \quad \omega_0 = \frac{1}{\sqrt{LC}}\]
+        </p>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Damping Regime</th>
+                <th>Mathematical Criterion</th>
+                <th>Roots Nature</th>
+                <th>Current Solution \(i(t)\)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Overdamped</strong></td>
+                <td>\(\alpha > \omega_0 \iff R > 2\sqrt{\frac{L}{C}}\)</td>
+                <td>Real, unequal, negative (\(s_1 \ne s_2 < 0\))</td>
+                <td>\(i(t) = A_1 e^{s_1 t} + A_2 e^{s_2 t}\)</td>
+              </tr>
+              <tr>
+                <td><strong>Critically Damped</strong></td>
+                <td>\(\alpha = \omega_0 \iff R = 2\sqrt{\frac{L}{C}}\)</td>
+                <td>Real, equal, negative (\(s_1 = s_2 = -\alpha\))</td>
+                <td>\(i(t) = (A_1 + A_2 t) e^{-\alpha t}\)</td>
+              </tr>
+              <tr>
+                <td><strong>Underdamped</strong></td>
+                <td>\(\alpha < \omega_0 \iff R < 2\sqrt{\frac{L}{C}}\)</td>
+                <td>Complex conjugates (\(-\alpha \pm j\omega_d\))</td>
+                <td>\(i(t) = e^{-\alpha t}[A_1 \cos(\omega_d t) + A_2 \sin(\omega_d t)]\), \(\omega_d = \sqrt{\omega_0^2 - \alpha^2}\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Worked Numerical Example -->
+        <div class="worked-example">
+          <div class="example-header">
+            <span class="example-title">Master Numerical: Series RLC Classical Method</span>
+            <span class="badge badge-high">PYQ 2082 Baishakh Q3</span>
+          </div>
+          <div class="example-body">
+            <span class="step-label">Given:</span>
+            <div class="step-content">
+              DC Source \(V = 100\text{ V}\) switched at \(t = 0\).<br>
+              \(R = 2\,\Omega, \quad L = 0.5\text{H}, \quad C = 1\text{F}\). Uncharged initially.
+            </div>
+
+            <span class="step-label">Calculations:</span>
+            <div class="step-content">
+              1. Parameters:
+              \[\alpha = \frac{R}{2L} = \frac{2}{2(0.5)} = 2\text{ Np/s}\]
+              \[\omega_0 = \frac{1}{\sqrt{LC}} = \frac{1}{\sqrt{0.5 \times 1}} = \sqrt{2} \approx 1.414\text{ rad/s}\]
+              Since \(\alpha > \omega_0\) (\(2 > 1.414\)), the circuit is <strong>OVERDAMPED</strong>!
+              <br>2. Roots:
+              \[s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2} = -2 \pm \sqrt{4 - 2} = -2 \pm \sqrt{2}\]
+              \[s_1 = -2 + \sqrt{2} \approx -0.586, \quad s_2 = -2 - \sqrt{2} \approx -3.414\]
+              General solution: \(i(t) = A_1 e^{s_1 t} + A_2 e^{s_2 t}\).
+              <br>3. Initial Conditions:
+              \[i(0^+) = 0 \implies A_1 + A_2 = 0 \implies A_2 = -A_1\]
+              Across inductor at \(t = 0^+\):
+              \[v_L(0^+) = V - R i(0^+) - v_C(0^+) = 100 - 0 - 0 = 100\text{ V}\]
+              \[\frac{di}{dt}(0^+) = \frac{v_L(0^+)}{L} = \frac{100}{0.5} = 200\text{ A/s}\]
+              Differentiating general solution:
+              \[\frac{di}{dt}(0^+) = s_1 A_1 + s_2 A_2 = A_1(s_1 - s_2) = A_1[(-2+\sqrt{2}) - (-2-\sqrt{2})] = A_1(2\sqrt{2}) = 200\]
+              \[A_1 = \frac{200}{2\sqrt{2}} = 50\sqrt{2} \approx 70.71\text{ A}, \quad A_2 = -50\sqrt{2}\text{ A}\]
+            </div>
+
+            <div class="step-final-answer">
+              <strong>Final Answer:</strong>
+              \[i(t) = 50\sqrt{2} \left[ e^{(-2+\sqrt{2})t} - e^{(-2-\sqrt{2})t} \right]\text{ A} \quad (t \ge 0)\]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2.6 & 2.7 -->
+      <section id="sec-2-6" style="margin-bottom: 3rem;">
+        <h2>2.6 & 2.7 Parallel R-L-C Circuits & Comparison with Series</h2>
+
+        <p>
+          Applying KCL to a parallel RLC circuit fed by a source current \(I_s\):
+          \[\frac{v}{R} + \frac{1}{L}\int v \, dt + C \frac{dv}{dt} = I_s\]
+          Differentiating:
+          \[C \frac{d^2 v}{dt^2} + \frac{1}{R} \frac{dv}{dt} + \frac{1}{L} v = \frac{dI_s}{dt} \implies \frac{d^2 v}{dt^2} + \frac{1}{RC} \frac{dv}{dt} + \frac{1}{LC} v = 0\]
+          Characteristic equation: \(s^2 + 2\alpha s + \omega_0^2 = 0\), where:
+          \[\alpha = \frac{1}{2RC}, \quad \omega_0 = \frac{1}{\sqrt{LC}}\]
+        </p>
+
+        <h3>Comparison Table: Series RLC vs. Parallel RLC</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature / Parameter</th>
+                <th>Series R-L-C Circuit</th>
+                <th>Parallel R-L-C Circuit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Primary Variable</td>
+                <td>Current \(i(t)\) (common to all elements)</td>
+                <td>Voltage \(v(t)\) (common across all elements)</td>
+              </tr>
+              <tr>
+                <td>Damping Factor \(\alpha\)</td>
+                <td>\(\alpha = \frac{R}{2L}\)</td>
+                <td>\(\alpha = \frac{1}{2RC}\)</td>
+              </tr>
+              <tr>
+                <td>Resonant Frequency \(\omega_0\)</td>
+                <td>\(\omega_0 = \frac{1}{\sqrt{LC}}\)</td>
+                <td>\(\omega_0 = \frac{1}{\sqrt{LC}}\) (Identical!)</td>
+              </tr>
+              <tr>
+                <td>Overdamped Condition</td>
+                <td>\(R > 2\sqrt{\frac{L}{C}}\)</td>
+                <td>\(R < \frac{1}{2}\sqrt{\frac{L}{C}}\)</td>
+              </tr>
+              <tr>
+                <td>Critically Damped Condition</td>
+                <td>\(R = 2\sqrt{\frac{L}{C}}\)</td>
+                <td>\(R = \frac{1}{2}\sqrt{\frac{L}{C}}\)</td>
+              </tr>
+              <tr>
+                <td>Underdamped Condition</td>
+                <td>\(R < 2\sqrt{\frac{L}{C}}\)</td>
+                <td>\(R > \frac{1}{2}\sqrt{\frac{L}{C}}\)</td>
+              </tr>
+              <tr>
+                <td>Effect of Increasing \(R\)</td>
+                <td><strong>Increases damping</strong> (suppresses oscillations)</td>
+                <td><strong>Decreases damping</strong> (encourages oscillations)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Bottom Prev/Next Navigation -->
+      <div class="chapter-nav">
+        <a href="chapter-1.html" class="chapter-nav-btn">
+          <span class="chapter-nav-label">Previous</span>
+          <span class="chapter-nav-title">← Chapter 1: Transients in Circuit</span>
+        </a>
+        <a href="chapter-3.html" class="chapter-nav-btn" style="text-align: right;">
+          <span class="chapter-nav-label">Next</span>
+          <span class="chapter-nav-title">Chapter 3: Laplace Transform Transients →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+</body>
+</html>

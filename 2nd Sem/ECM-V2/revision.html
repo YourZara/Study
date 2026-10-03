@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Last-Day Revision & Exam Traps | ENEE 154</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="revision.html" class="sidebar-link active"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Revision Sections</div>
+      <ul class="sidebar-nav">
+        <li><a href="#rev-must-know" class="sidebar-link"><span>1. Must Know Concepts</span></a></li>
+        <li><a href="#rev-must-practice" class="sidebar-link"><span>2. Must Practice Numericals</span></a></li>
+        <li><a href="#rev-traps" class="sidebar-link"><span>3. Common Calculation Traps</span></a></li>
+        <li><a href="#rev-roadmap" class="sidebar-link"><span>4. 24-Hour Exam Roadmap</span></a></li>
+        <li><a href="#rev-final-formulas" class="sidebar-link"><span>5. Final Formula Cheat Sheet</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">High-Yield Exam Strategy</span>
+        <h1>Last-Minute Revision & Common Exam Traps</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Designed for rapid review during the final 24 hours before the exam. Focuses on high-frequency concepts, fatal algebraic mistakes, and high-yield problem templates.
+        </p>
+      </div>
+
+      <!-- Must Know Concepts -->
+      <section id="rev-must-know" style="margin-bottom: 3rem;">
+        <h2>1. The 7 "Must Know" Theoretical Pillars</h2>
+        
+        <div class="card">
+          <h3 style="color: var(--primary); margin-top: 0;">Pillar 1: Switching Invariance Rules</h3>
+          <p>
+            An unenergized inductor behaves as an <strong>open circuit</strong> at \(t = 0^+\) (\(i_L(0^+) = 0\)). An uncharged capacitor behaves as a <strong>short circuit</strong> at \(t = 0^+\) (\(v_C(0^+) = 0\)). Never attempt to calculate derivatives like \(\frac{di_L}{dt}(0^+)\) without writing KVL across the whole loop at \(t = 0^+\) first!
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="color: var(--primary); margin-top: 0;">Pillar 2: Transformer Core Flux is Constant</h3>
+          <p>
+            The mutual core flux \(\Phi_m = \frac{V_1}{4.44 f N_1}\) depends <strong>strictly on primary voltage and supply frequency</strong>. It is independent of load current because secondary demagnetizing MMF \(N_2 I_2\) is instantly counterbalanced by an opposing primary load component MMF \(N_1 I_1'\).
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="color: var(--primary); margin-top: 0;">Pillar 3: The Synchronous Speed Paradox</h3>
+          <p>
+            An induction motor can <strong>never run at synchronous speed \(N_s\)</strong> under motoring action. If \(N = N_s\), the relative velocity between the rotating magnetic field and rotor conductors becomes zero, induced rotor EMF drops to zero, rotor current drops to zero, and driving torque collapses to zero. Frictional losses will immediately slow the rotor down.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="color: var(--primary); margin-top: 0;">Pillar 4: Maximum Torque Independence</h3>
+          <p>
+            In a 3-phase induction motor, peak maximum breakdown torque \(T_{\text{max}} = \frac{k E_2^2}{2 X_2}\) is <strong>independent of rotor resistance \(R_2\)</strong>. Adding external rotor resistance only increases starting torque and shifts the peak to a higher slip \(s_{mT} = R_2 / X_2\).
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="color: var(--primary); margin-top: 0;">Pillar 5: Why DC Motors Require Starters</h3>
+          <p>
+            At starting, speed \(N = 0 \implies\) back EMF \(E_b = 0\). Starting current is \(I_{\text{start}} = \frac{V}{R_a}\). Since armature resistance \(R_a\) is extremely small (\(< 0.5\,\Omega\)), direct switching draws 15 to 25 times full-load current, blowing fuses, pitting commutators, and collapsing line voltage.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="color: var(--primary); margin-top: 0;">Pillar 6: Air Gap Reluctance Dominance</h3>
+          <p>
+            Even a tiny 2–4 mm air gap accounts for <strong>80–90% of the total MMF</strong> in an iron magnetic circuit because air has a relative permeability of only \(\mu_r = 1\), whereas iron has \(\mu_r = 800 - 3000\).
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="color: var(--primary); margin-top: 0;">Pillar 7: Transmission Matrix Output Convention</h3>
+          <p>
+            In the transmission (\(ABCD\)) parameter formulation, current \(I_2\) leaves the port, so the algebraic definition is \(V_1 = A V_2 - B I_2\) and \(I_1 = C V_2 - D I_2\). The negative sign must never be omitted during cascade multiplication!
+          </p>
+        </div>
+      </section>
+
+      <!-- Common Traps & Mistakes -->
+      <section id="rev-traps" style="margin-bottom: 3rem;">
+        <h2>2. Fatal Calculation Traps & How to Avoid Them</h2>
+
+        <div class="callout callout-danger">
+          <div class="callout-title">⚠️ Trap 1: Transformer Copper Loss vs Iron Loss Scaling</div>
+          <p>
+            <strong>Mistake:</strong> Scaling both iron losses and copper losses by load fraction \(x^2\).<br>
+            <strong>Correction:</strong> Iron loss \(P_i\) is <strong>constant</strong> (independent of load fraction \(x\)). Only copper loss scales as \(x^2 P_{cu,FL}\)! Total losses at load fraction \(x\) are \(P_{\text{total}} = P_i + x^2 P_{cu,FL}\).
+          </p>
+        </div>
+
+        <div class="callout callout-danger">
+          <div class="callout-title">⚠️ Trap 2: Series RLC vs Parallel RLC Damping Factor</div>
+          <p>
+            <strong>Mistake:</strong> Using \(\alpha = \frac{R}{2L}\) for parallel RLC circuits.<br>
+            <strong>Correction:</strong>
+            <br>• For <strong>Series RLC:</strong> \(\alpha = \frac{R}{2L}\). Increasing \(R\) increases damping.
+            <br>• For <strong>Parallel RLC:</strong> \(\alpha = \frac{1}{2RC}\). Increasing \(R\) <strong>decreases</strong> damping!
+          </p>
+        </div>
+
+        <div class="callout callout-danger">
+          <div class="callout-title">⚠️ Trap 3: Lap Winding vs Wave Winding Parallel Paths</div>
+          <p>
+            <strong>Mistake:</strong> Using \(A = 2\) for all DC machines.<br>
+            <strong>Correction:</strong>
+            <br>• <strong>Lap Winding:</strong> \(A = P\) (number of parallel paths equals number of poles).
+            <br>• <strong>Wave Winding:</strong> \(A = 2\) (always 2 parallel paths regardless of pole count).
+          </p>
+        </div>
+
+        <div class="callout callout-danger">
+          <div class="callout-title">⚠️ Trap 4: Transformer OC / SC Test Parameter Reference Side</div>
+          <p>
+            <strong>Mistake:</strong> Forgetting which side tests were conducted on when calculating \(R_0, X_0, R_{eq}, X_{eq}\).<br>
+            <strong>Correction:</strong>
+            <br>• OC Test is performed on the <strong>LV side</strong> \(\implies\) gives \(R_0, X_0\) referred to LV.
+            <br>• SC Test is performed on the <strong>HV side</strong> \(\implies\) gives \(R_{eq}, X_{eq}\) referred to HV.
+            <br>• If asked for parameters referred to secondary, use \(K^2 = (V_2/V_1)^2\) to transfer the values!
+          </p>
+        </div>
+
+        <div class="callout callout-danger">
+          <div class="callout-title">⚠️ Trap 5: Bode Plot Low-Frequency Reference Line</div>
+          <p>
+            <strong>Mistake:</strong> Drawing the low-frequency asymptote at height \(20\log_{10} K\) at \(\omega = 0\).<br>
+            <strong>Correction:</strong> Since \(\log_{10}(0) = -\infty\), \(\omega = 0\) does not exist on a logarithmic axis! For a transfer function with poles at the origin (\(1/s\) or \(1/s^2\)), the low-frequency asymptote passes through \(20\log_{10} K_B\) <strong>precisely at \(\omega = 1\text{ rad/s}\)</strong>.
+          </p>
+        </div>
+      </section>
+
+      <!-- 24-Hour Exam Roadmap -->
+      <section id="rev-roadmap" style="margin-bottom: 3rem;">
+        <h2>3. 24-Hour Strategic Exam Roadmap</h2>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Time Window</th>
+                <th>Target Coverage</th>
+                <th>Core Action Item</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Morning (08:00 - 12:00)</strong></td>
+                <td>Chapters 1, 2, 3 (Transients)</td>
+                <td>Solve 2 initial-condition problems (\(t=0^+\)), derive series RLC ODE (over/crit/underdamped), solve 1 Laplace s-domain circuit.</td>
+              </tr>
+              <tr>
+                <td><strong>Afternoon (13:00 - 16:30)</strong></td>
+                <td>Chapters 4, 5 (Bode & Two-Port)</td>
+                <td>Plot 2 asymptotic Bode magnitude/phase plots from past papers; derive hybrid parameters from Z parameters; solve cascade ABCD matrix.</td>
+              </tr>
+              <tr>
+                <td><strong>Evening (17:30 - 21:00)</strong></td>
+                <td>Chapters 7, 8, 9 (Machines)</td>
+                <td>Derive 3-phase RMF (\(1.5\Phi_m\)) and DC motor torque (\(T \propto \Phi I_a\)); solve 1 OC/SC transformer problem and 1 DC shunt speed control problem.</td>
+              </tr>
+              <tr>
+                <td><strong>Night (21:30 - 23:00)</strong></td>
+                <td>Chapters 6, 10 Short Notes</td>
+                <td>Review MMF with air gap, Steinmetz hysteresis equation, autotransformer copper saving, stepper motor step angle, 3-point starter schematic.</td>
+              </tr>
+              <tr>
+                <td><strong>Exam Morning (06:00 - 07:30)</strong></td>
+                <td>Formula & Trap Refresh</td>
+                <td>Read the <a href="formula-sheet.html">Master Formula Sheet</a> once. Avoid starting new complex proofs.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Final High Yield Formulas -->
+      <section id="rev-final-formulas" style="margin-bottom: 3rem;">
+        <h2>4. High-Yield Final Formula Recap</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+          <div class="card" style="margin: 0; padding: 1rem;">
+            <strong>Series RLC Roots:</strong>
+            \[s_{1,2} = -\frac{R}{2L} \pm \sqrt{\left(\frac{R}{2L}\right)^2 - \frac{1}{LC}}\]
+          </div>
+          <div class="card" style="margin: 0; padding: 1rem;">
+            <strong>Two-Port Reciprocity:</strong>
+            \[Z_{12} = Z_{21}, \quad Y_{12} = Y_{21}, \quad AD - BC = 1\]
+          </div>
+          <div class="card" style="margin: 0; padding: 1rem;">
+            <strong>Transformer Efficiency:</strong>
+            \[\eta = \frac{x S \cos\phi}{x S \cos\phi + P_i + x^2 P_{cu,FL}}\]
+          </div>
+          <div class="card" style="margin: 0; padding: 1rem;">
+            <strong>DC Machine Speed & Torque:</strong>
+            \[N \propto \frac{V - I_a R_a}{\Phi}, \quad T \propto \Phi I_a\]
+          </div>
+          <div class="card" style="margin: 0; padding: 1rem;">
+            <strong>Induction Motor Slip & Speed:</strong>
+            \[s = \frac{N_s - N}{N_s}, \quad N_s = \frac{120 f}{P}, \quad f_r = s f\]
+          </div>
+          <div class="card" style="margin: 0; padding: 1rem;">
+            <strong>Maximum Torque Slip:</strong>
+            \[s_{mT} = \frac{R_2}{X_2}, \quad T_{\text{max}} = \frac{k E_2^2}{2 X_2}\]
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

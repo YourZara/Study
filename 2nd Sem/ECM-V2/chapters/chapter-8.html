@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 8: DC Machines | ENEE 154</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="../index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="../syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="../formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="../derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="../pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="../revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Chapter 8 Outline</div>
+      <ul class="sidebar-nav">
+        <li><a href="#sec-8-1" class="sidebar-link"><span>8.1 Construction & Commutation</span></a></li>
+        <li><a href="#sec-8-2" class="sidebar-link"><span>8.2 EMF & Torque Equations</span></a></li>
+        <li><a href="#sec-8-3" class="sidebar-link"><span>8.3 DC Motor Types & Back EMF</span></a></li>
+        <li><a href="#sec-8-4" class="sidebar-link"><span>8.4 Performance Characteristics</span></a></li>
+        <li><a href="#sec-8-5" class="sidebar-link"><span>8.5 Starting & 3-Point Starter</span></a></li>
+        <li><a href="#sec-8-6" class="sidebar-link"><span>8.6 Speed Control Techniques</span></a></li>
+        <li><a href="#sec-8-7" class="sidebar-link"><span>8.7 Losses & Commercial Efficiency</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Chapter 8 • 5 Hours • Expected Marks: 5M</span>
+        <span class="badge badge-pyq">Tested in Q8 or Q10 (5–6 Marks)</span>
+        <h1>DC Machine (Generators & Motors)</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Constructional details, commutator action, generator EMF and motor torque derivations, self-regulating role of back EMF, 3-point starters, and speed control methods.
+        </p>
+      </div>
+
+      <!-- Section 8.1 & 8.2 -->
+      <section id="sec-8-1" style="margin-bottom: 3rem;">
+        <h2>8.1 & 8.2 Constructional Details & Governing Equations</h2>
+
+        <h3>Major Constructional Components</h3>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>Yoke (Magnetic Frame):</strong> Outer cast steel or cast iron housing that provides mechanical protection and carries magnetic flux for the pole cores.</li>
+          <li><strong>Pole Core & Pole Shoes:</strong> Laminated steel projecting inward to carry field coils. Pole shoes spread magnetic flux uniformly across the air gap and support the coils.</li>
+          <li><strong>Armature Core:</strong> Slotted cylinder made of laminated silicon steel sheets to carry insulated armature conductors while minimizing eddy current losses.</li>
+          <li><strong>Armature Windings:</strong>
+            <br>• <em>Lap Winding:</em> Coils overlap each other. Number of parallel paths \(A = P\). Suitable for <strong>high current, low voltage</strong> machines.
+            <br>• <em>Wave Winding:</em> Coils progress forward in a wave. Number of parallel paths \(A = 2\) always. Suitable for <strong>high voltage, low current</strong> machines.
+          </li>
+          <li><strong>Commutator:</strong> Cylindrical assembly of wedge-shaped copper segments insulated by mica. In generators, acts as a mechanical rectifier converting AC induced EMF into DC terminal voltage. In motors, reverses current in each coil as it crosses magnetic neutral zone to maintain unidirectional torque.</li>
+          <li><strong>Carbon Brushes:</strong> Spring-loaded carbon/graphite blocks riding on the commutator surface to conduct current between the rotating armature and stationary external terminals.</li>
+        </ul>
+
+        <h3>Governing EMF and Torque Derivations</h3>
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Generator EMF: } E_g = \frac{P \, \Phi \, Z \, N}{60 A} \text{ [Volts]}\]
+            \[\text{Motor Torque: } T = \frac{P \, \Phi \, Z \, I_a}{2\pi A} \approx 0.159 \frac{P Z}{A} \Phi I_a \text{ [N}\cdot\text{m]}\]
+          </div>
+          <div class="formula-meta">
+            Where: \(P\) = poles, \(\Phi\) = flux per pole [Wb], \(Z\) = total conductors, \(N\) = speed [rpm], \(A\) = parallel paths (\(A=P\) for lap, \(A=2\) for wave), \(I_a\) = armature current [A].
+            <br><em>(See full derivation in <a href="../derivations.html#d-dc-torque">Derivation Sheet Section 3</a>).</em>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8.3 & 8.4 -->
+      <section id="sec-8-3" style="margin-bottom: 3rem;">
+        <h2>8.3 & 8.4 DC Motor Types, Back EMF & Performance Curves</h2>
+
+        <h3>The Self-Regulating Role of Back EMF</h3>
+        <p>
+          When a DC motor rotates, its armature conductors cut the field flux, inducing a counter-EMF (Back EMF \(E_b\)) that opposes the applied terminal voltage:
+          \[E_b = \frac{P \Phi Z N}{60 A} = V - I_a R_a\]
+          Armature current:
+          \[I_a = \frac{V - E_b}{R_a}\]
+          <strong>Why \(E_b\) acts as an automatic governor:</strong>
+          <br>1. If mechanical load on the motor increases, the motor momentarily slows down (\(N \downarrow\)).
+          <br>2. Because \(E_b \propto N\), back EMF decreases (\(E_b \downarrow\)).
+          <br>3. This allows armature current to rise automatically: \(I_a = \frac{V - E_b}{R_a} \uparrow\).
+          <br>4. Torque \(T \propto \Phi I_a\) increases to match the new mechanical load demand until equilibrium is restored!
+        </p>
+
+        <h3>Performance Characteristics Comparison</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Machine Type</th>
+                <th>Torque vs Current (\(T\) vs \(I_a\))</th>
+                <th>Speed vs Current (\(N\) vs \(I_a\))</th>
+                <th>Standard Applications</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>DC Shunt Motor</strong></td>
+                <td>Linear: \(T \propto I_a\) (since \(\Phi\) is constant).</td>
+                <td>Almost constant speed with slight drop (5–8%) due to \(I_a R_a\) drop. Known as a "constant-speed motor".</td>
+                <td>Lathes, centrifugal pumps, fans, machine tools.</td>
+              </tr>
+              <tr>
+                <td><strong>DC Series Motor</strong></td>
+                <td>Parabolic before saturation: \(T \propto I_a^2\). Produces huge starting torque!</td>
+                <td>Hyperbolic: \(N \propto \frac{1}{I_a}\). Speed becomes dangerously high at no-load! <strong>Must never be started on no-load</strong>.</td>
+                <td>Electric trains/traction, cranes, elevators, hoists.</td>
+              </tr>
+              <tr>
+                <td><strong>Cumulative Compound</strong></td>
+                <td>Higher starting torque than shunt due to aiding series field.</td>
+                <td>Moderate speed drop under load without runaway danger at light load.</td>
+                <td>Rolling mills, heavy punching presses, shears.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 8.5 & 8.6 -->
+      <section id="sec-8-5" style="margin-bottom: 3rem;">
+        <h2>8.5 & 8.6 Starting of DC Motors & Speed Control</h2>
+
+        <h3>Why Starters are Essential & 3-Point Starter Operation</h3>
+        <p>
+          At standstill (\(t = 0\)), rotor speed \(N = 0 \implies E_b = 0\). If direct line voltage is applied:
+          \[I_{\text{start}} = \frac{V - 0}{R_a} = \frac{V}{R_a}\]
+          Since armature resistance \(R_a\) is very small (\(< 0.5\,\Omega\)), direct switching draws 15–25 times rated full-load current, blowing fuses, melting insulation, and burning commutator segments.
+        </p>
+        <div class="callout callout-info">
+          <div class="callout-title">3-Point Starter Protective Functions</div>
+          <p>
+            • <strong>Starting Resistor:</strong> Arranged in tapped studs to introduce high resistance at start, cut out step-by-step as the motor accelerates and builds \(E_b\).
+            <br>• <strong>No-Volt Coil (NVC):</strong> Electromagnet connected in series with the shunt field. Holds the starter handle in the 'ON' position. If power fails or the field circuit breaks, NVC de-energizes and a spring pulls the arm back to 'OFF', preventing dangerous re-energization.
+            <br>• <strong>Overload Release (OLR) Coil:</strong> Connected in series with the main supply. If excessive current flows, OLR lifts an iron armature that short-circuits the NVC, immediately tripping the starter handle.
+          </p>
+        </div>
+
+        <h3>Speed Control Methods</h3>
+        <p>
+          From the basic speed equation:
+          \[N = \frac{V - I_a R_a}{k \Phi}\]
+        </p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Operational Mechanism</th>
+                <th>Speed Range</th>
+                <th>Drawback / Trade-off</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Armature Resistance Control</strong></td>
+                <td>Add variable resistance \(R_{\text{ext}}\) in series with armature. Increases circuit resistance: \(E_b = V - I_a(R_a + R_{\text{ext}})\) drops.</td>
+                <td><strong>Below rated base speed only</strong></td>
+                <td>Poor efficiency (huge \(I_a^2 R_{\text{ext}}\) power waste in controller resistor); poor speed regulation.</td>
+              </tr>
+              <tr>
+                <td><strong>Field Flux Control</strong></td>
+                <td>Insert variable rheostat into shunt field circuit. Reduces field current \(I_{sh}\), reducing flux \(\Phi\). Because \(N \propto 1/\Phi\), motor speeds up!</td>
+                <td><strong>Above rated base speed only</strong></td>
+                <td>Very high efficiency (field current is small, \(< 2\%\) of rated); limited at upper speeds by mechanical centrifugal limits and commutation sparking.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Master Worked Example -->
+        <h3>Master Worked Example: Speed Control with Added Armature Resistance</h3>
+        <div class="worked-example">
+          <div class="example-header">
+            <span class="example-title">DC Shunt Motor Speed Control Numerical</span>
+            <span class="badge badge-high">PYQ 2081 Ashwin Q8 (6 Marks)</span>
+          </div>
+          <div class="example-body">
+            <span class="step-label">Given:</span>
+            <div class="step-content">
+              Supply voltage \(V = 240\text{ V}\)<br>
+              Armature resistance \(R_a = 0.4\,\Omega\)<br>
+              Field resistance \(R_{sh} = 120\,\Omega\)<br>
+              Initial current \(I_{L1} = 30\text{ A}\), Initial speed \(N_1 = 1400\text{ rpm}\)<br>
+              Added series resistance \(R_{\text{ext}} = 1.2\,\Omega\)<br>
+              Load torque is reduced by 20% \(\implies T_2 = 0.8 T_1\)
+            </div>
+
+            <span class="step-label">Calculations:</span>
+            <div class="step-content">
+              1. Field current (remains constant):
+              \[I_{sh} = \frac{V}{R_{sh}} = \frac{240}{120} = 2\text{ A}\]
+              2. Initial armature current:
+              \[I_{a1} = I_{L1} - I_{sh} = 30 - 2 = 28\text{ A}\]
+              3. Initial back EMF:
+              \[E_{b1} = V - I_{a1} R_a = 240 - (28 \times 0.4) = 240 - 11.2 = 228.8\text{ V}\]
+              4. Torque relation (\(\Phi = \text{constant} \implies T \propto I_a\)):
+              \[\frac{T_2}{T_1} = \frac{I_{a2}}{I_{a1}} = 0.8 \implies I_{a2} = 0.8 \times 28 = 22.4\text{ A}\]
+              5. Total new armature resistance:
+              \[R_{a2} = R_a + R_{\text{ext}} = 0.4 + 1.2 = 1.6\,\Omega\]
+              6. New back EMF:
+              \[E_{b2} = V - I_{a2} R_{a2} = 240 - (22.4 \times 1.6) = 240 - 35.84 = 204.16\text{ V}\]
+              7. New speed:
+              \[\frac{N_2}{N_1} = \frac{E_{b2}}{E_{b1}} = \frac{204.16}{228.8} \approx 0.8923\]
+              \[N_2 = 1400 \times 0.8923 \approx 1249.2\text{ rpm}\]
+            </div>
+
+            <div class="step-final-answer">
+              <strong>Final Answer:</strong> Motor speed reduces from 1400 rpm to <strong>\(1249.2\text{ rpm}\)</strong>.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Prev/Next Navigation -->
+      <div class="chapter-nav">
+        <a href="chapter-7.html" class="chapter-nav-btn">
+          <span class="chapter-nav-label">Previous</span>
+          <span class="chapter-nav-title">← Chapter 7: Transformers</span>
+        </a>
+        <a href="chapter-9.html" class="chapter-nav-btn" style="text-align: right;">
+          <span class="chapter-nav-label">Next</span>
+          <span class="chapter-nav-title">Chapter 9: AC Motors →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+</body>
+</html>

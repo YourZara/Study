@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6: Magnetic Circuit and Induction | ENEE 154</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="../index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="../syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="../formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="../derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="../pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="../revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Chapter 6 Outline</div>
+      <ul class="sidebar-nav">
+        <li><a href="#sec-6-1" class="sidebar-link"><span>6.1 Magnetic Circuits & Air Gaps</span></a></li>
+        <li><a href="#sec-6-2" class="sidebar-link"><span>6.2 Magnetic vs Electric Analogy</span></a></li>
+        <li><a href="#sec-6-3" class="sidebar-link"><span>6.3 B-H Relationship & Hysteresis</span></a></li>
+        <li><a href="#sec-6-4" class="sidebar-link"><span>6.4 Hysteresis & Eddy Current Losses</span></a></li>
+        <li><a href="#sec-6-5" class="sidebar-link"><span>6.5 Faraday's Induction & Force</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-med">Chapter 6 • 3 Hours • Expected Marks: 3M</span>
+        <span class="badge badge-pyq">Tested in Q8 or Q10 (Short Notes / Air Gap Numerical)</span>
+        <h1>Magnetic Circuit and Induction</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Magnetomotive force, reluctance, air-gap fringing, B-H loops, Steinmetz core losses, and electromagnetic induction fundamentals.
+        </p>
+      </div>
+
+      <!-- Section 6.1 & 6.2 -->
+      <section id="sec-6-1" style="margin-bottom: 3rem;">
+        <h2>6.1 & 6.2 Magnetic Circuits vs. Electric Circuits</h2>
+
+        <h3>Concept & Fundamental Laws</h3>
+        <p>
+          A magnetic circuit is the closed path traversed by magnetic lines of force (flux). Magnetomotive force (MMF) drives magnetic flux through the reluctance of magnetic materials, strictly analogous to how EMF drives electric current through resistance:
+          \[\mathcal{F} = N I = \Phi \mathcal{R}\]
+          Where:
+          <br>• \(\mathcal{F}\) = Magnetomotive Force (MMF) [Ampere-Turns, AT]
+          <br>• \(\Phi\) = Magnetic flux [Webers, Wb]
+          <br>• \(\mathcal{R}\) = Reluctance [AT/Wb] = \(\frac{l}{\mu A} = \frac{l}{\mu_0 \mu_r A}\)
+          <br>• \(\mathcal{P}\) = Permeance [Wb/AT] = \(1/\mathcal{R}\)
+        </p>
+
+        <h3>Comparison Table: Magnetic vs. Electric Circuits</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Electric Circuit</th>
+                <th>Magnetic Circuit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Driving Potential</td>
+                <td>Electromotive Force (\(\text{EMF} = V\)) [Volts]</td>
+                <td>Magnetomotive Force (\(\text{MMF} = N I\)) [Ampere-turns]</td>
+              </tr>
+              <tr>
+                <td>Resulting Flow / Field</td>
+                <td>Electric Current (\(I\)) [Amperes]</td>
+                <td>Magnetic Flux (\(\Phi\)) [Webers]</td>
+              </tr>
+              <tr>
+                <td>Opposition</td>
+                <td>Resistance \(R = \rho \frac{l}{A} = \frac{l}{\sigma A}\) [\(\Omega\)]</td>
+                <td>Reluctance \(\mathcal{R} = \frac{l}{\mu_0 \mu_r A}\) [AT/Wb]</td>
+              </tr>
+              <tr>
+                <td>Conductivity / Permeability</td>
+                <td>Conductivity \(\sigma\) (constant with current)</td>
+                <td>Permeability \(\mu = \mu_0 \mu_r\) (varies with \(B\))</td>
+              </tr>
+              <tr>
+                <td>Current / Flux Density</td>
+                <td>Current Density \(J = I/A\) [A/m\(^2\)]</td>
+                <td>Flux Density \(B = \Phi/A\) [Tesla]</td>
+              </tr>
+              <tr>
+                <td>Potential Gradient</td>
+                <td>Electric Field \(E = V/l\) [V/m]</td>
+                <td>Magnetic Field Intensity \(H = \mathcal{F}/l\) [AT/m]</td>
+              </tr>
+              <tr>
+                <td>Energy Consumption</td>
+                <td>Energy is continuously dissipated as heat (\(I^2 R\)).</td>
+                <td>Energy is required only to <em>establish</em> the field; no continuous power is consumed to maintain static flux!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Air Gap, Leakage Flux & Fringing</h3>
+        <p>
+          <br>• <strong>Leakage Flux:</strong> Magnetic flux that strays outside the intended iron path and closes through ambient air.
+          <br>• <strong>Fringing Effect:</strong> At an air gap, magnetic flux lines repel each other and bulge outward into surrounding space. This increases the effective cross-sectional area of the air gap (\(A_g > A_{\text{core}}\)), which slightly reduces the actual flux density in the gap.
+        </p>
+      </section>
+
+      <!-- Section 6.3 & 6.4 -->
+      <section id="sec-6-3" style="margin-bottom: 3rem;">
+        <h2>6.3 & 6.4 B-H Curve, Hysteresis & Eddy Current Losses</h2>
+
+        <h3>The Hysteresis Phenomenon</h3>
+        <p>
+          When a ferromagnetic core is magnetized by an alternating current, the flux density \(B\) lags behind the magnetizing force \(H\). This lag is known as <strong>magnetic hysteresis</strong>.
+          <br>• <strong>Retentivity (Residual Magnetism):</strong> The flux density \(B_r\) remaining in the core when the magnetizing field \(H\) is reduced to zero.
+          <br>• <strong>Coercivity (Coercive Force):</strong> The reverse magnetic field intensity \(H_c\) required to completely demagnetize the core (\(B = 0\)).
+        </p>
+
+        <h3>Core Loss Formulations</h3>
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Hysteresis Loss: } P_h = \eta \, B_{\text{max}}^{1.6} \, f \, V \text{ [Watts]}\]
+            \[\text{Eddy Current Loss: } P_e = K_e \, B_{\text{max}}^2 \, f^2 \, t^2 \, V \text{ [Watts]}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Loss Reduction Methods:</strong><br>
+            • <em>Hysteresis Loss:</em> Minimized by using high-grade silicon steel (e.g. CRGO steel) with a narrow B-H hysteresis loop.<br>
+            • <em>Eddy Current Loss:</em> Because \(P_e \propto t^2\), laminating the iron core into thin sheets (\(0.35 - 0.5\text{ mm}\)) insulated by varnish drastically increases electrical resistance across eddy current loops!
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6.5 & Worked Example -->
+      <section id="sec-6-5" style="margin-bottom: 3rem;">
+        <h2>6.5 & 6.6 Electromagnetic Induction & Conductor Force</h2>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Statically Induced EMF</th>
+                <th>Dynamically Induced EMF</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Mechanism</strong></td>
+                <td>Conductor remains stationary; magnetic flux links it and varies with time.</td>
+                <td>Magnetic field is stationary; conductor physically moves across flux lines.</td>
+              </tr>
+              <tr>
+                <td><strong>Governing Law</strong></td>
+                <td>Faraday's Law: \(e = -N \frac{d\Phi}{dt} = -L \frac{di}{dt}\)</td>
+                <td>Lorentz Induction: \(e = B l v \sin\theta\)</td>
+              </tr>
+              <tr>
+                <td><strong>Direction Rule</strong></td>
+                <td>Lenz's Law (opposes rate of change of flux)</td>
+                <td>Fleming's Right-Hand Rule (Thumb = Motion, Forefinger = Field, Middle = Induced Current)</td>
+              </tr>
+              <tr>
+                <td><strong>Application</strong></td>
+                <td>Transformers, inductors, chokes.</td>
+                <td>DC Generators, AC Alternators.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Master Worked Example -->
+        <h3>Master Worked Example: MMF with Air Gap (PYQ 2082 Bhadra Q8)</h3>
+        <div class="worked-example">
+          <div class="example-header">
+            <span class="example-title">Composite Magnetic Circuit MMF Calculation</span>
+            <span class="badge badge-med">PYQ 2082 Bhadra Q8 (5 Marks)</span>
+          </div>
+          <div class="example-body">
+            <span class="step-label">Given:</span>
+            <div class="step-content">
+              Mean ring length \(l_m = 0.5\text{ m}\)<br>
+              Cross-sectional area \(A = 100\text{ cm}^2 = 0.01\text{ m}^2\)<br>
+              Air gap length \(l_g = 4\text{ mm} = 0.004\text{ m}\)<br>
+              Required air gap flux \(\Phi = 2\text{ mWb} = 0.002\text{ Wb}\)<br>
+              Coil turns \(N = 200\), Relative permeability \(\mu_r = 800\).
+            </div>
+
+            <span class="step-label">Calculations:</span>
+            <div class="step-content">
+              Flux density:
+              \[B = \frac{\Phi}{A} = \frac{0.002}{0.01} = 0.2\text{ Tesla}\]
+              Iron path length:
+              \[l_i = l_m - l_g = 0.5 - 0.004 = 0.496\text{ m}\]
+              MMF for Iron Ring:
+              \[\text{MMF}_i = H_i \times l_i = \left(\frac{B}{\mu_0 \mu_r}\right) l_i = \frac{0.2}{4\pi \times 10^{-7} \times 800} \times 0.496 \approx 198.94 \times 0.496 \approx 98.68\text{ AT}\]
+              MMF for Air Gap:
+              \[\text{MMF}_g = H_g \times l_g = \left(\frac{B}{\mu_0}\right) l_g = \frac{0.2}{4\pi \times 10^{-7}} \times 0.004 \approx 159,155 \times 0.004 \approx 636.62\text{ AT}\]
+              Total MMF Required:
+              \[\text{Total MMF} = \text{MMF}_i + \text{MMF}_g = 98.68 + 636.62 = 735.30\text{ AT}\]
+            </div>
+
+            <div class="step-final-answer">
+              <strong>Final Answer:</strong> Total MMF required = <strong>\(735.3\text{ AT}\)</strong>. Notice that although the air gap is only 0.8% of the total ring length, it demands 86.6% of the total MMF due to low permeability!
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Prev/Next Navigation -->
+      <div class="chapter-nav">
+        <a href="chapter-5.html" class="chapter-nav-btn">
+          <span class="chapter-nav-label">Previous</span>
+          <span class="chapter-nav-title">← Chapter 5: Two-Port Parameters</span>
+        </a>
+        <a href="chapter-7.html" class="chapter-nav-btn" style="text-align: right;">
+          <span class="chapter-nav-label">Next</span>
+          <span class="chapter-nav-title">Chapter 7: Transformers →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1: Transients in Electric Circuit | ENEE 154</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="../index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="../syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="../formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="../derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="../pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="../revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Chapter 1 Outline</div>
+      <ul class="sidebar-nav">
+        <li><a href="#sec-1-1" class="sidebar-link"><span>1.1 Network Elements Characteristics</span></a></li>
+        <li><a href="#sec-1-2" class="sidebar-link"><span>1.2 Nodal Analysis (Dependent Sources)</span></a></li>
+        <li><a href="#sec-1-3" class="sidebar-link"><span>1.3 Mesh Analysis (Dependent Sources)</span></a></li>
+        <li><a href="#sec-1-4" class="sidebar-link"><span>1.4 Matrix Methods in Circuit Analysis</span></a></li>
+        <li><a href="#sec-1-5" class="sidebar-link"><span>1.5 Initial Conditions Evaluation</span></a></li>
+        <li><a href="#sec-1-6" class="sidebar-link"><span>1.6 Initial Values of Derivatives</span></a></li>
+        <li><a href="#sec-1-7" class="sidebar-link"><span>1.7 Initial Conditions in RLC Networks</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Chapter 1 • 7 Hours • Expected Marks: 7M</span>
+        <span class="badge badge-pyq">Appears in Q1 (6M) & Q2 (5M) in All Exams</span>
+        <h1>Transients in Electric Circuit</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Foundations of network analysis with dependent sources and evaluation of switching initial conditions in dynamic R-L-C circuits.
+        </p>
+      </div>
+
+      <!-- Section 1.1 -->
+      <section id="sec-1-1" style="margin-bottom: 3rem;">
+        <h2>1.1 Characteristics of Various Network Elements</h2>
+        
+        <h3>Concept & Classification</h3>
+        <p>
+          Electric circuits are composed of interconnected elements that store, dissipate, or deliver energy. Understanding their mathematical and physical classifications is essential before setting up system equations.
+        </p>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Classification</th>
+                <th>Definition & Criterion</th>
+                <th>Examples</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Linear vs. Non-linear</strong></td>
+                <td>Satisfies the principles of superposition and homogeneity: \(f(a x_1 + b x_2) = a f(x_1) + b f(x_2)\). V-I curve is a straight line through the origin.</td>
+                <td>Linear: Pure resistors, ideal inductors, ideal capacitors.<br>Non-linear: Diodes, transistors, saturable magnetic cores.</td>
+              </tr>
+              <tr>
+                <td><strong>Bilateral vs. Unilateral</strong></td>
+                <td>V-I characteristics are independent of current direction. Conduction behavior is identical in both directions.</td>
+                <td>Bilateral: Resistors, inductors, capacitors.<br>Unilateral: Diodes, thyristors, operational amplifiers.</td>
+              </tr>
+              <tr>
+                <td><strong>Active vs. Passive</strong></td>
+                <td>An active element can deliver net average energy to the external circuit over an infinite time interval (\(\int_{-\infty}^t p(\tau)d\tau \ge 0\) is violated).</td>
+                <td>Active: Voltage/current sources, op-amps, BJT/FET.<br>Passive: Resistors (absorb energy), Inductors/Capacitors (store energy).</td>
+              </tr>
+              <tr>
+                <td><strong>Lumped vs. Distributed</strong></td>
+                <td>Physical dimensions are much smaller than electrical signal wavelength (\(d \ll \lambda\)). KCL/KVL apply directly.</td>
+                <td>Lumped: Standard discrete R, L, C components.<br>Distributed: Long transmission lines, waveguides.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Energy Storage Element Equations</h3>
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Inductor: } v_L(t) = L \frac{di_L}{dt}, \quad w_L(t) = \frac{1}{2} L i_L^2(t)\]
+            \[\text{Capacitor: } i_C(t) = C \frac{dv_C}{dt}, \quad w_C(t) = \frac{1}{2} C v_C^2(t)\]
+          </div>
+          <div class="formula-meta">
+            <strong>Physics of Invariance:</strong> Because energy cannot change instantaneously (\(\Delta w = \infty\) requires infinite power \(P = dw/dt\)), <strong>inductor current cannot change instantaneously</strong> and <strong>capacitor voltage cannot change instantaneously</strong>.
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1.2 & 1.3 -->
+      <section id="sec-1-2" style="margin-bottom: 3rem;">
+        <h2>1.2 & 1.3 Nodal and Mesh Analysis with Dependent Sources</h2>
+        
+        <h3>Core Principles</h3>
+        <p>
+          Dependent (controlled) sources have their output voltage or current determined by a voltage or current elsewhere in the circuit. There are four types:
+          <br>1. <strong>VCVS</strong>: Voltage-Controlled Voltage Source (\(v = \mu v_x\))
+          <br>2. <strong>CCVS</strong>: Current-Controlled Voltage Source (\(v = r i_x\))
+          <br>3. <strong>VCCS</strong>: Voltage-Controlled Current Source (\(i = g v_x\))
+          <br>4. <strong>CCCS</strong>: Current-Controlled Current Source (\(i = \beta i_x\))
+        </p>
+
+        <div class="callout callout-info">
+          <div class="callout-title">The Supernode Technique</div>
+          <p>
+            When an ideal voltage source (independent or dependent) is connected between two non-reference nodes:
+            <br>1. Enclose the voltage source and its two bounding nodes into a generalized boundary called a <strong>supernode</strong>.
+            <br>2. Apply KCL to the external terminals of this supernode.
+            <br>3. Supplement with the <strong>internal constraint equation</strong>: \(v_{\text{pos}} - v_{\text{neg}} = V_s\).
+          </p>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-title">The Supermesh Technique</div>
+          <p>
+            When an ideal current source (independent or dependent) is shared between two adjacent meshes:
+            <br>1. Temporarily remove the branch containing the current source to form a combined <strong>supermesh</strong>.
+            <br>2. Write KVL around the perimeter of the supermesh.
+            <br>3. Supplement with the <strong>internal branch constraint equation</strong>: \(i_{\text{mesh, aiding}} - i_{\text{mesh, opposing}} = I_s\).
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 1.4 -->
+      <section id="sec-1-4" style="margin-bottom: 3rem;">
+        <h2>1.4 Matrix Formulation in Network Analysis</h2>
+        <p>
+          For linear networks, mesh equations are formulated systematically as:
+          \[\begin{bmatrix} R_{11} & R_{12} & \dots & R_{1n} \\ R_{21} & R_{22} & \dots & R_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ R_{n1} & R_{n2} & \dots & R_{nn} \end{bmatrix} \begin{bmatrix} I_1 \\ I_2 \\ \vdots \\ I_n \end{bmatrix} = \begin{bmatrix} V_1 \\ V_2 \\ \vdots \\ V_n \end{bmatrix}\]
+          Where:
+          <br>• \(R_{kk}\) = Self-resistance of mesh \(k\) (sum of all resistances in mesh \(k\)).
+          <br>• \(R_{jk} = -(\text{Mutual resistance shared between mesh } j \text{ and } k)\).
+          <br>• \(V_k\) = Algebraic sum of source voltages in mesh \(k\) aiding mesh current direction.
+        </p>
+        <div class="callout callout-warn">
+          <div class="callout-title">Impact of Dependent Sources on Matrix Symmetry</div>
+          <p>
+            In purely passive networks, \([R]\) is always symmetrical (\(R_{jk} = R_{kj}\)). However, <strong>dependent sources introduce non-symmetrical off-diagonal terms</strong> once the controlling variable is substituted. Always move dependent terms to the left-hand matrix before solving!
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 1.5, 1.6, 1.7 -->
+      <section id="sec-1-5" style="margin-bottom: 3rem;">
+        <h2>1.5, 1.6 & 1.7 Procedure for Evaluating Initial Conditions & Derivatives</h2>
+        
+        <div class="card">
+          <h3 style="color: var(--primary); margin-top: 0;">Universal Step-by-Step Procedure at Switching</h3>
+          <ol style="margin-left: 1.25rem; line-height: 1.8;">
+            <li><strong>Analyze at \(t = 0^-\) (Pre-switching steady state):</strong>
+              <br>Under DC excitation for a long time:
+              <br>• All inductors behave as <strong>short circuits</strong> (\(v_L = 0\)). Find initial currents \(i_L(0^-)\).
+              <br>• All capacitors behave as <strong>open circuits</strong> (\(i_C = 0\)). Find initial voltages \(v_C(0^-)\).
+            </li>
+            <li><strong>Apply Continuity Rules at \(t = 0^+\) (Post-switching instant):</strong>
+              \[i_L(0^+) = i_L(0^-), \quad v_C(0^+) = v_C(0^-)\]
+            </li>
+            <li><strong>Draw the Equivalent Circuit at \(t = 0^+\):</strong>
+              <br>• Replace each inductor with an ideal <strong>current source</strong> of value \(i_L(0^+)\) (if \(i_L(0^+) = 0\), replace with an <strong>open circuit</strong>).
+              <br>• Replace each capacitor with an ideal <strong>voltage source</strong> of value \(v_C(0^+)\) (if \(v_C(0^+) = 0\), replace with a <strong>short circuit</strong>).
+              <br>• Solve purely resistive network for all currents \(i(0^+)\) and voltages \(v(0^+)\).
+            </li>
+            <li><strong>Evaluate First Derivatives \(\frac{di_L}{dt}(0^+)\) and \(\frac{dv_C}{dt}(0^+)\):</strong>
+              <br>From element v-i relations:
+              \[\frac{di_L}{dt}(0^+) = \frac{v_L(0^+)}{L}, \quad \frac{dv_C}{dt}(0^+) = \frac{i_C(0^+)}{C}\]
+              Write loop KVL or node KCL at \(t = 0^+\) to find \(v_L(0^+)\) and \(i_C(0^+)\).
+            </li>
+            <li><strong>Evaluate Second Derivatives \(\frac{d^2 i}{dt^2}(0^+)\):</strong>
+              <br>Write KVL/KCL equations as general time-varying differential functions for \(t > 0\). Differentiate once with respect to \(t\), then evaluate at \(t = 0^+\) by substituting previously calculated initial values and first derivatives.
+            </li>
+          </ol>
+        </div>
+
+        <!-- Worked Numerical Example -->
+        <h3>Worked Master Example (IOE Exam Problem)</h3>
+        <div class="worked-example">
+          <div class="example-header">
+            <span class="example-title">Initial Conditions & Derivatives in Two-Mesh RLC Network</span>
+            <span class="badge badge-high">PYQ 2081 Ashwin & 2083 Baishakh Q2</span>
+          </div>
+          <div class="example-body">
+            <span class="step-label">Problem Statement:</span>
+            <div class="step-content">
+              In the circuit, a 10V DC source is switched at \(t = 0\) into Mesh 1 with inductor \(L = 1\text{H}\) in series with switch and a shunt resistor of \(10\,\Omega\). Mesh 2 contains a series resistor of \(10\,\Omega\) and capacitor \(C = 1\text{F}\). Find \(i_1(0^+), i_2(0^+), \frac{di_1}{dt}(0^+), \frac{di_2}{dt}(0^+)\).
+            </div>
+
+            <span class="step-label">Step 1: State at \(t = 0^-\)</span>
+            <div class="step-content">
+              Prior to switching, circuit is completely unenergized:
+              \[i_L(0^-) = 0\text{ A}, \quad v_C(0^-) = 0\text{ V}\]
+            </div>
+
+            <span class="step-label">Step 2: State at \(t = 0^+\)</span>
+            <div class="step-content">
+              By continuity:
+              \[i_1(0^+) = i_L(0^+) = i_L(0^-) = 0\text{ A}\]
+              \[v_C(0^+) = v_C(0^-) = 0\text{ V}\]
+              KVL around Mesh 2 at \(t = 0^+\):
+              \[10[i_2(0^+) - i_1(0^+)] + 10 i_2(0^+) + v_C(0^+) = 0\]
+              Since \(i_1(0^+) = 0\) and \(v_C(0^+) = 0\):
+              \[20 i_2(0^+) = 0 \implies i_2(0^+) = 0\text{ A}\]
+            </div>
+
+            <span class="step-label">Step 3: Calculating First Derivative \(\frac{di_1}{dt}(0^+)\)</span>
+            <div class="step-content">
+              KVL for Mesh 1 for \(t > 0\):
+              \[10 = L \frac{di_1}{dt} + 10(i_1 - i_2)\]
+              At \(t = 0^+\):
+              \[10 = 1 \cdot \frac{di_1}{dt}(0^+) + 10(0 - 0) \implies \frac{di_1}{dt}(0^+) = 10\text{ A/s}\]
+            </div>
+
+            <span class="step-label">Step 4: Calculating First Derivative \(\frac{di_2}{dt}(0^+)\)</span>
+            <div class="step-content">
+              KVL for Mesh 2 for \(t > 0\):
+              \[20 i_2 - 10 i_1 + v_C = 0\]
+              Differentiate with respect to \(t\):
+              \[20 \frac{di_2}{dt} - 10 \frac{di_1}{dt} + \frac{dv_C}{dt} = 0\]
+              Since \(\frac{dv_C}{dt}(0^+) = \frac{i_C(0^+)}{C} = \frac{i_2(0^+)}{C} = \frac{0}{1} = 0\):
+              \[20 \frac{di_2}{dt}(0^+) - 10(10) + 0 = 0 \implies 20 \frac{di_2}{dt}(0^+) = 100 \implies \frac{di_2}{dt}(0^+) = 5\text{ A/s}\]
+            </div>
+
+            <div class="step-final-answer">
+              <strong>Final Answer:</strong>
+              \[i_1(0^+) = 0\text{ A}, \quad i_2(0^+) = 0\text{ A}, \quad \frac{di_1}{dt}(0^+) = 10\text{ A/s}, \quad \frac{di_2}{dt}(0^+) = 5\text{ A/s}\]
+            </div>
+          </div>
+        </div>
+
+        <h3>Common Mistakes to Avoid in Chapter 1</h3>
+        <div class="callout callout-danger">
+          <ul style="margin-left: 1.25rem;">
+            <li><strong>Assuming inductor current is always zero at \(t=0^+\):</strong> If a switch has been closed for a long time before moving at \(t=0\), the inductor will carry a non-zero steady-state current \(i_L(0^-) = I_0\) which persists at \(t=0^+\)!</li>
+            <li><strong>Forgetting internal supernode constraint:</strong> In nodal analysis, forgetting to write the voltage difference relation (\(v_a - v_b = V_s\)) leaves the system with fewer equations than unknowns.</li>
+            <li><strong>Differentiating constants incorrectly:</strong> Remember that a fixed DC voltage source has \(\frac{dV}{dt} = 0\).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Bottom Prev/Next Navigation -->
+      <div class="chapter-nav">
+        <a href="../syllabus.html" class="chapter-nav-btn">
+          <span class="chapter-nav-label">Previous</span>
+          <span class="chapter-nav-title">← Official Syllabus</span>
+        </a>
+        <a href="chapter-2.html" class="chapter-nav-btn" style="text-align: right;">
+          <span class="chapter-nav-label">Next</span>
+          <span class="chapter-nav-title">Chapter 2: Classical Transients →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+</body>
+</html>

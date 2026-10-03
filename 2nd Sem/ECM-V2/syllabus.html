@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Official Syllabus & Evaluation Scheme | ENEE 154</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="syllabus.html" class="sidebar-link active"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Syllabus Chapters</div>
+      <ul class="sidebar-nav">
+        <li><a href="chapters/chapter-1.html" class="sidebar-link"><span>Ch 1: Transients in Electric Circuit</span><span class="sidebar-link-badge">7M</span></a></li>
+        <li><a href="chapters/chapter-2.html" class="sidebar-link"><span>Ch 2: Classical Transient Analysis</span><span class="sidebar-link-badge">10M</span></a></li>
+        <li><a href="chapters/chapter-3.html" class="sidebar-link"><span>Ch 3: Laplace Transform Method</span><span class="sidebar-link-badge">7M</span></a></li>
+        <li><a href="chapters/chapter-4.html" class="sidebar-link"><span>Ch 4: Transfer Function & Bode</span><span class="sidebar-link-badge">8M</span></a></li>
+        <li><a href="chapters/chapter-5.html" class="sidebar-link"><span>Ch 5: Two-Port Parameters</span><span class="sidebar-link-badge">8M</span></a></li>
+        <li><a href="chapters/chapter-6.html" class="sidebar-link"><span>Ch 6: Magnetic Circuit & Induction</span><span class="sidebar-link-badge">3M</span></a></li>
+        <li><a href="chapters/chapter-7.html" class="sidebar-link"><span>Ch 7: Transformers</span><span class="sidebar-link-badge">6M</span></a></li>
+        <li><a href="chapters/chapter-8.html" class="sidebar-link"><span>Ch 8: DC Machines</span><span class="sidebar-link-badge">5M</span></a></li>
+        <li><a href="chapters/chapter-9.html" class="sidebar-link"><span>Ch 9: AC Motors</span><span class="sidebar-link-badge">6M</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Tribhuvan University • IOE</span>
+        <h1>Official ENEE 154 Syllabus</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Electrical Circuits and Machines (ENEE 154) — Complete curriculum, lecture breakdown, laboratory modules, and evaluation criteria for Bachelor in Computer Engineering (BCT) and Electronics, Information & Communication Engineering (BEI).
+        </p>
+      </div>
+
+      <!-- Course Meta Card -->
+      <div class="card">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Year / Part</div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">Year I / Part II</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Teaching Hours</div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-main);">L: 4 | T: 1 | P: 1.5</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Final Theory Exam</div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">60 Marks (3 Hours)</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Pass Marks</div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--badge-low-text);">24 Marks</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Objectives -->
+      <h2>Course Objectives</h2>
+      <p>
+        To develop a comprehensive understanding of electric circuit theory and analysis techniques, alongside the operating principles, mathematical models, and operational characteristics of electric machinery including transformers, DC machines, and AC machines.
+      </p>
+
+      <!-- Chapter By Chapter Syllabus Breakdown -->
+      <h2>Detailed Course Content (60 Hours)</h2>
+
+      <!-- Chapter 1 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high" style="margin-bottom: 0.4rem;">Chapter 1 • 7 Hours • 7 Marks</span>
+            <h3 class="card-title">Transients in Electric Circuit</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>1.1 Characteristics of various network elements:</strong> Linear, non-linear, bilateral, unilateral, passive (R, L, C), and active elements.</li>
+          <li><strong>1.2 Nodal analysis with dependent and independent sources:</strong> Application of KCL, supernode formation when ideal voltage sources exist between non-reference nodes.</li>
+          <li><strong>1.3 Mesh analysis with dependent and independent sources:</strong> Application of KVL, supermesh formation when current sources are shared between meshes.</li>
+          <li><strong>1.4 Application of matrix method in network analysis:</strong> Setting up \([Z][I] = [V]\) and \([Y][V] = [I]\) and solving via Cramer's rule / matrix inversion.</li>
+          <li><strong>1.5 Procedure of evaluating initial conditions:</strong> Behavior of circuit elements at \(t = 0^-\), \(t = 0^+\), and \(t = \infty\). Invariance of inductor current \(i_L(0^+) = i_L(0^-)\) and capacitor voltage \(v_C(0^+) = v_C(0^-)\).</li>
+          <li><strong>1.6 Initial values of derivatives:</strong> Determining \(\frac{di_L}{dt}(0^+)\), \(\frac{dv_C}{dt}(0^+)\), and higher-order derivatives \(\frac{d^2 i}{dt^2}(0^+)\).</li>
+          <li><strong>1.7 Initial condition in the case of R-L-C network:</strong> Systematic multi-loop transient analysis at the switching instant.</li>
+        </ul>
+      </div>
+
+      <!-- Chapter 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high" style="margin-bottom: 0.4rem;">Chapter 2 • 10 Hours • 10 Marks</span>
+            <h3 class="card-title">Transient Analysis R-L-C Circuit by Classical Method</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>2.1 Introduction:</strong> Concept of transient vs steady-state responses in dynamic networks.</li>
+          <li><strong>2.2 First order differential equation with constant coefficient:</strong> Form \(a_1 \frac{dx}{dt} + a_0 x = f(t)\). Time constant \(\tau = L/R\) or \(\tau = RC\).</li>
+          <li><strong>2.3 Higher order homogeneous and non-homogeneous differential equation with constant coefficient:</strong> Complementary function \(x_c(t)\) and characteristic equation roots.</li>
+          <li><strong>2.4 Particular integral by method of undetermined coefficient:</strong> Determination of steady-state response \(x_p(t)\) for step, exponential, and sinusoidal forcings.</li>
+          <li><strong>2.5 Response of R-L and R-C circuits:</strong>
+            <ul style="margin-left: 1.25rem;">
+              <li>2.5.1 DC excitation (step response)</li>
+              <li>2.5.2 Exponential excitation \(v(t) = V_0 e^{-at}\)</li>
+              <li>2.5.3 Sinusoidal excitation \(v(t) = V_m \sin(\omega t + \theta)\)</li>
+            </ul>
+          </li>
+          <li><strong>2.6 Response of Series R-L-C circuits:</strong> Overdamped (\(\zeta > 1\)), critically damped (\(\zeta = 1\)), and underdamped (\(\zeta < 1\)) responses with:
+            <ul style="margin-left: 1.25rem;">
+              <li>2.6.1 DC excitation</li>
+              <li>2.6.2 Exponential excitation</li>
+              <li>2.6.3 Sinusoidal excitation</li>
+            </ul>
+          </li>
+          <li><strong>2.7 Response of Parallel R-L-C circuits:</strong>
+            <ul style="margin-left: 1.25rem;">
+              <li>2.7.1 DC excitation</li>
+              <li>2.7.2 Exponential excitation</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Chapter 3 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high" style="margin-bottom: 0.4rem;">Chapter 3 • 7 Hours • 7 Marks</span>
+            <h3 class="card-title">Transient Analysis Using Laplace Transform</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>3.1 Introduction:</strong> Definition of unilateral Laplace transform, operational properties (linearity, differentiation, integration, shifting theorems).</li>
+          <li><strong>s-Domain Transformed Circuit Models:</strong> Resistor \(R\), Inductor \(sL\) with initial condition series voltage generator \(L i_L(0^-)\) or parallel current generator \(i_L(0^-)/s\), Capacitor \(1/sC\) with initial voltage generator \(v_C(0^-)/s\) or parallel current generator \(C v_C(0^-)\).</li>
+          <li><strong>3.2 Response of R-L and R-C circuits:</strong>
+            <ul style="margin-left: 1.25rem;">
+              <li>3.2.1 DC excitation</li>
+              <li>3.2.2 Exponential excitation</li>
+              <li>3.2.3 Sinusoidal excitation</li>
+            </ul>
+          </li>
+          <li><strong>3.3 Response of series R-L-C circuits with:</strong>
+            <ul style="margin-left: 1.25rem;">
+              <li>3.3.1 DC excitation</li>
+              <li>3.3.2 Exponential excitation</li>
+              <li>3.3.3 Sinusoidal excitation</li>
+            </ul>
+          </li>
+          <li><strong>3.4 Response of parallel R-L-C circuits with:</strong>
+            <ul style="margin-left: 1.25rem;">
+              <li>3.4.1 DC excitation</li>
+              <li>3.4.2 Exponential excitation</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Chapter 4 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high" style="margin-bottom: 0.4rem;">Chapter 4 • 8 Hours • 8 Marks</span>
+            <h3 class="card-title">Network Transfer Function and Frequency Response</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>4.1 Concept of complex frequency:</strong> \(s = \sigma + j\omega\), physical interpretation of real attenuation \(\sigma\) and oscillation frequency \(\omega\).</li>
+          <li><strong>4.2 Transfer functions of two-port networks:</strong> Driving-point impedance \(Z_{in}(s)\), admittance \(Y_{in}(s)\), voltage transfer ratio \(G_{21}(s) = V_2(s)/V_1(s)\), current transfer ratio \(\alpha_{21}(s) = I_2(s)/I_1(s)\), transfer impedance \(Z_{21}(s)\).</li>
+          <li><strong>4.3 Poles and zeros of networks:</strong> Definition, s-plane mapping, pole-zero constellation, stability implications (poles must lie in left half of s-plane for BIBO stability).</li>
+          <li><strong>4.4 Magnitude and phase response:</strong> Graphical evaluation from pole-zero vectors along \(s = j\omega\).</li>
+          <li><strong>4.5 Bode diagrams:</strong> Asymptotic magnitude plot (dB vs \(\log \omega\)) and phase plot (degrees vs \(\log \omega\)). Standard factors: constant \(K\), origin poles/zeros \((s)^{\pm n}\), simple poles/zeros \((1 + s/\omega_c)^{\pm 1}\), quadratic poles/zeros \([1 + 2\zeta(s/\omega_n) + (s/\omega_n)^2]^{\pm 1}\).</li>
+          <li><strong>4.6 Bandwidth, high-Q and low-Q circuits:</strong> Series and parallel resonance, half-power frequencies \(\omega_1, \omega_2\), bandwidth \(BW = \omega_2 - \omega_1 = \omega_0 / Q\). Differences between high-Q (\(Q \ge 10\)) and low-Q approximations.</li>
+          <li><strong>4.7 Basic concept of filters:</strong> Ideal vs practical frequency characteristics of High-pass (HPF), Low-pass (LPF), Band-stop (BSF/notch), and Band-pass (BPF) filters.</li>
+        </ul>
+      </div>
+
+      <!-- Chapter 5 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high" style="margin-bottom: 0.4rem;">Chapter 5 • 8 Hours • 8 Marks</span>
+            <h3 class="card-title">Two-Port Parameters of Network</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>5.1 Definitions of two-port networks:</strong> Terminal pairs, port condition (\(I_1 = I_1', I_2 = I_2'\)).</li>
+          <li><strong>5.2 Parameters of two-port networks:</strong>
+            <ul style="margin-left: 1.25rem;">
+              <li>5.2.1 Open circuit impedance parameters (\(Z\)-parameters): \(V_1 = Z_{11} I_1 + Z_{12} I_2\), \(V_2 = Z_{21} I_1 + Z_{22} I_2\)</li>
+              <li>5.2.2 Short circuit admittance parameters (\(Y\)-parameters): \(I_1 = Y_{11} V_1 + Y_{12} V_2\), \(I_2 = Y_{21} V_1 + Y_{22} V_2\)</li>
+              <li>5.2.3 Transmission line parameters (\(T\) or \(ABCD\)-parameters): \(V_1 = A V_2 - B I_2\), \(I_1 = C V_2 - D I_2\)</li>
+              <li>5.2.4 Inverse transmission line parameters (\(T'\) or \(A'B'C'D'\)-parameters)</li>
+              <li>5.2.5 Hybrid parameters (\(h\)-parameters): \(V_1 = h_{11} I_1 + h_{12} V_2\), \(I_2 = h_{21} I_1 + h_{22} V_2\)</li>
+              <li>5.2.6 Inverse hybrid parameters (\(g\)-parameters)</li>
+            </ul>
+          </li>
+          <li><strong>5.3 Relationship and transformation between sets of parameters:</strong> Inter-conversion formulas (e.g. \(h\) in terms of \(Z\), \(Z\) in terms of \(ABCD\)).</li>
+          <li><strong>5.4 Interconnection of two-port networks:</strong> Series-series (\([Z] = [Z_A] + [Z_B]\)), parallel-parallel (\([Y] = [Y_A] + [Y_B]\)), and cascade connection (\([T] = [T_A] \times [T_B]\)). Validity checks (Brune's test).</li>
+          <li><strong>5.5 Condition for reciprocity and symmetry:</strong> Reciprocity: \(Z_{12} = Z_{21}\), \(Y_{12} = Y_{21}\), \(AD - BC = 1\), \(h_{12} = -h_{21}\). Symmetry: \(Z_{11} = Z_{22}\), \(Y_{11} = Y_{22}\), \(A = D\), \(\Delta h = 1\).</li>
+        </ul>
+      </div>
+
+      <!-- Chapter 6 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-med" style="margin-bottom: 0.4rem;">Chapter 6 • 3 Hours • 3 Marks</span>
+            <h3 class="card-title">Magnetic Circuit and Induction</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>6.1 Magnetic circuit and its types:</strong> MMF (\(\mathcal{F} = N I\)), magnetic flux (\(\Phi\)), reluctance (\(\mathcal{R} = l / (\mu_0 \mu_r A)\)), permeance (\(\mathcal{P} = 1/\mathcal{R}\)). Series and parallel magnetic circuits with composite cores and air gaps. Leakage flux and fringing effect.</li>
+          <li><strong>6.2 B-H relationship and hysteresis with DC excitation:</strong> Magnetization curve, magnetic saturation, retentivity (residual magnetism), coercivity (coercive force).</li>
+          <li><strong>6.3 Hysteresis with AC excitation:</strong> Dynamic cycling through the B-H loop under alternating current excitation.</li>
+          <li><strong>6.4 Hysteresis loss and Eddy current loss:</strong> Steinmetz's empirical formula \(P_h = \eta B_{max}^{1.6} f V\). Eddy current loss \(P_e = K_e B_{max}^2 f^2 t^2 V\). Reduction methods: silicon steel alloy and thin core laminations insulated by varnish.</li>
+          <li><strong>6.5 Faraday’s law of electromagnetic induction:</strong> Statically induced EMF (self-induced \(e = -L \frac{di}{dt}\) and mutually induced \(e = -M \frac{di_1}{dt}\)) vs Dynamically induced EMF (\(e = B l v \sin\theta\)). Fleming's right-hand rule and Lenz's law.</li>
+          <li><strong>6.6 Force on current-carrying conductor:</strong> \(F = B I l \sin\theta\), direction given by Fleming's left-hand rule.</li>
+        </ul>
+      </div>
+
+      <!-- Chapter 7 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high" style="margin-bottom: 0.4rem;">Chapter 7 • 6 Hours • 6 Marks</span>
+            <h3 class="card-title">Transformers</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>7.1 Construction, operating principle and EMF equation of single-phase transformer:</strong> Core-type vs shell-type construction. Derivation of EMF equation: \(E_1 = 4.44 f N_1 \Phi_m\), \(E_2 = 4.44 f N_2 \Phi_m\). Features of ideal transformer. Constancy of main magnetic core flux under varying load currents.</li>
+          <li><strong>7.2 No-load and load operation:</strong> No-load current \(I_0\) components (working component \(I_w\) and magnetizing component \(I_\mu\)). Phasor diagrams for lagging, unity, and leading power factor loads.</li>
+          <li><strong>7.3 Equivalent circuit diagram of transformer:</strong> Exact and approximate equivalent circuits referred to primary and secondary windings. Impedance transformation ratio \(K = N_2 / N_1\), \(R_1' = R_1 / K^2\), \(R_2' = K^2 R_2\).</li>
+          <li><strong>7.4 Transformer testing (Open circuit and Short circuit):</strong>
+            <ul style="margin-left: 1.25rem;">
+              <li>Open Circuit (OC) test: Conducted on LV side at rated voltage to determine core losses (\(P_i\)), shunt branch parameters (\(R_0, X_0\)).</li>
+              <li>Short Circuit (SC) test: Conducted on HV side at rated current to determine full-load copper losses (\(P_{cu,FL}\)), series equivalent parameters (\(R_{eq}, X_{eq}\)).</li>
+            </ul>
+          </li>
+          <li><strong>7.5 Voltage regulation, losses, efficiency and maximum-efficiency condition:</strong> Definition of voltage regulation \(\%VR = \frac{V_0 - V_L}{V_0} \times 100\). Efficiency expression \(\eta = \frac{x S \cos\phi}{x S \cos\phi + P_i + x^2 P_{cu,FL}}\). Derivation of condition for maximum efficiency (\(x^2 P_{cu,FL} = P_i\)). All-day efficiency for distribution transformers.</li>
+          <li><strong>7.6 Auto-transformer and Isolation transformer:</strong> Operating principle of single-winding autotransformer, copper saving formula \(\frac{\text{Weight of Cu in Auto}}{\text{Weight of Cu in 2-Wdg}} = (1 - K)\), power transferred inductively vs conductively. Functions and applications of isolation transformers.</li>
+        </ul>
+      </div>
+
+      <!-- Chapter 8 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high" style="margin-bottom: 0.4rem;">Chapter 8 • 5 Hours • 5 Marks</span>
+            <h3 class="card-title">DC Machine</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>8.1 Constructional details of DC machine:</strong> Magnetic frame (yoke), pole core and shoes, field coils, armature core and windings (lap vs wave), commutator segments, and carbon brushes.</li>
+          <li><strong>8.2 DC generator operating principle and EMF equation:</strong> Elementary generator action. Derivation of EMF equation: \(E_g = \frac{P \Phi Z N}{60 A}\), where \(A = P\) for lap winding, \(A = 2\) for wave winding.</li>
+          <li><strong>8.3 DC motor operating principle and torque equation:</strong> Elementary motor action. Derivation of electromagnetic torque: \(T = \frac{P \Phi Z I_a}{2\pi A} \propto \Phi I_a\).</li>
+          <li><strong>8.4 Types of DC machine:</strong> Separately excited, Shunt, Series, and Compound (Cumulative & Differential) machines with schematic circuit diagrams and terminal voltage-current equations.</li>
+          <li><strong>8.5 Back EMF and its role in DC motor:</strong> \(E_b = V - I_a R_a\). Role as self-regulating governor of armature current and power developer (\(P_m = E_b I_a\)).</li>
+          <li><strong>8.6 Performance characteristics of DC motor:</strong> Torque vs Armature current (\(T\) vs \(I_a\)), Speed vs Armature current (\(N\) vs \(I_a\)), and Speed vs Torque (\(N\) vs \(T\)) characteristics for shunt, series, and compound motors.</li>
+          <li><strong>8.7 Starting of DC motor using 3-point starter:</strong> Why direct starting causes dangerous inrush currents (\(I_{start} = V/R_a\)). Operation of 3-point starter with No-Volt Coil (NVC) and Overload Release (OLR) coil.</li>
+          <li><strong>8.8 Speed control of DC motor:</strong> Derived from \(N = \frac{V - I_a R_a}{k \Phi}\).
+            <ul style="margin-left: 1.25rem;">
+              <li>Armature resistance control: Variable resistor in series with armature (controls speed below base speed).</li>
+              <li>Field flux control: Field rheostat in series with shunt winding (controls speed above base speed).</li>
+            </ul>
+          </li>
+          <li><strong>8.9 Losses and efficiency:</strong> Copper losses (\(I_a^2 R_a, I_{sh}^2 R_{sh}\)), magnetic core losses (hysteresis + eddy current), mechanical losses (friction + windage). Commercial, electrical, and mechanical efficiency definitions.</li>
+        </ul>
+      </div>
+
+      <!-- Chapter 9 -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high" style="margin-bottom: 0.4rem;">Chapter 9 • 6 Hours • 6 Marks</span>
+            <h3 class="card-title">AC Motor</h3>
+          </div>
+        </div>
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>9.1 Construction, production of rotating magnetic field and operating principle of three-phase induction motor:</strong> Stator, squirrel-cage vs slip-ring (wound) rotor. Mathematical proof showing that a 3-phase balanced supply produces a magnetic field of constant magnitude \(1.5 \Phi_m\) rotating at synchronous speed \(N_s = 120f/P\). Slip definition \(s = (N_s - N)/N_s\). Why rotor speed can never equal synchronous speed.</li>
+          <li><strong>9.2 Torque equation of three-phase induction motor:</strong> Standstill torque \(T_{st} \propto \frac{E_2^2 R_2}{R_2^2 + X_2^2}\) and running torque \(T \propto \frac{s E_2^2 R_2}{R_2^2 + (s X_2)^2}\).</li>
+          <li><strong>9.3 Torque-slip characteristics:</strong> Low slip region (stable, linear), high slip region (unstable). Derivation of maximum breakdown torque \(T_{max} = \frac{k E_2^2}{2 X_2}\) and slip at maximum torque \(s_{mT} = R_2 / X_2\). Effect of adding external rotor resistance in slip-ring motor on starting torque and maximum torque.</li>
+          <li><strong>9.4 Single-phase induction motor:</strong> Non-self-starting nature explained by pulsating stator field.</li>
+          <li><strong>9.5 Double revolving field theory:</strong> Resolution of pulsating field into forward rotating field \(\Phi_f = \frac{1}{2}\Phi_m\) (slip \(s\)) and backward rotating field \(\Phi_b = \frac{1}{2}\Phi_m\) (slip \(2-s\)). Resultant torque at standstill is zero.</li>
+          <li><strong>9.6 Starting of single-phase induction motor:</strong> Auxiliary winding with phase-split mechanism:
+            <ul style="margin-left: 1.25rem;">
+              <li>Capacitor-start induction motor (centrifugal switch disconnects capacitor at 75% speed)</li>
+              <li>Capacitor-run / permanent-split capacitor motor (higher running power factor and quiet operation)</li>
+              <li>Shaded-pole motor (copper shading band delays flux, producing weak rotating field for low-power fans)</li>
+            </ul>
+          </li>
+          <li><strong>9.7 Introduction to special AC/DC motors:</strong>
+            <ul style="margin-left: 1.25rem;">
+              <li>Permanent Magnet Brushless DC (BLDC) motor (electronic commutation, Hall-effect sensors)</li>
+              <li>Hysteresis motor (smooth rotor, hysteresis loss torque, perfectly constant synchronous speed)</li>
+              <li>Stepper motor (variable reluctance and permanent magnet types, step angle \(\beta = \frac{N_s - N_r}{N_s N_r} \times 360^\circ\))</li>
+              <li>Servo motor (AC and DC servomotors for closed-loop position control)</li>
+              <li>Universal motor (series motor operating on both AC and DC, high speed portable power tools)</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Laboratory Practicals & Tutorials -->
+      <h2>Laboratory Experiments (Practical: 22.5 Hours)</h2>
+      <div class="card">
+        <ol style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>Transient response in first order passive circuit:</strong> Measure step and impulse response of series RL and RC circuits using oscilloscope; relate time response to analytical time constants \(\tau = L/R\) and \(\tau = RC\).</li>
+          <li><strong>Transient response in second order passive circuit:</strong> Measure step response of series and parallel RLC circuits on DSO; observe underdamped oscillation, critical damping, and overdamped exponential decay; correlate damping ratio \(\zeta\) with pole-zero configuration.</li>
+          <li><strong>Two port network:</strong> Calculate, measure, and verify \(ABCD\) parameters of resistive T and \(\pi\) networks; determine equivalent parameters of parallel-connected two-port networks.</li>
+          <li><strong>Two winding transformers:</strong> Measure amplitude and phase frequency response and plot Bode diagram for RLC circuits; perform Open Circuit (OC) and Short Circuit (SC) tests on a single-phase transformer to determine core loss, copper loss, equivalent resistance \(R_{eq}\), equivalent reactance \(X_{eq}\), and efficiency.</li>
+          <li><strong>DC motor:</strong> Speed control of DC shunt motor by (a) armature resistance control method and (b) field flux control method; observe the effect of mechanical loading on speed, armature current \(I_a\), and shunt field current \(I_{sh}\).</li>
+          <li><strong>Single phase AC motors:</strong> Study the effect of starting and running capacitors on torque and vibration of a single-phase induction motor; demonstrate reversing the direction of rotation by interchanging starting winding connections.</li>
+        </ol>
+      </div>
+
+      <!-- Prescribed References -->
+      <h2>Standard Reference Books</h2>
+      <div class="card">
+        <ul style="margin-left: 1.25rem; line-height: 1.8;">
+          <li>Van Valkenburg, M. E. (2019). <em>Network Analysis</em>. Pearson Education.</li>
+          <li>Hayt, W. H., Kemmerly, J. E., Phillips, J. D., & Durbin, S. M. (2019). <em>Engineering Circuit Analysis</em>. McGraw-Hill Education.</li>
+          <li>Nagrath, I. J., & Kothari, D. P. (2017). <em>Electric Machines</em>. McGraw-Hill Education.</li>
+          <li>Fitzgerald, A. E., Kingsley, C., & Umans, S. D. (2017). <em>Electric Machinery</em>. McGraw-Hill Education.</li>
+          <li>Soni, K. M. (2013). <em>Circuits and Systems</em>. S. K. Kataria & Sons.</li>
+          <li>Sahdev, S. K. (2018). <em>Electrical Machines</em>. Cambridge University Press.</li>
+        </ul>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

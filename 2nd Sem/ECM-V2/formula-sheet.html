@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Formula Sheet | ENEE 154 Electrical Circuits and Machines</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="formula-sheet.html" class="sidebar-link active"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Jump to Chapter Formulas</div>
+      <ul class="sidebar-nav">
+        <li><a href="#f-ch1" class="sidebar-link"><span>Ch 1: Transients & Initial Cond.</span></a></li>
+        <li><a href="#f-ch2" class="sidebar-link"><span>Ch 2: Classical Method ODEs</span></a></li>
+        <li><a href="#f-ch3" class="sidebar-link"><span>Ch 3: Laplace Transformed Models</span></a></li>
+        <li><a href="#f-ch4" class="sidebar-link"><span>Ch 4: Bode & Frequency Response</span></a></li>
+        <li><a href="#f-ch5" class="sidebar-link"><span>Ch 5: Two-Port Parameter Sets</span></a></li>
+        <li><a href="#f-ch6" class="sidebar-link"><span>Ch 6: Magnetic Circuits & Induction</span></a></li>
+        <li><a href="#f-ch7" class="sidebar-link"><span>Ch 7: Transformers & Tests</span></a></li>
+        <li><a href="#f-ch8" class="sidebar-link"><span>Ch 8: DC Machines & Torque</span></a></li>
+        <li><a href="#f-ch9" class="sidebar-link"><span>Ch 9: AC Induction & Special Motors</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Master Formula Reference</span>
+        <h1>ENEE 154 — Master Formula Sheet</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Rigorous compilation of every governing equation across all 9 chapters. Includes exact parameter definitions, SI units, operational conditions, and common exam pitfalls.
+        </p>
+      </div>
+
+      <!-- Chapter 1 -->
+      <section id="f-ch1" style="margin-bottom: 3rem;">
+        <h2>Chapter 1: Network Elements & Initial Conditions</h2>
+        
+        <div class="formula-block">
+          <div class="formula-math">
+            \[v_L(t) = L \frac{di_L(t)}{dt}, \quad i_C(t) = C \frac{dv_C(t)}{dt}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Variables:</strong> \(v_L\) = inductor voltage [V], \(i_L\) = inductor current [A], \(L\) = inductance [H], \(i_C\) = capacitor current [A], \(v_C\) = capacitor voltage [V], \(C\) = capacitance [F].<br>
+            <strong>Conditions:</strong> Fundamental differential v-i relationships. Current through an inductor and voltage across a capacitor cannot change instantaneously.
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[i_L(0^+) = i_L(0^-), \quad v_C(0^+) = v_C(0^-)\]
+            \[\frac{di_L}{dt}(0^+) = \frac{v_L(0^+)}{L}, \quad \frac{dv_C}{dt}(0^+) = \frac{i_C(0^+)}{C}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Switching Invariance Rules:</strong> Inductor behaves as an open circuit (or constant current source of \(i_L(0^-)\)) at \(t=0^+\). Capacitor behaves as a short circuit (or constant voltage source of \(v_C(0^-)\)) at \(t=0^+\).<br>
+            <strong>Derivative Rule:</strong> Always find \(v_L(0^+)\) and \(i_C(0^+)\) from KVL/KCL at \(t=0^+\) first, then divide by \(L\) and \(C\).
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 2 -->
+      <section id="f-ch2" style="margin-bottom: 3rem;">
+        <h2>Chapter 2: Classical Transient Analysis</h2>
+        
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{RL Circuit: } \tau = \frac{L}{R} \text{ [seconds]}, \quad i(t) = i(\infty) + [i(0^+) - i(\infty)] e^{-t/\tau}\]
+            \[\text{RC Circuit: } \tau = R C \text{ [seconds]}, \quad v(t) = v(\infty) + [v(0^+) - v(\infty)] e^{-t/\tau}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Usage:</strong> Universal first-order step response formula. Applicable to any linear first-order circuit with constant DC sources.
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Series RLC ODE: } L \frac{d^2 i}{dt^2} + R \frac{di}{dt} + \frac{1}{C} i = \frac{dv_s}{dt}\]
+            \[s^2 + \frac{R}{L} s + \frac{1}{LC} = 0 \implies s^2 + 2\alpha s + \omega_0^2 = 0\]
+            \[\alpha = \frac{R}{2L}, \quad \omega_0 = \frac{1}{\sqrt{LC}}, \quad s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Damping Classifications:</strong><br>
+            1. <em>Overdamped (\(\alpha > \omega_0\)):</em> \(i(t) = A_1 e^{s_1 t} + A_2 e^{s_2 t}\) (two distinct real negative roots).<br>
+            2. <em>Critically Damped (\(\alpha = \omega_0\)):</em> \(i(t) = (A_1 + A_2 t) e^{-\alpha t}\) (repeated real root).<br>
+            3. <em>Underdamped (\(\alpha < \omega_0\)):</em> \(i(t) = e^{-\alpha t} [A_1 \cos(\omega_d t) + A_2 \sin(\omega_d t)]\), where \(\omega_d = \sqrt{\omega_0^2 - \alpha^2}\).
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Parallel RLC: } \alpha = \frac{1}{2RC}, \quad \omega_0 = \frac{1}{\sqrt{LC}}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Important Difference:</strong> In parallel RLC, larger \(R\) gives <em>smaller</em> damping \(\alpha\) (closer to oscillation), which is the exact opposite of series RLC!
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 3 -->
+      <section id="f-ch3" style="margin-bottom: 3rem;">
+        <h2>Chapter 3: Laplace Transform Transient Analysis</h2>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Element</th>
+                <th>Time Domain</th>
+                <th>s-Domain Impedance</th>
+                <th>Series Initial Source Model</th>
+                <th>Parallel Initial Source Model</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Resistor \(R\)</strong></td>
+                <td>\(v(t) = R i(t)\)</td>
+                <td>\(Z(s) = R\)</td>
+                <td>None</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td><strong>Inductor \(L\)</strong></td>
+                <td>\(v(t) = L \frac{di}{dt}\)</td>
+                <td>\(Z(s) = sL\)</td>
+                <td>Voltage source \(L i(0^-)\) aiding current</td>
+                <td>Current source \(\frac{i(0^-)}{s}\) across \(sL\)</td>
+              </tr>
+              <tr>
+                <td><strong>Capacitor \(C\)</strong></td>
+                <td>\(i(t) = C \frac{dv}{dt}\)</td>
+                <td>\(Z(s) = \frac{1}{sC}\)</td>
+                <td>Voltage source \(\frac{v(0^-)}{s}\) in series with \(\frac{1}{sC}\)</td>
+                <td>Current source \(C v(0^-)\) in parallel with \(\frac{1}{sC}\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\mathcal{L}\{e^{-at}\} = \frac{1}{s+a}, \quad \mathcal{L}\{\sin(\omega t)\} = \frac{\omega}{s^2+\omega^2}, \quad \mathcal{L}\{\cos(\omega t)\} = \frac{s}{s^2+\omega^2}\]
+            \[\mathcal{L}\left\{\frac{df}{dt}\right\} = s F(s) - f(0^-)\]
+          </div>
+          <div class="formula-meta">
+            <strong>Standard Procedure:</strong> Transform all independent sources (\(V/s\)), replace \(L\) and \(C\) with their s-domain equivalent models including initial condition generators, write s-domain KVL/KCL, solve for \(I(s)\) or \(V(s)\), and perform Partial Fraction Expansion (PFE) to obtain inverse transform.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 4 -->
+      <section id="f-ch4" style="margin-bottom: 3rem;">
+        <h2>Chapter 4: Transfer Function, Bode Plots & Filters</h2>
+        
+        <div class="formula-block">
+          <div class="formula-math">
+            \[H(s) = \frac{N(s)}{D(s)} = K \frac{(s - z_1)(s - z_2)\dots(s - z_m)}{(s - p_1)(s - p_2)\dots(s - p_n)}\]
+            \[|H(j\omega)|_{\text{dB}} = 20 \log_{10} |H(j\omega)|, \quad \angle H(j\omega) = \sum \angle(\text{zeros}) - \sum \angle(\text{poles})\]
+          </div>
+          <div class="formula-meta">
+            <strong>Bode Plot Standard Form:</strong> Express all factors as \((1 + s/\omega_c)\). The constant multiplier is the Bode gain \(K_B\).
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Factor in \(H(j\omega)\)</th>
+                <th>Magnitude Slope</th>
+                <th>Phase Contribution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Constant \(K_B\)</td>
+                <td>\(0\text{ dB/decade}\), level at \(20\log_{10} |K_B|\)</td>
+                <td>\(0^\circ\) (\(+180^\circ\) if \(K_B < 0\))</td>
+              </tr>
+              <tr>
+                <td>Pole at origin \(1/s^n\)</td>
+                <td>\(-20n\text{ dB/decade}\)</td>
+                <td>\(-90^\circ \times n\)</td>
+              </tr>
+              <tr>
+                <td>Zero at origin \(s^n\)</td>
+                <td>\(+20n\text{ dB/decade}\)</td>
+                <td>\(+90^\circ \times n\)</td>
+              </tr>
+              <tr>
+                <td>Simple zero \((1 + s/\omega_c)\)</td>
+                <td>\(+20\text{ dB/decade}\) for \(\omega > \omega_c\)</td>
+                <td>\(0^\circ\) (\(\omega \ll \omega_c\)), \(+45^\circ\) (\(\omega = \omega_c\)), \(+90^\circ\) (\(\omega \gg \omega_c\))</td>
+              </tr>
+              <tr>
+                <td>Simple pole \(\frac{1}{1 + s/\omega_c}\)</td>
+                <td>\(-20\text{ dB/decade}\) for \(\omega > \omega_c\)</td>
+                <td>\(0^\circ\) (\(\omega \ll \omega_c\)), \(-45^\circ\) (\(\omega = \omega_c\)), \(-90^\circ\) (\(\omega \gg \omega_c\))</td>
+              </tr>
+              <tr>
+                <td>Quadratic pole \(\frac{1}{1 + 2\zeta(s/\omega_n) + (s/\omega_n)^2}\)</td>
+                <td>\(-40\text{ dB/decade}\) for \(\omega > \omega_n\)</td>
+                <td>\(0^\circ \to -90^\circ \to -180^\circ\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Series Resonance: } \omega_0 = \frac{1}{\sqrt{LC}}, \quad Q = \frac{\omega_0 L}{R} = \frac{1}{\omega_0 C R} = \frac{1}{R}\sqrt{\frac{L}{C}}\]
+            \[BW = \omega_2 - \omega_1 = \frac{\omega_0}{Q} = \frac{R}{L} \text{ [rad/s]}\]
+          </div>
+          <div class="formula-meta">
+            <strong>High-Q Approximation (\(Q \ge 10\)):</strong> Half-power frequencies are symmetric about \(\omega_0\): \(\omega_1, \omega_2 \approx \omega_0 \mp \frac{BW}{2}\).
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 5 -->
+      <section id="f-ch5" style="margin-bottom: 3rem;">
+        <h2>Chapter 5: Two-Port Network Parameters</h2>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Governing Matrix Equations</th>
+                <th>Reciprocity Condition</th>
+                <th>Symmetry Condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Impedance \([Z]\)</strong></td>
+                <td>\(V_1 = Z_{11}I_1 + Z_{12}I_2\)<br>\(V_2 = Z_{21}I_1 + Z_{22}I_2\)</td>
+                <td>\(Z_{12} = Z_{21}\)</td>
+                <td>\(Z_{11} = Z_{22}\)</td>
+              </tr>
+              <tr>
+                <td><strong>Admittance \([Y]\)</strong></td>
+                <td>\(I_1 = Y_{11}V_1 + Y_{12}V_2\)<br>\(I_2 = Y_{21}V_1 + Y_{22}V_2\)</td>
+                <td>\(Y_{12} = Y_{21}\)</td>
+                <td>\(Y_{11} = Y_{22}\)</td>
+              </tr>
+              <tr>
+                <td><strong>Transmission \([T]\) or \([ABCD]\)</strong></td>
+                <td>\(V_1 = A V_2 - B I_2\)<br>\(I_1 = C V_2 - D I_2\)</td>
+                <td>\(A D - B C = 1\)</td>
+                <td>\(A = D\)</td>
+              </tr>
+              <tr>
+                <td><strong>Hybrid \([h]\)</strong></td>
+                <td>\(V_1 = h_{11}I_1 + h_{12}V_2\)<br>\(I_2 = h_{21}I_1 + h_{22}V_2\)</td>
+                <td>\(h_{12} = -h_{21}\)</td>
+                <td>\(\Delta h = h_{11}h_{22} - h_{12}h_{21} = 1\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Cascade Connection: } \begin{bmatrix} A & B \\ C & D \end{bmatrix} = \begin{bmatrix} A_1 & B_1 \\ C_1 & D_1 \end{bmatrix} \begin{bmatrix} A_2 & B_2 \\ C_2 & D_2 \end{bmatrix}\]
+            \[h_{11} = \frac{\Delta Z}{Z_{22}}, \quad h_{12} = \frac{Z_{12}}{Z_{22}}, \quad h_{21} = -\frac{Z_{21}}{Z_{22}}, \quad h_{22} = \frac{1}{Z_{22}}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Important Convention Trap:</strong> In the transmission matrix, current \(I_2\) leaves the port (hence \(-I_2\) appears in the algebraic definition). Always double-check signs!
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 6 -->
+      <section id="f-ch6" style="margin-bottom: 3rem;">
+        <h2>Chapter 6: Magnetic Circuits & Induction</h2>
+        
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\mathcal{F} = N I = \Phi \mathcal{R}, \quad \mathcal{R} = \frac{l}{\mu_0 \mu_r A} \text{ [AT/Wb]}\]
+            \[B = \frac{\Phi}{A} \text{ [Tesla or Wb/m}^2], \quad H = \frac{B}{\mu_0 \mu_r} \text{ [AT/m]}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Permeability constants:</strong> \(\mu_0 = 4\pi \times 10^{-7}\text{ H/m}\). For air gap, \(\mu_r = 1\), so \(H_g = B / \mu_0\).
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Total MMF: } N I = H_{\text{iron}} l_i + H_{\text{air}} l_g = \frac{B}{\mu_0 \mu_r} (l_{\text{mean}} - l_g) + \frac{B}{\mu_0} l_g\]
+            \[P_h = \eta B_{\text{max}}^{1.6} f V \text{ [W]}, \quad P_e = K_e B_{\text{max}}^2 f^2 t^2 V \text{ [W]}\]
+            \[e = B l v \sin\theta \text{ [V]}, \quad F = B I l \sin\theta \text{ [N]}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Core Loss Variables:</strong> \(\eta\) = Steinmetz coefficient, \(f\) = frequency [Hz], \(V\) = core volume [m\(^3\)], \(t\) = lamination thickness [m].
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 7 -->
+      <section id="f-ch7" style="margin-bottom: 3rem;">
+        <h2>Chapter 7: Single-Phase Transformers</h2>
+        
+        <div class="formula-block">
+          <div class="formula-math">
+            \[E_1 = 4.44 f N_1 \Phi_m, \quad E_2 = 4.44 f N_2 \Phi_m, \quad K = \frac{N_2}{N_1} = \frac{E_2}{E_1} = \frac{I_1}{I_2}\]
+            \[\Phi_m = \frac{V_1}{4.44 f N_1} \implies \Phi_m = \text{Constant (independent of load)}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Referred Parameters:</strong> To refer resistance/reactance from secondary to primary, divide by \(K^2\): \(R_2' = R_2 / K^2\). To refer from primary to secondary, multiply by \(K^2\): \(R_1' = K^2 R_1\).
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{OC Test (on LV): } \cos\phi_0 = \frac{W_0}{V_0 I_0}, \quad I_w = I_0 \cos\phi_0, \quad I_\mu = I_0 \sin\phi_0, \quad R_0 = \frac{V_0}{I_w}, \quad X_0 = \frac{V_0}{I_\mu}\]
+            \[\text{SC Test (on HV): } R_{eq1} = \frac{W_{sc}}{I_{sc}^2}, \quad Z_{eq1} = \frac{V_{sc}}{I_{sc}}, \quad X_{eq1} = \sqrt{Z_{eq1}^2 - R_{eq1}^2}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Testing Standard:</strong> OC test yields core/iron loss \(P_i = W_0\) (constant). SC test yields full-load copper loss \(P_{cu,FL} = W_{sc}\).
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\eta = \frac{x S \cos\phi}{x S \cos\phi + P_i + x^2 P_{cu,FL}} \times 100\%\]
+            \[\text{Condition for Maximum Efficiency: } x^2 P_{cu,FL} = P_i \implies x = \sqrt{\frac{P_i}{P_{cu,FL}}}\]
+            \[\text{Autotransformer Copper Saving: } \frac{W_{\text{auto}}}{W_{\text{2-wdg}}} = 1 - K\]
+          </div>
+          <div class="formula-meta">
+            <strong>Loading Fraction:</strong> \(x = \frac{\text{Actual kVA}}{\text{Rated kVA}}\). For 25% overload, \(x = 1.25\).
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 8 -->
+      <section id="f-ch8" style="margin-bottom: 3rem;">
+        <h2>Chapter 8: DC Machines</h2>
+        
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{EMF Equation: } E_g = \frac{P \Phi Z N}{60 A} \text{ [V]}, \quad \text{Torque: } T = \frac{P \Phi Z I_a}{2\pi A} = 0.159 \frac{P \Phi Z I_a}{A} \text{ [N}\cdot\text{m]}\]
+            \[E_b = V - I_a R_a \text{ (Motor)}, \quad E_g = V_t + I_a R_a \text{ (Generator)}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Winding Constants:</strong> \(P\) = number of poles, \(\Phi\) = flux per pole [Wb], \(Z\) = total armature conductors, \(N\) = speed [rpm]. Parallel paths: \(A = P\) (Lap winding), \(A = 2\) (Wave winding).
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[N = \frac{V - I_a R_a}{k \Phi} \implies \frac{N_2}{N_1} = \frac{E_{b2}}{E_{b1}} \times \frac{\Phi_1}{\Phi_2}\]
+            \[T \propto \Phi I_a \implies \frac{T_2}{T_1} = \frac{\Phi_2}{\Phi_1} \times \frac{I_{a2}}{I_{a1}}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Speed Control Rules:</strong><br>
+            1. <em>Armature Resistance Control:</em> Add series resistance \(R_{\text{ext}}\). \(E_b = V - I_a(R_a + R_{\text{ext}})\) drops, speed drops below base speed.<br>
+            2. <em>Field Control:</em> Increase field rheostat resistance, \(I_{sh}\) decreases, \(\Phi\) decreases, speed increases above base speed.
+          </div>
+        </div>
+      </section>
+
+      <!-- Chapter 9 -->
+      <section id="f-ch9" style="margin-bottom: 3rem;">
+        <h2>Chapter 9: AC Induction & Special Motors</h2>
+        
+        <div class="formula-block">
+          <div class="formula-math">
+            \[N_s = \frac{120 f}{P} \text{ [rpm]}, \quad s = \frac{N_s - N}{N_s}, \quad N = N_s (1 - s), \quad f_r = s f \text{ [Hz]}\]
+            \[E_{2r} = s E_2, \quad X_{2r} = s X_2\]
+          </div>
+          <div class="formula-meta">
+            <strong>Parameters:</strong> \(N_s\) = synchronous speed, \(N\) = actual rotor speed, \(s\) = fractional slip, \(f_r\) = rotor induced EMF frequency.
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Running Torque: } T = \frac{k \, s E_2^2 R_2}{R_2^2 + (s X_2)^2}\]
+            \[\text{Slip at Maximum Torque: } s_{mT} = \frac{R_2}{X_2}\]
+            \[\text{Maximum (Breakdown) Torque: } T_{\text{max}} = \frac{k \, E_2^2}{2 X_2} \implies T_{\text{max}} \text{ is independent of } R_2!\]
+          </div>
+          <div class="formula-meta">
+            <strong>Rotor Resistance Effect:</strong> Adding external rotor resistance \(R_{\text{ext}}\) increases starting torque and shifts the maximum torque peak to a higher slip (lower speed), but does NOT change the peak value of \(T_{\text{max}}\).
+          </div>
+        </div>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Stepper Motor Step Angle: } \beta = \frac{N_s - N_r}{N_s N_r} \times 360^\circ = \frac{360^\circ}{m N_r}\]
+          </div>
+          <div class="formula-meta">
+            <strong>Variables:</strong> \(N_s\) = stator teeth/poles, \(N_r\) = rotor teeth, \(m\) = number of phases/stacks.
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

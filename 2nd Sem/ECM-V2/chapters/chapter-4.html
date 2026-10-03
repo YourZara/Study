@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4: Transfer Function & Bode Diagrams | ENEE 154</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="../index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="../syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="../formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="../derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="../pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="../revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Chapter 4 Outline</div>
+      <ul class="sidebar-nav">
+        <li><a href="#sec-4-1" class="sidebar-link"><span>4.1 Concept of Complex Frequency</span></a></li>
+        <li><a href="#sec-4-2" class="sidebar-link"><span>4.2 Network Transfer Functions</span></a></li>
+        <li><a href="#sec-4-3" class="sidebar-link"><span>4.3 Poles, Zeros & Stability</span></a></li>
+        <li><a href="#sec-4-4" class="sidebar-link"><span>4.4 Magnitude and Phase Evaluation</span></a></li>
+        <li><a href="#sec-4-5" class="sidebar-link"><span>4.5 Asymptotic Bode Plots</span></a></li>
+        <li><a href="#sec-4-6" class="sidebar-link"><span>4.6 Resonance, Bandwidth & Q-Factor</span></a></li>
+        <li><a href="#sec-4-7" class="sidebar-link"><span>4.7 Basic Passive Filters (LPF, HPF, etc.)</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Chapter 4 • 8 Hours • Expected Marks: 8M</span>
+        <span class="badge badge-pyq">Always Tested in Q5 or Q6 (7–8 Marks)</span>
+        <h1>Network Transfer Function and Frequency Response</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Complex frequency representation, transfer function definitions, s-plane pole-zero dynamics, step-by-step asymptotic Bode plotting, resonance selectivity, and passive filter designs.
+        </p>
+      </div>
+
+      <!-- Section 4.1 & 4.2 -->
+      <section id="sec-4-1" style="margin-bottom: 3rem;">
+        <h2>4.1 & 4.2 Complex Frequency & Network Transfer Functions</h2>
+
+        <h3>Concept of Complex Frequency \(s = \sigma + j\omega\)</h3>
+        <p>
+          In classical AC analysis, the steady-state sinusoidal signal has a constant amplitude: \(v(t) = V_m \cos(\omega t)\). In real dynamic networks, waveforms can grow or decay exponentially while oscillating. The generalized complex frequency \(s\) unifies both damping and oscillation into a single variable:
+          \[s = \sigma + j\omega\]
+          Where:
+          <br>• \(\sigma\) = Neper frequency or damping factor [Nepers/sec] (controls exponential envelope \(e^{\sigma t}\)).
+          <br>• \(\omega\) = Radian frequency [rad/sec] (controls sinusoidal oscillation \(\cos(\omega t)\)).
+        </p>
+
+        <h3>Types of Network Transfer Functions</h3>
+        <p>
+          A transfer function \(H(s)\) is defined as the ratio of the Laplace transform of the output response \(Y(s)\) to the Laplace transform of the input excitation \(X(s)\), with all initial conditions set to zero:
+          \[H(s) = \frac{Y(s)}{X(s)}\]
+        </p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Classification</th>
+                <th>Symbol & Definition</th>
+                <th>Physical Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Driving-Point Impedance</strong></td>
+                <td>\(Z_{\text{in}}(s) = \frac{V_1(s)}{I_1(s)}\)</td>
+                <td>Input impedance looking into port 1 with all output terminations specified.</td>
+              </tr>
+              <tr>
+                <td><strong>Driving-Point Admittance</strong></td>
+                <td>\(Y_{\text{in}}(s) = \frac{I_1(s)}{V_1(s)}\)</td>
+                <td>Input admittance looking into port 1.</td>
+              </tr>
+              <tr>
+                <td><strong>Voltage Transfer Function</strong></td>
+                <td>\(G_{21}(s) = \frac{V_2(s)}{V_1(s)}\)</td>
+                <td>Voltage gain from input port 1 to output port 2.</td>
+              </tr>
+              <tr>
+                <td><strong>Current Transfer Function</strong></td>
+                <td>\(\alpha_{21}(s) = \frac{I_2(s)}{I_1(s)}\)</td>
+                <td>Current gain from input port 1 to output port 2.</td>
+              </tr>
+              <tr>
+                <td><strong>Transfer Impedance</strong></td>
+                <td>\(Z_{21}(s) = \frac{V_2(s)}{I_1(s)}\)</td>
+                <td>Ratio of output open-circuit voltage to input current.</td>
+              </tr>
+              <tr>
+                <td><strong>Transfer Admittance</strong></td>
+                <td>\(Y_{21}(s) = \frac{I_2(s)}{V_1(s)}\)</td>
+                <td>Ratio of output short-circuit current to input voltage.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 4.3 & 4.4 -->
+      <section id="sec-4-3" style="margin-bottom: 3rem;">
+        <h2>4.3 & 4.4 Poles, Zeros & Frequency Response from the s-Plane</h2>
+
+        <h3>Definition of Poles and Zeros</h3>
+        <p>
+          Express the rational transfer function in factored form:
+          \[H(s) = K \frac{(s - z_1)(s - z_2)\dots(s - z_m)}{(s - p_1)(s - p_2)\dots(s - p_n)}\]
+          <br>• <strong>Zeros (\(z_k\)):</strong> Values of \(s\) for which \(H(s) = 0\). Represented by circles (\(\circ\)) on the s-plane. Zeros block transmission at that complex frequency.
+          <br>• <strong>Poles (\(p_k\)):</strong> Values of \(s\) for which \(H(s) \to \infty\). Represented by crosses (\(\times\)) on the s-plane. Poles represent the natural resonance modes of the circuit.
+        </p>
+
+        <div class="callout callout-important">
+          <div class="callout-title">BIBO Stability Criterion</div>
+          <p>
+            For a linear passive network to be <strong>Bounded-Input Bounded-Output (BIBO) stable</strong>, all poles of \(H(s)\) must lie strictly in the <strong>Left Half of the s-Plane (LHP)</strong> (\(\text{Re}(p_k) < 0\)). If any pole lies in the Right Half Plane (RHP), the natural response contains \(e^{+\sigma t}\), causing unbounded exponential explosion. Simple poles on the imaginary \(j\omega\) axis give marginally stable, sustained oscillations.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 4.5 -->
+      <section id="sec-4-5" style="margin-bottom: 3rem;">
+        <h2>4.5 Asymptotic Bode Diagrams (Magnitude & Phase)</h2>
+
+        <h3>The 5-Step Universal Procedure for Bode Plots</h3>
+        <ol style="margin-left: 1.25rem; line-height: 1.8;">
+          <li><strong>Convert \(H(s)\) to Bode Standard Time-Constant Form:</strong>
+            Factor each term as \(\left(1 + \frac{s}{\omega_c}\right)\). Identify the constant Bode gain \(K_B\).
+          </li>
+          <li><strong>Identify All Critical Frequencies:</strong>
+            <br>• Number of poles at origin \(s^N\) or zeros at origin \(s^M\).
+            <br>• Corner frequencies for simple poles/zeros: \(\omega_c = 1/\tau\).
+            <br>• Resonant corner frequencies for quadratic poles: \(\omega_n\).
+            <br>Arrange all corner frequencies in ascending numerical order: \(\omega_{c1} < \omega_{c2} < \dots < \omega_{ck}\).
+          </li>
+          <li><strong>Construct the Magnitude Slope Table:</strong>
+            <br>• For \(\omega < \omega_{c1}\): Slope is \(-20N\text{ dB/decade}\) (from poles at origin) or \(+20M\text{ dB/decade}\) (from zeros at origin).
+            <br>• At each corner frequency, update the net slope:
+            <br>&emsp; - Zero adds \(+20\text{ dB/decade}\)
+            <br>&emsp; - Pole adds \(-20\text{ dB/decade}\)
+            <br>&emsp; - Quadratic pole adds \(-40\text{ dB/decade}\)
+          </li>
+          <li><strong>Calculate Decibel Magnitude at Key Points:</strong>
+            Low-frequency asymptote passes through \(20\log_{10}|K_B|\) at \(\omega = 1\text{ rad/s}\).
+            Use formula \(\Delta M_{\text{dB}} = \text{Slope} \times \log_{10}\left(\frac{\omega_{\text{next}}}{\omega_{\text{prev}}}\right)\) to calculate the gain at each corner point.
+          </li>
+          <li><strong>Plot the Phase Angle Curve:</strong>
+            \[\phi(\omega) = -90^\circ \times N + \sum \tan^{-1}\left(\frac{\omega}{\omega_{zi}}\right) - \sum \tan^{-1}\left(\frac{\omega}{\omega_{pi}}\right)\]
+          </li>
+        </ol>
+
+        <!-- Master Worked Example -->
+        <h3>Master Worked Example: 2082 Bhadra Q6 Bode Plot</h3>
+        <div class="worked-example">
+          <div class="example-header">
+            <span class="example-title">Asymptotic Bode Magnitude & Phase Plot</span>
+            <span class="badge badge-high">PYQ 2082 Bhadra Q6 (8 Marks)</span>
+          </div>
+          <div class="example-body">
+            <span class="step-label">Given Transfer Function:</span>
+            <div class="step-content">
+              \[T(s) = \frac{100(s+5)}{s^2(s^2+21s+20)}\]
+            </div>
+
+            <span class="step-label">Step 1: Factoring & Standard Form</span>
+            <div class="step-content">
+              Factor quadratic: \(s^2 + 21s + 20 = (s + 1)(s + 20)\).
+              \[T(s) = \frac{100(s + 5)}{s^2(s + 1)(s + 20)}\]
+              Poles: \(s = 0\) (double pole at origin), \(s = -1\), \(s = -20\).<br>
+              Zero: \(s = -5\).<br>
+              Put into Bode form:
+              \[T(s) = \frac{100 \times 5 \left(1 + \frac{s}{5}\right)}{s^2 \left(1 + \frac{s}{1}\right) \times 20 \left(1 + \frac{s}{20}\right)} = \frac{25 \left(1 + \frac{s}{5}\right)}{s^2 (1 + s)\left(1 + \frac{s}{20}\right)}\]
+              Bode gain: \(K_B = 25 \implies 20\log_{10}(25) \approx 27.96\text{ dB}\).
+            </div>
+
+            <span class="step-label">Step 2: Ordered Corner Frequencies</span>
+            <div class="step-content">
+              1. \(\omega_{p1} = 1\text{ rad/s}\) (Simple pole)
+              <br>2. \(\omega_{z1} = 5\text{ rad/s}\) (Simple zero)
+              <br>3. \(\omega_{p2} = 20\text{ rad/s}\) (Simple pole)
+            </div>
+
+            <span class="step-label">Step 3: Magnitude Slope Schedule</span>
+            <div class="step-content">
+              <table style="width: 100%;">
+                <thead>
+                  <tr><th>Frequency Interval (rad/s)</th><th>Factor Involved</th><th>Slope Change</th><th>Net Segment Slope</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>\(\omega < 1\)</td><td>Double pole at origin \(1/s^2\)</td><td>-</td><td>\(-40\text{ dB/decade}\)</td></tr>
+                  <tr><td>\(1 \le \omega < 5\)</td><td>Pole at \(\omega = 1\)</td><td>\(-20\text{ dB/dec}\)</td><td>\(-60\text{ dB/decade}\)</td></tr>
+                  <tr><td>\(5 \le \omega < 20\)</td><td>Zero at \(\omega = 5\)</td><td>\(+20\text{ dB/dec}\)</td><td>\(-40\text{ dB/decade}\)</td></tr>
+                  <tr><td>\(\omega \ge 20\)</td><td>Pole at \(\omega = 20\)</td><td>\(-20\text{ dB/dec}\)</td><td>\(-60\text{ dB/decade}\)</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <span class="step-label">Step 4: Magnitude Values at Corner Frequencies</span>
+            <div class="step-content">
+              • At \(\omega = 1\text{ rad/s}\): On the initial \(-40\text{ dB/dec}\) line passing through \(20\log_{10} K_B\):
+              \[|T(j1)|_{\text{dB}} = 20\log_{10}(25) = 27.96\text{ dB}\]
+              • At \(\omega = 5\text{ rad/s}\): Slope between \(\omega = 1\) and \(\omega = 5\) is \(-60\text{ dB/dec}\):
+              \[|T(j5)|_{\text{dB}} = |T(j1)|_{\text{dB}} - 60\log_{10}\left(\frac{5}{1}\right) = 27.96 - 60(0.6990) = 27.96 - 41.94 = -13.98\text{ dB}\]
+              • At \(\omega = 20\text{ rad/s}\): Slope between \(\omega = 5\) and \(\omega = 20\) is \(-40\text{ dB/dec}\):
+              \[|T(j20)|_{\text{dB}} = |T(j5)|_{\text{dB}} - 40\log_{10}\left(\frac{20}{5}\right) = -13.98 - 40\log_{10}(4) = -13.98 - 40(0.6021) = -13.98 - 24.08 = -38.06\text{ dB}\]
+            </div>
+
+            <span class="step-label">Step 5: Phase Angle Equation</span>
+            <div class="step-content">
+              \[\phi(\omega) = -180^\circ - \tan^{-1}(\omega) + \tan^{-1}\left(\frac{\omega}{5}\right) - \tan^{-1}\left(\frac{\omega}{20}\right)\]
+              At \(\omega \to 0\): \(\phi \to -180^\circ\).<br>
+              At \(\omega = 1\): \(\phi = -180^\circ - 45^\circ + 11.3^\circ - 2.86^\circ \approx -216.6^\circ\).<br>
+              At \(\omega \to \infty\): \(\phi \to -180^\circ - 90^\circ + 90^\circ - 90^\circ = -270^\circ\).
+            </div>
+
+            <div class="step-final-answer">
+              <strong>Final Answer:</strong> Corner points: \((\omega = 1, 27.96\text{ dB})\), \((\omega = 5, -13.98\text{ dB})\), \((\omega = 20, -38.06\text{ dB})\). Slopes: \(-40 \to -60 \to -40 \to -60\text{ dB/dec}\).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4.6 & 4.7 -->
+      <section id="sec-4-6" style="margin-bottom: 3rem;">
+        <h2>4.6 & 4.7 Resonance, Bandwidth & Passive Filters</h2>
+
+        <h3>Series vs. Parallel Resonant Circuits</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Series Resonant Circuit</th>
+                <th>Parallel Resonant Circuit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Resonant Frequency \(\omega_0\)</td>
+                <td>\(\omega_0 = \frac{1}{\sqrt{LC}}\)</td>
+                <td>\(\omega_0 = \frac{1}{\sqrt{LC}}\)</td>
+              </tr>
+              <tr>
+                <td>Impedance at Resonance</td>
+                <td>Minimum: \(Z_0 = R\)</td>
+                <td>Maximum: \(Z_0 = R\) (or \(L/CR\) for practical coil)</td>
+              </tr>
+              <tr>
+                <td>Current at Resonance</td>
+                <td>Maximum: \(I_0 = V/R\)</td>
+                <td>Minimum: \(I_0 = V/Z_0\)</td>
+              </tr>
+              <tr>
+                <td>Quality Factor \(Q\)</td>
+                <td>\(Q = \frac{\omega_0 L}{R} = \frac{1}{\omega_0 C R} = \frac{1}{R}\sqrt{\frac{L}{C}}\)</td>
+                <td>\(Q = \frac{R}{\omega_0 L} = \omega_0 C R = R \sqrt{\frac{C}{L}}\)</td>
+              </tr>
+              <tr>
+                <td>Bandwidth \(BW\)</td>
+                <td>\(BW = \frac{\omega_0}{Q} = \frac{R}{L}\text{ rad/s}\)</td>
+                <td>\(BW = \frac{\omega_0}{Q} = \frac{1}{RC}\text{ rad/s}\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Passive Filter Configurations</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Filter Type</th>
+                <th>Typical RC / RL Configuration</th>
+                <th>Transfer Function \(H(s)\)</th>
+                <th>Cut-off Frequency \(\omega_c\)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Low-Pass (LPF)</strong></td>
+                <td>Series \(R\), shunt \(C\) (output across \(C\))</td>
+                <td>\(\frac{1}{1 + sRC}\)</td>
+                <td>\(\omega_c = \frac{1}{RC}\)</td>
+              </tr>
+              <tr>
+                <td><strong>High-Pass (HPF)</strong></td>
+                <td>Series \(C\), shunt \(R\) (output across \(R\))</td>
+                <td>\(\frac{sRC}{1 + sRC}\)</td>
+                <td>\(\omega_c = \frac{1}{RC}\)</td>
+              </tr>
+              <tr>
+                <td><strong>Band-Pass (BPF)</strong></td>
+                <td>Series RLC network (output across \(R\))</td>
+                <td>\(\frac{s(R/L)}{s^2 + s(R/L) + 1/LC}\)</td>
+                <td>Center \(\omega_0 = \frac{1}{\sqrt{LC}}\), \(BW = \frac{R}{L}\)</td>
+              </tr>
+              <tr>
+                <td><strong>Band-Stop (Notch)</strong></td>
+                <td>Series RLC network (output across \(L+C\))</td>
+                <td>\(\frac{s^2 + 1/LC}{s^2 + s(R/L) + 1/LC}\)</td>
+                <td>Rejects \(\omega_0 = \frac{1}{\sqrt{LC}}\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Bottom Prev/Next Navigation -->
+      <div class="chapter-nav">
+        <a href="chapter-3.html" class="chapter-nav-btn">
+          <span class="chapter-nav-label">Previous</span>
+          <span class="chapter-nav-title">← Chapter 3: Laplace Transform Transients</span>
+        </a>
+        <a href="chapter-5.html" class="chapter-nav-btn" style="text-align: right;">
+          <span class="chapter-nav-label">Next</span>
+          <span class="chapter-nav-title">Chapter 5: Two-Port Parameters →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+</body>
+</html>

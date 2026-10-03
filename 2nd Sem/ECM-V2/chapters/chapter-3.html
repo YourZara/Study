@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3: Laplace Transform Transient Analysis | ENEE 154</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="../index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="../syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="../formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="../derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="../pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="../revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Chapter 3 Outline</div>
+      <ul class="sidebar-nav">
+        <li><a href="#sec-3-1" class="sidebar-link"><span>3.1 Laplace Transform Fundamentals</span></a></li>
+        <li><a href="#sec-3-2" class="sidebar-link"><span>3.2 s-Domain Circuit Models</span></a></li>
+        <li><a href="#sec-3-3" class="sidebar-link"><span>3.3 Response of RL and RC Circuits</span></a></li>
+        <li><a href="#sec-3-4" class="sidebar-link"><span>3.4 Series RLC Circuit Transients</span></a></li>
+        <li><a href="#sec-3-5" class="sidebar-link"><span>3.5 Parallel RLC Circuit Transients</span></a></li>
+        <li><a href="#sec-3-6" class="sidebar-link"><span>3.6 Classical vs. Laplace Comparison</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Chapter 3 • 7 Hours • Expected Marks: 7M</span>
+        <span class="badge badge-pyq">Always Tested in Q4 of All Exams (6M)</span>
+        <h1>Transient Analysis Using Laplace Transform</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Algebraic transformation of dynamic circuits, s-domain equivalent impedance networks with initial-condition sources, and partial fraction inversion techniques.
+        </p>
+      </div>
+
+      <!-- Section 3.1 & 3.2 -->
+      <section id="sec-3-1" style="margin-bottom: 3rem;">
+        <h2>3.1 & 3.2 Laplace Transform Principles & s-Domain Models</h2>
+        
+        <h3>Concept & Operational Advantages</h3>
+        <p>
+          While the classical method requires solving differential equations and separately calculating complementary functions, particular integrals, and constants from boundary values, the <strong>unilateral Laplace transform converts linear differential equations into simple algebraic equations</strong>. Furthermore, initial conditions (\(i_L(0^-)\) and \(v_C(0^-)\)) are automatically incorporated from the very first step!
+          \[\mathcal{L}\{f(t)\} = F(s) = \int_0^\infty f(t) e^{-st} dt\]
+        </p>
+
+        <h3>Core Operational Properties</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Operation</th>
+                <th>Time Domain \(f(t)\)</th>
+                <th>s-Domain \(F(s)\)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>First Derivative</td>
+                <td>\(\frac{df(t)}{dt}\)</td>
+                <td>\(s F(s) - f(0^-)\)</td>
+              </tr>
+              <tr>
+                <td>Second Derivative</td>
+                <td>\(\frac{d^2f(t)}{dt^2}\)</td>
+                <td>\(s^2 F(s) - s f(0^-) - f'(0^-)\)</td>
+              </tr>
+              <tr>
+                <td>Definite Integral</td>
+                <td>\(\int_0^t f(\tau) d\tau\)</td>
+                <td>\(\frac{F(s)}{s}\)</td>
+              </tr>
+              <tr>
+                <td>Exponential Shift</td>
+                <td>\(e^{-at} f(t)\)</td>
+                <td>\(F(s + a)\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>s-Domain Transformed Circuit Elements</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Element</th>
+                <th>Time Domain Equation</th>
+                <th>Laplace Transform</th>
+                <th>s-Domain Thevenin Model (Series)</th>
+                <th>s-Domain Norton Model (Parallel)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Resistor \(R\)</strong></td>
+                <td>\(v(t) = R i(t)\)</td>
+                <td>\(V(s) = R I(s)\)</td>
+                <td>Impedance \(R\)</td>
+                <td>Admittance \(1/R\)</td>
+              </tr>
+              <tr>
+                <td><strong>Inductor \(L\)</strong></td>
+                <td>\(v(t) = L \frac{di}{dt}\)</td>
+                <td>\(V(s) = sL I(s) - L i(0^-)\)</td>
+                <td>Impedance \(sL\) in series with voltage source \(L i(0^-)\) opposing \(I(s)\)</td>
+                <td>Admittance \(\frac{1}{sL}\) in parallel with current source \(\frac{i(0^-)}{s}\)</td>
+              </tr>
+              <tr>
+                <td><strong>Capacitor \(C\)</strong></td>
+                <td>\(i(t) = C \frac{dv}{dt}\)</td>
+                <td>\(I(s) = sC V(s) - C v(0^-)\)</td>
+                <td>Impedance \(\frac{1}{sC}\) in series with voltage source \(\frac{v(0^-)}{s}\) aiding \(V(s)\)</td>
+                <td>Admittance \(sC\) in parallel with current source \(C v(0^-)\) aiding \(I(s)\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 3.3 & 3.4 -->
+      <section id="sec-3-3" style="margin-bottom: 3rem;">
+        <h2>3.3 & 3.4 Response of RL, RC & RLC Circuits via Laplace Transform</h2>
+
+        <h3>Master Step-by-Step Procedure</h3>
+        <ol style="margin-left: 1.25rem; line-height: 1.8;">
+          <li>Analyze circuit at \(t = 0^-\) under pre-switch steady-state conditions to find initial inductor current \(i_L(0^-)\) and capacitor voltage \(v_C(0^-)\).</li>
+          <li>Redraw the entire circuit directly in the <strong>s-domain</strong> for \(t > 0\):
+            <br>• DC sources \(V_0 \to \frac{V_0}{s}\), exponential sources \(V_0 e^{-at} \to \frac{V_0}{s+a}\).
+            <br>• Replace \(R \to R\), \(L \to sL\) with series initial generator \(L i_L(0^-)\), \(C \to \frac{1}{sC}\) with series generator \(\frac{v_C(0^-)}{s}\).
+          </li>
+          <li>Write standard mesh KVL or nodal KCL directly in the s-domain using Ohm's law.</li>
+          <li>Solve algebraically for the desired variable \(I(s)\) or \(V(s)\).</li>
+          <li>Apply <strong>Partial Fraction Expansion (PFE)</strong>:
+            <br>• Distinct real poles: \(\frac{A}{s - p_1} + \frac{B}{s - p_2}\).
+            <br>• Complex conjugate poles: Complete the square in the quadratic denominator: \((s + \alpha)^2 + \omega^2\).
+          </li>
+          <li>Take the inverse Laplace transform to obtain the complete time-domain response \(i(t)\) or \(v(t)\) for \(t \ge 0\).</li>
+        </ol>
+
+        <!-- Master Worked Example 1 -->
+        <h3>Master Worked Example 1 (Exponential Excitation to Series RLC)</h3>
+        <div class="worked-example">
+          <div class="example-header">
+            <span class="example-title">Series RLC with Exponential Voltage Source (Laplace Method)</span>
+            <span class="badge badge-high">PYQ 2082 Baishakh Q4</span>
+          </div>
+          <div class="example-body">
+            <span class="step-label">Problem Statement:</span>
+            <div class="step-content">
+              An exponential voltage \(v(t) = 20e^{-4t}\) is suddenly applied at \(t = 0\) to a series RLC circuit comprising \(R = 2\,\Omega, L = 0.5\text{H}\), and \(C = 1\text{F}\). Initial conditions are zero. Obtain the expression for current \(i(t)\) using the Laplace transform method.
+            </div>
+
+            <span class="step-label">Step 1: s-Domain Transformation</span>
+            <div class="step-content">
+              \[V(s) = \mathcal{L}\{20e^{-4t}\} = \frac{20}{s + 4}\]
+              Total series impedance:
+              \[Z(s) = R + sL + \frac{1}{sC} = 2 + 0.5s + \frac{1}{s} = \frac{0.5s^2 + 2s + 1}{s} = \frac{s^2 + 4s + 2}{2s}\]
+              Since initial conditions are zero (\(i_L(0^-) = 0, v_C(0^-) = 0\)):
+              \[I(s) = \frac{V(s)}{Z(s)} = \frac{\frac{20}{s+4}}{\frac{s^2 + 4s + 2}{2s}} = \frac{40s}{(s + 4)(s^2 + 4s + 2)}\]
+            </div>
+
+            <span class="step-label">Step 2: Roots of Quadratic Denominator</span>
+            <div class="step-content">
+              \[s^2 + 4s + 2 = 0 \implies s = \frac{-4 \pm \sqrt{16 - 8}}{2} = -2 \pm \sqrt{2}\]
+              Let \(s_1 = -2 + \sqrt{2} \approx -0.586\), and \(s_2 = -2 - \sqrt{2} \approx -3.414\).
+              Denominator has three distinct real poles: \(s = -4\), \(s = s_1\), \(s = s_2\).
+              \[I(s) = \frac{40s}{(s+4)(s - s_1)(s - s_2)} = \frac{K_0}{s+4} + \frac{K_1}{s - s_1} + \frac{K_2}{s - s_2}\]
+            </div>
+
+            <span class="step-label">Step 3: Evaluating Residues via Heaviside Method</span>
+            <div class="step-content">
+              \[K_0 = \left. \frac{40s}{s^2 + 4s + 2} \right|_{s = -4} = \frac{40(-4)}{(-4)^2 + 4(-4) + 2} = \frac{-160}{16 - 16 + 2} = \frac{-160}{2} = -80\]
+              \[K_1 = \left. \frac{40s}{(s+4)(s - s_2)} \right|_{s = s_1}\]
+              Note that \(s_1 - s_2 = 2\sqrt{2}\), and \(s_1 + 4 = 2 + \sqrt{2}\):
+              \[K_1 = \frac{40(-2+\sqrt{2})}{(2+\sqrt{2})(2\sqrt{2})} = \frac{40(-2+\sqrt{2})}{4\sqrt{2} + 4} = 10 \frac{\sqrt{2}-2}{\sqrt{2}+1} = 10 (\sqrt{2}-2)(\sqrt{2}-1) = 10(2 - 3\sqrt{2} + 2) = 10(4 - 3\sqrt{2}) \approx -2.426\]
+              \[K_2 = \left. \frac{40s}{(s+4)(s - s_1)} \right|_{s = s_2}\]
+              Note that \(s_2 - s_1 = -2\sqrt{2}\), and \(s_2 + 4 = 2 - \sqrt{2}\):
+              \[K_2 = \frac{40(-2-\sqrt{2})}{(2-\sqrt{2})(-2\sqrt{2})} = \frac{40(2+\sqrt{2})}{(2-\sqrt{2})(2\sqrt{2})} = 10 \frac{2+\sqrt{2}}{2\sqrt{2}-2} = 10(4 + 3\sqrt{2}) \approx 82.426\]
+              Check sum of residues: \(K_0 + K_1 + K_2 = -80 + 10(4 - 3\sqrt{2}) + 10(4 + 3\sqrt{2}) = -80 + 40 - 30\sqrt{2} + 40 + 30\sqrt{2} = 0\) (Valid!).
+            </div>
+
+            <span class="step-label">Step 4: Inverse Laplace Transform</span>
+            <div class="step-content">
+              \[i(t) = K_0 e^{-4t} + K_1 e^{s_1 t} + K_2 e^{s_2 t}\]
+              \[i(t) = -80 e^{-4t} + 10(4 - 3\sqrt{2}) e^{(-2+\sqrt{2})t} + 10(4 + 3\sqrt{2}) e^{(-2-\sqrt{2})t}\text{ A} \quad (t \ge 0)\]
+            </div>
+
+            <div class="step-final-answer">
+              <strong>Final Answer:</strong>
+              \[i(t) = -80 e^{-4t} - 2.43 e^{-0.586 t} + 82.43 e^{-3.414 t}\text{ A}\]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3.6 -->
+      <section id="sec-3-6" style="margin-bottom: 3rem;">
+        <h2>3.6 Comparison Table: Classical Method vs. Laplace Transform Method</h2>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Attribute</th>
+                <th>Classical Differential Equation Method</th>
+                <th>Laplace Transform Method</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Domain of Analysis</strong></td>
+                <td>Time domain \(t\) throughout.</td>
+                <td>Complex frequency domain \(s = \sigma + j\omega\).</td>
+              </tr>
+              <tr>
+                <td><strong>Mathematical Tools</strong></td>
+                <td>Calculus (differentiation, integration, ODE solving).</td>
+                <td>Algebra (linear algebraic equations, rational fractions).</td>
+              </tr>
+              <tr>
+                <td><strong>Initial Conditions</strong></td>
+                <td>Evaluated <strong>at the very end</strong> to determine arbitrary constants (\(A_1, A_2\)).</td>
+                <td>Incorporated <strong>at the very beginning</strong> into s-domain generator sources.</td>
+              </tr>
+              <tr>
+                <td><strong>Non-Homogeneous Forcing</strong></td>
+                <td>Requires separate trial solutions for Particular Integral (undetermined coefficients).</td>
+                <td>Directly transformed into \(F(s)\) via standard transform tables.</td>
+              </tr>
+              <tr>
+                <td><strong>High-Order Complexity</strong></td>
+                <td>Becomes tedious and error-prone for orders \(n \ge 2\) and multi-mesh networks.</td>
+                <td>Handled systematically using standard matrix methods \([Z(s)][I(s)] = [V(s)]\).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Bottom Prev/Next Navigation -->
+      <div class="chapter-nav">
+        <a href="chapter-2.html" class="chapter-nav-btn">
+          <span class="chapter-nav-label">Previous</span>
+          <span class="chapter-nav-title">← Chapter 2: Classical Transients</span>
+        </a>
+        <a href="chapter-4.html" class="chapter-nav-btn" style="text-align: right;">
+          <span class="chapter-nav-label">Next</span>
+          <span class="chapter-nav-title">Chapter 4: Transfer Function & Bode →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 9: AC Motors | ENEE 154</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="../index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="../syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="../formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="../derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="../pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="../revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Chapter 9 Outline</div>
+      <ul class="sidebar-nav">
+        <li><a href="#sec-9-1" class="sidebar-link"><span>9.1 Rotating Magnetic Field (RMF)</span></a></li>
+        <li><a href="#sec-9-2" class="sidebar-link"><span>9.2 Induction Motor Operating Principle</span></a></li>
+        <li><a href="#sec-9-3" class="sidebar-link"><span>9.3 Torque Equations & Derivation</span></a></li>
+        <li><a href="#sec-9-4" class="sidebar-link"><span>9.4 Torque-Slip Characteristics</span></a></li>
+        <li><a href="#sec-9-5" class="sidebar-link"><span>9.5 Double Revolving Field Theory</span></a></li>
+        <li><a href="#sec-9-6" class="sidebar-link"><span>9.6 1-Phase Starting Techniques</span></a></li>
+        <li><a href="#sec-9-7" class="sidebar-link"><span>9.7 Special Purpose AC/DC Motors</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Chapter 9 • 6 Hours • Expected Marks: 6M</span>
+        <span class="badge badge-pyq">Always Tested in Q9 & Q10 (5–9 Marks)</span>
+        <h1>AC Motors (Induction & Special Machines)</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Rotating magnetic field derivation, torque-slip dynamics, maximum torque criteria, single-phase double revolving field theory, capacitor-start motors, and stepper/BLDC actuators.
+        </p>
+      </div>
+
+      <!-- Section 9.1 & 9.2 -->
+      <section id="sec-9-1" style="margin-bottom: 3rem;">
+        <h2>9.1 & 9.2 Rotating Magnetic Field (RMF) & 3-Phase Induction Principle</h2>
+
+        <h3>Mathematical Proof of RMF Production</h3>
+        <p>
+          When three-phase balanced stator windings displaced by \(120^\circ\) in space are excited by balanced three-phase AC currents displaced by \(120^\circ\) in time:
+          \[\phi_R = \Phi_m \cos(\omega t), \quad \phi_Y = \Phi_m \cos(\omega t - 120^\circ), \quad \phi_B = \Phi_m \cos(\omega t + 120^\circ)\]
+          The resultant vector sum along any orthogonal axis yields:
+          \[\Phi_r = \sqrt{\Phi_x^2 + \Phi_y^2} = 1.5 \, \Phi_m\]
+          <em>(See full derivation in <a href="../derivations.html#d-rmf">Derivation Sheet Section 1</a>).</em>
+          <br>This field rotates in the air gap at <strong>synchronous speed</strong>:
+          \[N_s = \frac{120 f}{P} \text{ [rpm]}\]
+        </p>
+
+        <h3>Operating Principle & Slip Definition</h3>
+        <p>
+          1. The rotating magnetic field sweeps across stationary rotor conductors at speed \(N_s\).
+          <br>2. By Faraday's Law, this relative motion induces an alternating EMF and current in the short-circuited rotor cage.
+          <br>3. By Lenz's Law, the induced rotor current creates a magnetic field that reacts with the stator RMF, producing a driving torque that drags the rotor in the direction of the rotating field.
+        </p>
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{Fractional Slip: } s = \frac{N_s - N}{N_s}, \quad \text{Rotor Speed: } N = N_s(1 - s)\]
+            \[\text{Rotor Frequency: } f_r = s f, \quad E_{2r} = s E_2, \quad X_{2r} = s X_2\]
+          </div>
+        </div>
+
+        <div class="callout callout-important">
+          <div class="callout-title">The Synchronous Speed Paradox (Why \(N < N_s\) Always)</div>
+          <p>
+            An induction motor can <strong>never achieve synchronous speed</strong> under motoring action. If the rotor were to reach \(N = N_s\), the relative speed between the rotating stator field and rotor conductors would become exactly zero (\(N_s - N = 0\)). Consequently, rate of change of flux linkage would be zero, induced EMF in the rotor would collapse to zero, rotor current would become zero, and driving torque would drop to zero! Mechanical friction and windage would immediately slow the rotor down below \(N_s\).
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 9.3 & 9.4 -->
+      <section id="sec-9-3" style="margin-bottom: 3rem;">
+        <h2>9.3 & 9.4 Torque Equations, Characteristics & Max Torque Condition</h2>
+
+        <h3>Torque Equation Derivation</h3>
+        <p>
+          Torque is proportional to the product of stator flux \(\Phi\), rotor current \(I_{2r}\), and rotor power factor \(\cos\phi_{2r}\):
+          \[T \propto \Phi I_{2r} \cos\phi_{2r}\]
+          Since \(\Phi \propto E_2\), \(I_{2r} = \frac{s E_2}{\sqrt{R_2^2 + (s X_2)^2}}\), and \(\cos\phi_{2r} = \frac{R_2}{\sqrt{R_2^2 + (s X_2)^2}}\):
+          \[T = \frac{k \, s E_2^2 R_2}{R_2^2 + (s X_2)^2}\]
+        </p>
+
+        <div class="callout callout-info">
+          <div class="callout-title">Maximum Torque Condition (\(s_{mT}\))</div>
+          <p>
+            Differentiating running torque \(T\) with respect to slip \(s\) and setting \(\frac{dT}{ds} = 0\):
+            \[s_{mT} = \frac{R_2}{X_2}\]
+            Substituting \(s = s_{mT}\) into the torque expression gives the <strong>maximum breakdown torque</strong>:
+            \[T_{\text{max}} = \frac{k E_2^2}{2 X_2}\]
+            <br>• <strong>Peak Maximum Torque is independent of rotor resistance \(R_2\)!</strong>
+            <br>• Increasing rotor resistance \(R_2\) (by adding external resistance in a wound-rotor motor) increases <strong>starting torque</strong> (\(T_{\text{start}} = \frac{k E_2^2 R_2}{R_2^2 + X_2^2}\)) and shifts the peak torque closer to standstill (\(s = 1\)), but leaves \(T_{\text{max}}\) unchanged.
+          </p>
+        </div>
+
+        <!-- Master Worked Example -->
+        <h3>Master Worked Example: Slip & Frequency Calculation</h3>
+        <div class="worked-example">
+          <div class="example-header">
+            <span class="example-title">Induction Motor Speed & Rotor Frequency</span>
+            <span class="badge badge-high">PYQ 2083 Baishakh Q9 (5 Marks)</span>
+          </div>
+          <div class="example-body">
+            <span class="step-label">Given:</span>
+            <div class="step-content">
+              Poles \(P = 4\), Supply frequency \(f = 50\text{ Hz}\).<br>
+              Part (a): Slip \(s = 5\% = 0.05\).<br>
+              Part (b): Motor runs at \(N = 600\text{ rpm}\).
+            </div>
+
+            <span class="step-label">Calculations:</span>
+            <div class="step-content">
+              Synchronous speed:
+              \[N_s = \frac{120 f}{P} = \frac{120 \times 50}{4} = 1500\text{ rpm}\]
+              <strong>(a) Motor speed at 5% slip:</strong>
+              \[N = N_s (1 - s) = 1500 (1 - 0.05) = 1500 \times 0.95 = 1425\text{ rpm}\]
+              <strong>(b) Rotor frequency at 600 rpm:</strong>
+              \[s = \frac{N_s - N}{N_s} = \frac{1500 - 600}{1500} = \frac{900}{1500} = 0.6\]
+              \[f_r = s f = 0.6 \times 50 = 30\text{ Hz}\]
+            </div>
+
+            <div class="step-final-answer">
+              <strong>Final Answer:</strong> (a) Motor speed = <strong>\(1425\text{ rpm}\)</strong>, (b) Rotor frequency = <strong>\(30\text{ Hz}\)</strong>.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 9.5 & 9.6 -->
+      <section id="sec-9-5" style="margin-bottom: 3rem;">
+        <h2>9.5 & 9.6 Single-Phase Induction Motors & Starting Methods</h2>
+
+        <h3>Double Revolving Field Theory</h3>
+        <p>
+          A single-phase winding produces an alternating pulsating magnetic field along a stationary axis: \(\Phi(t) = \Phi_m \cos(\omega t)\).
+          Using Euler's identity, this stationary pulsating flux can be mathematically resolved into two equal oppositely rotating fields:
+          \[\Phi(t) = \frac{\Phi_m}{2} e^{j\omega t} + \frac{\Phi_m}{2} e^{-j\omega t} = \Phi_f + \Phi_b\]
+          <br>• <strong>Forward Field (\(\Phi_f\)):</strong> Rotates forward at synchronous speed \(N_s\) with slip \(s = \frac{N_s - N}{N_s}\).
+          <br>• <strong>Backward Field (\(\Phi_b\)):</strong> Rotates backward at \(-N_s\) with slip \(s_b = \frac{N_s - (-N)}{N_s} = \frac{N_s + N}{N_s} = 2 - s\).
+          <br>At standstill (\(N = 0 \implies s = 1\)):
+          \[s_f = 1, \quad s_b = 2 - 1 = 1\]
+          Because both forward and backward torques are identical in magnitude but opposite in direction (\(T_f = T_b\)), the net starting torque is <strong>identically zero</strong>! Hence, a single-phase induction motor is <strong>not self-starting</strong>.
+        </p>
+
+        <h3>Starting Methods for 1-Phase Motors</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Motor Type</th>
+                <th>Phase-Splitting Mechanism</th>
+                <th>Starting Torque</th>
+                <th>Typical Applications</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Capacitor-Start Induction Run</strong></td>
+                <td>High-value electrolytic capacitor in series with auxiliary starting winding. Centrifugal switch disconnects starting winding at ~75% speed.</td>
+                <td>High (\(300 - 400\%\) of rated)</td>
+                <td>Refrigerators, air compressors, pumps, conveyor belts.</td>
+              </tr>
+              <tr>
+                <td><strong>Permanent-Split Capacitor (PSC)</strong></td>
+                <td>A continuous-rated oil-filled capacitor remains permanently in circuit across auxiliary winding for both starting and running.</td>
+                <td>Moderate (\(50 - 100\%\))</td>
+                <td>Ceiling fans, blower fans, blowers, air conditioners (quiet operation).</td>
+              </tr>
+              <tr>
+                <td><strong>Shaded-Pole Motor</strong></td>
+                <td>Salient stator poles with a slot housing a short-circuited copper band (shading ring). The ring delays flux build-up, creating a weak rotating field towards the shaded pole.</td>
+                <td>Very Low (\(40 - 50\%\))</td>
+                <td>Small table fans, hair dryers, record players, vending machines (cheap, rugged).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 9.7 -->
+      <section id="sec-9-7" style="margin-bottom: 3rem;">
+        <h2>9.7 Introduction to Special Purpose Motors</h2>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Motor Type</th>
+                <th>Operating Principle & Key Construction</th>
+                <th>Special Characteristic</th>
+                <th>Applications</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Permanent Magnet Brushless DC (BLDC)</strong></td>
+                <td>Permanent magnet rotor; 3-phase stator driven by electronic inverter switched via Hall-effect sensors. No mechanical commutator/brushes!</td>
+                <td>Extremely high efficiency (\(>90\%\)), high power density, zero maintenance, long lifespan.</td>
+                <td>Electric vehicles, drones, computer hard drives, robotics.</td>
+              </tr>
+              <tr>
+                <td><strong>Stepper Motor</strong></td>
+                <td>Moves in discrete angular steps per input pulse. Rotor aligns with energized stator teeth (Variable Reluctance or Permanent Magnet).</td>
+                <td>Precise open-loop position control without encoder feedback. Step angle: \(\beta = \frac{N_s - N_r}{N_s N_r} \times 360^\circ\).</td>
+                <td>3D printers, CNC machines, scanner head positioning, robotics.</td>
+              </tr>
+              <tr>
+                <td><strong>Universal Motor</strong></td>
+                <td>Series-wound commutator motor operating on either AC or DC.</td>
+                <td>Very high operating speeds (\(3000 - 15000\text{ rpm}\)), high power-to-weight ratio.</td>
+                <td>Mixer grinders, vacuum cleaners, portable drills.</td>
+              </tr>
+              <tr>
+                <td><strong>Hysteresis Motor</strong></td>
+                <td>Smooth non-magnetic chrome/cobalt steel rotor without slots or windings. Operates on magnetic hysteresis torque.</td>
+                <td>Zero torque ripple, perfectly constant synchronous speed, absolutely silent.</td>
+                <td>Sound recording equipment, precision turntables, timing devices.</td>
+              </tr>
+              <tr>
+                <td><strong>Servo Motor</strong></td>
+                <td>Low-inertia rotor designed for fast acceleration in closed-loop systems with feedback encoders.</td>
+                <td>Zero hunting, linear speed-torque curve, high positional accuracy.</td>
+                <td>Robotic arms, automated machinery, aerospace actuators.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Bottom Prev/Next Navigation -->
+      <div class="chapter-nav">
+        <a href="chapter-8.html" class="chapter-nav-btn">
+          <span class="chapter-nav-label">Previous</span>
+          <span class="chapter-nav-title">← Chapter 8: DC Machines</span>
+        </a>
+        <a href="../revision.html" class="chapter-nav-btn" style="text-align: right;">
+          <span class="chapter-nav-label">Next</span>
+          <span class="chapter-nav-title">Last-Day Revision & Traps →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+</body>
+</html>

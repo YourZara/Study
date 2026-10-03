@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Derivation Sheet | ENEE 154 Electrical Circuits and Machines</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="derivations.html" class="sidebar-link active"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Jump to Derivation</div>
+      <ul class="sidebar-nav">
+        <li><a href="#d-rmf" class="sidebar-link"><span>1. RMF Constant Flux (1.5 \(\Phi_m\))</span></a></li>
+        <li><a href="#d-flux-const" class="sidebar-link"><span>2. Transformer Core Flux Constancy</span></a></li>
+        <li><a href="#d-dc-torque" class="sidebar-link"><span>3. DC Motor Torque Equation</span></a></li>
+        <li><a href="#d-rlc-step" class="sidebar-link"><span>4. Series RLC Step Response ODE</span></a></li>
+        <li><a href="#d-rc-exp" class="sidebar-link"><span>5. RC Circuit with Exp. Source</span></a></li>
+        <li><a href="#d-max-torque" class="sidebar-link"><span>6. Induction Motor Max Torque</span></a></li>
+        <li><a href="#d-cascade-t" class="sidebar-link"><span>7. Cascade ABCD Parameters</span></a></li>
+        <li><a href="#d-h-from-z" class="sidebar-link"><span>8. Hybrid (h) from Z Parameters</span></a></li>
+        <li><a href="#d-auto-cu" class="sidebar-link"><span>9. Auto-Transformer Cu Saving</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Exam Derivation Master Sheet</span>
+        <h1>Master Derivations for ENEE 154</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Rigorous, step-by-step mathematical proofs frequently asked in IOE final exams. Formatted with stated starting principles, explicit assumptions, and physical significance.
+        </p>
+      </div>
+
+      <!-- Derivation 1: RMF Production -->
+      <section id="d-rmf" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high">Chapter 9 • AC Motors</span>
+            <span class="badge badge-pyq">2082 Baishakh Q9 • 2081 Ashwin Q9</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">1. Production of Rotating Magnetic Field (RMF) in 3-Phase Induction Motor</h2>
+          </div>
+        </div>
+
+        <p><strong>Starting Principle:</strong> When three-phase balanced stator windings displaced in space by \(120^\circ\) electrical are energized by balanced three-phase currents displaced in time by \(120^\circ\), they produce a resultant rotating magnetic flux.</p>
+        
+        <p><strong>Mathematical Formulation:</strong> Let the three pulsating magnetic fluxes produced by phases R, Y, and B along their respective spatial axes be:</p>
+        \[\phi_R = \Phi_m \cos(\omega t)\]
+        \[\phi_Y = \Phi_m \cos(\omega t - 120^\circ)\]
+        \[\phi_B = \Phi_m \cos(\omega t - 240^\circ) = \Phi_m \cos(\omega t + 120^\circ)\]
+
+        <p>Let the spatial axis of phase R be along the horizontal reference (\(\theta = 0^\circ\)). The spatial axes of Y and B are at \(-120^\circ\) and \(-240^\circ\) (or \(+120^\circ\)).</p>
+
+        <p><strong>Step-by-step Resolution along Orthogonal Axes:</strong></p>
+        <p><em>Horizontal Component (\(\Phi_x\)):</em></p>
+        \[\Phi_x = \phi_R \cos(0^\circ) + \phi_Y \cos(-120^\circ) + \phi_B \cos(120^\circ)\]
+        \[\Phi_x = \phi_R(1) + \phi_Y \left(-\frac{1}{2}\right) + \phi_B \left(-\frac{1}{2}\right) = \phi_R - \frac{1}{2}(\phi_Y + \phi_B)\]
+        Since the currents are balanced, \(\phi_R + \phi_Y + \phi_B = 0 \implies \phi_Y + \phi_B = -\phi_R\). Substituting:
+        \[\Phi_x = \phi_R - \frac{1}{2}(-\phi_R) = \frac{3}{2}\phi_R = \frac{3}{2}\Phi_m \cos(\omega t)\]
+
+        <p><em>Vertical Component (\(\Phi_y\)):</em></p>
+        \[\Phi_y = \phi_R \sin(0^\circ) + \phi_Y \sin(-120^\circ) + \phi_B \sin(120^\circ)\]
+        \[\Phi_y = 0 + \phi_Y \left(-\frac{\sqrt{3}}{2}\right) + \phi_B \left(\frac{\sqrt{3}}{2}\right) = \frac{\sqrt{3}}{2}(\phi_B - \phi_Y)\]
+        Substitute the expressions for \(\phi_B\) and \(\phi_Y\):
+        \[\phi_B - \phi_Y = \Phi_m [\cos(\omega t + 120^\circ) - \cos(\omega t - 120^\circ)]\]
+        Using identity \(\cos(A+B) - \cos(A-B) = -2\sin A \sin B\):
+        \[\phi_B - \phi_Y = \Phi_m [-2\sin(\omega t)\sin(120^\circ)] = -2\Phi_m \sin(\omega t)\left(\frac{\sqrt{3}}{2}\right) = -\sqrt{3}\Phi_m \sin(\omega t)\]
+        Now substitute back into \(\Phi_y\):
+        \[\Phi_y = \frac{\sqrt{3}}{2} [-\sqrt{3}\Phi_m \sin(\omega t)] = -\frac{3}{2}\Phi_m \sin(\omega t)\]
+
+        <p><em>Resultant Flux Magnitude (\(\Phi_r\)):</em></p>
+        \[\Phi_r = \sqrt{\Phi_x^2 + \Phi_y^2} = \sqrt{\left(\frac{3}{2}\Phi_m \cos(\omega t)\right)^2 + \left(-\frac{3}{2}\Phi_m \sin(\omega t)\right)^2} = \frac{3}{2}\Phi_m \sqrt{\cos^2(\omega t) + \sin^2(\omega t)} = \frac{3}{2}\Phi_m = 1.5\Phi_m\]
+
+        <p><em>Orientation Angle (\(\theta\)):</em></p>
+        \[\tan\theta = \frac{\Phi_y}{\Phi_x} = \frac{-\frac{3}{2}\Phi_m \sin(\omega t)}{\frac{3}{2}\Phi_m \cos(\omega t)} = -\tan(\omega t) \implies \theta = -\omega t\]
+        <div class="callout callout-success">
+          <strong>Physical Significance:</strong> The resultant magnetic field has a <em>constant magnitude</em> equal to \(1.5 \Phi_m\) (1.5 times the maximum pulsating flux of any individual phase) and rotates smoothly in the air gap at constant synchronous speed \(N_s = \frac{120 f}{P}\) rpm.
+        </div>
+      </section>
+
+      <!-- Derivation 2: Transformer Core Flux Constancy -->
+      <section id="d-flux-const" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high">Chapter 7 • Transformers</span>
+            <span class="badge badge-pyq">2083 Baishakh Q7 • 2082 Bhadra Q10b • 2081 Ashwin Q7</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">2. Proof that Main Magnetic Core Flux is Independent of Load Current</h2>
+          </div>
+        </div>
+
+        <p><strong>Starting Principle:</strong> Faraday's Law of Induction and primary voltage balance.</p>
+        <p>In a practical transformer, the primary induced back EMF \(E_1\) is given by:</p>
+        \[V_1 = -E_1 + I_1 Z_1 \implies E_1 \approx V_1 \quad (\text{since primary leakage impedance drop } I_1 Z_1 \text{ is negligibly small, } < 2-3\%)\]
+        The RMS value of induced EMF is:
+        \[E_1 = 4.44 f N_1 \Phi_m\]
+        Equating \(E_1 \approx V_1\):
+        \[\Phi_m \approx \frac{V_1}{4.44 f N_1}\]
+        Since supply voltage \(V_1\) and frequency \(f\) are maintained constant by the AC grid, <strong>\(\Phi_m\) must remain practically constant</strong> regardless of load current!
+
+        <p><strong>Physical Mechanism (MMF Balance):</strong></p>
+        <ol style="margin-left: 1.25rem; line-height: 1.8;">
+          <li>At no load, primary draws a small no-load current \(I_0\) which provides magnetizing MMF \(N_1 I_0\) to establish the mutual core flux \(\Phi_m\).</li>
+          <li>When secondary is loaded with current \(I_2\), it creates a demagnetizing MMF \(N_2 I_2\) setting up opposing flux \(\Phi_2\).</li>
+          <li>This momentarily tends to reduce core flux \(\Phi_m\), which instantly causes back EMF \(E_1\) to drop slightly.</li>
+          <li>Because \(V_1\) is constant, the small drop in \(E_1\) allows an additional current \(I_1'\) (load component of primary current) to be drawn from the supply such that:
+            \[N_1 I_1' = N_2 I_2 \implies I_1' = \left(\frac{N_2}{N_1}\right) I_2 = K I_2\]
+          </li>
+          <li>The MMF \(N_1 I_1'\) exactly neutralizes the demagnetizing MMF \(N_2 I_2\) at every instant!</li>
+        </ol>
+        \[\text{Net Core MMF} = N_1 I_1 - N_2 I_2 = N_1(I_0 + I_1') - N_2 I_2 = N_1 I_0 = \text{Constant}\]
+        <div class="callout callout-success">
+          <strong>Conclusion:</strong> The core flux \(\Phi_m\) is strictly established by the primary voltage \(V_1\) and frequency \(f\), and remains completely constant from no-load to full-load.
+        </div>
+      </section>
+
+      <!-- Derivation 3: DC Motor Torque Equation -->
+      <section id="d-dc-torque" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high">Chapter 8 • DC Machines</span>
+            <span class="badge badge-pyq">2082 Baishakh Q8</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">3. Derivation of DC Motor Torque Equation</h2>
+          </div>
+        </div>
+
+        <p><strong>Starting Principle:</strong> Conservation of electrical to mechanical power conversion in the armature.</p>
+        <p>Let:</p>
+        <ul style="margin-left: 1.25rem;">
+          <li>\(P\) = Number of field poles</li>
+          <li>\(\Phi\) = Magnetic flux per pole [Wb]</li>
+          <li>\(Z\) = Total number of armature conductors</li>
+          <li>\(A\) = Number of parallel armature paths (\(A = P\) for lap, \(A = 2\) for wave)</li>
+          <li>\(N\) = Armature speed in rpm (\(\omega = \frac{2\pi N}{60}\) rad/s)</li>
+          <li>\(I_a\) = Total armature current drawn from supply [A]</li>
+          <li>\(E_b\) = Back EMF induced in the armature [V]</li>
+        </ul>
+
+        <p><strong>Step 1: Generated Back EMF</strong></p>
+        \[E_b = \frac{P \Phi Z N}{60 A}\]
+
+        <p><strong>Step 2: Power Conversion Balance</strong></p>
+        <p>The total electrical power converted into gross mechanical power in the armature is:</p>
+        \[P_{\text{mech}} = E_b I_a\]
+        Mechanical power can also be expressed in terms of electromagnetic torque \(T\) and angular velocity \(\omega\):
+        \[P_{\text{mech}} = T \omega = T \left(\frac{2\pi N}{60}\right)\]
+
+        <p><strong>Step 3: Equating Powers and Solving for \(T\)</strong></p>
+        \[T \left(\frac{2\pi N}{60}\right) = E_b I_a = \left(\frac{P \Phi Z N}{60 A}\right) I_a\]
+        Canceling \(\frac{N}{60}\) from both sides:
+        \[T (2\pi) = \frac{P \Phi Z I_a}{A} \implies T = \frac{P \Phi Z I_a}{2\pi A} \text{ [N}\cdot\text{m]}\]
+        \[T = \left(\frac{1}{2\pi}\right) \frac{P Z}{A} \Phi I_a \approx 0.159 \frac{P Z}{A} \Phi I_a \implies T \propto \Phi I_a\]
+        <div class="callout callout-success">
+          <strong>Key Result:</strong> Electromagnetic torque is directly proportional to the product of field flux \(\Phi\) and armature current \(I_a\).
+        </div>
+      </section>
+
+      <!-- Derivation 4: Series RLC Step Response -->
+      <section id="d-rlc-step" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high">Chapter 2 • Classical Transients</span>
+            <span class="badge badge-pyq">2082 Bhadra Q3 • 2082 Baishakh Q3</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">4. Series R-L-C Circuit Step Response Differential Equation & Solutions</h2>
+          </div>
+        </div>
+
+        <p><strong>Circuit:</strong> Series connection of \(R\), \(L\), and \(C\) connected to DC step voltage source \(V\) switched at \(t=0\).</p>
+        <p><strong>Applying KVL for \(t > 0\):</strong></p>
+        \[R i(t) + L \frac{di(t)}{dt} + \frac{1}{C} \int_0^t i(\tau) d\tau + v_C(0^+) = V\]
+        Differentiating both sides with respect to \(t\):
+        \[L \frac{d^2 i}{dt^2} + R \frac{di}{dt} + \frac{1}{C} i = 0 \implies \frac{d^2 i}{dt^2} + \frac{R}{L}\frac{di}{dt} + \frac{1}{LC} i = 0\]
+        This is a second-order linear homogeneous ordinary differential equation with constant coefficients.
+
+        <p><strong>Characteristic Equation:</strong> Substituting \(i(t) = A e^{st}\):</p>
+        \[s^2 + \frac{R}{L} s + \frac{1}{LC} = 0 \implies s^2 + 2\alpha s + \omega_0^2 = 0\]
+        Where:
+        \[\alpha = \frac{R}{2L} \text{ (Neper damping frequency [Np/s])}, \quad \omega_0 = \frac{1}{\sqrt{LC}} \text{ (Undamped resonant frequency [rad/s])}\]
+        Roots:
+        \[s_{1,2} = -\alpha \pm \sqrt{\alpha^2 - \omega_0^2}\]
+
+        <p><strong>Three Cases of Circuit Response:</strong></p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Condition</th>
+                <th>Roots Nature</th>
+                <th>Current Solution \(i(t)\)</th>
+                <th>Physical Behavior</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Case 1: Overdamped (\(\alpha > \omega_0 \implies R > 2\sqrt{L/C}\))</strong></td>
+                <td>Real, negative, unequal: \(s_1 \ne s_2 < 0\)</td>
+                <td>\(i(t) = A_1 e^{s_1 t} + A_2 e^{s_2 t}\)</td>
+                <td>Sluggish exponential rise and decay without any oscillations.</td>
+              </tr>
+              <tr>
+                <td><strong>Case 2: Critically Damped (\(\alpha = \omega_0 \implies R = 2\sqrt{L/C}\))</strong></td>
+                <td>Real, negative, equal: \(s_1 = s_2 = -\alpha\)</td>
+                <td>\(i(t) = (A_1 + A_2 t) e^{-\alpha t}\)</td>
+                <td>Fastest non-oscillatory return to equilibrium. Ideal for meter movements.</td>
+              </tr>
+              <tr>
+                <td><strong>Case 3: Underdamped (\(\alpha < \omega_0 \implies R < 2\sqrt{L/C}\))</strong></td>
+                <td>Complex conjugate: \(-\alpha \pm j\omega_d\), \(\omega_d = \sqrt{\omega_0^2 - \alpha^2}\)</td>
+                <td>\(i(t) = e^{-\alpha t}[A_1 \cos(\omega_d t) + A_2 \sin(\omega_d t)]\)</td>
+                <td>Damped sinusoidal oscillations at damped frequency \(\omega_d\).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Derivation 5: RC Circuit Exponential Excitation -->
+      <section id="d-rc-exp" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high">Chapter 2 • Classical Transients</span>
+            <span class="badge badge-pyq">2083 Baishakh Q3</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">5. Series R-C Circuit with Exponential Voltage Source \(v(t) = V_0 e^{-at}\)</h2>
+          </div>
+        </div>
+
+        <p><strong>Governing KVL Equation:</strong></p>
+        \[R i(t) + \frac{1}{C}\int i(t) dt = V_0 e^{-at}\]
+        Differentiating with respect to \(t\):
+        \[R \frac{di}{dt} + \frac{1}{C} i = -a V_0 e^{-at} \implies \frac{di}{dt} + \frac{1}{RC} i = -\frac{a V_0}{R} e^{-at}\]
+
+        <p><strong>Step 1: Complementary Function (\(i_c(t)\)):</strong></p>
+        \[\frac{di}{dt} + \frac{1}{RC} i = 0 \implies i_c(t) = A e^{-t/RC}\]
+
+        <p><strong>Step 2: Particular Integral (\(i_p(t)\)) by Undetermined Coefficients:</strong></p>
+        <p>Assuming \(a \ne \frac{1}{RC}\), trial solution is \(i_p(t) = K e^{-at}\). Substitute into ODE:</p>
+        \[-a K e^{-at} + \frac{1}{RC} K e^{-at} = -\frac{a V_0}{R} e^{-at}\]
+        \[K \left(\frac{1}{RC} - a\right) = -\frac{a V_0}{R} \implies K = \frac{-a V_0 / R}{\frac{1}{RC} - a} = \frac{-a C V_0}{1 - a RC} = \frac{a C V_0}{a RC - 1}\]
+        Therefore, complete general solution is:
+        \[i(t) = i_c(t) + i_p(t) = A e^{-t/RC} + \frac{a C V_0}{a RC - 1} e^{-at}\]
+
+        <p><strong>Step 3: Evaluating Constant \(A\) from Initial Conditions:</strong></p>
+        <p>Assuming uncharged capacitor at \(t = 0^-\), \(v_C(0^+) = v_C(0^-) = 0\). At \(t = 0^+\), across resistor:</p>
+        \[R i(0^+) + v_C(0^+) = v(0^+) \implies R i(0^+) + 0 = V_0 \implies i(0^+) = \frac{V_0}{R}\]
+        Substitute \(t = 0\) into general solution:
+        \[i(0^+) = A + \frac{a C V_0}{a RC - 1} = \frac{V_0}{R} \implies A = \frac{V_0}{R} - \frac{a C V_0}{a RC - 1} = \frac{V_0(a RC - 1) - a R C V_0}{R(a RC - 1)} = \frac{-V_0}{R(a RC - 1)}\]
+        Substituting \(A\) back into \(i(t)\):
+        \[i(t) = \frac{V_0}{R(1 - a RC)} \left[ e^{-t/RC} - a RC \, e^{-at} \right]\]
+      </section>
+
+      <!-- Derivation 6: Induction Motor Max Torque -->
+      <section id="d-max-torque" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high">Chapter 9 • AC Motors</span>
+            <span class="badge badge-pyq">2081 Ashwin Q9</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">6. Condition for Maximum Running Torque in 3-Phase Induction Motor</h2>
+          </div>
+        </div>
+
+        <p><strong>Torque Expression:</strong> Rotor running torque is:</p>
+        \[T = \frac{k \, s E_2^2 R_2}{R_2^2 + (s X_2)^2}\]
+        To find slip \(s\) at which torque is maximum, differentiate \(T\) with respect to \(s\) and set to zero:
+        \[\frac{dT}{ds} = k E_2^2 R_2 \left[ \frac{(R_2^2 + s^2 X_2^2)(1) - s(2s X_2^2)}{(R_2^2 + s^2 X_2^2)^2} \right] = 0\]
+        \[R_2^2 + s^2 X_2^2 - 2s^2 X_2^2 = 0 \implies R_2^2 - s^2 X_2^2 = 0 \implies s^2 X_2^2 = R_2^2\]
+        \[s_{mT} = \frac{R_2}{X_2}\]
+        <p><strong>Maximum Torque Expression:</strong> Substitute \(s = s_{mT} = R_2 / X_2\) into the torque equation:</p>
+        \[T_{\text{max}} = \frac{k \left(\frac{R_2}{X_2}\right) E_2^2 R_2}{R_2^2 + \left(\frac{R_2}{X_2}\right)^2 X_2^2} = \frac{k E_2^2 \left(\frac{R_2^2}{X_2}\right)}{R_2^2 + R_2^2} = \frac{k E_2^2 \left(\frac{R_2^2}{X_2}\right)}{2 R_2^2} = \frac{k E_2^2}{2 X_2}\]
+        <div class="callout callout-success">
+          <strong>Vital Deductions:</strong><br>
+          1. Slip at max torque is directly proportional to rotor resistance: \(s_{mT} \propto R_2\).<br>
+          2. Peak maximum torque \(T_{\text{max}}\) is <strong>independent of rotor resistance \(R_2\)</strong>!<br>
+          3. Adding external resistance to a wound rotor shifts the peak torque toward standstill (\(s=1\)), giving higher starting torque without decreasing breakdown torque.
+        </div>
+      </section>
+
+      <!-- Derivation 7: Cascade ABCD Parameters -->
+      <section id="d-cascade-t" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high">Chapter 5 • Two-Port Networks</span>
+            <span class="badge badge-pyq">2082 Baishakh Q6</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">7. Equivalent Transmission (ABCD) Parameters of Two Cascade-Connected Networks</h2>
+          </div>
+        </div>
+
+        <p>Let network \(N_a\) be followed by network \(N_b\). The output of \(N_a\) is connected to the input of \(N_b\).</p>
+        <p><strong>Terminal Conditions at Interconnection:</strong></p>
+        \[V_{2a} = V_{1b}, \quad -I_{2a} = I_{1b} \implies I_{2a} = -I_{1b}\]
+        <p><strong>Matrix Formulation:</strong></p>
+        For Network A:
+        \[\begin{bmatrix} V_1 \\ I_1 \end{bmatrix} = \begin{bmatrix} A_a & B_a \\ C_a & D_a \end{bmatrix} \begin{bmatrix} V_{2a} \\ -I_{2a} \end{bmatrix}\]
+        Substitute terminal conditions:
+        \[\begin{bmatrix} V_1 \\ I_1 \end{bmatrix} = \begin{bmatrix} A_a & B_a \\ C_a & D_a \end{bmatrix} \begin{bmatrix} V_{1b} \\ I_{1b} \end{bmatrix}\]
+        For Network B:
+        \[\begin{bmatrix} V_{1b} \\ I_{1b} \end{bmatrix} = \begin{bmatrix} A_b & B_b \\ C_b & D_b \end{bmatrix} \begin{bmatrix} V_2 \\ -I_2 \end{bmatrix}\]
+        Substituting the equation of Network B into Network A:
+        \[\begin{bmatrix} V_1 \\ I_1 \end{bmatrix} = \begin{bmatrix} A_a & B_a \\ C_a & D_a \end{bmatrix} \begin{bmatrix} A_b & B_b \\ C_b & D_b \end{bmatrix} \begin{bmatrix} V_2 \\ -I_2 \end{bmatrix}\]
+        Thus, the overall transmission matrix is the direct matrix product:
+        \[\begin{bmatrix} A & B \\ C & D \end{bmatrix} = \begin{bmatrix} A_a A_b + B_a C_b & A_a B_b + B_a D_b \\ C_a A_b + D_a C_b & C_a B_b + D_a D_b \end{bmatrix}\]
+      </section>
+
+      <!-- Derivation 8: Hybrid h Parameters from Z Parameters -->
+      <section id="d-h-from-z" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-high">Chapter 5 • Two-Port Networks</span>
+            <span class="badge badge-pyq">2082 Baishakh Q6</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">8. Transformation of Hybrid (\(h\)) Parameters from Impedance (\(Z\)) Parameters</h2>
+          </div>
+        </div>
+
+        <p><strong>Starting Equations:</strong></p>
+        Z-parameter equations:
+        \[(1) \quad V_1 = Z_{11} I_1 + Z_{12} I_2\]
+        \[(2) \quad V_2 = Z_{21} I_1 + Z_{22} I_2\]
+        Target h-parameter equations:
+        \[(3) \quad V_1 = h_{11} I_1 + h_{12} V_2\]
+        \[(4) \quad I_2 = h_{21} I_1 + h_{22} V_2\]
+
+        <p><strong>Step 1: Express \(I_2\) in terms of \(I_1\) and \(V_2\)</strong></p>
+        From equation (2):
+        \[Z_{22} I_2 = V_2 - Z_{21} I_1 \implies I_2 = -\frac{Z_{21}}{Z_{22}} I_1 + \frac{1}{Z_{22}} V_2\]
+        Comparing with target equation (4):
+        \[h_{21} = -\frac{Z_{21}}{Z_{22}}, \quad h_{22} = \frac{1}{Z_{22}}\]
+
+        <p><strong>Step 2: Substitute \(I_2\) into equation (1) for \(V_1\)</strong></p>
+        \[V_1 = Z_{11} I_1 + Z_{12} \left( -\frac{Z_{21}}{Z_{22}} I_1 + \frac{1}{Z_{22}} V_2 \right) = \left( Z_{11} - \frac{Z_{12} Z_{21}}{Z_{22}} \right) I_1 + \frac{Z_{12}}{Z_{22}} V_2\]
+        \[V_1 = \left( \frac{Z_{11} Z_{22} - Z_{12} Z_{21}}{Z_{22}} \right) I_1 + \frac{Z_{12}}{Z_{22}} V_2 = \frac{\Delta Z}{Z_{22}} I_1 + \frac{Z_{12}}{Z_{22}} V_2\]
+        Comparing with target equation (3):
+        \[h_{11} = \frac{\Delta Z}{Z_{22}}, \quad h_{12} = \frac{Z_{12}}{Z_{22}}\]
+      </section>
+
+      <!-- Derivation 9: Copper Saving in Autotransformer -->
+      <section id="d-auto-cu" class="card">
+        <div class="card-header">
+          <div>
+            <span class="badge badge-med">Chapter 7 • Transformers</span>
+            <span class="badge badge-pyq">2082 Baishakh Q10b</span>
+            <h2 class="card-title" style="margin-top: 0.5rem;">9. Saving of Copper in an Auto-Transformer compared to 2-Winding Transformer</h2>
+          </div>
+        </div>
+
+        <p>Weight of conductor material is proportional to volume = length \(\times\) area \(\propto N \times I\).</p>
+        <p>For a standard 2-winding transformer:</p>
+        \[W_{\text{2-wdg}} \propto N_1 I_1 + N_2 I_2\]
+        Since \(N_1 I_1 = N_2 I_2\):
+        \[W_{\text{2-wdg}} \propto 2 N_1 I_1\]
+        For a step-down auto-transformer with total turns \(N_1\) and tapped turns \(N_2\):
+        <ul style="margin-left: 1.25rem;">
+          <li>Top section (turns \(N_1 - N_2\)) carries current \(I_1\).</li>
+          <li>Common section (turns \(N_2\)) carries current \((I_2 - I_1)\).</li>
+        </ul>
+        \[W_{\text{auto}} \propto (N_1 - N_2) I_1 + N_2 (I_2 - I_1) = N_1 I_1 - N_2 I_1 + N_2 I_2 - N_2 I_1 = N_1 I_1 + N_2 I_2 - 2 N_2 I_1\]
+        Since \(N_2 I_2 = N_1 I_1\) and \(\frac{N_2}{N_1} = K\):
+        \[W_{\text{auto}} \propto 2 N_1 I_1 - 2 K N_1 I_1 = 2 N_1 I_1 (1 - K)\]
+        Taking the ratio:
+        \[\frac{W_{\text{auto}}}{W_{\text{2-wdg}}} = \frac{2 N_1 I_1 (1 - K)}{2 N_1 I_1} = 1 - K\]
+        \[\text{Saving of Copper} = \frac{W_{\text{2-wdg}} - W_{\text{auto}}}{W_{\text{2-wdg}}} = 1 - (1 - K) = K\]
+        <div class="callout callout-success">
+          <strong>Conclusion:</strong> When the transformation ratio \(K\) is close to 1 (e.g., \(K = 0.9\)), the autotransformer saves up to 90% of copper compared to a conventional two-winding transformer.
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

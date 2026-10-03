@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 5: Two-Port Parameters | ENEE 154</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="../index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="../index.html" class="sidebar-link"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="../syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="../formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="../derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="../pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="../revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Chapter 5 Outline</div>
+      <ul class="sidebar-nav">
+        <li><a href="#sec-5-1" class="sidebar-link"><span>5.1 Definitions & Port Condition</span></a></li>
+        <li><a href="#sec-5-2" class="sidebar-link"><span>5.2 The 6 Two-Port Parameter Sets</span></a></li>
+        <li><a href="#sec-5-3" class="sidebar-link"><span>5.3 Parameter Conversion Formulas</span></a></li>
+        <li><a href="#sec-5-4" class="sidebar-link"><span>5.4 Interconnections (Cascade/Series)</span></a></li>
+        <li><a href="#sec-5-5" class="sidebar-link"><span>5.5 Reciprocity & Symmetry Proofs</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">Chapter 5 • 8 Hours • Expected Marks: 8M</span>
+        <span class="badge badge-pyq">Always Tested in Q5 or Q6 (5–6 Marks)</span>
+        <h1>Two-Port Parameters of Network</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Terminal descriptions of multi-terminal networks, evaluation of Z, Y, ABCD, and h parameter sets, inter-parameter conversions, cascade matrices, and reciprocity/symmetry conditions.
+        </p>
+      </div>
+
+      <!-- Section 5.1 & 5.2 -->
+      <section id="sec-5-1" style="margin-bottom: 3rem;">
+        <h2>5.1 & 5.2 Definitions & The 6 Two-Port Parameter Sets</h2>
+
+        <h3>Concept of Two-Port Network</h3>
+        <p>
+          A two-port network is a four-terminal black-box where terminals are paired into an <strong>input port (Port 1)</strong> and an <strong>output port (Port 2)</strong>. The fundamental <em>port condition</em> mandates that the current entering the upper terminal must exactly equal the current leaving the lower terminal for each port:
+          \[I_1 = I_1', \quad I_2 = I_2'\]
+        </p>
+
+        <h3>The 6 Standard Two-Port Parameter Sets</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Set</th>
+                <th>Independent Variables</th>
+                <th>Dependent Variables</th>
+                <th>Governing Linear Matrix Equations</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Impedance \([Z]\)</strong></td>
+                <td>\(I_1, I_2\)</td>
+                <td>\(V_1, V_2\)</td>
+                <td>
+                  \(V_1 = Z_{11} I_1 + Z_{12} I_2\)<br>
+                  \(V_2 = Z_{21} I_1 + Z_{22} I_2\)
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Admittance \([Y]\)</strong></td>
+                <td>\(V_1, V_2\)</td>
+                <td>\(I_1, I_2\)</td>
+                <td>
+                  \(I_1 = Y_{11} V_1 + Y_{12} V_2\)<br>
+                  \(I_2 = Y_{21} V_1 + Y_{22} V_2\)
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Transmission \([T]\) or \([ABCD]\)</strong></td>
+                <td>\(V_2, -I_2\)</td>
+                <td>\(V_1, I_1\)</td>
+                <td>
+                  \(V_1 = A V_2 - B I_2\)<br>
+                  \(I_1 = C V_2 - D I_2\)
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Inverse Transmission \([T']\)</strong></td>
+                <td>\(V_1, -I_1\)</td>
+                <td>\(V_2, I_2\)</td>
+                <td>
+                  \(V_2 = A' V_1 - B' I_1\)<br>
+                  \(I_2 = C' V_1 - D' I_1\)
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Hybrid \([h]\)</strong></td>
+                <td>\(I_1, V_2\)</td>
+                <td>\(V_1, I_2\)</td>
+                <td>
+                  \(V_1 = h_{11} I_1 + h_{12} V_2\)<br>
+                  \(I_2 = h_{21} I_1 + h_{22} V_2\)
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Inverse Hybrid \([g]\)</strong></td>
+                <td>\(V_1, I_2\)</td>
+                <td>\(I_1, V_2\)</td>
+                <td>
+                  \(I_1 = g_{11} V_1 + g_{12} I_2\)<br>
+                  \(V_2 = g_{21} V_1 + g_{22} I_2\)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 5.3 -->
+      <section id="sec-5-3" style="margin-bottom: 3rem;">
+        <h2>5.3 Transformation Between Parameter Sets</h2>
+
+        <p>
+          Any valid two-port parameter set can be directly converted into any other by equating equations algebraically.
+        </p>
+
+        <div class="formula-block">
+          <div class="formula-math">
+            \[\text{h-parameters in terms of Z: } h_{11} = \frac{\Delta Z}{Z_{22}}, \quad h_{12} = \frac{Z_{12}}{Z_{22}}, \quad h_{21} = -\frac{Z_{21}}{Z_{22}}, \quad h_{22} = \frac{1}{Z_{22}}\]
+            \[\text{Z-parameters in terms of ABCD: } Z_{11} = \frac{A}{C}, \quad Z_{12} = \frac{AD - BC}{C}, \quad Z_{21} = \frac{1}{C}, \quad Z_{22} = \frac{D}{C}\]
+            \[\text{ABCD in terms of Z: } A = \frac{Z_{11}}{Z_{21}}, \quad B = \frac{\Delta Z}{Z_{21}}, \quad C = \frac{1}{Z_{21}}, \quad D = \frac{Z_{22}}{Z_{21}}\]
+          </div>
+          <div class="formula-meta">
+            Where \(\Delta Z = Z_{11} Z_{22} - Z_{12} Z_{21}\). <em>(See step-by-step derivation in <a href="../derivations.html#d-h-from-z">Derivation Sheet Section 8</a>).</em>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5.4 & 5.5 -->
+      <section id="sec-5-4" style="margin-bottom: 3rem;">
+        <h2>5.4 & 5.5 Interconnections, Reciprocity & Symmetry</h2>
+
+        <h3>Two-Port Network Interconnections</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Interconnection Type</th>
+                <th>Port Connection Scheme</th>
+                <th>Governing Matrix Operation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Series-Series</strong></td>
+                <td>Inputs in series, outputs in series</td>
+                <td>\([Z] = [Z_A] + [Z_B]\)</td>
+              </tr>
+              <tr>
+                <td><strong>Parallel-Parallel</strong></td>
+                <td>Inputs in parallel, outputs in parallel</td>
+                <td>\([Y] = [Y_A] + [Y_B]\)</td>
+              </tr>
+              <tr>
+                <td><strong>Cascade (Tandem)</strong></td>
+                <td>Output of Network A feeds input of Network B</td>
+                <td>\([T] = [T_A] \times [T_B]\) (Matrix Multiplication)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Conditions for Reciprocity and Symmetry</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Reciprocity Condition (Transfer Ratio Equality)</th>
+                <th>Symmetry Condition (Port Invariance)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Impedance \([Z]\)</td>
+                <td>\(Z_{12} = Z_{21}\)</td>
+                <td>\(Z_{11} = Z_{22}\)</td>
+              </tr>
+              <tr>
+                <td>Admittance \([Y]\)</td>
+                <td>\(Y_{12} = Y_{21}\)</td>
+                <td>\(Y_{11} = Y_{22}\)</td>
+              </tr>
+              <tr>
+                <td>Transmission \([ABCD]\)</td>
+                <td>\(AD - BC = 1\)</td>
+                <td>\(A = D\)</td>
+              </tr>
+              <tr>
+                <td>Hybrid \([h]\)</td>
+                <td>\(h_{12} = -h_{21}\)</td>
+                <td>\(\Delta h = h_{11} h_{22} - h_{12} h_{21} = 1\)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Master Worked Example -->
+        <h3>Master Worked Example (Two-Port with Dependent Source)</h3>
+        <div class="worked-example">
+          <div class="example-header">
+            <span class="example-title">ABCD Parameters of Dependent Source Network</span>
+            <span class="badge badge-high">PYQ 2081 Ashwin Q6</span>
+          </div>
+          <div class="example-body">
+            <span class="step-label">Problem Statement:</span>
+            <div class="step-content">
+              Find the ABCD parameters for the two-port network: A dependent current source of \(0.5 I_x\) is in parallel with Port 1. A series resistor of \(8\,\Omega\) connects to Port 2. A shunt resistor of \(5\,\Omega\) is connected across Port 2, carrying downward current \(I_x\).
+            </div>
+
+            <span class="step-label">Calculations:</span>
+            <div class="step-content">
+              By inspection, across Port 2:
+              \[V_2 = 5 I_x \implies I_x = \frac{V_2}{5} = 0.2 V_2\]
+              Dependent current source value:
+              \[0.5 I_x = 0.5(0.2 V_2) = 0.1 V_2\]
+              1. <strong>Finding \(V_1\) in terms of \(V_2\) and \(I_2\):</strong>
+              Current flowing through the series \(8\,\Omega\) resistor from Port 1 towards Port 2:
+              At the node above the \(5\,\Omega\) resistor:
+              \[I_{\text{series}} + I_2 = I_x \implies I_{\text{series}} = I_x - I_2 = 0.2 V_2 - I_2\]
+              KVL from Port 1 to Port 2:
+              \[V_1 = 8 I_{\text{series}} + V_2 = 8(0.2 V_2 - I_2) + V_2 = 1.6 V_2 - 8 I_2 + V_2 = 2.6 V_2 - 8 I_2\]
+              Comparing with \(V_1 = A V_2 - B I_2\):
+              \[A = 2.6, \quad B = 8\,\Omega\]
+
+              2. <strong>Finding \(I_1\) in terms of \(V_2\) and \(I_2\):</strong>
+              At the input node (Port 1):
+              \[I_1 = 0.5 I_x + I_{\text{series}} = 0.1 V_2 + (0.2 V_2 - I_2) = 0.3 V_2 - I_2\]
+              Comparing with \(I_1 = C V_2 - D I_2\):
+              \[C = 0.3\text{ S}, \quad D = 1\]
+            </div>
+
+            <div class="step-final-answer">
+              <strong>Transmission Matrix:</strong>
+              \[\begin{bmatrix} A & B \\ C & D \end{bmatrix} = \begin{bmatrix} 2.6 & 8\,\Omega \\ 0.3\text{ S} & 1 \end{bmatrix}\]
+              Check Reciprocity: \(AD - BC = (2.6 \times 1) - (8 \times 0.3) = 2.6 - 2.4 = 0.2 \ne 1\). The network is <strong>NON-RECIPROCAL</strong> due to the dependent source!
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Prev/Next Navigation -->
+      <div class="chapter-nav">
+        <a href="chapter-4.html" class="chapter-nav-btn">
+          <span class="chapter-nav-label">Previous</span>
+          <span class="chapter-nav-title">← Chapter 4: Transfer Function & Bode</span>
+        </a>
+        <a href="chapter-6.html" class="chapter-nav-btn" style="text-align: right;">
+          <span class="chapter-nav-label">Next</span>
+          <span class="chapter-nav-title">Chapter 6: Magnetic Circuit & Induction →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="../js/app.js"></script>
+</body>
+</html>

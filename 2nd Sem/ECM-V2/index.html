@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ENEE 154 — Electrical Circuits and Machines | Complete Study Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="app-header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="index.html" class="header-brand">
+        <span>ENEE 154</span>
+        <span class="brand-badge">ECM</span>
+      </a>
+    </div>
+
+    <div class="header-actions">
+      <button class="search-box-btn" id="searchBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Search notes, formulas, PYQs... (Ctrl+K)</span>
+      </button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle Theme"></button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-heading">Core Resources</div>
+      <ul class="sidebar-nav">
+        <li><a href="index.html" class="sidebar-link active"><span>🏠 Overview & Dashboard</span></a></li>
+        <li><a href="syllabus.html" class="sidebar-link"><span>📋 Official Syllabus</span></a></li>
+        <li><a href="formula-sheet.html" class="sidebar-link"><span>📐 Master Formula Sheet</span></a></li>
+        <li><a href="derivations.html" class="sidebar-link"><span>✍️ Derivations Sheet</span></a></li>
+        <li><a href="pyq-analysis.html" class="sidebar-link"><span>🎯 PYQ Question Bank (2081-83)</span><span class="sidebar-link-badge">4 Sets</span></a></li>
+        <li><a href="revision.html" class="sidebar-link"><span>⚡ Last-Day Revision</span></a></li>
+      </ul>
+
+      <div class="sidebar-heading">Syllabus Chapters</div>
+      <ul class="sidebar-nav">
+        <li><a href="chapters/chapter-1.html" class="sidebar-link"><span>Ch 1: Transients in Electric Circuit</span><span class="sidebar-link-badge">7M</span></a></li>
+        <li><a href="chapters/chapter-2.html" class="sidebar-link"><span>Ch 2: Classical Transient Analysis</span><span class="sidebar-link-badge">10M</span></a></li>
+        <li><a href="chapters/chapter-3.html" class="sidebar-link"><span>Ch 3: Laplace Transform Method</span><span class="sidebar-link-badge">7M</span></a></li>
+        <li><a href="chapters/chapter-4.html" class="sidebar-link"><span>Ch 4: Transfer Function & Bode</span><span class="sidebar-link-badge">8M</span></a></li>
+        <li><a href="chapters/chapter-5.html" class="sidebar-link"><span>Ch 5: Two-Port Parameters</span><span class="sidebar-link-badge">8M</span></a></li>
+        <li><a href="chapters/chapter-6.html" class="sidebar-link"><span>Ch 6: Magnetic Circuit & Induction</span><span class="sidebar-link-badge">3M</span></a></li>
+        <li><a href="chapters/chapter-7.html" class="sidebar-link"><span>Ch 7: Transformers</span><span class="sidebar-link-badge">6M</span></a></li>
+        <li><a href="chapters/chapter-8.html" class="sidebar-link"><span>Ch 8: DC Machines</span><span class="sidebar-link-badge">5M</span></a></li>
+        <li><a href="chapters/chapter-9.html" class="sidebar-link"><span>Ch 9: AC Motors</span><span class="sidebar-link-badge">6M</span></a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div style="margin-bottom: 2rem;">
+        <span class="badge badge-high">IOE BEI / BCT Year I • Part II</span>
+        <h1>ENEE 154 — Electrical Circuits and Machines</h1>
+        <p style="font-size: 1.15rem; color: var(--text-muted); margin-top: 0.5rem;">
+          Exam-oriented study notes, rigorous step-by-step derivations, verified numerical standard solutions, and in-depth PYQ analysis from 2081 Ashwin to 2083 Baishakh.
+        </p>
+      </div>
+
+      <!-- Quick Action Grid -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <a href="formula-sheet.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📐</div>
+          <div style="font-weight: 700; color: var(--text-main); font-size: 1.05rem;">Formula Sheet</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">All 9 chapters summarized with variables, units & constraints.</p>
+        </a>
+        <a href="derivations.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✍️</div>
+          <div style="font-weight: 700; color: var(--text-main); font-size: 1.05rem;">Derivations Sheet</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">Every core derivation with assumptions, algebraic steps & PYQ frequency.</p>
+        </a>
+        <a href="pyq-analysis.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎯</div>
+          <div style="font-weight: 700; color: var(--text-main); font-size: 1.05rem;">PYQ Bank (2081-83)</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">4 full exam papers fully solved with step-by-step calculations.</p>
+        </a>
+        <a href="revision.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚡</div>
+          <div style="font-weight: 700; color: var(--text-main); font-size: 1.05rem;">Last-Day Revision</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">Must-know concepts, common calculation traps & rapid roadmap.</p>
+        </a>
+      </div>
+
+      <!-- Syllabus Weightage & Official Evaluation Scheme -->
+      <h2>1. Official Syllabus Weightage & Exam Blueprint</h2>
+      <p>
+        According to the official Tribhuvan University Institute of Engineering (IOE) curriculum for <strong>ENEE 154</strong> (BEI / BCT), the final theoretical examination carries <strong>60 marks</strong> (Pass Mark: <strong>24</strong>, Time: <strong>3 hours</strong>).
+      </p>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Chapter #</th>
+              <th>Chapter Name</th>
+              <th>Teaching Hours</th>
+              <th>Expected Marks</th>
+              <th>Priority Level</th>
+              <th>Typical Exam Question Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>Transients in Electric Circuit</td>
+              <td>7 hrs</td>
+              <td><strong>7 M</strong></td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>Nodal/Mesh with dependent sources [6M] + Initial conditions \(i(0^+), di/dt\) [5M]</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>Classical Transient Analysis (R-L-C)</td>
+              <td>10 hrs</td>
+              <td><strong>10 M</strong></td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>Differential equation derivation + step/exp excitation numerical [6M]</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>Transient Analysis Using Laplace Transform</td>
+              <td>7 hrs</td>
+              <td><strong>7 M</strong></td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>Transformed s-domain circuit with initial generators [6M]</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>Network Transfer Function & Bode Plot</td>
+              <td>8 hrs</td>
+              <td><strong>8 M</strong></td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>Asymptotic Bode magnitude & phase plot [7-8M]</td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td>Two-Port Parameters of Network</td>
+              <td>8 hrs</td>
+              <td><strong>8 M</strong></td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>Parameter evaluation (Z/ABCD/h) + Conversion/Cascade derivation [5-6M]</td>
+            </tr>
+            <tr>
+              <td><strong>6</strong></td>
+              <td>Magnetic Circuit and Induction</td>
+              <td>3 hrs</td>
+              <td><strong>3 M</strong></td>
+              <td><span class="badge badge-med">Medium</span></td>
+              <td>Series-parallel magnetic circuit with air gap numerical or short note [3-5M]</td>
+            </tr>
+            <tr>
+              <td><strong>7</strong></td>
+              <td>Transformers</td>
+              <td>6 hrs</td>
+              <td><strong>6 M</strong></td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>Constancy of core flux proof [5M] + OC/SC test numerical or efficiency [5M]</td>
+            </tr>
+            <tr>
+              <td><strong>8</strong></td>
+              <td>DC Machine</td>
+              <td>5 hrs</td>
+              <td><strong>5 M</strong></td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>Torque derivation & Back EMF [4+2M] + Speed control numerical [5-6M]</td>
+            </tr>
+            <tr>
+              <td><strong>9</strong></td>
+              <td>AC Motor</td>
+              <td>6 hrs</td>
+              <td><strong>6 M</strong></td>
+              <td><span class="badge badge-high">High</span></td>
+              <td>RMF production proof [5M] + Torque-slip curve + Slip calculation [5-6M]</td>
+            </tr>
+            <tr style="font-weight: 800; background: var(--bg-surface-elevated);">
+              <td colspan="2">TOTAL</td>
+              <td>60 hrs</td>
+              <td>60 Marks</td>
+              <td>-</td>
+              <td>Attempt ALL 10 Questions (with internal choice in Q10)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Syllabus Note on Marks Distribution
+        </div>
+        <p style="margin: 0; font-size: 0.92rem;">
+          The official syllabus notes: <em>"There may be minor deviation in marks distribution."</em> In actual past papers (2081 Ashwin, 2082 Baishakh, 2082 Bhadra, 2083 Baishakh), questions 1–4 consistently test Circuit Analysis & Transients (23–24 marks), questions 5–6 test Frequency Response & Two-Port Parameters (13–14 marks), and questions 7–10 test Machines & Electromagnetics (23–24 marks).
+        </p>
+      </div>
+
+      <!-- Core Learning Sequence -->
+      <h2>2. Recommended Learning Sequence</h2>
+      <p>
+        To score top marks in IOE engineering examinations, do not memorize final answers or problem solutions blindly. Follow this seven-phase sequence:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0;">
+        <div class="card" style="padding: 1rem 1.25rem; margin: 0; display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); min-width: 32px;">01</div>
+          <div>
+            <strong>Concept & Physics</strong> — Understand the physical behavior of inductors, capacitors, magnetic cores, commutators, and rotating fields.
+          </div>
+        </div>
+        <div class="card" style="padding: 1rem 1.25rem; margin: 0; display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); min-width: 32px;">02</div>
+          <div>
+            <strong>Governing Equations</strong> — State the mathematical relations, variable definitions, and boundary conditions clearly.
+          </div>
+        </div>
+        <div class="card" style="padding: 1rem 1.25rem; margin: 0; display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); min-width: 32px;">03</div>
+          <div>
+            <strong>Step-by-Step Derivation</strong> — Practice writing derivations algebraically without skipping steps (e.g. series RLC ODE, Laplace s-domain impedance, DC motor torque, RMF constant magnitude \(1.5 \Phi_m\)).
+          </div>
+        </div>
+        <div class="card" style="padding: 1rem 1.25rem; margin: 0; display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); min-width: 32px;">04</div>
+          <div>
+            <strong>Standard Numerical Layout</strong> — Apply the 8-part format: <em>Given → Required → Principle → Equation → Substitution → Calculation → Final Answer with Units → Engineering Check</em>.
+          </div>
+        </div>
+        <div class="card" style="padding: 1rem 1.25rem; margin: 0; display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); min-width: 32px;">05</div>
+          <div>
+            <strong>PYQ Cross-Verification</strong> — Match every solved problem with past question variations to see how IOE twists parameters.
+          </div>
+        </div>
+        <div class="card" style="padding: 1rem 1.25rem; margin: 0; display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.2rem; font-weight: 800; color: var(--primary); min-width: 32px;">06</div>
+          <div>
+            <strong>Last-Day Rapid Revision</strong> — Review comparison tables, common sign/unit traps, and the final formula sheet.
+          </div>
+        </div>
+      </div>
+
+      <!-- Verified PYQ Repeated Patterns -->
+      <h2>3. Major Exam Trends Identified Across 2081–2083 Papers</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin: 1.25rem 0;">
+        <div class="card" style="margin: 0;">
+          <div class="card-header">
+            <span class="card-title">Initial Conditions (\(t=0^+\))</span>
+            <span class="badge badge-high">Tested 4/4 Exams</span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Appears every semester in Question 2 for 5 marks. In fact, the exact same two-mesh circuit with a \(1\text{H}\) inductor, \(10\,\Omega\) resistors, and \(1\text{F}\) capacitor was repeated in <strong>2081 Ashwin</strong> and <strong>2083 Baishakh</strong>!
+          </p>
+        </div>
+
+        <div class="card" style="margin: 0;">
+          <div class="card-header">
+            <span class="card-title">Asymptotic Bode Plots</span>
+            <span class="badge badge-high">Tested 4/4 Exams</span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Always carries 7 or 8 marks. Features double poles at the origin (\(1/s^2\)), quadratic poles, or left-half plane zeros. Requires systematic corner frequency tables and magnitude/phase slope sketches.
+          </p>
+        </div>
+
+        <div class="card" style="margin: 0;">
+          <div class="card-header">
+            <span class="card-title">Transformer Core Flux & Tests</span>
+            <span class="badge badge-high">Tested 4/4 Exams</span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            The proof that <em>"main magnetic flux in transformer core is independent of load"</em> appeared in <strong>2081 Ashwin, 2082 Bhadra, and 2083 Baishakh</strong>. OC/SC test parameter calculation appeared in <strong>2082 Baishakh</strong>.
+          </p>
+        </div>
+
+        <div class="card" style="margin: 0;">
+          <div class="card-header">
+            <span class="card-title">DC Motor Starting & Back EMF</span>
+            <span class="badge badge-high">Tested 4/4 Exams</span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">
+            Conceptual justification of why DC motors draw huge starting current and how a 3-point starter protects the armature, along with speed control numerical calculations (\(N \propto E_b/\Phi\)).
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Chapter Links -->
+      <h2>4. Jump Directly to Chapters</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem;">
+        <a href="chapters/chapter-1.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 1: Network Transients & Elements</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">Dependent source nodal/mesh analysis, initial condition evaluation at \(t=0^+\).</p>
+        </a>
+        <a href="chapters/chapter-2.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 2: Classical Transient Analysis</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">First and second order ODEs, complementary functions, particular integrals.</p>
+        </a>
+        <a href="chapters/chapter-3.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 3: Laplace Transform Transients</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">Transformed element models, initial condition generators, partial fractions.</p>
+        </a>
+        <a href="chapters/chapter-4.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 4: Transfer Functions & Bode Plots</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">Poles, zeros, asymptotic Bode magnitude and phase plotting, passive filters.</p>
+        </a>
+        <a href="chapters/chapter-5.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 5: Two-Port Parameters</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">Z, Y, ABCD, h parameter calculations, cascade interconnection, reciprocity.</p>
+        </a>
+        <a href="chapters/chapter-6.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 6: Magnetic Circuits & Induction</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">Reluctance, air gap MMF calculation, hysteresis & eddy current losses.</p>
+        </a>
+        <a href="chapters/chapter-7.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 7: Transformers</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">EMF equation, core flux constancy, equivalent circuit, OC/SC testing, efficiency.</p>
+        </a>
+        <a href="chapters/chapter-8.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 8: DC Machines</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">EMF and torque equations, back EMF, 3-point starter, speed control methods.</p>
+        </a>
+        <a href="chapters/chapter-9.html" class="card" style="text-decoration: none; margin: 0;">
+          <div style="font-weight: 700; color: var(--primary); font-size: 1.05rem;">Chapter 9: AC Motors</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem;">Rotating magnetic field proof, torque-slip curves, 1-phase starting, stepper/BLDC.</p>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.75rem; color: var(--text-muted);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type a concept, formula, chapter, or PYQ...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
