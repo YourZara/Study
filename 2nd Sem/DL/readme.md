@@ -3,9 +3,9 @@
 Personal revision hub for **Tribhuvan University · IOE · BE (BEI / BCT) · Year I / Part II**.
 
 **Live site (GitHub Pages):** [yourzara.github.io/Study](https://yourzara.github.io/Study/)  
-**This hub:** […/2nd Sem/DL/Index.html](https://yourzara.github.io/Study/2nd%20Sem/DL/Index.html)
+**This hub:** […/2nd Sem/DL/index.html](https://yourzara.github.io/Study/2nd%20Sem/DL/index.html)
 
-**Start here:** open [`Index.html`](Index.html) locally, or use [`link.html`](link.html) for the full file list.
+**Start here:** open [`index.html`](index.html) locally, or use [`link.html`](link.html) for the full file list.
 
 ---
 
@@ -13,13 +13,12 @@ Personal revision hub for **Tribhuvan University · IOE · BE (BEI / BCT) · Yea
 
 ```
 DL/
-├── Index.html                          # Main study hub
-├── index.html                          # Redirect → Index.html
+├── index.html                          # Main study hub
 ├── link.html                           # Complete link directory
 ├── syllabus-map.html                   # Chapter ↔ resource map
 ├── readme.md                           # This file
 ├── Syllabus.pdf                        # Official course syllabus
-├── PQA pic.jpg                         # Scanned past papers (PDF)
+├── PQA-past-papers.pdf                 # Scanned past papers (4-page PDF)
 ├── ChatGPT/
 │   └── Digital_Logic_ENEX_152_Master_Guide_ChatGPT.pdf
 ├── Gemini/
@@ -49,8 +48,7 @@ DL/
 
 | File | Main features |
 |------|----------------|
-| **`Index.html`** | Landing page for the whole pack. Shows study collections (Syllabus, PQA, Theory Short, Gemini, ChatGPT), a suggested study path, marks overview (8 chapters / 60 marks), and quick jumps from each syllabus chapter to the best local note. |
-| **`index.html`** | Tiny redirect so opening the folder as a site still lands on `Index.html`. |
+| **`index.html`** | Landing page for the whole pack. Shows study collections (Syllabus, PQA, Theory Short, Gemini, ChatGPT), a suggested study path, marks overview (8 chapters / 60 marks), and quick jumps from each syllabus chapter to the best local note. |
 | **`link.html`** | Full directory of every file with type tags, paper dates, chapter mapping, and a recommended open order. Best when you want “list everything and click.” |
 | **`syllabus-map.html`** | Interactive syllabus breakdown from `Syllabus.pdf`: hours, marks, topic bullets, and chips linking to Gemini / Theory Short / PQA for each of the 8 chapters. Highlights the three 10-mark units (Ch 4, 6, 7). |
 | **`readme.md`** | This document — inventory and feature summary of all materials. |
@@ -62,7 +60,7 @@ DL/
 | File | Main features |
 |------|----------------|
 | **`Syllabus.pdf`** | Official **ENEX 152 Digital Logic** syllabus (4 pages). Covers lecture/tutorial/practical hours (3/1/3), all 8 units with subtopics, tutorial list (20 items), practical list (10 labs), final-exam marks table (60 marks), and textbook references (Floyd, Mano, Malvino, etc.). |
-| **`PQA pic.jpg`** | **Despite the `.jpg` name, this is a 4-page PDF** (~4.2 MB) of scanned TU exam papers. Pages are: **2083 Baishakh** (Back), **2082 Bhadra** (Regular), **2082 Baishakh** (Back), **2081 Ashwin** (Regular). Use beside the solved answers in `PQA Claude/`. |
+| **`PQA-past-papers.pdf`** | **A 4-page scanned PDF** (~4.2 MB) of TU exam papers. Pages are: **2083 Baishakh** (Back), **2082 Bhadra** (Regular), **2082 Baishakh** (Back), **2081 Ashwin** (Regular). Use beside the solved answers in `PQA Claude/`. |
 
 ---
 
@@ -120,7 +118,7 @@ Full model answers with working, tables, K-maps, SVG circuit/timing diagrams. Ea
 1. Skim **`Syllabus.pdf`** / **`syllabus-map.html`** for weightage.  
 2. Revise with **`Theory Short/`** (fast) or **`Gemini/`** + **`ChatGPT/` PDF** (deep / print).  
 3. Drill designs that repeat every year (detectors, sync/async counters, shift registers, K-map, MUX).  
-4. Practise with **`PQA pic.jpg`** (questions) + **`PQA Claude/`** (answers), then redo without looking.
+4. Practise with **`PQA-past-papers.pdf`** (questions) + **`PQA Claude/`** (answers), then redo without looking.
 
 ---
 
